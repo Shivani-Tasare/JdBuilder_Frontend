@@ -1,0 +1,362 @@
+<!-- <div class="container" style="background: #F5F5F5;"> -->
+<div
+  class="row row-padding pb-4"
+  style="background: #333333;
+"
+>
+  <div class="col-md-12 pb-4 px-0" style="font-size: 13px;">
+    <div
+      class=" row d-md-none navbar navbar-expand-md navbar-dark "
+      style="margin-left: -15px;margin-right: -15px;"
+    >
+      <!-- Brand -->
+      <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+
+      <!-- Toggler/collapsibe Button -->
+      <div class="col-8">
+        <button
+          style="background: #9E4587;border-radius: 0;"
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapsibleNavbar"
+        >
+          <i
+            class="fa fa-bars fa-2x"
+            style="color:white"
+            aria-hidden="true"
+          ></i>
+        </button>
+        <span
+          style="color:white;position: absolute;top: 20px;"
+          class="pt-2 pl-2"
+          >VIEW JDs</span
+        >
+      </div>
+      <div class="col-4">
+        <div class="dropdown dropleft float-right">
+          <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+          Dropleft button
+        </button> -->
+          <i
+            style="color:white;font-size:3em"
+            class="fa fa-ellipsis-v fa-2x"
+            aria-hidden="true"
+            data-toggle="dropdown"
+          ></i>
+          <div class="dropdown-menu">
+            <a [routerLink]="['/createJD']" class="dropdown-item" href="javascript:">Create New JD</a>
+            <a class="dropdown-item" href="#">Sort By Score</a>
+            <a *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search()" class="dropdown-item" href="javascript:">Sort By Oldest Date</a>
+            <a *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search()" class="dropdown-item" href="javascript:">Sort By Newest Date</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navbar links -->
+      <!-- <div
+        class="collapse navbar-collapse"
+        style="z-index: 10;background:#333333 ;"
+        id="collapsibleNavbar"
+      >
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a
+            [routerLink]="['/job']" (click)="sidebarIndex =1;activateClass(1)" [ngClass]="{'active': sidebarIndex == 1}" href="javascript:"
+              class="list-group-item list-group-item-action side-tabs"
+              style="background:#333333;color: white;border-top:0 none;"
+              >All JDs</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              [routerLink]="['/job']" (click)="sidebarIndex =2;activateClass(2)" [ngClass]="{'active': sidebarIndex == 2}" href="javascript:"
+              class="list-group-item list-group-item-action side-tabs active theme-color-btn"
+              style="border-top:0 none;color: white;"
+              >My JDs</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+            [routerLink]="['/job']" (click)="sidebarIndex =3;activateClass(3)" [ngClass]="{'active': sidebarIndex == 3}"  href="javascript:"
+              class="list-group-item list-group-item-action side-tabs"
+              style="border-top:0 none;background:#333333;color: white;"
+              >FAQs/Help</a
+            >
+          </li>
+        </ul>
+      </div> -->
+    </div>
+  </div>
+  <div class="col-md-2 input-padding mo-b-padding">
+    <div class="input-group" style="border-right: 1px solid gray;">
+      <div class="input-group-prepend">
+        <span class="input-group-text input-design white-bg" id="basic-addon1"
+          ><i class="fa fa-search" aria-hidden="true"></i
+        ></span>
+      </div>
+      <input
+        [(ngModel)]="searchString"
+        type="text"
+        class="form-control input-design"
+        placeholder="Search By Keyword"
+        aria-label="Username"
+        aria-describedby="basic-addon1"
+        (keyup.enter)="search()"
+      />
+    </div>
+  </div>
+  <div class="col-md-2 col-6 input-padding mo-trb-padding">
+    <div class="input-group">
+      <label class="input-label">DESIGNATION</label>
+      <select
+        class="form-control input-design"
+        (change)="selectedDesignation = $event.target.value"
+        [(ngModel)]="selectedDesignation"
+      >
+        <option value="undefined">All</option>
+        <option *ngFor="let item of designations" [value]="item.Id">{{
+          item.DesignationName
+        }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 input-padding mo-tlb-padding">
+    <div class="input-group">
+      <label class="input-label">EXPERIENCE</label>
+      <select
+        class="form-control input-design"
+        (change)="selectedExperience = $event.target.value"
+        [(ngModel)]="selectedExperience"
+      >
+        <option value="undefined">All</option>
+        <option *ngFor="let item of experiences" [value]="item.Id">{{
+          item.ExperienceName
+        }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 input-padding mo-trb-padding">
+    <div class="input-group">
+      <label class="input-label">CREATED BY</label>
+      <select class="form-control input-design" (change)="selectedUserId = $event.target.value;onUserChange($event)"
+      [(ngModel)]="selectedUserId">
+        <option value="" >All</option>
+        <ng-container *ngIf="sidebarIndex !== 2">
+          <option  *ngFor="let item of userList" [value]="item.UserId">{{item.UserName}}</option>
+        </ng-container>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 input-padding mo-tlb-padding">
+    <div class="input-group">
+      <label class="input-label">LOCATION</label>
+      <select
+        class="form-control input-design"
+        (change)="selectedLocation = $event.target.value"
+        [(ngModel)]="selectedLocation"
+      >
+        <option value="undefined">All</option>
+        <option *ngFor="let item of locations" [value]="item.Id">{{
+          item.LocationName
+        }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-2 col-12 no-padding d-none d-lg-block">
+    <div class="input-group">
+      <button class="search-btn" (click)="search()" type="button">
+        Search
+      </button>
+      <i
+        class="fa fa-refresh fa-2x my-auto ml-1 pointer"
+        title="Reset Filter"
+        (click)="refresh()"
+        aria-hidden="true"
+      ></i>
+    </div>
+  </div>
+  <div class="col-12 d-lg-none pt-2">
+    <div>
+      <button class="search-btn theme-gradient" (click)="search()">
+        SEARCH
+      </button>
+    </div>
+  </div>
+
+  <!-- <div class="col-md-1 col-6 no-padding">
+    <div class="input-group mb-3">
+      <button class="search-btn" (click)="refresh()" type="button">Refresh</button>
+    </div>
+  </div> -->
+</div>
+
+<div class="row mt-3" style="height: 30px;">
+  <div class="col-md-3 d-none d-lg-block">
+    <button [routerLink]="['/createJD']"
+      style="background: #9E4587;border: none;color: white;height: 100%;font-size: 13px;"
+    >
+      <i class="fa fa-plus" style="color: white;" aria-hidden="true"></i>Create New JD
+    </button>
+  </div>
+  <div class="col-md-5 d-none d-lg-block"></div>
+  <div class="col-md-4 d-none d-lg-block">
+    <button *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search()">Sort By Oldest Date</button>
+    <button *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search()">Sort By Newest Date</button>
+    <button class="sort-btn px-3">Sort By Score</button>
+  </div>
+</div>
+
+<div *ngIf="jobs.length > 0" class="list-group row pt-3">
+  <ul class="list-group centerJob">
+    <!-- <li
+      class="list-group-item col-sm-12 no-top-padding bg-transparent"
+      style="border:none;"
+      *ngFor="
+        let job of jobs
+          | paginate
+            : {
+                itemsPerPage: DefaultPageSize,
+                currentPage: pageSelected,
+                totalItems: length
+              }
+      "
+    > -->
+    <li
+    class="list-group-item col-sm-12 no-top-padding bg-transparent"
+    style="border:none;"
+    *ngFor="
+      let job of jobs
+    "
+  >
+      <div class="card shadow-card">
+        <div class="card-header" style="background:#EAECEA;">
+          <div class="grid">
+            <!-- Desktop View -->
+            <div class="d-none d-lg-block">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left font-weight-bold mb-0 sub-heading">JD DOCUMENT ID :</p></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12"><h4 class="pull-right font-weight-bold mb-0 theme-color">370</h4></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left mb-0">{{job.Id | jobId}}</p></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12"><p class="pull-right mb-0"># Candidates with 80% Match Score</p></div>
+              </div>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="row d-lg-none">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left font-weight-bold mb-0 sub-heading">JD DOCUMENT ID :</p></div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-right mb-0">{{job.Id | jobId}}</p></div>
+
+              <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left mb-0"># Candidates with 80% Match Score</p></div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-6"><h4 class="pull-right font-weight-bold mb-0 theme-color">370</h4></div>
+            </div>
+          </div>
+          <!-- <a [routerLink]="['job-description', job.Id]">{{job.Name}}</a> -->
+        </div>
+        <div class="card-body pb-0">
+          <blockquote class="blockquote mb-0">
+            <div class="row pb-2">
+              <p class="col-lg-12 pull-left font-weight-bold mb-0 sub-heading">
+                DESIGNATION :
+              </p>
+              <div class="col-lg-12 pl-4 pt-1 description ">{{ job.Name }}</div>
+            </div>
+            <div class="row">
+              <p class="col-lg-12 pull-left font-weight-bold mb-0 sub-heading">
+                SUMMARY :
+              </p>
+              <div class="col-lg-12 pl-4 pt-2 description ">
+               <p class="limit">{{ job.About }}</p>
+              </div>
+            </div>
+            <div class="row pt-1">
+              <p class="col-lg-12 pull-left font-weight-bold mb-0 sub-heading">Last Upadated By : <span class="font-weight-normal">{{ job.CreatorName }}</span></p>
+              <p class="col-12 font-weight-bold mb-0 sub-heading">Last Updated On : <span class="font-weight-normal">{{job.UpdatedDate | date: 'dd-MMM-yyyy'}}</span></p>
+              <div class="col-lg-12">
+                <a
+                  class=" pull-right description pt-4 theme-color pointer"
+                  (click)="goToDetails(job.Id)"
+                  >VIEW DETAILS</a
+                >
+              </div>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+
+      <!-- <i class="fa fa-pencil-square-o icon-right-side" aria-hidden="true" ></i>
+      <i class="fa fa-trash icon-right-side" aria-hidden="true"></i> -->
+    </li>
+    <!-- <mat-paginator [length]="length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPaginateChange($event)">
+</mat-paginator> -->
+  </ul>
+</div>
+<div class="row p-4 ">
+  <div class="col-md-4 col-sm-12">
+    <!-- <ul class="pagination pagination-sm justify-center-sm">
+      <li
+        class="page-item"
+        (click)="onPaginateChange({ pageIndex: 0, pageSize: 5 })"
+        [ngClass]="DefaultPageSize == 5 ? 'active' : ''"
+      >
+        <a class="page-link" href="javascript:;">5</a>
+      </li>
+      <li
+        class="page-item"
+        (click)="onPaginateChange({ pageIndex: 0, pageSize: 10 })"
+        [ngClass]="DefaultPageSize == 10 ? 'active' : ''"
+      >
+        <a class="page-link" href="javascript:;">10</a>
+      </li>
+      <li
+        class="page-item"
+        (click)="onPaginateChange({ pageIndex: 0, pageSize: 25 })"
+        [ngClass]="DefaultPageSize == 25 ? 'active' : ''"
+      >
+        <a class="page-link" href="javascript:;">25</a>
+      </li>
+      <li
+        class="page-item"
+        (click)="onPaginateChange({ pageIndex: 0, pageSize: 100 })"
+        [ngClass]="DefaultPageSize == 100 ? 'active' : ''"
+      >
+        <a class="page-link" href="javascript:;">100</a>
+      </li>
+    </ul> -->
+  </div>
+  <div class="col-md-4 col-sm-12 text-center justify-center-sm">
+    <!-- <p style="color:black" class="font-text-bolder">{{ range }}</p> -->
+  </div>
+  <!-- <div class="col-md-4 col-sm-12">
+    <div
+      class="list  pagination pagination-sm justify-content-end justify-center-sm"
+    >
+      <pagination-controls
+        previousLabel=""
+        nextLabel=""
+        class="my-pagination"
+        (pageChange)="onPaginateChange($event);"
+      ></pagination-controls>
+
+    </div>
+  </div> -->
+</div>
+<div
+class="search-results"
+infiniteScroll
+[infiniteScrollDistance]="2"
+[infiniteScrollThrottle]="50"
+(scrolled)="onScroll()"
+></div>
+<div
+  *ngIf="jobs.length < 1"
+  style="align-items: center;"
+  class="list-group row"
+>
+  <p>No Record Found</p>
+</div>
+
+<!-- </div> -->

@@ -1,0 +1,28 @@
+.side-tabs{
+  background-color: #333333 !important;
+  color: white;
+  border-color: gray;
+}
+.active{
+  background: #9E4587 !important;
+}
+.navbar-collapse {
+  position: absolute;
+  top: 60px;
+  right: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  width: 100%;
+  transition: all 0.3s ease;
+  display: block;
+}
+.navbar-collapse.collapsing {
+  height: auto !important;
+  margin-right: 50%;
+  transition: all 0.3s ease;
+  display: block;
+}
+.navbar-collapse.show {
+  right: 0;
+}

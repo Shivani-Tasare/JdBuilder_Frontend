@@ -1,0 +1,231 @@
+div, p, textarea,input {
+  text-align: justify!important;
+}
+.centerJob {
+	align-items: center;
+}
+.metaTags {
+	display: block;
+	font-size: 80%;
+	color: #6c757d;
+	width: 50%;
+}
+.app-button {
+	float: right;
+	margin-top: 15px;
+	background-color: lightsteelblue;
+	width: 80%;
+	border-radius: 100px;
+}
+.filter-header {
+	height: auto;
+}
+.mat-paginator {
+	color: black;
+}
+.mat-paginator-page-size {
+	.mat-select-trigger {
+		color: black;
+	}
+}
+.mat-select-value {
+	color: black !important;
+}
+.mat-select-value-text {
+	color: black;
+}
+paginator-page-size.mat-select-trigger {
+	color: black;
+}
+.shadow-card {
+	// border: 1px solid #D4D6D4;
+  box-shadow: 2px 2px 2px 2px #0d0c0c80;
+  // border-radius: 14px;
+}
+.limit{
+  text-align: justify !important;
+  color: #000000 !important;
+  opacity: 1 !important;
+  display: block;/* or inline-block */
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 5.6em;
+  line-height: 1.8em;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+};
+.input-design{
+  border-radius:0;
+  height :45px;
+  border: none;
+  font-size: 12px;
+  // padding-right: 10px;
+}
+.white-bg{
+  background: white;
+}
+
+.mb-3{
+  border-right: 1px solid gray;
+}
+
+.sort-btn{
+  background: #FFFFFF;
+  border: 1px solid #9E4587;
+  font-size: 12px;
+  font-weight: bold;height: 100%;float: right;
+}
+.input-label{
+  position: absolute;
+  top: 0px;
+  left: 6px;
+  z-index: 9;
+  font-size: 11px;
+  color: #D95792;
+}
+.sub-heading{
+  font-size: 14px;
+  color: #3D4348;
+}
+.description{
+  font-size: 14px;
+}
+
+.no-top-padding{
+  padding-top: 0px !important;
+}
+.list-group-item{
+  padding-right:15px;
+  padding-left: 15px;
+}
+@media only screen and (min-width: 600px) {
+  i {
+    color:#9E4587
+  }
+  .theme-color{
+    color: #D95792;
+  }
+  .input-padding{
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+  .no-padding{
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+  .search-btn{
+    border: none;
+    border-radius: 0px 5px 5px 0px;
+    height :45px;
+    background: linear-gradient(to right, #884E9C 0%, #A93886 100%);
+    width:70%;
+    font-size: 13px;
+    color: white;
+  }
+  .row-padding{
+    background: #333333;padding-left: 1em;
+  }
+}
+@media only screen and (max-width: 600px) {
+  i {
+    color:#CE353D;
+  }
+  .theme-color{
+    color: #CE353D;
+  }
+  .mo-trb-padding{
+    padding-top:0.2em;
+    padding-right:0.2em;
+    padding-bottom:0.2em;
+  }
+  .mo-b-padding{
+    padding-bottom:0.2em;
+  }
+  .mo-tlb-padding{
+    padding-top:0.2em;
+    padding-left:0.2em;
+    padding-bottom:0.2em;
+  }
+  .row-padding{
+    background: #333333;
+  }
+  .search-btn{
+    border: none;
+    height :45px;
+    background: #CE353D;
+    width:100%;
+    font-size: 13px;
+    color: white;
+    padding:0px;
+  }
+  .justify-center-sm{
+    justify-content: center!important;
+  }
+}
+.theme-gradient{
+  background: linear-gradient(to right, #884e9c 0%, #aa3785 100%);
+}
+.full-margin{
+  margin-left: -15px;
+  margin-right: -15px;
+}
+//Navigation bar for create jd
+.icon-bar {
+	width: 22px;
+	height: 2px;
+	background-color: #B6B6B6;
+	display: block;
+	transition: all 0.2s;
+	margin-top: 4px
+}
+
+.navbar-collapse {
+  position: absolute;
+  top: 60px;
+  right: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  width: 100%;
+  transition: all 0.3s ease;
+  display: block;
+}
+.navbar-collapse.collapsing {
+  height: auto !important;
+  margin-right: 50%;
+  transition: all 0.3s ease;
+  display: block;
+}
+.navbar-collapse.show {
+  right: 0;
+}
+
+//pagination css
+.page-item.active .page-link{
+  background-color: #CE1E6C;
+    border-color: #CE1E6C;
+}
+.page-link {
+  color: black;
+}
+.my-pagination /deep/ .ngx-pagination .current {
+  background: #CE1E6C;
+}
+.my-pagination /deep/ .ngx-pagination {
+  background: white;
+  padding: 0px;
+  border-radius: 3px;
+  li{
+    border-right: 1px solid #E0E0E0;
+  }
+
+  // border-color: #CE1E6C;
+}
+.side-tabs{
+  background-color: #333333 !important;
+  color: white;
+  border-color: gray;
+}
+.active{
+  background: #9E4587 !important;
+}
