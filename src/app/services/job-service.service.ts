@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 const url = 'https://localhost:44355/api';
+//const url = 'https://jdbuilderuat.azurewebsites.net/api';
 @Injectable({providedIn: 'root'})
 export class JobServiceService {
   constructor(private httpClient: HttpClient) { }
