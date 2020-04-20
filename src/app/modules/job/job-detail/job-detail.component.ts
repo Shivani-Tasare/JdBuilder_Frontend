@@ -7,6 +7,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {ThemePalette} from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { ChartType, ChartOptions } from 'chart.js';
 import { Label } from 'ng2-charts';
@@ -24,7 +25,7 @@ import pdfMake from 'pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { SmartServiceService } from 'src/app/services/smart-service.service';
 import { JdDetails } from 'src/app/shared/models/jd-details';
-import { ViewCandidatesMatchingJdProfileComponent } from '../view-candidates-matching-jd-profile/view-candidates-matching-jd-profile.component';
+//import { ViewCandidatesMatchingJdProfileComponent } from '../view-candidates-matching-jd-profile/view-candidates-matching-jd-profile.component';
 import {  MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
@@ -78,6 +79,10 @@ export class JobDetailComponent implements OnInit {
     { id: 2 , range:'70 to 80' , count: 0},
     { id: 3 , range:'< 70' , count:0 }
     ]
+      //slider property	
+  color: ThemePalette = 'primary';	
+  isPrivateChecked = false;	
+  disabled = false;
   ////
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
@@ -275,6 +280,7 @@ export class JobDetailComponent implements OnInit {
           defaultResponsibility.push(this.formBuilder.group(ele));
       });
         this.tags = jobDetail.ProfileDetail.TagsList;
+        this.isPrivateChecked = jobDetail.ProfileDetail.IsPrivate;	
         this.jobDescriptionForm = this.formBuilder.group({
           title: new FormControl(jobDetail.ProfileDetail.ProfileName),
           about: new FormControl(jobDetail.ProfileDetail.About, Validators.required),
@@ -499,12 +505,12 @@ export class JobDetailComponent implements OnInit {
        response=>{
         console.log(response);
         this.matchingConsultants = response;
-      
+      console.log(this.matchingConsultants["MatchingConsultants"]);
         this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
   })
   }
 
-  filterCandidatesByMatchScore(matchingConsultants :MatchingConsultants[]){
+  filterCandidatesByMatchScore(matchingConsultants : any[]){
     this.candidateCountList[0].count = matchingConsultants.filter((x)=>x.RelevancePercentage > 90).length;
     this.candidateCountList[1].count = matchingConsultants.filter((x)=>x.RelevancePercentage > 80 &&  x.RelevancePercentage <= 90).length;
     this.candidateCountList[2].count = matchingConsultants.filter((x)=>x.RelevancePercentage >= 70 &&  x.RelevancePercentage <= 80).length;
@@ -661,6 +667,7 @@ export class JobDetailComponent implements OnInit {
     })
   }
   onSave() {
+    console.log(this.isPrivateChecked, 'private value checkedd')	
     this.submitted = true;
           // stop here if form is invalid
           if (this.jobDescriptionForm.invalid || this.tags.length<1 || this.isDuplicateDesignation) {
@@ -682,8 +689,9 @@ export class JobDetailComponent implements OnInit {
       DeletedSkills: this.deletedSkills,
       DeletedResponsibilities: this.deletedResponsiblities,
       DeletedTags: this.deletedTags,
-      NewDesignation:isNaN(this.jobDescriptionForm.get('selectedDesignation').value)?this.jobDescriptionForm.get('selectedDesignation').value:undefined
-    };
+      NewDesignation:isNaN(this.jobDescriptionForm.get('selectedDesignation').value)?this.jobDescriptionForm.get('selectedDesignation').value:undefined,	
+      isPrivate:this.isPrivateChecked
+        };
     this.jobService.saveJd(jdObject).subscribe((updatedData: any) => {
       if (updatedData.StatusCode === 200){
 
