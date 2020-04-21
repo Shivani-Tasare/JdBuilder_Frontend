@@ -73,6 +73,14 @@
               (ngSubmit)="onSave()"
             >
             <div class="row">
+              <p class="col-4">Make It As Private JD</p>
+              <mat-slide-toggle
+              class="col-8 pl-0"
+              [color]="color"
+              [checked]="isPrivateChecked"
+              [(ngModel)]="isPrivateChecked"
+              [ngModelOptions]="{standalone: true}"
+              [disabled]="disabled"></mat-slide-toggle>
               <p class="col-4 m-auto font-weight-bold">DESIGNATION</p>
               <!-- <div class="col-8"> -->
                 <mat-form-field class="col-8 pl-0">
