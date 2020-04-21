@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-const url = 'https://localhost:44355/api';
+import { environment } from 'src/environments/environment';
+const url = environment.url;
 @Injectable({providedIn: 'root'})
 export class JobServiceService {
   constructor(private httpClient: HttpClient) { }
