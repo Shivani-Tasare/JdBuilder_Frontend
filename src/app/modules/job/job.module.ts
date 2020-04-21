@@ -6,13 +6,6 @@ import { JobListingComponent } from './job-listing/job-listing.component';
 import { JobDetailComponent } from './job-detail/job-detail.component';
 import { Job1ServiceService } from './job-service.service';
 import {
-  // MatChipsModule,
-  // MatFormFieldModule,
-  // MatIconModule,
-  // MatAutocompleteModule,
-  // MatInputModule,
-  // MatSelectModule,
-  // MatPaginatorModule,
   MatProgressSpinnerModule
 } from '@angular/material';
 import { MaterialUiModule } from '../material-ui/material-ui.module';
@@ -24,11 +17,9 @@ import { CreateJdComponent } from './create-jd/create-jd.component';
 import { ContentPdfComponent } from './content-pdf/content-pdf.component';
 @NgModule({
   declarations: [
-    // JobListingComponent,
     JobDetailComponent,
     ViewJdComponent,
     ContentPdfComponent,
-    // CreateJdComponent,
   ],
   imports: [
     CommonModule,
