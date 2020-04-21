@@ -63,7 +63,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
       resource: Config.webClientId,
       tenantId: Config.tenantID,
       redirectUri: 'http://localhost:4200'
-      // redirectUri: 'https://jduistorageaccount.z22.web.core.windows.net'
+      //redirectUri: 'https://jdbuilderuatweb.azurewebsites.net'
     }}
   ],
   bootstrap: [AppComponent]

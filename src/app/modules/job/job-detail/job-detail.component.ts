@@ -657,5 +657,3 @@ export class JobDetailComponent implements OnInit {
     });
   }
 }
-
-
