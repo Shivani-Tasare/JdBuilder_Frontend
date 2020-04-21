@@ -12,11 +12,9 @@ import { LoaderService } from './shared/services/loader.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptors';
 import { LoaderComponent } from './shared/loader/loader.component';
-// import { Job1ServiceService } from './modules/job/job-service.service';
 import {
   MatProgressSpinnerModule
 } from '@angular/material';
-// import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { ToastrModule } from 'ngx-toastr';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ChartsModule } from 'ng2-charts';
@@ -31,18 +29,15 @@ import { LayoutModule } from './shared/layout/layout.module';
 import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { ViewCandidatesMatchingJdProfileComponent } from './modules/job/view-candidates-matching-jd-profile/view-candidates-matching-jd-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
     LoaderComponent,
     JobListingComponent,
-    CreateJdComponent,
-    ViewCandidatesMatchingJdProfileComponent
+    CreateJdComponent
   ],
   imports: [
-    // MaterialUiModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -58,9 +53,6 @@ import { ViewCandidatesMatchingJdProfileComponent } from './modules/job/view-can
     MaterialUiModule,
     InfiniteScrollModule,
   ],
-  entryComponents: [
-    ViewCandidatesMatchingJdProfileComponent
- ],
   providers: [JobServiceService, LoaderService, AdalService, AdalConfigService,
     { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },

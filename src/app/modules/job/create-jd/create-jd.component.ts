@@ -4,6 +4,7 @@ import { Job1ServiceService } from '../job-service.service';
 import {MatChipInputEvent} from '@angular/material';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
+import {ThemePalette} from '@angular/material/core';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
@@ -54,6 +55,10 @@ export class CreateJdComponent implements OnInit {
   submitted = false;
   isDuplicateDesignation = false
   filteredDesignations: string[] = []
+  //slider property	
+  color: ThemePalette = 'primary';	
+  isPrivateChecked = false;	
+  disabled = false;
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -63,11 +68,9 @@ export class CreateJdComponent implements OnInit {
     if ((document.body.scrollTop > 140 ||
     document.documentElement.scrollTop > 140) && document.getElementById('header')) {
       document.getElementById('header').classList.add('fixed-header');
-      // document.getElementById('paragraph').classList.add('green');
     }
     if (document.documentElement.scrollTop < 1 && document.getElementById('header')) {
         document.getElementById('header').classList.remove('fixed-header');
-        // document.getElementById('paragraph').classList.add('green');
       }
   }
   fixHeader() {
@@ -134,7 +137,6 @@ export class CreateJdComponent implements OnInit {
     this.jobService.FetchTagsList().subscribe((tags: any) => {
       if (tags.StatusCode === 200) {
         this.allTags = tags.ProfileTagsList;
-        // this.tagsCtrl = tags.DesignationList;
         for (let index = 0; this.allTags.length > index ; index++) {
           for (let index2 = 0; this.tags.length > index2 ; index2++) {
             if (this.allTags[index].Id === this.tags[index2].Id) {
@@ -261,12 +263,7 @@ export class CreateJdComponent implements OnInit {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.removeAt(index);
   }
-  // get mandatorySkills(): FormArray { return this.jobDescriptionForm.get('mandatorySkills') as FormArray; }
-  // get qualifications(): FormArray { return this.jobDescriptionForm.get('qualifications') as FormArray; }
-
-  // addMandatorySkill(): void {
-  //   this.mandatorySkills.push(new FormControl());
-  // }
+ 
   add(event: MatChipInputEvent, isAdd): void {
     if (isAdd) {
       const input = event.input;
@@ -374,7 +371,6 @@ export class CreateJdComponent implements OnInit {
       this.FetchProfileSummary({value:0,viewValue:event.target.value})
       let isChecked = false
       this.designations.forEach((designation:any) => {
-
         if(!isChecked){
           if(designation.DesignationName.trim().toLowerCase() === event.target.value.trim().toLowerCase()){
             this.isDuplicateDesignation = true
@@ -387,7 +383,6 @@ export class CreateJdComponent implements OnInit {
     }
   }
   filterDesignationList(evnt){
-    // return
     if((evnt.keyCode >= 48 && evnt.keyCode <= 57) || (evnt.keyCode >= 65 && evnt.keyCode <= 90) || evnt.keyCode === 8){
       if(evnt.target.value === ''){
         this.filteredDesignations = this.designations;
@@ -396,23 +391,18 @@ export class CreateJdComponent implements OnInit {
       this.filteredDesignations = this.designations.filter((designation: any)=>{
         let strRegExPattern = evnt.target.value;
         if(designation.DesignationName.match(new RegExp(strRegExPattern,'gi'))){
-          // alert('match')
           return designation;
         }
       })
     }
   }
-  // activateClass(index){
-  //   this.commonJobService.changeSideBarIndex(index)
-  // }
+  
   onSave() {
     this.submitted = true;
-          // stop here if form is invalid
           if (this.jobDescriptionForm.invalid || this.tags.length<1 || this.isDuplicateDesignation) {
             return;
         }
     const jdObject = {
-      // ProfileId: location.pathname.split('/').pop(),
       ProfileName: this.jobDescriptionForm.get('title').value,
       About: this.jobDescriptionForm.get('about').value,
       DesignationId: isNaN(this.jobDescriptionForm.get('selectedDesignation').value)?0:this.jobDescriptionForm.get('selectedDesignation').value,
@@ -426,19 +416,18 @@ export class CreateJdComponent implements OnInit {
       DeletedSkills: this.deletedSkills,
       DeletedResponsibilities: this.deletedResponsiblities,
       DeletedTags: this.deletedTags,
-      NewDesignation:isNaN(this.jobDescriptionForm.get('selectedDesignation').value)?this.jobDescriptionForm.get('selectedDesignation').value:undefined
-    };
+      NewDesignation:isNaN(this.jobDescriptionForm.get('selectedDesignation').value)?this.jobDescriptionForm.get('selectedDesignation').value:undefined,	
+      isPrivate:this.isPrivateChecked
+        };
     this.jobService.CreateProfile(jdObject).subscribe((updatedData: any) => {
       if (updatedData.StatusCode === 200){
 
         this.toastr.success(updatedData.Message, 'Success');
-        // location.reload();
         if(this.isSameUser){
           this.isEditJd = false
           document.body.scrollTop = 0; // For Safari
           document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }else{
-          // this.commonJobService.changeSideBarIndex(2)
           this.router.navigate(['myJd']);
         }
 

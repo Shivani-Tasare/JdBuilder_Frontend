@@ -1,4 +1,3 @@
-<!-- <div class="container" style="background: #F5F5F5;"> -->
 <div
   class="row row-padding pb-4"
   style="background: #333333;
@@ -9,10 +8,6 @@
       class=" row d-md-none navbar navbar-expand-md navbar-dark "
       style="margin-left: -15px;margin-right: -15px;"
     >
-      <!-- Brand -->
-      <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-
-      <!-- Toggler/collapsibe Button -->
       <div class="col-8">
         <button
           style="background: #9E4587;border-radius: 0;"
@@ -35,9 +30,6 @@
       </div>
       <div class="col-4">
         <div class="dropdown dropleft float-right">
-          <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-          Dropleft button
-        </button> -->
           <i
             style="color:white;font-size:3em"
             class="fa fa-ellipsis-v fa-2x"
@@ -52,40 +44,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Navbar links -->
-      <!-- <div
-        class="collapse navbar-collapse"
-        style="z-index: 10;background:#333333 ;"
-        id="collapsibleNavbar"
-      >
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a
-            [routerLink]="['/job']" (click)="sidebarIndex =1;activateClass(1)" [ngClass]="{'active': sidebarIndex == 1}" href="javascript:"
-              class="list-group-item list-group-item-action side-tabs"
-              style="background:#333333;color: white;border-top:0 none;"
-              >All JDs</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              [routerLink]="['/job']" (click)="sidebarIndex =2;activateClass(2)" [ngClass]="{'active': sidebarIndex == 2}" href="javascript:"
-              class="list-group-item list-group-item-action side-tabs active theme-color-btn"
-              style="border-top:0 none;color: white;"
-              >My JDs</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-            [routerLink]="['/job']" (click)="sidebarIndex =3;activateClass(3)" [ngClass]="{'active': sidebarIndex == 3}"  href="javascript:"
-              class="list-group-item list-group-item-action side-tabs"
-              style="border-top:0 none;background:#333333;color: white;"
-              >FAQs/Help</a
-            >
-          </li>
-        </ul>
-      </div> -->
     </div>
   </div>
   <div class="col-md-2 input-padding mo-b-padding">
@@ -183,12 +141,6 @@
       </button>
     </div>
   </div>
-
-  <!-- <div class="col-md-1 col-6 no-padding">
-    <div class="input-group mb-3">
-      <button class="search-btn" (click)="refresh()" type="button">Refresh</button>
-    </div>
-  </div> -->
 </div>
 
 <div class="row mt-3" style="height: 30px;">
@@ -209,19 +161,6 @@
 
 <div *ngIf="jobs.length > 0" class="list-group row pt-3">
   <ul class="list-group centerJob">
-    <!-- <li
-      class="list-group-item col-sm-12 no-top-padding bg-transparent"
-      style="border:none;"
-      *ngFor="
-        let job of jobs
-          | paginate
-            : {
-                itemsPerPage: DefaultPageSize,
-                currentPage: pageSelected,
-                totalItems: length
-              }
-      "
-    > -->
     <li
     class="list-group-item col-sm-12 no-top-padding bg-transparent"
     style="border:none;"
@@ -238,7 +177,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left font-weight-bold mb-0 sub-heading">JD DOCUMENT ID :</p></div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12"><h4 class="pull-right font-weight-bold mb-0 theme-color">370</h4></div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left mb-0">{{job.Id | jobId}}</p></div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12"><p class="pull-right mb-0"># Candidates with 80% Match Score</p></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12"><p class="pull-right mb-0"># Candidates with 50% Match Score</p></div>
               </div>
             </div>
 
@@ -247,11 +186,10 @@
               <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left font-weight-bold mb-0 sub-heading">JD DOCUMENT ID :</p></div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-right mb-0">{{job.Id | jobId}}</p></div>
 
-              <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left mb-0"># Candidates with 80% Match Score</p></div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left mb-0"># Candidates with 50% Match Score</p></div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6"><h4 class="pull-right font-weight-bold mb-0 theme-color">370</h4></div>
             </div>
           </div>
-          <!-- <a [routerLink]="['job-description', job.Id]">{{job.Name}}</a> -->
         </div>
         <div class="card-body pb-0">
           <blockquote class="blockquote mb-0">
@@ -283,66 +221,14 @@
           </blockquote>
         </div>
       </div>
-
-      <!-- <i class="fa fa-pencil-square-o icon-right-side" aria-hidden="true" ></i>
-      <i class="fa fa-trash icon-right-side" aria-hidden="true"></i> -->
     </li>
-    <!-- <mat-paginator [length]="length"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    (page)="onPaginateChange($event)">
-</mat-paginator> -->
   </ul>
 </div>
 <div class="row p-4 ">
   <div class="col-md-4 col-sm-12">
-    <!-- <ul class="pagination pagination-sm justify-center-sm">
-      <li
-        class="page-item"
-        (click)="onPaginateChange({ pageIndex: 0, pageSize: 5 })"
-        [ngClass]="DefaultPageSize == 5 ? 'active' : ''"
-      >
-        <a class="page-link" href="javascript:;">5</a>
-      </li>
-      <li
-        class="page-item"
-        (click)="onPaginateChange({ pageIndex: 0, pageSize: 10 })"
-        [ngClass]="DefaultPageSize == 10 ? 'active' : ''"
-      >
-        <a class="page-link" href="javascript:;">10</a>
-      </li>
-      <li
-        class="page-item"
-        (click)="onPaginateChange({ pageIndex: 0, pageSize: 25 })"
-        [ngClass]="DefaultPageSize == 25 ? 'active' : ''"
-      >
-        <a class="page-link" href="javascript:;">25</a>
-      </li>
-      <li
-        class="page-item"
-        (click)="onPaginateChange({ pageIndex: 0, pageSize: 100 })"
-        [ngClass]="DefaultPageSize == 100 ? 'active' : ''"
-      >
-        <a class="page-link" href="javascript:;">100</a>
-      </li>
-    </ul> -->
   </div>
   <div class="col-md-4 col-sm-12 text-center justify-center-sm">
-    <!-- <p style="color:black" class="font-text-bolder">{{ range }}</p> -->
   </div>
-  <!-- <div class="col-md-4 col-sm-12">
-    <div
-      class="list  pagination pagination-sm justify-content-end justify-center-sm"
-    >
-      <pagination-controls
-        previousLabel=""
-        nextLabel=""
-        class="my-pagination"
-        (pageChange)="onPaginateChange($event);"
-      ></pagination-controls>
-
-    </div>
-  </div> -->
 </div>
 <div
 class="search-results"
@@ -358,5 +244,3 @@ infiniteScroll
 >
   <p>No Record Found</p>
 </div>
-
-<!-- </div> -->

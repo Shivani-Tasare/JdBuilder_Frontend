@@ -6,10 +6,8 @@ import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'myJd', pathMatch: 'full'},
-  // {path: 'job', loadChildren: './modules/job/job.module#JobModule'},
   {path: 'allJd/job-description/:jobId', loadChildren: './modules/job/job.module#JobModule'},
   {path: 'myJd/job-description/:jobId', loadChildren: './modules/job/job.module#JobModule'},
-  // {path: 'createJD', loadChildren: './modules/job/job.module#JobModule'},
   {path: 'createJD', component: CreateJdComponent},
   {path: 'allJd', component: JobListingComponent},
   {path: 'myJd', component: JobListingComponent},

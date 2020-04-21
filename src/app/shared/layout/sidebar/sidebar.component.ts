@@ -19,12 +19,6 @@ export class SidebarComponent implements OnInit {
     });
    }
   ngOnInit() {
-    console.log(this.selectedIndex,'slecttt')
-    // this.jobService.getSideBarIndex().subscribe((sidebarIndex)=>{
-    //   this.selectedIndex = sidebarIndex
-    // })
-  }
-  // activateClass(index){
-  //   this.jobService.changeSideBarIndex(index)
-  // }
+    
+}
 }

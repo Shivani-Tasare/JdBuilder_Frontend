@@ -7,24 +7,21 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {ThemePalette} from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { ChartType, ChartOptions } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { Router } from '@angular/router';
 import { JobServiceService } from '../../../shared/services/job-service.service';
 import { AdalService } from 'src/app/shared/services/adal.service';
-// import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import * as JSPdf from 'jspdf';
-// import * as html2canvas from 'html2canvas';
 import html2canvas from 'html2canvas';
-import html from './pdf.html'
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import htmlToPdfmake from 'html-to-pdfmake'
 import pdfMake from 'pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { SmartServiceService } from 'src/app/services/smart-service.service';
 import { JdDetails } from 'src/app/shared/models/jd-details';
-import { ViewCandidatesMatchingJdProfileComponent } from '../view-candidates-matching-jd-profile/view-candidates-matching-jd-profile.component';
 import {  MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
@@ -48,7 +45,6 @@ export class JobDetailComponent implements OnInit {
   locations: string[] = [];
   isDataFetched = false;
   reloading = false;
-  // chips variable
   visible = true;
   selectable = true;
   removable = true;
@@ -77,8 +73,11 @@ export class JobDetailComponent implements OnInit {
     { id: 1 , range:'80 to 90' , count: 0},
     { id: 2 , range:'70 to 80' , count: 0},
     { id: 3 , range:'< 70' , count:0 }
-    ]
-  ////
+    ]	
+  color: ThemePalette = 'primary';	
+  isPrivateChecked = false;	
+  disabled = false;
+
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -91,19 +90,16 @@ export class JobDetailComponent implements OnInit {
   public downloadPDF() {
     let loader = this.loaderService
     loader.show();
-    // window.scrollTo()
     let quotes = document.getElementById('content-pdf');
     html2canvas(document.getElementById('content-pdf'),{scrollY: -window.scrollY}).then(function(canvas) {
-      // document.body.appendChild(canvas);
-      // return
+      
       var img = canvas.toDataURL("image/png");
-      // window.open(img);
+     
       var doc = new JSPdf('p', 'pt', 'letter');
       for (var i = 0; i <= quotes.clientHeight/1450; i++) {
-        //! This is all just html2canvas stuff
         var srcImg  = canvas;
         var sX      = 0;
-        var sY      = 1450 *i; // start 980 pixels down for every new page
+        var sY      = 1450 *i; 
         var sWidth  = 1100;
         var sHeight = 1450;
         var dX      = 0;
@@ -115,54 +111,30 @@ export class JobDetailComponent implements OnInit {
         onePageCanvas.setAttribute('width', "1100");
         onePageCanvas.setAttribute('height', "1450");
         var ctx = onePageCanvas.getContext('2d');
-        // details on this usage of this function:
-        // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
         ctx.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
-
-        // document.body.appendChild(canvas);
         var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
 
         var width         = onePageCanvas.width;
         var height        = onePageCanvas.clientHeight;
 
-        //! If we're on anything other than the first page
-        // add another page
         if (i > 0) {
-            doc.addPage(612, 791); //8.5" x 11" in pts (in*72)
+            doc.addPage(612, 791); 
         }
-        //! now we declare that we're working on that page
+        
         doc.setPage(i+1);
-        //! now we add content to that page!
         doc.addImage(canvasDataURL, 'PNG', 25, 20, (width*0.5), (height*0.5));
 
     }
 
-    //! after the for loop is finished running, we save the pdf.
-      // doc.addImage(img,'JPEG',0,0,200,0);
       doc.save('testCanvas.pdf');
-      // this.canvas.nativeElement.src = canvas.toDataURL();
-      // this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
-      // this.downloadLink.nativeElement.download = 'marble-diagram.png';
-      // this.downloadLink.nativeElement.click();
       loader.hide();
       });
   }
   public downloadPDF2(){
     let htmlContent =  this.document.getElementById('content-pdf')
     this.jobService.GeneratePDF({htmlContent:htmlContent.outerHTML}).subscribe((data:any)=>{
-      // const blob = new Blob([data], { type: 'application/pdf' });
-      // const url= window.URL.createObjectURL(blob);
-      // window.open(url);
-
-      // var a = document.createElement("a");
-      //     a.href = URL.createObjectURL(blob);
-      //     a.download = "document.pdf";
-      //     // start download
-      //     a.click();
-
       let blob = new Blob([data.body], {
-        type: 'application/pdf' // must match the Accept type
-     // type: 'application/octet-stream' // for excel
+        type: 'application/pdf' 
      });
      var link = document.createElement('a');
      link.href = window.URL.createObjectURL(blob);
@@ -173,22 +145,22 @@ export class JobDetailComponent implements OnInit {
   }
   public downloadPDF3(){
     let loader = this.loaderService
-    // loader.show();
+    
     var html = htmlToPdfmake(this.document.getElementById('content-pdf').outerHTML);
-    // return
+    
     var docDefinition = {
       content: [
         html
       ],
       styles:{
         'html-strong':{
-          background:'yellow' // it will add a yellow background to all <STRONG> elements
+          background:'yellow' 
         }
       }
     };
     var pdfDocGenerator = pdfMake.createPdf(docDefinition).download();
   }
-  // Pie
+  
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
@@ -218,17 +190,15 @@ export class JobDetailComponent implements OnInit {
     if ((document.body.scrollTop > 140 ||
     document.documentElement.scrollTop > 140) && document.getElementById('header')) {
       document.getElementById('header').classList.add('fixed-header');
-      // document.getElementById('paragraph').classList.add('green');
     }
     if (document.documentElement.scrollTop < 1 && document.getElementById('header')) {
         document.getElementById('header').classList.remove('fixed-header');
-        // document.getElementById('paragraph').classList.add('green');
       }
   }
   fixHeader() {
     document.getElementById('header').classList.add('fixed-header');
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    document.body.scrollTop = 0; 
+    document.documentElement.scrollTop = 0; 
   }
   private _filter(value: any): string[] {
     const filterValue = value.Id ? value.Id.toLowerCase() : value.toLowerCase();
@@ -236,12 +206,7 @@ export class JobDetailComponent implements OnInit {
       return option.TagName.toLowerCase().includes(filterValue);
     });
   }
-  ngOnInit() {
-    // this.commonJobService.getSideBarIndex().subscribe((sidebarIndex)=>{
-    //   this.selectedIndex = sidebarIndex;
-    // })
-    console.log(this);
-    
+  ngOnInit() { 
     this.initLoad();
   }
   initLoad(){
@@ -275,6 +240,7 @@ export class JobDetailComponent implements OnInit {
           defaultResponsibility.push(this.formBuilder.group(ele));
       });
         this.tags = jobDetail.ProfileDetail.TagsList;
+        this.isPrivateChecked = jobDetail.ProfileDetail.IsPrivate;	
         this.jobDescriptionForm = this.formBuilder.group({
           title: new FormControl(jobDetail.ProfileDetail.ProfileName),
           about: new FormControl(jobDetail.ProfileDetail.About, Validators.required),
@@ -341,7 +307,6 @@ export class JobDetailComponent implements OnInit {
       this.jobService.FetchTagsList().subscribe((tags: any) => {
         if (tags.StatusCode === 200) {
           this.allTags = tags.ProfileTagsList;
-          // this.tagsCtrl = tags.DesignationList;
           for (let index = 0; this.allTags.length > index ; index++) {
             for (let index2 = 0; this.tags.length > index2 ; index2++) {
               if (this.allTags[index].Id === this.tags[index2].Id) {
@@ -469,21 +434,16 @@ export class JobDetailComponent implements OnInit {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.removeAt(index);
   }
-  // get mandatorySkills(): FormArray { return this.jobDescriptionForm.get('mandatorySkills') as FormArray; }
-  // get qualifications(): FormArray { return this.jobDescriptionForm.get('qualifications') as FormArray; }
-
-  // addMandatorySkill(): void {
-  //   this.mandatorySkills.push(new FormControl());
-  // }
+  
   add(event: MatChipInputEvent, isAdd): void {
     if (isAdd) {
       const input = event.input;
       const value = event.value;
-      // Add our tag
+      
       if ((value || '').trim()) {
         this.tags.push({Id: '', TagName: value.trim()});
       }
-      // Reset the input value
+      
       if (input) {
         input.value = '';
       }
@@ -494,17 +454,14 @@ export class JobDetailComponent implements OnInit {
 
   
   viewCandidates(myModal : any){
-    console.log('inside viewCandidates');
      this.smartService.fetchCandidatesDetails(this.jobDetail.ProfileDetail.ProfileId).subscribe(
        response=>{
-        console.log(response);
         this.matchingConsultants = response;
-      
         this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
   })
   }
 
-  filterCandidatesByMatchScore(matchingConsultants :MatchingConsultants[]){
+  filterCandidatesByMatchScore(matchingConsultants : any[]){
     this.candidateCountList[0].count = matchingConsultants.filter((x)=>x.RelevancePercentage > 90).length;
     this.candidateCountList[1].count = matchingConsultants.filter((x)=>x.RelevancePercentage > 80 &&  x.RelevancePercentage <= 90).length;
     this.candidateCountList[2].count = matchingConsultants.filter((x)=>x.RelevancePercentage >= 70 &&  x.RelevancePercentage <= 80).length;
@@ -546,7 +503,7 @@ export class JobDetailComponent implements OnInit {
   }
   getSkill(event){
     if(event.target.value.length >2){
-      // check for letter and numbers
+      
       if((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)){
         this.jobService.FetchAllSkills(event.target.value).subscribe((skillData: any)=>{
           if(skillData.StatusCode){
@@ -558,7 +515,7 @@ export class JobDetailComponent implements OnInit {
   }
   getQualifications(event){
     if(event.target.value.length >1){
-      // check for letter and numbers
+      
       if((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)){
         this.jobService.FetchAllQualifications(event.target.value).subscribe((Data: any)=>{
           if(Data.StatusCode){
@@ -570,7 +527,7 @@ export class JobDetailComponent implements OnInit {
   }
   getResponsibilities(event){
     if(event.target.value.length >1){
-      // check for letter and numbers
+      
       if((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)){
         this.jobService.FetchAllResponsibilities(event.target.value).subscribe((Data: any)=>{
           if(Data.StatusCode){
@@ -580,11 +537,9 @@ export class JobDetailComponent implements OnInit {
       }
     }
   }
-  // activateClass(index){
-  //   this.commonJobService.changeSideBarIndex(index)
-  // }
+  
   FetchProfileSummary(designationEvent){
-    // return
+    
     this.selectedDesignationName = designationEvent.viewValue;
     this.jobDescriptionForm.patchValue({selectedDesignationN: designationEvent.viewValue})
     this.jobDescriptionForm.patchValue({selectedDesignation: designationEvent.value})
@@ -606,8 +561,7 @@ export class JobDetailComponent implements OnInit {
       this.isDuplicateDesignation = false
     }
     if(isNaN(this.jobDescriptionForm.get('selectedDesignation').value)){
-      // alert(1)
-      // this.FetchProfileSummary({value:0,name:event.target.value})
+      
       let isChecked = false
       this.designations.forEach((designation:any) => {
 
@@ -628,7 +582,6 @@ export class JobDetailComponent implements OnInit {
     }
   }
   filterDesignationList(evnt){
-    // return
     if((evnt.keyCode >= 48 && evnt.keyCode <= 57) || (evnt.keyCode >= 65 && evnt.keyCode <= 90) || evnt.keyCode === 8){
       if(evnt.target.value === ''){
         this.filteredDesignations = this.designations;
@@ -637,16 +590,13 @@ export class JobDetailComponent implements OnInit {
       this.filteredDesignations = this.designations.filter((designation: any)=>{
         let strRegExPattern = evnt.target.value;
         if(designation.DesignationName.match(new RegExp(strRegExPattern,'gi'))){
-          // alert('match')
           return designation;
         }
       })
     }
   }
   deleteProfile(){
-    console.log()
     this.jobService.deleteProfile(location.href.split('/')[location.href.split('/').length-1]).subscribe((data:any)=>{
-      console.log(data, 'data')
       if(data.StatusCode === 200){
         this.router.navigate(['myJd']);
       }
@@ -654,19 +604,19 @@ export class JobDetailComponent implements OnInit {
   }
   makePrivate(){
     this.jobService.PrivatizeProfile(location.href.split('/')[location.href.split('/').length-1]).subscribe((data:any)=>{
-      console.log(data, 'data')
       if(data.StatusCode === 200){
         this.router.navigate(['myJd']);
       }
     })
   }
   onSave() {
+    	
     this.submitted = true;
-          // stop here if form is invalid
+          
           if (this.jobDescriptionForm.invalid || this.tags.length<1 || this.isDuplicateDesignation) {
             return;
         }
-    // return
+    
     const jdObject = {
       ProfileId: location.pathname.split('/').pop(),
       ProfileName: this.jobDescriptionForm.get('title').value,
@@ -682,21 +632,22 @@ export class JobDetailComponent implements OnInit {
       DeletedSkills: this.deletedSkills,
       DeletedResponsibilities: this.deletedResponsiblities,
       DeletedTags: this.deletedTags,
-      NewDesignation:isNaN(this.jobDescriptionForm.get('selectedDesignation').value)?this.jobDescriptionForm.get('selectedDesignation').value:undefined
-    };
+      NewDesignation:isNaN(this.jobDescriptionForm.get('selectedDesignation').value)?this.jobDescriptionForm.get('selectedDesignation').value:undefined,	
+      isPrivate:this.isPrivateChecked
+        };
     this.jobService.saveJd(jdObject).subscribe((updatedData: any) => {
       if (updatedData.StatusCode === 200){
 
         this.toastr.success(updatedData.Message, 'Success');
-        // location.reload();
+        
         if(this.isSameUser){
           this.jobDetail.ProfileDetail.UpdatedDate = updatedData.ProfileDetail.UpdatedDate
           this.isEditJd = false
-          document.body.scrollTop = 0; // For Safari
-          document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+          document.body.scrollTop = 0; 
+          document.documentElement.scrollTop = 0; 
           this.initLoad()
         }else{
-          // this.commonJobService.changeSideBarIndex(2)
+          
           this.router.navigate(['myJd']);
         }
 

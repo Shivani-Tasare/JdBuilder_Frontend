@@ -27,17 +27,13 @@ tr.noBorder td {
 .fixed-bottom{
   z-index: 998;
 }
-// .mat-form-field /deep/ .mat-form-field-wrapper  {
-//   padding-bottom: 0;
-// }
+
 .side-tabs{
   background-color: #333333 !important;
   color: white;
   border-color: gray;
 }
-// .active{
-//   background: #9E4587 !important;
-// }
+
 
 #header{
   background: #333333;
@@ -120,17 +116,9 @@ tr.noBorder td {
 .carousel-indicators li{
   background-color: #000000 !important;
 }
-// .ellipsis {
-//   white-space: nowrap;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   -webkit-line-clamp: 2;
-//   -webkit-box-orient: vertical;
-// }
 
-// p.block {
-//   height: 20%;
-// }
+
+
 .dropdown-menu{
   z-index: 997;
 }
@@ -139,7 +127,7 @@ tr.noBorder td {
   right: 25%;
   left: auto;
   margin-top: 0;
-  /* margin-right: .125rem; */
+ 
 }
 .html2canvas-container { width: 3000px !important; height: 3000px !important; }
 /* Desktop View */

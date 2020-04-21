@@ -29,15 +29,8 @@ export class JobServiceService {
     return this.httpClient.get(`${url}/FetchTagsList`);
   }
   FetchFilteredProfiles(params) {
-    console.log(params, 'paramsss')
     return this.httpClient.get(`${url}/FetchFilteredProfiles?experienceId=${params.experienceId}&
     locationId=${params.locationId}&designationId=${params.designationId}&pageSize=${params.pageSize}&
     pageIndex=${params.pageIndex}&tagString=${params.searchString}`);
   }
-  // changeSideBarIndex(index){
-  //   this.sideBarIndexSelected.next(index);
-  // }
-  // public getSideBarIndex(): Observable<any> {
-  //   return this.sideBarIndexSelected.asObservable();
-  // }
 }
