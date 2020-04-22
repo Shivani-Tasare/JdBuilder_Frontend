@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Config } from '../../config/config';
 import { Observable} from 'rxjs';
+import { environment } from 'src/environments/environment';
 
-const url = Config.url;
+const url = environment.url;
 @Injectable({providedIn: 'root'})
 export class Job1ServiceService {
   constructor(private httpClient: HttpClient) { }
   getAllJobs(pageParams) {
     return this.httpClient.get(`${url}/FetchProfiles/?pageSize=${pageParams.pageSize}&pageIndex=${pageParams.pageIndex}&myJD=${pageParams.myJd}&sortDir=${pageParams.sortByDate}`);
+  }
+  getAllUsers() {
+    return this.httpClient.get(`https://graph.windows.net/DMI/users?api-version=1.6`);
   }
   fetchProfiles(jdId) {
     return this.httpClient.get(`${url}/FetchProfileDetails?profileId=${jdId}`);

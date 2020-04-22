@@ -1,14 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Job1ServiceService } from '../job-service.service';
 import { ToastrService } from 'ngx-toastr';
-import {fromEvent, Observable} from 'rxjs';
-import { of } from "rxjs";
-import {
-  debounceTime,
-  map,
-  distinctUntilChanged,
-  filter
-} from "rxjs/operators";
 import { Router } from '@angular/router';
 import { JobServiceService } from 'src/app/shared/services/job-service.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
@@ -38,8 +30,6 @@ export class JobListingComponent implements OnInit {
   selectedUserId = ''
   sortByDate = 'desc'
   sidebarIndex = 2
-  skillData= [];
-  @ViewChild('skillSearchInput') skillSearchInput: ElementRef;
   constructor(private loaderService:LoaderService,private commongJobService: JobServiceService , private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router) {
     // this.commongJobService.getSideBarIndex().subscribe((sidebarIndex)=>{
     //   this.sidebarIndex = sidebarIndex
@@ -52,36 +42,7 @@ export class JobListingComponent implements OnInit {
     //   this.refresh();
     // })
   }
-  selectedSkill(value) {
-  console.log(value);
-  }
   ngOnInit() {
-
-    fromEvent(
-      this.skillSearchInput.nativeElement, 'keyup'
-    ).pipe(
-      map((event:any) =>{
-       return event.target.value;
-      }),
-      filter(res => res.length > 0),
-      debounceTime(10),
-    ).subscribe((text)=> {
-      if(text.trim().length < 1){
-        this.skillData = [];
-      } else {
-
-      this.searchSkill(text).subscribe((res)=>{
-        console.log('res',res);
-        this.skillData = res;
-      },(err)=>{
-        console.log('error',err);
-      });
-    }
-
-    })
-
-
-
     if(location.pathname == '/myJd'){
       this.myJd = true
       this.sidebarIndex = 2
@@ -116,12 +77,6 @@ export class JobListingComponent implements OnInit {
         this.userList = usersData.UsersList;
       }
     })
-  }
-  searchSkill(term: string): Observable<any>{
-    if (term === '') {
-      return of([]);
-    }
-    return of(['Java','AngularJs','Testing', 'Nodejs', 'CSS']);
   }
   refresh() {
     this.selectedLocation = undefined;
@@ -207,5 +162,4 @@ export class JobListingComponent implements OnInit {
     let pageDetails = {pageIndex:this.pageSelected + 1};
     this.onPaginateChange(pageDetails)
   }
- 
 }

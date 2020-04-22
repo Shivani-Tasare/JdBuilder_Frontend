@@ -95,9 +95,7 @@
           ><i class="fa fa-search" aria-hidden="true"></i
         ></span>
       </div>
-      
-      <span>
-        <input
+      <input
         [(ngModel)]="searchString"
         type="text"
         class="form-control input-design"
@@ -105,15 +103,7 @@
         aria-label="Username"
         aria-describedby="basic-addon1"
         (keyup.enter)="search()"
-        #skillSearchInput
       />
-      <ul>
-        <li *ngFor="let skill of skillData;">
-          {{ skill }}
-        </li>
-      </ul>  
-      </span>
-      
     </div>
   </div>
   <div class="col-md-2 col-6 input-padding mo-trb-padding">

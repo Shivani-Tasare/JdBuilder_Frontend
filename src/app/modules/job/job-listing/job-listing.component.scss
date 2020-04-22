@@ -229,21 +229,3 @@ paginator-page-size.mat-select-trigger {
 .active{
   background: #9E4587 !important;
 }
-
-
-.skillList option {
-  color: white;
-    padding: 7px;
-    padding-left: 20px;
-    cursor: pointer;
-}
-.skillList{
-  position: absolute;
-  padding-left: 0;
-  top: 48px;
-  background: black;
-  width: max-content;
-  list-style: none;
-  z-index: 9;
-  min-width: 100%;
-}
