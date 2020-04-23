@@ -29,7 +29,6 @@ export class Job1ServiceService {
     return this.httpClient.get(`${url}/FetchTagsList`);
   }
   FetchFilteredProfiles(params) {
-    console.log(params, 'paramsss')
     return this.httpClient.get(`${url}/FetchFilteredProfiles?experienceId=${params.experienceId}&locationId=${params.locationId}&designationId=${params.designationId}&pageSize=${params.pageSize}&pageIndex=${params.pageIndex}&tagString=${params.searchString}&myJD=${params.myJd}&sortDir=${params.sortByDate}&selectedUserId=${params.selectedUserId}`);
   }
   FetchAllSkills(searchString) {
@@ -51,7 +50,6 @@ export class Job1ServiceService {
     return this.httpClient.post(`${url}/CreateProfile`,jobDetail);
   }
   FetchProfileSummary(desinationObject){
-    console.log(desinationObject, 'designation boujjjddd')
     return this.httpClient.get(`${url}/FetchProfileSummary?designationId=${desinationObject.designationId}&newDesignation=${desinationObject.name}`);
   }
 
@@ -60,7 +58,6 @@ export class Job1ServiceService {
     const options = {
       headers: new HttpHeaders().append('key', 'value')
     }
-    console.log(htmlObject, 'designation boujjjddd')
     return this.httpClient.post(`${url}/GeneratePDF?htmlString=l`,htmlObject,{observe: 'response', responseType: 'blob'})
   }
   deleteProfile(jobId) {

@@ -11,7 +11,6 @@ export class AdalAccessGuard implements CanActivate {
         const navigationExtras: NavigationExtras = {
             queryParams: { redirectUrl: route.url }
         };
-        console.log(this.adalService, 'userservicee')
         if (!this.adalService.userInfo) {
             this.router.navigate(['accessdenied'], navigationExtras);
         }

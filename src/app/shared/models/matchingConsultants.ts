@@ -6,9 +6,3 @@ export class MatchingConsultants {
     Location: string;
     Count: number;
 }
-
-// export class MatchingConsultantsWithCount {
-
-//     matchingConultants : MatchingConsultants[];
-  
-// }

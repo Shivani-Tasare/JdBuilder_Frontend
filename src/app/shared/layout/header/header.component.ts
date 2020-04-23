@@ -9,7 +9,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(private adalService: AdalService) { }
   logout() {
-    console.log('function called')
     this.adalService.logout();
   }
   ngOnInit() {

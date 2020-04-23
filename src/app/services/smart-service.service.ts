@@ -17,10 +17,6 @@ export class SmartServiceService {
 
   fetchCandidatesDetails(profileId) : Observable<any[]>{
     return this.httpClient.get<any[]>(`${url}/ProfileTags?profileId=${profileId}`);
+    
   }
-
-  // getConsultantsCount(jdDetails:JdDetails[]) : Observable<MatchingConsultantsWithCount[]>{
-  //   console.log(jdDetails);
-  //   return this.httpClient.post<MatchingConsultantsWithCount[]>(`https://experience-dev.azurewebsites.net/version1500.0.0.0/api/searchconsultants`,jdDetails);
-  // }
 }
