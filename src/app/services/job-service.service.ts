@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-const url = environment.url;
+import { Config } from '../config/config';
+const url = Config.url;
 @Injectable({providedIn: 'root'})
 export class JobServiceService {
   constructor(private httpClient: HttpClient) { }
