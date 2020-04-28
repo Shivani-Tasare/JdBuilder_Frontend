@@ -29,13 +29,15 @@ import { LayoutModule } from './shared/layout/layout.module';
 import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
     LoaderComponent,
     JobListingComponent,
-    CreateJdComponent
+    CreateJdComponent,
+    JdsSharedComponent
   ],
   imports: [
     BrowserModule,

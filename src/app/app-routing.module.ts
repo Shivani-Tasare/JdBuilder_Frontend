@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { JobListingComponent } from './modules/job/job-listing/job-listing.component';
 import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
+import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'myJd', pathMatch: 'full'},
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'createJD', component: CreateJdComponent},
   {path: 'allJd', component: JobListingComponent},
   {path: 'myJd', component: JobListingComponent},
+  {path: 'jdsShared', component: JdsSharedComponent},
   {path: '**', component: PageNotFoundComponent}
 ];
 
