@@ -6,9 +6,9 @@ export const environment = {
   production: false,
   url :'https://localhost:44355/api',
   AppConfig: {
-    clientID :'a7be96cc-f8a3-41c5-9d6a-abb1394eed2c',
-    tenantID:'db7ac9ef-779d-46e5-9bca-00509580ad6b',
-    webClientId:'a7be96cc-f8a3-41c5-9d6a-abb1394eed2c',
+    clientID :'7b357602-7713-41d2-a0a3-6273c7a30b28',
+    tenantID:'3c6675bc-a934-4012-9ea6-df6f9d0903cf',
+    webClientId:'7b357602-7713-41d2-a0a3-6273c7a30b28',
   }
 };
 
