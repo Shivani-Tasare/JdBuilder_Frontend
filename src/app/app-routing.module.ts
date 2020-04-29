@@ -9,6 +9,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'myJd', pathMatch: 'full'},
   {path: 'allJd/job-description/:jobId', loadChildren: './modules/job/job.module#JobModule'},
   {path: 'myJd/job-description/:jobId', loadChildren: './modules/job/job.module#JobModule'},
+  {path: 'review-jd/job-description/edit/:jobId', loadChildren: './modules/job/job.module#JobModule'},
   {path: 'createJD', component: CreateJdComponent},
   {path: 'allJd', component: JobListingComponent},
   {path: 'myJd', component: JobListingComponent},

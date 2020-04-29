@@ -66,5 +66,11 @@ export class Job1ServiceService {
   PrivatizeProfile(jobId) {
     return this.httpClient.get(`${url}/PrivatizeProfile?profileId=${jobId}&status=true`);
   }
-  
+  shareJdByEmail(emailId, jdUrl) {
+    return this.httpClient.get<any>(`${url}/SendEmail?searchText=${emailId}&url=${jdUrl}`)
+  }
+  fetchEmailsByName(name){
+    return this.httpClient.get<any>(`${url}/FetchEmail?searchText=${name}`)
+  }
+
 }

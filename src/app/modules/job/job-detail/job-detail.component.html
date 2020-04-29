@@ -23,9 +23,9 @@
           >Edit JDs</span
         >
         </div>
-        <div (click)="isEditJd = false" class="col-4 pt-2">
+        <div class="col-4 pt-2">
           <div class="dropdown dropleft float-right">
-            <button type="button" class="btn theme-color-btn">
+            <button (click)="isEditJd = false; onCancel()" type="button" class="btn theme-color-btn">
               Cancel
             </button>
           </div>
@@ -42,15 +42,31 @@
               <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p></div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-12"><p class="pull-right mb-0"># Candidates with 50% Match Score</p></div>
             </div>
+            <div *ngIf="isEditJd;" style="float: right;" class="col-md-4 d-none d-lg-block">
+              <button [hidden]="!isSameUser" type="button" class="btn btn-default btn-sm" (click)="onShare()">
+                <i class="fa fa-share-square-o" aria-hidden="true"></i> Share
+              </button>
+              <div class="card" id="email">
+                <div class="card-body">
+                  <mat-form-field>
+                    <input type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)" placeholder="Enter Name or Email" matInput [formControl]="emailSearch" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredEmails" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <button [disabled]="!isPrivateChecked" [hidden]="!isSameUser" type="button" class="btn btn-default btn-sm" (click)="onSend(emailId)">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <!-- Mobile View -->
           <div class="row d-lg-none">
             <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left font-weight-bold mb-0 sub-heading">JD DOCUMENT ID :</p></div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-right mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p></div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-6"><p class="pull-left mb-0"># Candidates with 50% Match Score</p></div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-6"><h4 class="pull-right font-weight-bold mb-0 theme-color">{{matchingConsultants?.Count}}</h4></div>
-
           </div>
         </div>
       </div>
@@ -386,7 +402,7 @@
               <p class="col-12 pt-2 font-weight-bold mb-0">Last Updated By : <span class="font-weight-normal">{{jobDetail.ProfileDetail.CreatorName}}</span></p>
               <p class="col-12 font-weight-bold mb-0">Last Updated On : <span class="font-weight-normal">{{jobDetail.ProfileDetail.UpdatedDate | date: 'dd-MMM-yyyy'}}</span></p>
                 <div class="col-12 d-none pr-0 d-lg-block">
-                  <input (click)="isEditJd = false" type="button" value="Cancel" class=" btn theme-color-btn mr-2"/>
+                  <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel" class=" btn theme-color-btn mr-2"/>
                   <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)" value="View Candidates" class=" btn theme-color-btn mr-2"/>
                   <input *ngIf="isSameUser" (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2"/>
                   <input *ngIf="!isSameUser" (click)="onSave()" type="button" value="Save As Copy" class=" btn theme-color-btn mr-2"/>
@@ -569,7 +585,7 @@
               </div>
                 <div class="col-12 d-none pr-0 d-lg-block pt-4">
                   <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)" value="View Candidates" class=" mr-2 btn theme-color-btn"/>
-                  <input (click)="isEditJd = true;fixHeader()" type="button" value="Edit" class="btn theme-color-btn mr-2"/>
+                  <input (click)="fixHeader();onEdit()" type="button" value="Edit" class="btn theme-color-btn mr-2"/>
                   <input data-toggle="modal" data-target="#deleteConfirmation" *ngIf="isSameUser" type="button" value="Delete" class="btn theme-color-btn"/>
                 </div>
               </div>
