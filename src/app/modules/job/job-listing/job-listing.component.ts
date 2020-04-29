@@ -27,7 +27,8 @@ export class JobListingComponent implements OnInit {
   DefaultPageSize = 5;
   range;
   myJd = true;
-  userList
+  sharedJD = false;
+  userList;
   selectedUserId = ''
   sortByDate = 'desc'
   sidebarIndex = 2
@@ -37,11 +38,13 @@ export class JobListingComponent implements OnInit {
     if (location.pathname == '/myJd') {
       this.myJd = true
       this.sidebarIndex = 2
+    } else if(location.pathname == '/jdsShared') {
+      this.sharedJD = true;
     } else {
       this.myJd = false
       this.sidebarIndex = 1
     }
-    const pageParams = { pageSize: this.DefaultPageSize, pageIndex: this.pageSelected, myJd: this.myJd, sortByDate: this.sortByDate };
+    const pageParams = { sharedJd:this.sharedJD, truepageSize: this.DefaultPageSize, pageIndex: this.pageSelected, myJd: this.myJd, sortByDate: this.sortByDate };
     this.jobService.getAllJobs(pageParams).subscribe((jobs: any) => {
       this.jobs = jobs.ProfileList;
       this.length = jobs.TotalRecords;
@@ -128,10 +131,14 @@ export class JobListingComponent implements OnInit {
     this.filterProfile(paramObject);
   }
   goToDetails(jobId) {
+
     this.loaderService.show();
     if (location.pathname.indexOf('myJd') > 0) {
       this.router.navigate(['myJd/job-description/' + jobId]);
-    } else {
+    } else if (location.pathname.indexOf('jdsShared') > 0) {
+      this.router.navigate(['review-jd/job-description/edit/' + jobId]);
+    }
+    else {
       this.router.navigate(['allJd/job-description/' + jobId]);
     }
   }

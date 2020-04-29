@@ -68,6 +68,7 @@ export class JobDetailComponent implements OnInit {
   submitted = false;
   isDuplicateDesignation = false
   jdDetails : JdDetails[];
+  emailSearch = new FormControl();
    candidateCountList = [  
     { id: 0 , range:'90 to 100' , count: 0 },
     { id: 1 , range:'80 to 90' , count: 0},
@@ -85,6 +86,8 @@ export class JobDetailComponent implements OnInit {
   capturedImage;
   candidatesCount: number[];
   matchingConsultants : MatchingConsultants[];
+  url: string;
+  filteredEmails: any;
   constructor(private loaderService: LoaderService,public dialog: MatDialog,@Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService,private router: Router, private commonJobService: JobServiceService, private adalService:AdalService, private smartService:SmartServiceService ) {
   }
   public downloadPDF() {
@@ -208,7 +211,49 @@ export class JobDetailComponent implements OnInit {
   }
   ngOnInit() { 
     this.initLoad();
+    if(window.location.href.includes('edit')){
+      this.isEditJd=true;
+    }
+  else{
+    this.isEditJd = false;
   }
+  }
+  onEdit(){
+      this.router.navigate(['review-jd/job-description/edit/'+this.jobDetail.ProfileDetail.ProfileId]);
+  }
+  onCancel(){
+    this.router.navigate(['myJd/job-description/'+this.jobDetail.ProfileDetail.ProfileId]);
+  }
+  onShare() {
+    console.log("inside onshare");
+    var x = document.getElementById("email");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+  }
+   searchEmailOnKeypress(name){
+    console.log(name);
+    if(name != undefined){
+      this.jobService.fetchEmailsByName(name).subscribe(res => {
+        this.filteredEmails = res;
+        
+      })
+    }
+  }
+  onSend(emailId) {
+    this.isEditJd = false;
+    console.log(emailId);
+    this.url = this.document.URL
+    console.log(this.url);
+    this.jobService.shareJdByEmail(emailId, this.url).subscribe(res => {
+      console.log(res);
+      this.router.navigate(['myJd/job-description/'+this.jobDetail.ProfileDetail.ProfileId]);
+    })
+  }
+
+
   initLoad(){
     this.selectedLocationName = [];
     this.jobService.fetchProfiles(location.pathname.split('/').pop()).subscribe((jobDetail: any) => {
@@ -646,6 +691,7 @@ export class JobDetailComponent implements OnInit {
           document.body.scrollTop = 0; 
           document.documentElement.scrollTop = 0; 
           this.initLoad()
+          this.router.navigate(['myJd/job-description/'+this.jobDetail.ProfileDetail.ProfileId]);
         }else{
           
           this.router.navigate(['myJd']);
