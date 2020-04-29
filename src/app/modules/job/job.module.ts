@@ -21,7 +21,6 @@ import { JdsSharedComponent } from './jds-shared/jds-shared.component';
     JobDetailComponent,
     ViewJdComponent,
     ContentPdfComponent,
-    JdsSharedComponent,
   ],
   imports: [
     CommonModule,
