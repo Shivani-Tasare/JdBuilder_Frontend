@@ -11,7 +11,7 @@ import {ThemePalette} from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { ChartType, ChartOptions } from 'chart.js';
 import { Label } from 'ng2-charts';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { JobServiceService } from '../../../shared/services/job-service.service';
 import { AdalService } from 'src/app/shared/services/adal.service';
 import * as JSPdf from 'jspdf';
@@ -67,6 +67,10 @@ export class JobDetailComponent implements OnInit {
   isSameUser = false
   submitted = false;
   isDuplicateDesignation = false
+  IsReviewJd;
+  IsReviewMode = 0;
+  oldUrl : any;
+  editMode = ['false','true'];
   jdDetails : JdDetails[];
   emailSearch = new FormControl();
    candidateCountList = [  
@@ -88,7 +92,8 @@ export class JobDetailComponent implements OnInit {
   matchingConsultants : MatchingConsultants[];
   url: string;
   filteredEmails: any;
-  constructor(private loaderService: LoaderService,public dialog: MatDialog,@Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService,private router: Router, private commonJobService: JobServiceService, private adalService:AdalService, private smartService:SmartServiceService ) {
+  showDetails: boolean = false;
+  constructor(private loaderService: LoaderService,public dialog: MatDialog,@Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService,private router: Router, private commonJobService: JobServiceService, private adalService:AdalService, private route : ActivatedRoute, private smartService:SmartServiceService ) {
   }
   public downloadPDF() {
     let loader = this.loaderService
@@ -211,30 +216,58 @@ export class JobDetailComponent implements OnInit {
   }
   ngOnInit() { 
     this.initLoad();
+    //for edit mode
     if(window.location.href.includes('edit')){
       this.isEditJd=true;
-    }
-  else{
+    }else{
     this.isEditJd = false;
+      }
+     this.route.queryParams.subscribe(params => {
+        this.IsReviewMode = +params;
+      })
+      //for review mode
+      if(window.location.href.includes('reviewMode=1')){
+        this.IsReviewJd=true;
+      }else{
+      this.IsReviewJd = false;
+        } 
   }
-  }
+
   onEdit(){
-      this.router.navigate(['review-jd/job-description/edit/'+this.jobDetail.ProfileDetail.ProfileId]);
+      this.router.navigate(['jd/job-description/edit/'+this.jobDetail.ProfileDetail.ProfileId])
   }
   onCancel(){
-    this.router.navigate(['myJd/job-description/'+this.jobDetail.ProfileDetail.ProfileId]);
-  }
-  onShare() {
-    console.log("inside onshare");
-    var x = document.getElementById("email");
-    if (x.style.display === "block") {
-      x.style.display = "none";
-    } else {
-      x.style.display = "block";
+    if(this.isSameUser){
+      this.router.navigate(['myJd/job-description/view/'+this.jobDetail.ProfileDetail.ProfileId]);
+    }
+    else{
+      this.router.navigate(['allJd/job-description/view/'+this.jobDetail.ProfileDetail.ProfileId]);
     }
   }
+
+  toggleShare(){
+    var inputBox = this.document.getElementById('email');
+    var shareButton = this.document.getElementById('shareButton');
+    if(inputBox.style.display === "none"){
+      inputBox.style.display = "block";
+      shareButton.style.display = "none";
+    }else{
+      inputBox.style.display = "none";
+      shareButton.style.display = "block";
+    }
+  }
+
+  onShare() {
+    this.toggleShare();
+    this.IsReviewMode = 1;
+    if(this.IsReviewMode === 1){
+      let navigationExtras: NavigationExtras = {
+        queryParams: { reviewMode : 1 }
+      };
+        this.router.navigate(['jd/job-description/edit/'+this.jobDetail.ProfileDetail.ProfileId],navigationExtras);  
+      }
+  }
    searchEmailOnKeypress(name){
-    console.log(name);
     if(name != undefined){
       this.jobService.fetchEmailsByName(name).subscribe(res => {
         this.filteredEmails = res;
@@ -243,14 +276,13 @@ export class JobDetailComponent implements OnInit {
     }
   }
   onSend(emailId) {
-    this.isEditJd = false;
-    console.log(emailId);
-    this.url = this.document.URL
-    console.log(this.url);
-    this.jobService.shareJdByEmail(emailId, this.url).subscribe(res => {
-      console.log(res);
-      this.router.navigate(['myJd/job-description/'+this.jobDetail.ProfileDetail.ProfileId]);
-    })
+    this.toggleShare();
+   this.url = this.document.URL;
+   console.log(this.oldUrl);
+        this.jobService.shareJdByEmail(emailId, this.url).subscribe(res => {
+          console.log(res);
+          this.router.navigate(['jd/job-description/edit/'+this.jobDetail.ProfileDetail.ProfileId])
+        }) 
   }
 
 
@@ -678,23 +710,24 @@ export class JobDetailComponent implements OnInit {
       DeletedResponsibilities: this.deletedResponsiblities,
       DeletedTags: this.deletedTags,
       NewDesignation:isNaN(this.jobDescriptionForm.get('selectedDesignation').value)?this.jobDescriptionForm.get('selectedDesignation').value:undefined,	
-      isPrivate:this.isPrivateChecked
+      isPrivate:this.isPrivateChecked,
+      IsReviewJd:(this.IsReviewJd ? true : false)
         };
     this.jobService.saveJd(jdObject).subscribe((updatedData: any) => {
       if (updatedData.StatusCode === 200){
 
         this.toastr.success(updatedData.Message, 'Success');
-        
+       
         if(this.isSameUser){
           this.jobDetail.ProfileDetail.UpdatedDate = updatedData.ProfileDetail.UpdatedDate
           this.isEditJd = false
           document.body.scrollTop = 0; 
           document.documentElement.scrollTop = 0; 
           this.initLoad()
-          this.router.navigate(['myJd/job-description/'+this.jobDetail.ProfileDetail.ProfileId]);
+          this.router.navigate(['myJd/job-description/view/',this.jobDetail.ProfileDetail.ProfileId]);
         }else{
           
-          this.router.navigate(['myJd']);
+          this.router.navigate(['allJd/job-description/view/',this.jobDetail.ProfileDetail.ProfileId]);
         }
 
       }else{

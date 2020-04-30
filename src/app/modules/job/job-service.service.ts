@@ -6,6 +6,7 @@ import { Observable} from 'rxjs';
 const url = Config.url;
 @Injectable({providedIn: 'root'})
 export class Job1ServiceService {
+  
   constructor(private httpClient: HttpClient) { }
   getAllJobs(pageParams) {
     return this.httpClient.get(`${url}/FetchProfiles/?pageSize=${pageParams.pageSize}&pageIndex=${pageParams.pageIndex}&myJD=${pageParams.myJd}&sortDir=${pageParams.sortByDate}`);

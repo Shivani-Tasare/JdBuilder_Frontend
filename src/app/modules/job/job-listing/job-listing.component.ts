@@ -130,9 +130,9 @@ export class JobListingComponent implements OnInit {
   goToDetails(jobId) {
     this.loaderService.show();
     if (location.pathname.indexOf('myJd') > 0) {
-      this.router.navigate(['myJd/job-description/' + jobId]);
+      this.router.navigate(['myJd/job-description/view/' + jobId]);
     } else {
-      this.router.navigate(['allJd/job-description/' + jobId]);
+      this.router.navigate(['allJd/job-description/view/' + jobId]);
     }
   }
 
