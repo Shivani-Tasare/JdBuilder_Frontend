@@ -80,7 +80,7 @@ export class JobListingComponent implements OnInit {
     this.selectedDesignation = undefined;
     this.selectedUserId = ''
     this.searchString = ''
-    const pageParams = { pageSize: 2, pageIndex: 0, myJd: this.myJd, sortByDate: this.sortByDate };
+    const pageParams = { pageSize: 2, pageIndex: 0, myJd: this.myJd, sortByDate: this.sortByDate,sharedJD: this.sharedJD };
     this.jobService.getAllJobs(pageParams).subscribe((jobs: any) => {
       this.jobs = jobs.ProfileList;
       this.length = jobs.TotalRecords;
@@ -98,7 +98,8 @@ export class JobListingComponent implements OnInit {
       searchString: this.searchString ? this.searchString : '',
       myJd: this.myJd,
       sortByDate: this.sortByDate,
-      selectedUserId: this.selectedUserId
+      selectedUserId: this.selectedUserId,
+      sharedJD: this.sharedJD
     };
     this.pageSelected = 0
     this.filterProfile(paramObject);
@@ -125,7 +126,8 @@ export class JobListingComponent implements OnInit {
       searchString: this.searchString ? this.searchString : '',
       myJd: this.myJd,
       selectedUserId: this.selectedUserId ? this.selectedUserId : "",
-      sortByDate: this.sortByDate
+      sortByDate: this.sortByDate,
+      sharedJD: this.sharedJD
     };
     this.pageSelected = evn.pageIndex !== undefined ? evn.pageIndex : evn,
       this.DefaultPageSize = evn.pageSize ? evn.pageSize : this.DefaultPageSize;

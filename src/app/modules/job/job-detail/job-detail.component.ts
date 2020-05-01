@@ -92,7 +92,6 @@ export class JobDetailComponent implements OnInit {
   matchingConsultants : MatchingConsultants[];
   url: string;
   filteredEmails: any;
-  showDetails: boolean = false;
   constructor(private loaderService: LoaderService,public dialog: MatDialog,@Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService,private router: Router, private commonJobService: JobServiceService, private adalService:AdalService, private route : ActivatedRoute, private smartService:SmartServiceService ) {
   }
   public downloadPDF() {
@@ -231,6 +230,7 @@ export class JobDetailComponent implements OnInit {
       }else{
       this.IsReviewJd = false;
         } 
+        
   }
 
   onEdit(){
@@ -278,9 +278,7 @@ export class JobDetailComponent implements OnInit {
   onSend(emailId) {
     this.toggleShare();
    this.url = this.document.URL;
-   console.log(this.oldUrl);
         this.jobService.shareJdByEmail(emailId, this.url).subscribe(res => {
-          console.log(res);
           this.router.navigate(['jd/job-description/edit/'+this.jobDetail.ProfileDetail.ProfileId])
         }) 
   }

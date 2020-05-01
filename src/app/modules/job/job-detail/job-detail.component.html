@@ -15,7 +15,7 @@
   <div class="col-12">
       <div id="shareButton">
         <button style="margin-top:5px" [disabled]="!isPrivateChecked" class="btn theme-color-btn btn-sm" [hidden]="!isSameUser" type="button" (click)="onShare()">
-          <i class="fa fa-share-square-o icon" aria-hidden="true"></i>Share Jd for Review
+          <i class="fa fa-share-square-o icon" aria-hidden="true"></i>Share
       </button>
     </div>
     </div>
@@ -411,7 +411,7 @@
                   <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)" value="View Candidates" class=" btn theme-color-btn mr-2"/>
                   <input *ngIf="isSameUser" (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2"/>
                   <input *ngIf="!isSameUser && IsReviewJd" (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2"/>
-                  <input *ngIf="!isSameUser" (click)="onSave()" type="button" value="Save As Copy" class=" btn theme-color-btn mr-2"/>
+                  <input *ngIf="!isSameUser" (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2"/>
 
                 </div>
               </div>
