@@ -37,7 +37,7 @@ import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.componen
     LoaderComponent,
     JobListingComponent,
     CreateJdComponent,
-    JdsSharedComponent
+    JdsSharedComponent,
   ],
   imports: [
     BrowserModule,

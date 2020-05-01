@@ -20,7 +20,7 @@ import { ContentPdfComponent } from './content-pdf/content-pdf.component';
   declarations: [
     JobDetailComponent,
     ViewJdComponent,
-    ContentPdfComponent
+    ContentPdfComponent,
   ],
   imports: [
     CommonModule,

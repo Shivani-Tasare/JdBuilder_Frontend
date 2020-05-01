@@ -12,8 +12,8 @@ const routes: Routes = [
   {path: 'jd/job-description/edit/:jobId', loadChildren: './modules/job/job.module#JobModule'},
   {path: 'createJD', component: CreateJdComponent},
   {path: 'allJd', component: JobListingComponent},
-  {path: 'myJd', component: JobListingComponent},
   {path: 'jdsShared', component: JdsSharedComponent},
+  {path: 'myJd', component: JobListingComponent},
   {path: '**', component: PageNotFoundComponent}
 ];
 
