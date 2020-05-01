@@ -40,6 +40,7 @@ export class JobListingComponent implements OnInit {
       this.sidebarIndex = 2
     } else if(location.pathname == '/jdsShared') {
       this.sharedJD = true;
+      this.myJd = false;
     } else {
       this.myJd = false
       this.sidebarIndex = 1
