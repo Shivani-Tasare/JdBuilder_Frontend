@@ -15,6 +15,7 @@ import { ChartsModule } from 'ng2-charts';
 import { PipesModule } from 'src/app/shared/pipes/jobId-pipe/pipe.module';
 import { CreateJdComponent } from './create-jd/create-jd.component';
 import { ContentPdfComponent } from './content-pdf/content-pdf.component';
+//import { JdsSharedComponent } from './jds-shared/jds-shared.component';
 @NgModule({
   declarations: [
     JobDetailComponent,

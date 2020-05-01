@@ -6,9 +6,10 @@ import { Observable} from 'rxjs';
 const url = Config.url;
 @Injectable({providedIn: 'root'})
 export class Job1ServiceService {
+  
   constructor(private httpClient: HttpClient) { }
   getAllJobs(pageParams) {
-    return this.httpClient.get(`${url}/FetchProfiles/?pageSize=${pageParams.pageSize}&pageIndex=${pageParams.pageIndex}&myJD=${pageParams.myJd}&sortDir=${pageParams.sortByDate}`);
+    return this.httpClient.get(`${url}/FetchProfiles/?pageSize=${pageParams.pageSize}&pageIndex=${pageParams.pageIndex}&myJD=${pageParams.myJd}&sortDir=${pageParams.sortByDate}&sharedJd=${pageParams.sharedJd}`);
   }
   fetchProfiles(jdId) {
     return this.httpClient.get(`${url}/FetchProfileDetails?profileId=${jdId}`);
@@ -66,5 +67,11 @@ export class Job1ServiceService {
   PrivatizeProfile(jobId) {
     return this.httpClient.get(`${url}/PrivatizeProfile?profileId=${jobId}&status=true`);
   }
-  
+  shareJdByEmail(emailId, jdUrl) {
+    return this.httpClient.get<any>(`${url}/SendEmail?searchText=${emailId}&url=${jdUrl}`)
+  }
+  fetchEmailsByName(name){
+    return this.httpClient.get<any>(`${url}/FetchEmail?searchText=${name}`)
+  }
+
 }

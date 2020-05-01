@@ -1,6 +1,15 @@
 p, textarea,input {
   text-align: justify!important;
 }
+
+.mybt{
+background-color: white;
+}
+.icon{
+  color: #f3f3f3ed;
+  padding-right: 3px;
+}
+
 tr.noBorder td {
   border: 0;
 }
@@ -118,6 +127,16 @@ tr.noBorder td {
 }
 
 
+.sort-btn{
+  background: #FFFFFF;
+  border: 1px solid #9E4587;
+  font-size: 12px;
+  font-weight: bold;height: 100%;float: right;
+}
+
+.hidden{
+  display: none;
+}
 
 .dropdown-menu{
   z-index: 997;
