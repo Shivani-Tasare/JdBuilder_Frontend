@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+
    url : 'https://jdbuilderuat.azurewebsites.net/api',
   // url : 'https://localhost:44355/api',
 
@@ -15,7 +16,6 @@ export const environment = {
     tenantID:'db7ac9ef-779d-46e5-9bca-00509580ad6b',
     webClientId:'f8e7c239-6bf1-4b4c-acd0-cb6b4ce19101'
   }
-
 };
 
 /*
