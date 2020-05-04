@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Job1ServiceService } from '../job-service.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { JobServiceService } from 'src/app/shared/services/job-service.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { SmartServiceService } from 'src/app/services/smart-service.service';
@@ -45,7 +45,7 @@ export class JobListingComponent implements OnInit {
       this.myJd = false
       this.sidebarIndex = 1
     }
-    const pageParams = { sharedJd:this.sharedJD, pageSize: this.DefaultPageSize, pageIndex: this.pageSelected, myJd: this.myJd, sortByDate: this.sortByDate };
+    const pageParams = { sharedJD:this.sharedJD, pageSize: this.DefaultPageSize, pageIndex: this.pageSelected, myJd: this.myJd, sortByDate: this.sortByDate };
     this.jobService.getAllJobs(pageParams).subscribe((jobs: any) => {
       this.jobs = jobs.ProfileList;
       this.length = jobs.TotalRecords;
@@ -131,6 +131,7 @@ export class JobListingComponent implements OnInit {
     };
     this.pageSelected = evn.pageIndex !== undefined ? evn.pageIndex : evn,
       this.DefaultPageSize = evn.pageSize ? evn.pageSize : this.DefaultPageSize;
+
     this.filterProfile(paramObject);
   }
   goToDetails(jobId) {
@@ -139,7 +140,7 @@ export class JobListingComponent implements OnInit {
     if (location.pathname.indexOf('myJd') > 0) {
       this.router.navigate(['myJd/job-description/view/' + jobId]);
     } else if (location.pathname.indexOf('jdsShared') > 0) {
-      this.router.navigate(['jd/job-description/edit/' + jobId]);
+      this.router.navigate(['jd/job-description/edit/' + jobId],{queryParams:{IsSharedJd:'true'}});
     }
     else {
       this.router.navigate(['allJd/job-description/view/' + jobId]);
