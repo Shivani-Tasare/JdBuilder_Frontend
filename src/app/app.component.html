@@ -9,8 +9,9 @@
     id="collapsibleNavbar"
   >
   <div class="list-group list-group-flush">
-    <a [routerLink]="['/allJd']" (click)="selectedIndex =1;activateClass(1)" [ngClass]="{'active': selectedIndex == 1}" href="javascript:" class="px-3 list-group-item list-group-item-action side-tabs">All JDs</a>
-    <a [routerLink]="['/myJd']" (click)="selectedIndex =2;activateClass(2)" [ngClass]="{'active': selectedIndex == 2}" href="javascript:" class="px-3 list-group-item list-group-item-action side-tabs active">My JDs</a>
+    <a [routerLink]="['/allJd']" [routerLinkActive]="['active']"  href="javascript:" class="px-3 list-group-item list-group-item-action side-tabs">All JDs</a>
+    <a [routerLink]="['/myJd']" [routerLinkActive]="['active']"  href="javascript:" class="px-3 list-group-item list-group-item-action side-tabs">My JDs</a>
+    <a [routerLinkActive]="['active']" [routerLink]="['/jdsShared']"  href="javascript:"  class="list-group-item list-group-item-action side-tabs">JD shared with me</a>
     <a href="javascript:" class="px-3 list-group-item list-group-item-action side-tabs">FAQs/Help</a>
   </div>
   </div>

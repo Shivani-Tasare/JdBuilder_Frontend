@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  url : 'https://jdbuilderuat.azurewebsites.net/api',
+  url :'https://localhost:44355/api',
   AppConfig: {
-    clientID :'f8e7c239-6bf1-4b4c-acd0-cb6b4ce19101',
-    tenantID:'db7ac9ef-779d-46e5-9bca-00509580ad6b',
-    webClientId:'f8e7c239-6bf1-4b4c-acd0-cb6b4ce19101'
+    clientID :'7b357602-7713-41d2-a0a3-6273c7a30b28',
+    tenantID:'3c6675bc-a934-4012-9ea6-df6f9d0903cf',
+    webClientId:'7b357602-7713-41d2-a0a3-6273c7a30b28',
   }
 };
 
