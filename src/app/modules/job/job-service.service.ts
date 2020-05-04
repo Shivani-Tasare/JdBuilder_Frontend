@@ -9,7 +9,7 @@ export class Job1ServiceService {
   
   constructor(private httpClient: HttpClient) { }
   getAllJobs(pageParams) {
-    return this.httpClient.get(`${url}/FetchProfiles?pageSize=${pageParams.pageSize}&pageIndex=${pageParams.pageIndex}&myJD=${pageParams.myJd}&sortDir=${pageParams.sortByDate}&sharedJd=${pageParams.sharedJd}`);
+    return this.httpClient.get(`${url}/FetchProfiles?pageSize=${pageParams.pageSize}&pageIndex=${pageParams.pageIndex}&myJD=${pageParams.myJd}&sortDir=${pageParams.sortByDate}&sharedJd=${pageParams.sharedJD}`);
   }
   fetchProfiles(jdId) {
     return this.httpClient.get(`${url}/FetchProfileDetails?profileId=${jdId}`);
@@ -30,7 +30,7 @@ export class Job1ServiceService {
     return this.httpClient.get(`${url}/FetchTagsList`);
   }
   FetchFilteredProfiles(params) {
-    return this.httpClient.get(`${url}/FetchFilteredProfiles?experienceId=${params.experienceId}&locationId=${params.locationId}&designationId=${params.designationId}&pageSize=${params.pageSize}&pageIndex=${params.pageIndex}&tagString=${params.searchString}&myJD=${params.myJd}&sortDir=${params.sortByDate}&selectedUserId=${params.selectedUserId}`);
+    return this.httpClient.get(`${url}/FetchFilteredProfiles?experienceId=${params.experienceId}&locationId=${params.locationId}&designationId=${params.designationId}&pageSize=${params.pageSize}&pageIndex=${params.pageIndex}&tagString=${params.searchString}&myJD=${params.myJd}&sortDir=${params.sortByDate}&selectedUserId=${params.selectedUserId}&sharedJd=${params.sharedJD}`);
   }
   FetchAllSkills(searchString) {
     return this.httpClient.get(`${url}/FetchAllSkills?searchString=${searchString}
