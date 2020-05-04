@@ -409,8 +409,9 @@
                 <div class="col-12 d-none pr-0 d-lg-block">
                   <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel" class=" btn theme-color-btn mr-2"/>
                   <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)" value="View Candidates" class=" btn theme-color-btn mr-2"/>
-                  <input *ngIf="isSameUser" (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2"/>
-                  <input *ngIf="!isSameUser && saveAsCopy" (click)="onSave()" type="button" value="Save As Copy" class=" btn theme-color-btn mr-2"/>
+                  <input *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)" (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2"/>
+                  <!-- <input *ngIf="" (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2"/> -->
+                  <input *ngIf="!isSameUser && saveAsCopy " (click)="onSave()" type="button" value="Save As Copy" class=" btn theme-color-btn mr-2"/>
                   <!-- <input *ngIf="!isSameUser" (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2"/> -->
                 </div>
               </div>
@@ -578,7 +579,7 @@
               <div class="col-12">
                 <hr>
               </div>
-              <p class="col-12 pt-2 font-weight-bold mb-0">Last Updated By : <span class="font-weight-normal">{{jobDetail.ProfileDetail.CreatorName}}</span></p>
+              <p class="col-12 pt-2 font-weight-bold mb-0">Last Updated By : <span class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName}}</span></p>
 
               <p class="col-12 font-weight-bold mb-0">Last Updated On : <span class="font-weight-normal">{{jobDetail.ProfileDetail.UpdatedDate | date: 'dd-MMM-yyyy'}}</span></p>
               <div class="col-6 col-lg-4">
