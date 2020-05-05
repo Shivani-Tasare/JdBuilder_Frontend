@@ -705,17 +705,7 @@ export class JobDetailComponent implements OnInit {
       }
     })
   }
-
-  // saveAsCopy(){
-  //   if(window.location.href.includes('allJd/job-description/view')){
-  //     if(this.adalService.userInfo.profile.oid != this.jobDetail.ProfileDetail.CreatedBy){
-  //       this.copiedJd = true;
-  //     }
-  //   }else{
-  //     this.copiedJd = false;
-  //   }
-  // }
-
+  
   onSave() {
    
     this.submitted = true;
