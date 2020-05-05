@@ -705,7 +705,7 @@ export class JobDetailComponent implements OnInit {
       }
     })
   }
-  
+
   onSave() {
    
     this.submitted = true;
