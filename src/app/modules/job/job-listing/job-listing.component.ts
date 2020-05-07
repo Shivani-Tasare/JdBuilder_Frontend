@@ -5,6 +5,8 @@ import { Router, NavigationExtras } from '@angular/router';
 import { JobServiceService } from 'src/app/shared/services/job-service.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { SmartServiceService } from 'src/app/services/smart-service.service';
+import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-job-listing',
   templateUrl: './job-listing.component.html',
@@ -32,7 +34,10 @@ export class JobListingComponent implements OnInit {
   selectedUserId = ''
   sortByDate = 'desc'
   sidebarIndex = 2
-  constructor(private loaderService: LoaderService, private commongJobService: JobServiceService, private jobService: Job1ServiceService, private smartService: SmartServiceService, private toastr: ToastrService, private router: Router) {
+  matchingCandidates: Observable<MatchingConsultants[]>;
+  candidates: MatchingConsultants[];
+  id: number[];
+  constructor(private loaderService: LoaderService, private jobService: Job1ServiceService, private smartService: SmartServiceService, private toastr: ToastrService, private router: Router) {
   }
   ngOnInit() {
     if (location.pathname == '/myJd') {
@@ -48,10 +53,10 @@ export class JobListingComponent implements OnInit {
     const pageParams = { sharedJD:this.sharedJD, pageSize: this.DefaultPageSize, pageIndex: this.pageSelected, myJd: this.myJd, sortByDate: this.sortByDate };
     this.jobService.getAllJobs(pageParams).subscribe((jobs: any) => {
       this.jobs = jobs.ProfileList;
+      this.id = jobs.ProfileList.Id;
       this.length = jobs.TotalRecords;
       this.range = `1-${this.jobs.length} of ${this.length}`;
-      
-      
+      console.log(this.jobs);
     });
     this.jobService.FetchExperienceList().subscribe((experiences: any) => {
       if (experiences.StatusCode === 200) {
@@ -72,8 +77,9 @@ export class JobListingComponent implements OnInit {
       if (usersData.StatusCode === 200) {
         this.userList = usersData.UsersList;
       }
-    })
+    });
   }
+ 
   refresh() {
     this.selectedLocation = undefined;
     this.selectedExperience = undefined;
@@ -135,7 +141,6 @@ export class JobListingComponent implements OnInit {
     this.filterProfile(paramObject);
   }
   goToDetails(jobId) {
-
     this.loaderService.show();
     if (location.pathname.indexOf('myJd') > 0) {
       this.router.navigate(['myJd/job-description/view/' + jobId]);
