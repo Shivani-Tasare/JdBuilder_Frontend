@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit, HostListener,ElementRef} from '@angular/core';
-import { AdalService } from './shared/services/adal.service';
-import { APP_CONFIG, AppConfig } from './config/config';
 import { Router } from '@angular/router';
 import { mergeMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { JobServiceService } from './shared/services/job-service.service';
+import { BroadcastService, MsalService } from '@azure/msal-angular';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,7 +16,10 @@ export class AppComponent implements OnInit {
   isAuthenticated = false;
   subscription: Subscription;
   isCollapseOn = false;
-  selectedIndex = 2
+  selectedIndex = 2;
+  isIframe = false;
+  loggedIn = false;
+
   @HostListener('document:click', ['$event'])
   clickout(event) {
        setTimeout(()=>{
@@ -33,7 +36,8 @@ export class AppComponent implements OnInit {
       event.preventDefault();
     }
   }
-  constructor(private jobService:JobServiceService, private eRef: ElementRef, private adalService: AdalService, @Inject(APP_CONFIG) private config: AppConfig, private router: Router) {
+  constructor(private broadcastService: BroadcastService, private authService: MsalService,
+    private jobService:JobServiceService, private eRef: ElementRef, private router: Router) {
     router.events.subscribe(val => {
       if (location.pathname.indexOf("myJd") > 0) {
         this.selectedIndex = 2;
@@ -44,20 +48,52 @@ export class AppComponent implements OnInit {
     });
    }
   ngOnInit() {;
-    this.adalService.handleCallback();
+    // this.adalService.handleCallback();
    
-    this.subscription = this.adalService.getUserAuthenticationStatus().subscribe(value => {
-      if (value) {
-        this.isAuthenticated = value;
-      } else {
+    // this.subscription = this.adalService.getUserAuthenticationStatus().subscribe(value => {
+    //   if (value) {
+    //     this.isAuthenticated = value;
+    //   } else {
         
-        this.isAuthenticated = value;
-      }
-    });
-    this.adalService.acquireTokenResilient(this.config.resource).subscribe((token) => {
+    //     this.isAuthenticated = value;
+    //   }
+    // });
+    // this.adalService.acquireTokenResilient(this.config.resource).subscribe((token) => {
       
+    // });
+    this.isIframe = window !== window.parent && !window.opener;
+
+    this.checkAccount();
+
+    this.broadcastService.subscribe('msal:loginSuccess', () => {
+      this.checkAccount();
     });
-    
+
+    this.authService.handleRedirectCallback((authError, response) => {
+      if (authError) {
+        console.error('Redirect Error: ', authError.errorMessage);
+        return;
+      }
+
+      console.log('Redirect Success: ', response.accessToken);
+    });
+
+  }
+
+  checkAccount() {
+    this.loggedIn = !!this.authService.getAccount();
+    if(!this.loggedIn) {
+      this.login();
+    }
+  }
+
+  login() {
+    const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
+    this.authService.loginRedirect();
+  }
+
+  logout() {
+    this.authService.logout();
   }
   
 }

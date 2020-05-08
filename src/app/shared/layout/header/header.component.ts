@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AdalService } from '../../services/adal.service';
+import { BroadcastService, MsalService } from '@azure/msal-angular';
+
 @Component({
   selector: 'layout-header',
   templateUrl: './header.component.html',
@@ -7,9 +8,9 @@ import { AdalService } from '../../services/adal.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private adalService: AdalService) { }
+  constructor( private authService: MsalService) { }
   logout() {
-    this.adalService.logout();
+    this.authService.logout();
   }
   ngOnInit() {
   }

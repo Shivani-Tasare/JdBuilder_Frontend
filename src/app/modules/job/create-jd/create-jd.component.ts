@@ -10,7 +10,6 @@ import {map, startWith} from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { JobServiceService } from '../../../shared/services/job-service.service';
-import { AdalService } from 'src/app/shared/services/adal.service';
 @Component({
   selector: 'app-create-jd',
   templateUrl: './create-jd.component.html',
@@ -62,7 +61,7 @@ export class CreateJdComponent implements OnInit {
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
-  constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService,private router: Router, private commonJobService: JobServiceService, private adalService:AdalService) { }
+  constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService,private router: Router, private commonJobService: JobServiceService) { }
   @HostListener('window:scroll', [])
   onWindowScroll() {
     if ((document.body.scrollTop > 140 ||

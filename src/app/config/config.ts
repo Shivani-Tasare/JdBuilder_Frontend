@@ -7,12 +7,10 @@ export class AppConfig {
   tenantId: string;
   redirectUri: string;
 }
-export let APP_CONFIG = new InjectionToken<AppConfig>('app.config')
 const Config = {
   url : environment.url,
   clientID : environment.AppConfig.clientID,
   tenantID: environment.AppConfig.tenantID,
   webClientId: environment.AppConfig.webClientId
-
 };
 export {Config};

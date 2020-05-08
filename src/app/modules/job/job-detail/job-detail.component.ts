@@ -13,7 +13,6 @@ import { ChartType, ChartOptions } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { JobServiceService } from '../../../shared/services/job-service.service';
-import { AdalService } from 'src/app/shared/services/adal.service';
 import * as JSPdf from 'jspdf';
 import html2canvas from 'html2canvas';
 import { LoaderService } from 'src/app/shared/services/loader.service';
@@ -93,7 +92,7 @@ export class JobDetailComponent implements OnInit {
   matchingConsultants: MatchingConsultants[];
   url: string;
   filteredEmails: any;
-  constructor(private loaderService: LoaderService, public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
+  constructor(private loaderService: LoaderService, public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService,  private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
   public downloadPDF() {
     let loader = this.loaderService
@@ -306,9 +305,10 @@ export class JobDetailComponent implements OnInit {
     this.selectedLocationName = [];
     this.jobService.fetchProfiles(location.pathname.split('/').pop()).subscribe((jobDetail: any) => {
       if (jobDetail.StatusCode === 200) {
-        if (this.adalService.userInfo.profile.oid === jobDetail.ProfileDetail.CreatedBy) {
-          this.isSameUser = true
-        }
+        // todo
+        // if (this.adalService.userInfo.profile.oid === jobDetail.ProfileDetail.CreatedBy) {
+        //   this.isSameUser = true
+        // }
         this.isDataFetched = true;
         const defaultMandatorySkill = [];
         const defaultDesiredSkill = [];
