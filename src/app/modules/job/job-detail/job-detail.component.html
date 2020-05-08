@@ -659,10 +659,35 @@
                 [options]="pieChartOptions"
                 [plugins]="pieChartPlugins"
                 [colors]="pieChartColors"
-                [legend]="pieChartLegend">
+                [legend]="pieChartLegend"
+                (chartClick)="onChartClick($event)">
               </canvas>
             </div>
           </div>
+<div class="row">
+  <div class="col-11 candidate-details">
+
+          <table class="table table-bordered p-3 my-3">
+            <thead>
+              <tr>
+                <th scope="col">Candidate Name</th>
+                <th scope="col">Region</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="noBorder" *ngFor="let c of candidateRecordsAsPerSection">
+                <td><a target="_blank" [href]="c.ProfileURLLink">{{c.EmployeeName}}</a></td>
+                <td>{{c.Location ? c.Location : '-'}}</td>
+              </tr>
+              
+            </tbody>
+            <tfoot>
+              <tr class="text-right" *ngIf="!candidateRecordsAsPerSection?.length"> No Record Found!</tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+        
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">
