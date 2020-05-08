@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Config } from '../../config/config';
 import { Observable, Subscriber, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 const url = Config.url;
 @Injectable({providedIn: 'root'})
 export class JobServiceService {
@@ -32,5 +33,12 @@ export class JobServiceService {
     return this.httpClient.get(`${url}/FetchFilteredProfiles?experienceId=${params.experienceId}&
     locationId=${params.locationId}&designationId=${params.designationId}&pageSize=${params.pageSize}&
     pageIndex=${params.pageIndex}&tagString=${params.searchString}`);
+  }
+  getProfile():Observable<any> {
+    return this.httpClient.get<any>(environment.url+'/employee/v1/profile');
+  }
+
+  getPhoto() {
+    return this.httpClient.get('https://graph.microsoft.com/v1.0/users/nsingh@dminc.com/photos/96X96/$value');
   }
 }

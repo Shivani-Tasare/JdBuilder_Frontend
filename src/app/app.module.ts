@@ -29,10 +29,13 @@ import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
 import { MsalModule, MsalInterceptor } from '@azure/msal-angular';
-export const protectedResourceMap:[string, string[]][]= [
-  ['https://buildtodoservice.azurewebsites.net/api/todolist', [ 'api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume']],
-  ['https://graph.microsoft.com/v1.0/me', ['user.read']]
-];
+import { MsalService } from "@azure/msal-angular";
+import { MSAL_CONFIG } from '@azure/msal-angular/dist/msal.service';
+import { LogLevel } from "msal";
+
+
+export const protectedResourceMap: [string, string[]][] = [['https://buildtodoservice.azurewebsites.net/api/todolist', 
+['api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume']]];
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
@@ -60,39 +63,26 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     ReactiveFormsModule,
     MaterialUiModule,
     InfiniteScrollModule,
-    MsalModule.forRoot({
-      auth: {
-        clientId: '55f3d986-c18e-4b43-b244-dd06909efe67',
-        authority: "https://login.microsoftonline.com/db7ac9ef-779d-46e5-9bca-00509580ad6b",
-        redirectUri: window.location.origin,
-        validateAuthority : true
-      },
-      cache: {
-        cacheLocation: 'localStorage',
-        storeAuthStateInCookie: isIE, // set to true for IE 11
-      },
-    },
-    {
-      popUp: !isIE,
-      consentScopes: [
-        'user.read',
-        'openid',
-        'profile',
-        'api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume'
-      ],
-      unprotectedResources: [],
-      protectedResourceMap: protectedResourceMap,
-      extraQueryParameters: {},
-    })
+    MsalModule
   ],
-  providers: [JobServiceService, LoaderService,
+  providers: [
+    MsalService,
+    {
+      provide: MSAL_CONFIG,  // MsalService needs config, this provides it.
+      useFactory: () => ({
+        clientID: '55f3d986-c18e-4b43-b244-dd06909efe67',
+        authority: 'https://login.microsoftonline.com/db7ac9ef-779d-46e5-9bca-00509580ad6b',
+        redirectUri: window.location.origin,
+        cacheLocation: 'localStorage',
+        consentScopes: [ 'user.read', 'openid','api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume'],
+        protectedResourceMap: protectedResourceMap,
+      }),
+    },
+    
+    
+    JobServiceService, LoaderService,
     { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MsalInterceptor,
-      multi: true
-    }
   ],
   bootstrap: [AppComponent]
 })

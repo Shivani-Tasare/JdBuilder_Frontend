@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit, HostListener,ElementRef} from '@angular/core';
+import { Component, Inject, OnInit, HostListener,ElementRef, Compiler} from '@angular/core';
 import { Router } from '@angular/router';
 import { mergeMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { JobServiceService } from './shared/services/job-service.service';
-import { BroadcastService, MsalService } from '@azure/msal-angular';
+import { MsalService } from "@azure/msal-angular";
+import { BroadcastService } from "@azure/msal-angular";
 
 @Component({
   selector: 'app-root',
@@ -36,8 +37,16 @@ export class AppComponent implements OnInit {
       event.preventDefault();
     }
   }
-  constructor(private broadcastService: BroadcastService, private authService: MsalService,
-    private jobService:JobServiceService, private eRef: ElementRef, private router: Router) {
+  constructor(
+    private router: Router, 
+    private _compiler: Compiler,
+     private authService: MsalService,
+     private broadcastService: BroadcastService,
+    private jobService:JobServiceService, private eRef: ElementRef) {
+      this.isIframe = window !== window.parent && !window.opener;  
+      if (this.authService.getUser()) {
+        this.apiToken();
+      }
     router.events.subscribe(val => {
       if (location.pathname.indexOf("myJd") > 0) {
         this.selectedIndex = 2;
@@ -47,53 +56,76 @@ export class AppComponent implements OnInit {
       }
     });
    }
-  ngOnInit() {;
-    // this.adalService.handleCallback();
-   
-    // this.subscription = this.adalService.getUserAuthenticationStatus().subscribe(value => {
-    //   if (value) {
-    //     this.isAuthenticated = value;
-    //   } else {
-        
-    //     this.isAuthenticated = value;
-    //   }
-    // });
-    // this.adalService.acquireTokenResilient(this.config.resource).subscribe((token) => {
-      
-    // });
-    this.isIframe = window !== window.parent && !window.opener;
-
-    this.checkAccount();
-
-    this.broadcastService.subscribe('msal:loginSuccess', () => {
-      this.checkAccount();
+   ngOnInit() {
+     if(!this.authService.getUser()) {
+      this.authService.loginRedirect();
+     }
+    this._compiler.clearCache();
+    this.subscription = this.broadcastService.subscribe("msal:loginFailure", (payload) => {
+      //this.loading = false;
+      this.authService.logout();
     });
+    this.subscription = this.broadcastService.subscribe("msal:loginSuccess", (payload) => {
+      this.apiToken();
+    });
+  }
+ 
 
-    this.authService.handleRedirectCallback((authError, response) => {
-      if (authError) {
-        console.error('Redirect Error: ', authError.errorMessage);
-        return;
+  apiToken() {
+    this.authService.acquireTokenSilent(['api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume']).then(
+      accessToken => {
+        localStorage.setItem("accessToken", accessToken);
+        this.authService.acquireTokenSilent(["https://graph.microsoft.com/user.read"]).then(token => {
+          localStorage.setItem("graphToken", token);
+        });
+        this.getProfile();
+      },
+      error => {
+        //this.loading = false;
+        this.router.navigate(['/']);
+        localStorage.clear();
+        // this.authService.acquireTokenPopup([environment.apiKey]).then(
+        //   accessToken => {
+        //     localStorage.setItem("accessToken", accessToken);
+        //     this.getProfile();
+        //   },
+        //   error => {
+        // this.loading = false;
+        // this.showErrorMessage(error.message);
+        // localStorage.clear();
+        //   })
+
+      })
+  }
+
+  getProfile() {
+    this.jobService.getProfile().subscribe(profile => {
+      if (profile != null) {
+        localStorage.setItem("roleInfo", JSON.stringify(profile));
+        this.router.navigate(['dashboard']);
+      }
+      else {
+        //this.loading = false;
+        this.router.navigate(['/']);
+        //this.showErrorMessage('unauthorised user');
+        localStorage.clear();
       }
 
-      console.log('Redirect Success: ', response.accessToken);
-    });
+    }, error => {
+      // this.loading = false;
+      //this.showErrorMessage("You are not registered. Please contact admin");
+      localStorage.clear();
 
+    })
   }
 
-  checkAccount() {
-    this.loggedIn = !!this.authService.getAccount();
-    if(!this.loggedIn) {
-      this.login();
-    }
-  }
+  // getUserImage() {
+  //   this.landingService.getPhoto().subscribe(result => {
+  //     console.log(result)
+  //   }
 
-  login() {
-    const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
-    this.authService.loginRedirect();
-  }
+  //   )
+  // }
 
-  logout() {
-    this.authService.logout();
-  }
   
 }
