@@ -29,8 +29,10 @@ import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
 import { MsalModule, MsalInterceptor } from '@azure/msal-angular';
-export const protectedResourceMap: [string, string[]][] =
- [['https://buildtodoservice.azurewebsites.net/api/todolist', ['api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume']]];
+export const protectedResourceMap:[string, string[]][]= [
+  ['https://buildtodoservice.azurewebsites.net/api/todolist', [ 'api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume']],
+  ['https://graph.microsoft.com/v1.0/me', ['user.read']]
+];
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
@@ -77,7 +79,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
         'openid',
         'api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume'
       ],
-      unprotectedResources: ["https://www.microsoft.com/en-us/"],
+      unprotectedResources: [],
       protectedResourceMap: protectedResourceMap,
       extraQueryParameters: {}
     })
