@@ -77,7 +77,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
         'openid',
         'api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume'
       ],
-      unprotectedResources: [],
+      unprotectedResources: ["https://www.microsoft.com/en-us/"],
       protectedResourceMap: protectedResourceMap,
       extraQueryParameters: {}
     })
