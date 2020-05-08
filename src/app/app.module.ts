@@ -65,7 +65,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
         clientId: '55f3d986-c18e-4b43-b244-dd06909efe67',
         authority: "https://login.microsoftonline.com/db7ac9ef-779d-46e5-9bca-00509580ad6b",
         redirectUri: window.location.origin,
-
+        validateAuthority : true
       },
       cache: {
         cacheLocation: 'localStorage',
@@ -77,11 +77,12 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
       consentScopes: [
         'user.read',
         'openid',
+        'profile',
         'api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume'
       ],
       unprotectedResources: [],
       protectedResourceMap: protectedResourceMap,
-      extraQueryParameters: {}
+      extraQueryParameters: {},
     })
   ],
   providers: [JobServiceService, LoaderService,

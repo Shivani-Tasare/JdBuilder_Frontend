@@ -12,18 +12,25 @@ export class InsertAuthTokenInterceptor implements HttpInterceptor {
     constructor(private authService: MsalService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler):
     Observable<HttpEvent<any>> {
-        return from(this.getItApiToken())
-              .pipe(
-                switchMap(token => {
-                   const headers = req.headers
-                            .set('Authorization', 'Bearer ' + token)
-                            .append('Content-Type', 'application/json');
-                   const requestClone = req.clone({
-                     headers 
-                    });
-                  return next.handle(requestClone);
-                })
-               );
+        const headers = req.headers
+        .set('Authorization', 'Bearer ' + localStorage.getItem('msal.idtoken'))
+        .append('Content-Type', 'application/json');
+const requestClone = req.clone({
+ headers 
+});
+return next.handle(requestClone);
+        // return from(this.getItApiToken())
+        //       .pipe(
+        //         switchMap(token => {
+        //            const headers = req.headers
+        //                     .set('Authorization', 'Bearer ' + localStorage.getItem('msal.idtoken'))
+        //                     .append('Content-Type', 'application/json');
+        //            const requestClone = req.clone({
+        //              headers 
+        //             });
+        //           return next.handle(requestClone);
+        //         })
+        //        );
         }   
         getItApiToken() {
             const scopes  = this.authService.getScopesForEndpoint('api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume');
