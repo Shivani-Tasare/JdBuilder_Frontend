@@ -203,3 +203,15 @@ tr.noBorder td {
     max-width: 40vw;
   }
 }
+
+.no-chart{
+  color: gray;
+  text-align: center;
+  background: #f0f0f0;
+  display: block;
+  border-radius: 50%;
+  width: 30vh;
+  height: 30vh;
+  margin: auto;
+  line-height: 30vh;
+}

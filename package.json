@@ -40,6 +40,7 @@
     "ngx-infinite-scroll": "^8.0.1",
     "ngx-pagination": "^5.0.0",
     "ngx-toastr": "^10.1.0",
+    "node-sass": "^4.14.1",
     "pdfmake": "^0.1.64",
     "popper.js": "^1.16.0",
     "raleway-webfont": "^3.0.1",

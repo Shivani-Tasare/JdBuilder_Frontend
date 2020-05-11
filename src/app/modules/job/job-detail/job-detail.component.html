@@ -653,6 +653,7 @@
           <div>
             <div class="chart">
               <canvas baseChart
+              *ngIf="!!pieChartData.length"
                 [data]="pieChartData"
                 [labels]="pieChartLabels"
                 [chartType]="pieChartType"
@@ -662,6 +663,7 @@
                 [legend]="pieChartLegend"
                 (chartClick)="onChartClick($event)">
               </canvas>
+              <span class="no-chart" *ngIf="!pieChartData.length">No data</span>
             </div>
           </div>
 <div class="row">

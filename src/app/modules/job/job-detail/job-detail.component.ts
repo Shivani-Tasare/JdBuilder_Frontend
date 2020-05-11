@@ -79,7 +79,7 @@ export class JobDetailComponent implements OnInit {
   candidateCountList = [
     { id: 0, range: '90 to 100', count: 0 , candidateDetail: [], label: '90-100% '},
     { id: 1, range: '80 to 90', count: 0 , candidateDetail: [], label: '80-90% '},
-    { id: 2, range: '70 to 80', count: 0, candidateDetail: [] , label: '70-80 '},
+    { id: 2, range: '70 to 80', count: 0, candidateDetail: [] , label: '70-80 %'},
     { id: 3, range: '< 70', count: 0, candidateDetail: [], label: '<70 %' }
   ]
   color: ThemePalette = 'primary';
