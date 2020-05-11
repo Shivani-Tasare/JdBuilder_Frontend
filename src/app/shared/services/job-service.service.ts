@@ -7,8 +7,6 @@ const url = Config.url;
 export class JobServiceService {
   private sideBarIndexSelected = new Subject<2>();
   constructor(private httpClient: HttpClient) { }
-  
-
   getAllJobs(pageParams) {
     return this.httpClient.get(`${url}/FetchProfiles/?pageSize=${pageParams.pageSize}&pageIndex=${pageParams.pageIndex}`);
   }

@@ -8,9 +8,9 @@ import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
   {path: '', redirectTo: 'allJd', pathMatch: 'full', canActivate: [MsalGuard]},
-  {path: 'allJd/job-description/view/:jobId', loadChildren: './modules/job/job.module#JobModule'},
-  {path: 'myJd/job-description/view/:jobId', loadChildren: './modules/job/job.module#JobModule'},
-  {path: 'jd/job-description/edit/:jobId', loadChildren: './modules/job/job.module#JobModule'},
+  {path: 'allJd/job-description/view/:jobId',canLoad: [MsalGuard], loadChildren: './modules/job/job.module#JobModule'},
+  {path: 'myJd/job-description/view/:jobId',canLoad: [MsalGuard], loadChildren: './modules/job/job.module#JobModule'},
+  {path: 'jd/job-description/edit/:jobId',canLoad: [MsalGuard], loadChildren: './modules/job/job.module#JobModule'},
   {path: 'createJD', component: CreateJdComponent, canActivate: [MsalGuard]},
   {path: 'allJd', component: JobListingComponent, canActivate: [MsalGuard]},
   {path: 'jdsShared', component: JdsSharedComponent, canActivate: [MsalGuard]},

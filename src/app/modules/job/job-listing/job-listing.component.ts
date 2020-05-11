@@ -5,9 +5,6 @@ import { Router, NavigationExtras } from '@angular/router';
 import { JobServiceService } from 'src/app/shared/services/job-service.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { SmartServiceService } from 'src/app/services/smart-service.service';
-import { MsalService } from '@azure/msal-angular';
-import { InteractionRequiredAuthError } from 'msal';
-import { ADConfig } from 'src/app/config/config';
 @Component({
   selector: 'app-job-listing',
   templateUrl: './job-listing.component.html',
@@ -35,7 +32,7 @@ export class JobListingComponent implements OnInit {
   selectedUserId = ''
   sortByDate = 'desc'
   sidebarIndex = 2
-  constructor(private authService: MsalService,private loaderService: LoaderService, private commongJobService: JobServiceService, private jobService: Job1ServiceService, private smartService: SmartServiceService, private toastr: ToastrService, private router: Router) {
+  constructor(private loaderService: LoaderService, private commongJobService: JobServiceService, private jobService: Job1ServiceService, private smartService: SmartServiceService, private toastr: ToastrService, private router: Router) {
   }
   ngOnInit() {
     if (location.pathname == '/myJd') {
@@ -88,15 +85,6 @@ export class JobListingComponent implements OnInit {
       this.jobs = jobs.ProfileList;
       this.length = jobs.TotalRecords;
       this.range = `1-${this.jobs.length} of ${this.length}`;
-    }, err => {  if (InteractionRequiredAuthError.isInteractionRequiredError(err.errorCode)) {
-      this.authService.acquireTokenPopup({
-        scopes: this.authService.getScopesForEndpoint(ADConfig.resources.Api.resourceUri)
-      })
-      .then(() => {
-        console.log('err');
-      });
-    }
-
     });
   }
   search() {
