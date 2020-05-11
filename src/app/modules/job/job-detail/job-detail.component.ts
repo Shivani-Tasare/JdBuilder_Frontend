@@ -93,6 +93,7 @@ export class JobDetailComponent implements OnInit {
   matchingConsultants: MatchingConsultants[];
   url: string;
   filteredEmails: any;
+  isIconChecked: boolean = false;
   constructor(private loaderService: LoaderService, public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
   public downloadPDF() {
@@ -315,7 +316,6 @@ export class JobDetailComponent implements OnInit {
         const defaultQualification = [];
         const defaultResponsibility = [];
         this.jobDetail = jobDetail
-        console.log(jobDetail)
         jobDetail.ProfileDetail.SkillList.forEach((ele) => {
           if (ele.SkillTypeId === 1) {
             defaultMandatorySkill.push(this.createMandatorySkill(ele));
@@ -548,13 +548,14 @@ export class JobDetailComponent implements OnInit {
 
   }
 
-
   viewCandidates(myModal: any) {
-    this.smartService.fetchCandidatesDetails(this.jobDetail.ProfileDetail.ProfileId).subscribe(
-      response => {
-        this.matchingConsultants = response;
-        this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
-      })
+    if(this.tags.length > 1){
+      this.smartService.fetchCandidatesDetails(this.jobDetail.ProfileDetail.ProfileId).subscribe(
+        response => {
+          this.matchingConsultants = response;
+          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
+        })
+    }
   }
 
   filterCandidatesByMatchScore(matchingConsultants: any[]) {
@@ -704,6 +705,13 @@ export class JobDetailComponent implements OnInit {
         this.router.navigate(['myJd']);
       }
     })
+  }
+
+  updateTags(){
+    this.isIconChecked = true;
+    if(this.tags.length > 1){
+      this.smartService.updateTags(this.tags,this.jobDetail.ProfileDetail.ProfileId).subscribe();
+    }
   }
 
   onSave() {
