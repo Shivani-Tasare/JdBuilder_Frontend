@@ -17,6 +17,9 @@ export class SmartServiceService {
 
   fetchCandidatesDetails(profileId) : Observable<any[]>{
     return this.httpClient.get<any[]>(`${url}/ProfileTags?profileId=${profileId}`);
-    
+  }
+
+  updateTags(tags,jobProfileId) : Observable<any[]>{
+    return this.httpClient.post<any[]>(`${url}/updateTags/${jobProfileId}`,tags);
   }
 }

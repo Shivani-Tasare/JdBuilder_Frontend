@@ -34,9 +34,6 @@ export class JobListingComponent implements OnInit {
   selectedUserId = ''
   sortByDate = 'desc'
   sidebarIndex = 2
-  matchingCandidates: Observable<MatchingConsultants[]>;
-  candidates: MatchingConsultants[];
-  id: number[];
   constructor(private loaderService: LoaderService, private jobService: Job1ServiceService, private smartService: SmartServiceService, private toastr: ToastrService, private router: Router) {
   }
   ngOnInit() {
@@ -52,11 +49,9 @@ export class JobListingComponent implements OnInit {
     }
     const pageParams = { sharedJD:this.sharedJD, pageSize: this.DefaultPageSize, pageIndex: this.pageSelected, myJd: this.myJd, sortByDate: this.sortByDate };
     this.jobService.getAllJobs(pageParams).subscribe((jobs: any) => {
-      this.jobs = jobs.ProfileList;
-      this.id = jobs.ProfileList.Id;
+      this.jobs = jobs.ProfileList; 
       this.length = jobs.TotalRecords;
       this.range = `1-${this.jobs.length} of ${this.length}`;
-      console.log(this.jobs);
     });
     this.jobService.FetchExperienceList().subscribe((experiences: any) => {
       if (experiences.StatusCode === 200) {
