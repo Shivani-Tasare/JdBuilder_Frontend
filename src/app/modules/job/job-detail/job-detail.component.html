@@ -211,7 +211,7 @@
                     <div *ngIf="(submitted || jobDescriptionForm.get('tagsCtrl').touched) && tags.length<1">
                       Please enter tags.
                     </div> 
-                    <div *ngIf="(this.jobDescriptionForm.get('tagsCtrl').touched) && !isIconChecked">
+                    <div *ngIf="(this.jobDescriptionForm.get('tagsCtrl').touched)">
                       You have unsaved Tags.
                     </div>
                   </mat-error>

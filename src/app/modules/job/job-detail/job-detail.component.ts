@@ -709,6 +709,7 @@ export class JobDetailComponent implements OnInit {
 
   updateTags(){
     this.isIconChecked = true;
+    this.jobDescriptionForm.get('tagsCtrl').markAsUntouched();
     if(this.tags.length > 1){
       this.smartService.updateTags(this.tags,this.jobDetail.ProfileDetail.ProfileId).subscribe();
     }
