@@ -18,7 +18,7 @@ import {
 import { ToastrModule } from 'ngx-toastr';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ChartsModule } from 'ng2-charts';
-import { Config } from './config/config';
+import { Config, ADConfig } from './config/config';
 import { InsertAuthTokenInterceptor } from './shared/interceptors/insert-auth-token';
 import { JobListingComponent } from './modules/job/job-listing/job-listing.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,15 +27,51 @@ import { LayoutModule } from './shared/layout/layout.module';
 import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
-import { MsalModule, MsalInterceptor } from '@azure/msal-angular';
-export const protectedResourceMap:[string, string[]][]= [
-  ['https://buildtodoservice.azurewebsites.net/api/todolist', [ 'api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume']],
-  ['https://graph.microsoft.com/v1.0/me', ['user.read']]
+import {
+  MsalModule,
+  MsalInterceptor,
+  MSAL_CONFIG,
+  MSAL_CONFIG_ANGULAR,
+  MsalService,
+  MsalAngularConfiguration
+} from '@azure/msal-angular';
+import { Configuration, CacheLocation } from 'msal';
+export const protectedResourceMap: [string, string[]][] = [
+  [ADConfig.resources.Api.resourceUri, [ADConfig.resources.Api.resourceScope]]
 ];
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
+function MSALConfigFactory(): Configuration {
+  return {
+    auth: {
+      clientId: ADConfig.auth.clientId,
+      authority: ADConfig.auth.authority,
+      validateAuthority: true,
+      redirectUri: ADConfig.auth.redirectUri,
+      postLogoutRedirectUri: ADConfig.auth.postLogoutRedirectUri,
+      navigateToLoginRequestUrl: true,
+    },
+    cache: {
+      cacheLocation: <CacheLocation>ADConfig.cache.cacheLocation,
+      storeAuthStateInCookie: isIE, // set to true for IE 11
+    },
+  };
+}
 
+function MSALAngularConfigFactory(): MsalAngularConfiguration {
+  return {
+    popUp: !isIE,
+    consentScopes: [
+      ADConfig.resources.Api.resourceScope,
+      ...ADConfig.scopes.loginRequest
+    ],
+    unprotectedResources: [],
+    protectedResourceMap,
+    extraQueryParameters: {}
+  };
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,39 +96,24 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     ReactiveFormsModule,
     MaterialUiModule,
     InfiniteScrollModule,
-    MsalModule.forRoot({
-      auth: {
-        clientId: '55f3d986-c18e-4b43-b244-dd06909efe67',
-        authority: "https://login.microsoftonline.com/db7ac9ef-779d-46e5-9bca-00509580ad6b",
-        redirectUri: window.location.origin,
-        validateAuthority : true
-      },
-      cache: {
-        cacheLocation: 'localStorage',
-        storeAuthStateInCookie: isIE, // set to true for IE 11
-      },
-    },
-    {
-      popUp: !isIE,
-      consentScopes: [
-        'user.read',
-        'openid',
-        'profile',
-        'api://e98d88d4-0e9a-47f3-bddf-568942eac4e9/api.consume'
-      ],
-      unprotectedResources: [],
-      protectedResourceMap: protectedResourceMap,
-      extraQueryParameters: {},
-    })
+    MsalModule
   ],
   providers: [JobServiceService, LoaderService,
-    { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MsalInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: MSAL_CONFIG,
+      useFactory: MSALConfigFactory
+    },
+    {
+      provide: MSAL_CONFIG_ANGULAR,
+      useFactory: MSALAngularConfigFactory
+    },
+    MsalService
   ],
   bootstrap: [AppComponent]
 })

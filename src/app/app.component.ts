@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { JobServiceService } from './shared/services/job-service.service';
 import { BroadcastService, MsalService } from '@azure/msal-angular';
+import { Logger, CryptoUtils } from 'msal';
 
 @Component({
   selector: 'app-root',
@@ -48,27 +49,22 @@ export class AppComponent implements OnInit {
     });
    }
   ngOnInit() {;
-    // this.adalService.handleCallback();
-   
-    // this.subscription = this.adalService.getUserAuthenticationStatus().subscribe(value => {
-    //   if (value) {
-    //     this.isAuthenticated = value;
-    //   } else {
-        
-    //     this.isAuthenticated = value;
-    //   }
-    // });
-    // this.adalService.acquireTokenResilient(this.config.resource).subscribe((token) => {
-      
-    // });
-    this.isIframe = window !== window.parent && !window.opener;
 
+    this.isIframe = window !== window.parent && !window.opener;
+    this.broadcastService.subscribe('msal:acquireTokenSuccess', (payload) => {
+      console.log(payload);
+      console.log('access token acquired: ' + new Date().toString());
+    });
+    this.broadcastService.subscribe('msal:acquireTokenFailure', (payload) => {
+      console.log(payload);
+      console.log('access token acquisition fails');
+    });
     this.checkAccount();
 
-    this.broadcastService.subscribe('msal:loginSuccess', () => {
+    this.broadcastService.subscribe('msal:loginSuccess', (payload) => {
+      console.log(payload);
       this.checkAccount();
     });
-
     this.authService.handleRedirectCallback((authError, response) => {
       if (authError) {
         console.error('Redirect Error: ', authError.errorMessage);
@@ -77,6 +73,13 @@ export class AppComponent implements OnInit {
 
       console.log('Redirect Success: ', response.accessToken);
     });
+
+    this.authService.setLogger(new Logger((logLevel, message, piiEnabled) => {
+      console.log('MSAL Logging: ', message);
+    }, {
+      correlationId: CryptoUtils.createNewGuid(),
+      piiLoggingEnabled: false
+    }));
 
   }
 
