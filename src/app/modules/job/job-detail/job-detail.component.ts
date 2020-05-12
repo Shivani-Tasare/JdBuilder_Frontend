@@ -550,7 +550,7 @@ export class JobDetailComponent implements OnInit {
 
   viewCandidates(myModal: any) {
     this.tagName = this.tags.map((res)=>res.TagName);
-    if(this.tags.length > 0){
+    if(this.tags.length >= 1){
       this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
         response => {
           this.matchingConsultants = response;
