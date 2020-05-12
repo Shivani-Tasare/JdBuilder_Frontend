@@ -52,7 +52,7 @@ export class JobDetailComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tagsCtrl = new FormControl();
   filteredTags: Observable<string[]>;
-  tags = [];
+  tags = [] ;
   allTags = [];
   isEditJd = false;
   selectedDesignationName;
@@ -94,6 +94,7 @@ export class JobDetailComponent implements OnInit {
   url: string;
   filteredEmails: any;
   isIconChecked: boolean = false;
+  tagName: string[]=[];
   constructor(private loaderService: LoaderService, public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
   public downloadPDF() {
@@ -550,7 +551,8 @@ export class JobDetailComponent implements OnInit {
 
   viewCandidates(myModal: any) {
     if(this.tags.length > 1){
-      this.smartService.fetchCandidatesDetails(this.jobDetail.ProfileDetail.ProfileId).subscribe(
+      this.tagName = this.tags.map((res)=>res.TagName);
+      this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
         response => {
           this.matchingConsultants = response;
           this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
@@ -705,14 +707,6 @@ export class JobDetailComponent implements OnInit {
         this.router.navigate(['myJd']);
       }
     })
-  }
-
-  updateTags(){
-    this.isIconChecked = true;
-    this.jobDescriptionForm.get('tagsCtrl').markAsUntouched();
-    if(this.tags.length > 1){
-      this.smartService.updateTags(this.tags,this.jobDetail.ProfileDetail.ProfileId).subscribe();
-    }
   }
 
   onSave() {

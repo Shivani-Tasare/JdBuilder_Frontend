@@ -14,12 +14,8 @@ const url = Config.url;
 export class SmartServiceService {
 
   constructor( private httpClient : HttpClient) { }
-
-  fetchCandidatesDetails(profileId) : Observable<any[]>{
-    return this.httpClient.get<any[]>(`${url}/ProfileTags?profileId=${profileId}`);
-  }
-
-  updateTags(tags,jobProfileId) : Observable<any[]>{
-    return this.httpClient.post<any[]>(`${url}/updateTags/${jobProfileId}`,tags);
+  fetchCandidatesDetails(tagName) : Observable<any[]>{
+    var tags = encodeURIComponent(tagName);
+    return this.httpClient.get<any[]>(`${url}/getmatchingconsultants?tags=${tags}`);
   }
 }
