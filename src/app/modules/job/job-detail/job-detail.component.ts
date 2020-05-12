@@ -36,6 +36,7 @@ export class JobDetailComponent implements OnInit {
   qualifications: FormArray;
   rolesAndResponsibility: FormArray;
   deletedSkills: string[] = [];
+  candidateRecordsAsPerSection;
   deletedQualifications: string[] = [];
   deletedResponsiblities: string[] = [];
   deletedTags: string[] = [];
@@ -74,11 +75,12 @@ export class JobDetailComponent implements OnInit {
   copiedJd;
   jdDetails: JdDetails[];
   emailSearch = new FormControl();
+  //[['90-100% '], ['80-90% '], ['70-80 %'], ['<70 %']];
   candidateCountList = [
-    { id: 0, range: '90 to 100', count: 0 },
-    { id: 1, range: '80 to 90', count: 0 },
-    { id: 2, range: '70 to 80', count: 0 },
-    { id: 3, range: '< 70', count: 0 }
+    { id: 0, range: '90 to 100', count: 0 , candidateDetail: [], label: '90-100% '},
+    { id: 1, range: '80 to 90', count: 0 , candidateDetail: [], label: '80-90% '},
+    { id: 2, range: '70 to 80', count: 0, candidateDetail: [] , label: '70-80 %'},
+    { id: 3, range: '< 70', count: 0, candidateDetail: [], label: '<70 %' }
   ]
   color: ThemePalette = 'primary';
   isPrivateChecked = false;
@@ -168,7 +170,21 @@ export class JobDetailComponent implements OnInit {
     };
     var pdfDocGenerator = pdfMake.createPdf(docDefinition).download();
   }
+  // openCandidateProfile(link) {
+  //   window.location.href = "";
 
+  // }
+  onChartClick(event) {
+    if(!!event.active.length) {
+
+    const candidateRecords = this.candidateCountList.filter( (r) => {
+      return r.label == event.active[0]._model.label;
+    });
+    this.candidateRecordsAsPerSection = (candidateRecords.length > 0) 
+      ? candidateRecords[0].candidateDetail : [];
+    }
+
+    }
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
@@ -181,7 +197,7 @@ export class JobDetailComponent implements OnInit {
           return label;
         },
       },
-    }
+    },
   };
   public pieChartLabels: Label[] = [['90-100% '], ['80-90% '], ['70-80 %'], ['<70 %']];
   public pieChartData: number[] = [];
@@ -558,10 +574,15 @@ export class JobDetailComponent implements OnInit {
   }
 
   filterCandidatesByMatchScore(matchingConsultants: any[]) {
-    this.candidateCountList[0].count = matchingConsultants.filter((x) => x.RelevancePercentage > 90).length;
-    this.candidateCountList[1].count = matchingConsultants.filter((x) => x.RelevancePercentage > 80 && x.RelevancePercentage <= 90).length;
-    this.candidateCountList[2].count = matchingConsultants.filter((x) => x.RelevancePercentage >= 70 && x.RelevancePercentage <= 80).length;
-    this.candidateCountList[3].count = matchingConsultants.filter((x) => x.RelevancePercentage < 70).length;
+     
+    this.candidateCountList[0].candidateDetail = matchingConsultants.filter((x) => x.RelevancePercentage > 90);
+    this.candidateCountList[1].candidateDetail = matchingConsultants.filter((x) => x.RelevancePercentage > 80 && x.RelevancePercentage <= 90);
+    this.candidateCountList[2].candidateDetail = matchingConsultants.filter((x) => x.RelevancePercentage >= 70 && x.RelevancePercentage <= 80);
+    this.candidateCountList[3].candidateDetail = matchingConsultants.filter((x) => x.RelevancePercentage < 70);
+    this.candidateCountList[0].count = this.candidateCountList[0].candidateDetail.length;
+    this.candidateCountList[1].count = this.candidateCountList[1].candidateDetail.length;
+    this.candidateCountList[2].count = this.candidateCountList[2].candidateDetail.length;
+    this.candidateCountList[3].count = this.candidateCountList[3].candidateDetail.length;
     this.pieChartData = this.candidateCountList.map(x => x.count);
   }
 

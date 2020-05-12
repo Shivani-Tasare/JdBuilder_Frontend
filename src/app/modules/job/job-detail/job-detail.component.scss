@@ -182,3 +182,36 @@ tr.noBorder td {
 }
 
 
+.candidate-details{
+  margin: auto; 
+  max-height: 33vh;
+  overflow-y: scroll;
+  .table td, .table th{
+    padding: .1rem;
+    padding-left: 1.3rem;
+  }
+  .table tr {
+    font-size: 0.9rem;
+  }
+}
+
+.text-right {
+  text-align: right;
+}
+.modal{
+  .modal-dialog{
+    max-width: 40vw;
+  }
+}
+
+.no-chart{
+  color: gray;
+  text-align: center;
+  background: #f0f0f0;
+  display: block;
+  border-radius: 50%;
+  width: 30vh;
+  height: 30vh;
+  margin: auto;
+  line-height: 30vh;
+}
