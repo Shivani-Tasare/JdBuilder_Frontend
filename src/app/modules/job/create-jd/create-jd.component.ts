@@ -268,6 +268,8 @@ export class CreateJdComponent implements OnInit {
     if (isAdd) {
       const input = event.input;
       const value = event.value;
+      console.log(value);
+      console.log(input);
       // Add our tag
       if ((value || '').trim()) {
         this.tags.push({Id: '', TagName: value.trim()});

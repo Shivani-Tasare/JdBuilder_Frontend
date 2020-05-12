@@ -1,14 +1,27 @@
-<!-- Create MODE -->
-<div class="row bg-white pb-3">
-  <div class="col-md-12 no-padding mb-5" style="font-size: 13px;">
-    <div class="row pb-3 pt-2 d-lg-none" id="header">
-      <div class="col-8">
-        <button style="background: #9E4587;border-radius: 0;" class="navbar-toggler" type="button"
-          data-toggle="collapse" data-target="#collapsibleNavbar">
-          <i class="fa fa-bars fa-2x" style="color:white" aria-hidden="true"></i>
+  <!-- Create MODE -->
+  <div class="row bg-white pb-3">
+    <div class="col-md-12 no-padding mb-5" style="font-size: 13px;">
+      <div class="row pb-3 pt-2 d-lg-none" id="header">
+        <div class="col-8">
+          <button
+          style="background: #9E4587;border-radius: 0;"
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapsibleNavbar"
+        >
+          <i
+            class="fa fa-bars fa-2x"
+            style="color:white"
+            aria-hidden="true"
+          ></i>
         </button>
-        <span style="color:white;position: absolute;top: 20px;" class="pt-2 pl-2">Create New JD</span>
-      </div>
+        <span
+          style="color:white;position: absolute;top: 20px;"
+          class="pt-2 pl-2"
+          >Create New JD</span
+        >
+        </div>
     </div>
     <div class="card shadow-card mt-3">
       <div class="card-header" style="background:#EAECEA;">
@@ -29,19 +42,30 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-8">
-            <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
-              (ngSubmit)="onSave()">
-              <div class="row">
-                <p class="col-4">Make It As Private JD</p>
-                <mat-slide-toggle class="col-8 pl-0" [color]="color" [checked]="isPrivateChecked"
-                  [(ngModel)]="isPrivateChecked" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
-                </mat-slide-toggle>
-                <p class="col-4 m-auto font-weight-bold">DESIGNATION</p>
+            <form
+              [formGroup]="jobDescriptionForm"
+              class="container p-0 my-3 text-muted col-md-12"
+              (ngSubmit)="onSave()"
+            >
+            <div class="row">
+              <p class="col-4">Make It As Private JD</p>
+              <mat-slide-toggle
+              class="col-8 pl-0"
+              [color]="color"
+              [checked]="isPrivateChecked"
+              [(ngModel)]="isPrivateChecked"
+              [ngModelOptions]="{standalone: true}"
+              [disabled]="disabled"></mat-slide-toggle>
+              <p class="col-4 m-auto font-weight-bold">DESIGNATION</p>
                 <mat-form-field class="col-8 pl-0">
-                  <input (focusout)="checkDuplicateDesignation($event)"
-                    (keyup.enter)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
-                    aria-label="Number" matInput formControlName="selectedDesignation" [value]="selectedDesignationName"
-                    (keyup)="filterDesignationList($event)" [matAutocomplete]="desig">
+                  <input (focusout)="checkDuplicateDesignation($event)" (keyup.enter)="checkDuplicateDesignation($event)" type="text"
+                  placeholder="Select Designation"
+                  aria-label="Number"
+                  matInput
+                  formControlName="selectedDesignation"
+                  [value]="selectedDesignationName"
+                  (keyup) ="filterDesignationList($event)"
+                  [matAutocomplete]="desig">
                   <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
                     <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id">
                       {{designation.DesignationName}}
@@ -52,321 +76,302 @@
                   <div *ngIf="(submitted || jobDescriptionForm.get('selectedDesignation').touched)">
                     <div *ngIf="jobDescriptionForm.get('selectedDesignation').invalid">Please select designation.</div>
                     <div *ngIf="isDuplicateDesignation">Entered designation is already exists.</div>
-                  </div>
-                </mat-error>
-                <p class="col-4 m-auto pt-2 font-weight-bold">EXPERIENCE</p>
-                <mat-form-field class="col-8 pl-0 mat-focused">
-                  <mat-label>Select Experience</mat-label>
-                  <mat-select formControlName="selectedExperience">
-                    <mat-option *ngFor="let experience of experiences" [value]="experience.Id">
-                      {{experience.ExperienceName}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-error class="col-8 offset-4 px-0">
-                  <div
-                    *ngIf="(submitted || jobDescriptionForm.get('selectedExperience').touched) && jobDescriptionForm.get('selectedExperience').invalid">
-                    <div *ngIf="jobDescriptionForm.get('selectedExperience').invalid">Please select experience.</div>
-                  </div>
-                </mat-error>
-                <p class="col-4 m-auto pt-2 font-weight-bold">LOCATION</p>
-                <mat-form-field class="col-8 pl-0">
-                  <mat-label>Select Location</mat-label>
-                  <mat-select formControlName="selectedLocation" multiple [compareWith]="compareWithFunc">
-                    <mat-option *ngFor="let location of locations" [value]="location.Id">
-                      {{location.LocationName}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-error class="col-8 offset-4 px-0">
-                  <div
-                    *ngIf="(submitted || jobDescriptionForm.get('selectedLocation').touched) && jobDescriptionForm.get('selectedLocation').invalid">
-                    <div *ngIf="jobDescriptionForm.get('selectedLocation').invalid">Please select experience.</div>
-                  </div>
-                </mat-error>
-                <div class="col-12">
-                  <hr>
                 </div>
-                <div class="col-12">
-                  <p class="pt-2 font-weight-bold">SUMMARY</p>
-                </div>
+              </mat-error>
+              <p class="col-4 m-auto pt-2 font-weight-bold">EXPERIENCE</p>
+                  <mat-form-field class="col-8 pl-0 mat-focused">
+                    <mat-label>Select Experience</mat-label>
+                    <mat-select formControlName="selectedExperience">
+                      <mat-option *ngFor="let experience of experiences" [value]="experience.Id">
+                        {{experience.ExperienceName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-error class="col-8 offset-4 px-0">
+                    <div *ngIf="(submitted || jobDescriptionForm.get('selectedExperience').touched) && jobDescriptionForm.get('selectedExperience').invalid">
+                      <div *ngIf="jobDescriptionForm.get('selectedExperience').invalid">Please select experience.</div>
+                  </div>
+                </mat-error>
+              <p class="col-4 m-auto pt-2 font-weight-bold">LOCATION</p>
+                  <mat-form-field class="col-8 pl-0">
+                    <mat-label>Select Location</mat-label>
+                    <mat-select formControlName="selectedLocation" multiple [compareWith]="compareWithFunc">
+                      <mat-option *ngFor="let location of locations" [value]="location.Id">
+                        {{location.LocationName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-error class="col-8 offset-4 px-0">
+                    <div *ngIf="(submitted || jobDescriptionForm.get('selectedLocation').touched) && jobDescriptionForm.get('selectedLocation').invalid">
+                      <div *ngIf="jobDescriptionForm.get('selectedLocation').invalid">Please select experience.</div>
+                  </div>
+                </mat-error>
+              <div class="col-12">
+                <hr>
+              </div>
+              <div class="col-12">
+                <p class="pt-2 font-weight-bold">SUMMARY</p>
+              </div>
 
-                <div class="col-12">
-                  <div *ngIf="suggestedSummary.length>0" id="demo" class="carousel slide suggestion-card"
-                    data-interval="false">
+              <div class="col-12">
+                <div *ngIf="suggestedSummary.length>0" id="demo" class="carousel slide suggestion-card" data-interval="false">
 
-                    <ul class="carousel-indicators mb-4">
-                      <li *ngFor="let summary of suggestedSummary;let i=index" data-target="#demo"
-                        [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
-                    </ul>
+                  <ul class="carousel-indicators mb-4">
+                    <li *ngFor="let summary of suggestedSummary;let i=index" data-target="#demo" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
+                  </ul>
 
-                    <!-- The slideshow -->
-                    <div class="carousel-inner">
-                      <div *ngFor="let summary of suggestedSummary; let k = index" class="carousel-item text-center"
-                        [ngClass]="k == 0 ? 'active' : ''">
+                  <!-- The slideshow -->
+                  <div class="carousel-inner">
+                    <div *ngFor="let summary of suggestedSummary; let k = index" class="carousel-item text-center" [ngClass]="k == 0 ? 'active' : ''">
                         <h3>Suggestion {{k+1}}</h3>
                         <p class="mb-3">{{summary}}</p>
-                        <button type="button" class="btn theme-color-btn btn-sm"
-                          (click)="selectSuggestion(summary)">Select</button>
-                      </div>
+                        <button type="button" class="btn theme-color-btn btn-sm"  (click)="selectSuggestion(summary)">Select</button>
                     </div>
-
-                    <!-- Left and right controls -->
-                    <a class="carousel-control-prev" href="#demo" (click)="clearSummary()" data-slide="prev">
-                      <span class="carousel-control-prev-icon"></span>
-                    </a>
-                    <a class="carousel-control-next" href="#demo" (click)="clearSummary()" data-slide="next">
-                      <span class="carousel-control-next-icon"></span>
-                    </a>
-
                   </div>
-                  <mat-form-field class="col-12 px-0">
-                    <textarea style="overflow:hidden" type="text" cdkTextareaAutosize placeholder="" aria-label="Number"
-                      matInput formControlName="about"></textarea>
-                  </mat-form-field>
-                  <mat-error class="col-8 px-0">
-                    <div
-                      *ngIf="(submitted || jobDescriptionForm.get('about').touched) && jobDescriptionForm.get('about').invalid">
-                      <div *ngIf="jobDescriptionForm.get('about').invalid">Please enter summary.</div>
-                    </div>
-                  </mat-error>
+
+                  <!-- Left and right controls -->
+                  <a class="carousel-control-prev" href="#demo" (click)="clearSummary()" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </a>
+                  <a class="carousel-control-next" href="#demo" (click)="clearSummary()" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </a>
+
                 </div>
-                <p class="col-12 pt-2 font-weight-bold">TAGS</p>
-                  <mat-form-field class="col-12 example-chip-list" style="padding-bottom: 15px;">
-                    <mat-chip-list #chipListMandatory>
-                      <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                        (removed)="removeMandatoryTag(tag)">
-                        {{tag.TagName}}
-                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                      </mat-chip>
-                      <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipListMandatory"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="tagsCtrl"
-                        [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event,true)">
-                    </mat-chip-list>
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                      <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                        {{tag.TagName}}
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
-                    <mat-form-field class="col-12 pt-10 example-chip-list">
-                      <mat-chip-list #chipListDesired>
-                        <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                          (removed)="removeDesiredTag(tag)">
-                          {{tag.TagName}}
-                          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                        </mat-chip>
-                        <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
-                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="tagsCtrl"
-                          [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event,true)">
-                      </mat-chip-list>
-                      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                          {{tag.TagName}}
-                        </mat-option>
-                      </mat-autocomplete>
-                    </mat-form-field>
-                    <mat-error class="col-8">
-                      <div *ngIf="(submitted || jobDescriptionForm.get('tagsCtrl').touched) && tags.length<1">
-                        Please enter tags.
-                      </div>
-                    </mat-error>
-                  <!-- </div> -->
-                <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
-                  references.</small>
-                <p class="col-12 pt-3 font-weight-bold">MANDATORY SKILLS</p>
-                <div class="col-12" formArrayName="mandatorySkills"
-                  *ngFor="let skill of jobDescriptionForm.get('mandatorySkills')['controls']; let i = index;">
-                  <div [formGroupName]="i">
-                    <div class="row pb-2">
-                      <div class="col-11 col-md-11 col-lg-11">
-                        <div class="input-group">
-                          <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
-                            <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                              (keyup)="getSkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
-                              formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
-                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
-                              <mat-option *ngFor="let suggestion of suggestedSkill; let i = index;"
-                                [value]="suggestion.SkillName">
-                                {{suggestion.SkillName}}
-                              </mat-option>
-                            </mat-autocomplete>
-                          </mat-form-field>
-                          <mat-error>
-                            <div
-                              *ngIf="(submitted || jobDescriptionForm.get('mandatorySkills')['controls'][i].touched) && jobDescriptionForm.get('mandatorySkills')['controls'][i].invalid">
-                              <div *ngIf="jobDescriptionForm.get('mandatorySkills')['controls'][i].invalid">Please enter
-                                skill !!!</div>
-                            </div>
-                          </mat-error>
+                <mat-form-field class="col-12 px-0">
+                  <textarea style="overflow:hidden" type="text"
+                  cdkTextareaAutosize
+                  placeholder=""
+                  aria-label="Number"
+                  matInput
+                  formControlName="about"
+                  ></textarea>
+                </mat-form-field>
+                <mat-error class="col-8 px-0">
+                  <div *ngIf="(submitted || jobDescriptionForm.get('about').touched) && jobDescriptionForm.get('about').invalid">
+                    <div *ngIf="jobDescriptionForm.get('about').invalid">Please enter summary.</div>
+                </div>
+              </mat-error>
+              </div>
+              <p class="col-12 pt-2 font-weight-bold">TAGS</p>
+              <mat-form-field class="col-12 example-chip-list">
+                <mat-chip-list #chipList>
+                  <mat-chip *ngFor="let tag of tags" [selectable]="selectable"
+                           [removable]="removable" (removed)="removeTag(tag)">
+                    {{tag.TagName}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                  <input
+                          #tagInput
+                         [matChipInputFor]="chipList"
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         formControlName="tagsCtrl"
+                         [matAutocomplete]="auto"
+                         (matChipInputTokenEnd)="add($event,true)"
+                         >
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                    {{tag.TagName}}
+                  </mat-option>
+                </mat-autocomplete>
+
+              </mat-form-field>
+              <mat-error class="col-8">
+                <div *ngIf="(submitted || jobDescriptionForm.get('tagsCtrl').touched) && tags.length<1">
+                  Please enter tags.
+              </div>
+            </mat-error>
+
+              <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future references.</small>
+              <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
+              <div class="col-12" formArrayName="mandatorySkills"
+              *ngFor="let skill of jobDescriptionForm.get('mandatorySkills')['controls']; let i = index;">
+                <div [formGroupName]="i">
+                  <div class="row pb-2">
+                    <div class="col-11 col-md-11 col-lg-11">
+                      <div class="input-group">
+                        <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
+                          <textarea style="overflow:hidden"
+                          cdkTextareaAutosize
+                          #autosize="cdkTextareaAutosize"
+                          (keyup)="getSkill($event)"
+                          placeholder="Mandatory Skill"
+                          aria-label="Number"
+                          matInput
+                          formControlName="SkillName"
+                          [value]="SkillName"
+                          [matAutocomplete]="auto"></textarea>
+                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
+                            <mat-option *ngFor="let suggestion of suggestedSkill; let i = index;" [value]="suggestion.SkillName">
+                              {{suggestion.SkillName}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-error>
+                          <div *ngIf="(submitted || jobDescriptionForm.get('mandatorySkills')['controls'][i].touched) && jobDescriptionForm.get('mandatorySkills')['controls'][i].invalid">
+                            <div *ngIf="jobDescriptionForm.get('mandatorySkills')['controls'][i].invalid">Please enter skill !!!</div>
                         </div>
-                        <p [hidden]='skill.controls.isEditing.value' class="my-auto" style="color:gray">
-                          {{skill.controls.SkillName.value}}</p>
+                      </mat-error>
                       </div>
+                      <p [hidden]='skill.controls.isEditing.value' class="my-auto" style="color:gray">{{skill.controls.SkillName.value}}</p>
+                    </div>
                       <div class="col-1 my-auto p-0 btn dropdown dropleft">
                         <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                         <div class="dropdown-menu">
-                          <a class="dropdown-item" href="JavaScript:"
-                            (click)='skill.controls.isEditing.value = true'>Edit</a>
-                          <a class="dropdown-item" href="JavaScript:" (click)="moveToDesired(skill.controls,i)">Move To
-                            Desired</a>
+                          <a class="dropdown-item" href="JavaScript:" (click)='skill.controls.isEditing.value = true'>Edit</a>
+                          <a class="dropdown-item" href="JavaScript:" (click)="moveToDesired(skill.controls,i)">Move To Desired</a>
                           <a class="dropdown-item" href="JavaScript:" (click)='deleteSkill(skill.controls,i)'>Delete</a>
                         </div>
                       </div>
-                    </div>
                   </div>
                 </div>
-                <div class="col-12 pr-0">
-                  <button type="button" class="btn theme-color-btn btn-sm" (click)="addMandatorySkill()"> + Add</button>
-                  <hr>
-                </div>
+              </div>
+              <div class="col-12 pr-0">
+              <button type="button" class="btn theme-color-btn btn-sm"  (click)="addMandatorySkill()"> + Add</button>
+                <hr >
+              </div>
 
-                <p class="col-12 pt-2 font-weight-bold">DESIRED SKILLS</p>
-                <div class="col-12" formArrayName="desiredSkills"
-                  *ngFor="let skill of jobDescriptionForm.get('desiredSkills')['controls']; let i = index;">
-                  <div [formGroupName]="i">
-                    <div class="row pb-2">
-                      <div class="col-11 col-md-11 col-lg-11">
-                        <div class="input-group">
-                          <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
-                            <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
-                              #autosize="cdkTextareaAutosize" (keyup)="getSkill($event)" placeholder="Desired Skill"
-                              aria-label="Number" matInput formControlName="SkillName"
-                              [matAutocomplete]="auto"></textarea>
-                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
-                              <mat-option *ngFor="let suggestion of suggestedSkill; let i = index;"
-                                [value]="suggestion.SkillName">
-                                {{suggestion.SkillName}}
-                              </mat-option>
-                            </mat-autocomplete>
-                          </mat-form-field>
-                          <mat-error>
-                            <div
-                              *ngIf="(submitted || jobDescriptionForm.get('desiredSkills')['controls'][i].touched) && jobDescriptionForm.get('desiredSkills')['controls'][i].invalid">
-                              <div *ngIf="jobDescriptionForm.get('desiredSkills')['controls'][i].invalid">Please enter
-                                skill !!!</div>
-                            </div>
-                          </mat-error>
+              <p class="col-12 pt-2 font-weight-bold">DESIRED SKILLS</p>
+              <div class="col-12" formArrayName="desiredSkills"
+              *ngFor="let skill of jobDescriptionForm.get('desiredSkills')['controls']; let i = index;">
+                <div [formGroupName]="i">
+                  <div class="row pb-2">
+                    <div class="col-11 col-md-11 col-lg-11">
+                      <div class="input-group">
+                        <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
+                          <textarea style="overflow:hidden" type="text"
+                          cdkTextareaAutosize
+                          #autosize="cdkTextareaAutosize"
+                          (keyup)="getSkill($event)"
+                          placeholder="Desired Skill"
+                          aria-label="Number"
+                          matInput
+                          formControlName="SkillName"
+                          [matAutocomplete]="auto"></textarea>
+                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
+                            <mat-option *ngFor="let suggestion of suggestedSkill; let i = index;" [value]="suggestion.SkillName">
+                              {{suggestion.SkillName}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-error>
+                          <div *ngIf="(submitted || jobDescriptionForm.get('desiredSkills')['controls'][i].touched) && jobDescriptionForm.get('desiredSkills')['controls'][i].invalid">
+                            <div *ngIf="jobDescriptionForm.get('desiredSkills')['controls'][i].invalid">Please enter skill !!!</div>
                         </div>
-                        <p [hidden]='skill.controls.isEditing.value' style="color:gray">
-                          {{skill.controls.SkillName.value}}</p>
+                      </mat-error>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                        <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
-                        <div class="dropdown-menu">
-                          <a class="dropdown-item" href="JavaScript:"
-                            (click)='skill.controls.isEditing.value = true'>Edit</a>
-                          <a class="dropdown-item" href="JavaScript:" (click)="moveToMandatory(skill.controls,i)">Move
-                            To Mandatory</a>
-                          <a class="dropdown-item" href="JavaScript:"
-                            (click)='deleteDesiredSkill(skill.controls,i)'>Delete</a>
-                        </div>
+                      <p [hidden]='skill.controls.isEditing.value' style="color:gray">{{skill.controls.SkillName.value}}</p>
+                    </div>
+                    <div class="col-1 my-auto p-0 btn dropdown dropleft" >
+                      <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="JavaScript:" (click)='skill.controls.isEditing.value = true'>Edit</a>
+                        <a class="dropdown-item" href="JavaScript:" (click)="moveToMandatory(skill.controls,i)">Move To Mandatory</a>
+                        <a class="dropdown-item" href="JavaScript:" (click)='deleteDesiredSkill(skill.controls,i)'>Delete</a>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-12 pr-0">
-                  <button type="button" class="btn theme-color-btn btn-sm" (click)="addDesiredSkill()"> + Add</button>
-                  <hr>
-                </div>
-                <p class="col-12 pt-2 font-weight-bold">QUALIFICATION</p>
-                <div class="col-12" formArrayName="qualifications"
-                  *ngFor="let item of jobDescriptionForm.get('qualifications')['controls']; let i = index;">
-                  <div [formGroupName]="i">
-                    <div class="row pb-2">
-                      <div class="col-11 col-md-11 col-lg-11">
-                        <div class="input-group">
-                          <mat-form-field [hidden]='!item.controls.isEditing.value' class="col-12 px-0">
-                            <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
-                              #autosize="cdkTextareaAutosize" (keyup)="getQualifications($event)"
-                              placeholder="Qualification" aria-label="Number" matInput formControlName="Name"
-                              [matAutocomplete]="auto"></textarea>
-                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectQualification($event,i)">
-                              <mat-option *ngFor="let qualification of suggestedQualification; let i = index;"
-                                [value]="qualification.Name">
-                                {{qualification.Name}}
-                              </mat-option>
-                            </mat-autocomplete>
-                          </mat-form-field>
-                          <mat-error>
-                            <div
-                              *ngIf="(submitted || jobDescriptionForm.get('qualifications')['controls'][i].touched) && jobDescriptionForm.get('qualifications')['controls'][i].invalid">
-                              <div *ngIf="jobDescriptionForm.get('qualifications')['controls'][i].invalid">Please enter
-                                qualification !!!</div>
-                            </div>
-                          </mat-error>
+              </div>
+              <div class="col-12 pr-0">
+              <button type="button" class="btn theme-color-btn btn-sm"  (click)="addDesiredSkill()"> + Add</button>
+                <hr >
+              </div>
+              <p class="col-12 pt-2 font-weight-bold">QUALIFICATION</p>
+              <div class="col-12" formArrayName="qualifications"
+              *ngFor="let item of jobDescriptionForm.get('qualifications')['controls']; let i = index;">
+                <div [formGroupName]="i">
+                  <div class="row pb-2">
+                    <div class="col-11 col-md-11 col-lg-11">
+                      <div class="input-group">
+                        <mat-form-field [hidden]='!item.controls.isEditing.value' class="col-12 px-0">
+                          <textarea style="overflow:hidden" type="text"
+                          cdkTextareaAutosize
+                          #autosize="cdkTextareaAutosize"
+                          (keyup)="getQualifications($event)"
+                          placeholder="Qualification"
+                          aria-label="Number"
+                          matInput
+                          formControlName="Name"
+                          [matAutocomplete]="auto"></textarea>
+                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectQualification($event,i)">
+                            <mat-option *ngFor="let qualification of suggestedQualification; let i = index;" [value]="qualification.Name">
+                              {{qualification.Name}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-error>
+                          <div *ngIf="(submitted || jobDescriptionForm.get('qualifications')['controls'][i].touched) && jobDescriptionForm.get('qualifications')['controls'][i].invalid">
+                            <div *ngIf="jobDescriptionForm.get('qualifications')['controls'][i].invalid">Please enter qualification !!!</div>
                         </div>
-                        <p [hidden]='item.controls.isEditing.value' style="color:gray">{{item.controls.Name.value}}</p>
+                      </mat-error>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                        <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
-                        <div class="dropdown-menu">
-                          <a class="dropdown-item" href="JavaScript:"
-                            (click)='item.controls.isEditing.value = true'>Edit</a>
-                          <a class="dropdown-item" href="JavaScript:"
-                            (click)='deleteQualification(item.controls,i)'>Delete</a>
-                        </div>
+                      <p [hidden]='item.controls.isEditing.value' style="color:gray">{{item.controls.Name.value}}</p>
+                    </div>
+                    <div class="col-1 my-auto p-0 btn dropdown dropleft" >
+                      <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="JavaScript:" (click)='item.controls.isEditing.value = true'>Edit</a>
+                        <a class="dropdown-item" href="JavaScript:" (click)='deleteQualification(item.controls,i)'>Delete</a>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-12 pr-0">
-                  <button type="button" class="btn theme-color-btn btn-sm" (click)="addQualification()">+ Add</button>
-                  <hr>
-                </div>
-                <p class="col-12 pt-2 font-weight-bold">ROLE AND RESPONSIBILITIES</p>
-                <div class="col-12" formArrayName="rolesAndResponsibility"
-                  *ngFor="let item of jobDescriptionForm.get('rolesAndResponsibility')['controls']; let i = index;">
-                  <div [formGroupName]="i">
-                    <div class="row pb-2">
-                      <div class="col-11 col-md-11 col-lg-11">
-                        <div class="form-group">
-                          <mat-form-field [hidden]='!item.controls.isEditing.value' class="col-12 px-0">
-                            <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
-                              #autosize="cdkTextareaAutosize" (keyup)="getResponsibilities($event)"
-                              placeholder="Role And Responsibility" aria-label="Number" matInput
-                              formControlName="Responsibility" [matAutocomplete]="auto"></textarea>
-                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectResponsibility($event,i)">
-                              <mat-option *ngFor="let responsibility of suggestedResponsibilities; let i = index;"
-                                [value]="responsibility.Responsibility">
-                                {{responsibility.Responsibility}}
-                              </mat-option>
-                            </mat-autocomplete>
-                          </mat-form-field>
-                          <mat-error>
-                            <div
-                              *ngIf="(submitted || jobDescriptionForm.get('rolesAndResponsibility')['controls'][i].touched) && jobDescriptionForm.get('rolesAndResponsibility')['controls'][i].invalid">
-                              <div *ngIf="jobDescriptionForm.get('rolesAndResponsibility')['controls'][i].invalid">
-                                Please enter role and responsibilty !!!</div>
-                            </div>
-                          </mat-error>
+              </div>
+              <div class="col-12 pr-0">
+                <button type="button" class="btn theme-color-btn btn-sm" (click)="addQualification()">+ Add</button>
+                <hr >
+              </div>
+              <p class="col-12 pt-2 font-weight-bold">ROLE AND RESPONSIBILITIES</p>
+              <div class="col-12" formArrayName="rolesAndResponsibility"
+              *ngFor="let item of jobDescriptionForm.get('rolesAndResponsibility')['controls']; let i = index;">
+                <div [formGroupName]="i">
+                  <div class="row pb-2">
+                    <div class="col-11 col-md-11 col-lg-11">
+                      <div class="form-group">
+                        <mat-form-field [hidden]='!item.controls.isEditing.value' class="col-12 px-0">
+                          <textarea style="overflow:hidden" type="text"
+                          cdkTextareaAutosize
+                          #autosize="cdkTextareaAutosize"
+                          (keyup)="getResponsibilities($event)"
+                          placeholder="Role And Responsibility"
+                          aria-label="Number"
+                          matInput
+                          formControlName="Responsibility"
+                          [matAutocomplete]="auto"></textarea>
+                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectResponsibility($event,i)">
+                            <mat-option *ngFor="let responsibility of suggestedResponsibilities; let i = index;" [value]="responsibility.Responsibility">
+                              {{responsibility.Responsibility}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-error>
+                          <div *ngIf="(submitted || jobDescriptionForm.get('rolesAndResponsibility')['controls'][i].touched) && jobDescriptionForm.get('rolesAndResponsibility')['controls'][i].invalid">
+                            <div *ngIf="jobDescriptionForm.get('rolesAndResponsibility')['controls'][i].invalid">Please enter role and responsibilty !!!</div>
                         </div>
-                        <p [hidden]='item.controls.isEditing.value' style="color:gray">
-                          {{item.controls.Responsibility.value}}</p>
+                      </mat-error>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                        <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"
-                          data-display="static"></i>
-                        <div class="dropdown-menu dropdown-width">
-                          <a class="dropdown-item" href="JavaScript:"
-                            (click)='item.controls.isEditing.value = true'>Edit</a>
-                          <a class="dropdown-item" href="JavaScript:"
-                            (click)='deleteResponsiblity(item.controls,i)'>Delete</a>
-                        </div>
+                      <p [hidden]='item.controls.isEditing.value' style="color:gray">{{item.controls.Responsibility.value}}</p>
+                    </div>
+                    <div class="col-1 my-auto p-0 btn dropdown dropleft" >
+                      <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown" data-display="static"></i>
+                      <div class="dropdown-menu dropdown-width">
+                        <a class="dropdown-item" href="JavaScript:" (click)='item.controls.isEditing.value = true'>Edit</a>
+                        <a class="dropdown-item" href="JavaScript:" (click)='deleteResponsiblity(item.controls,i)'>Delete</a>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-12 pr-0">
-                  <button type="button" class="btn theme-color-btn btn-sm" (click)="addResponsibility()">+ Add</button>
-                  <hr>
-                </div>
+              </div>
+              <div class="col-12 pr-0">
+                <button type="button" class="btn theme-color-btn btn-sm" (click)="addResponsibility()">+ Add</button>
+                <hr >
+              </div>
                 <div class="col-12 d-none pr-0 d-lg-block">
-                  <input [routerLink]="['/myJd']" type="button" value="Cancel" class=" btn theme-color-btn mr-2" />
-                  <input *ngIf="isSameUser" (click)="onSave()" type="button" value="Create"
-                    class=" btn theme-secondary-btn" />
-                  <input *ngIf="!isSameUser" (click)="onSave()" type="button" value="Create"
-                    class=" btn theme-secondary-btn" />
+                  <input [routerLink]="['/myJd']" type="button" value="Cancel" class=" btn theme-color-btn mr-2"/>
+                  <input *ngIf="isSameUser" (click)="onSave()" type="button" value="Create" class=" btn theme-secondary-btn"/>
+                  <input *ngIf="!isSameUser" (click)="onSave()" type="button" value="Create" class=" btn theme-secondary-btn"/>
                 </div>
               </div>
             </form>
@@ -408,16 +413,15 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
-</div>
-<div class="row d-md-none fixed-bottom" style="height: 55px;">
-  <div class="col-6 p-0">
-    <button [routerLink]="['/myJd']" class="w-100 h-100 font-weight-bold theme-color-btn " style="
+  <div class="row d-md-none fixed-bottom" style="height: 55px;">
+    <div class="col-6 p-0">
+      <button [routerLink]="['/myJd']"  class="w-100 h-100 font-weight-bold theme-color-btn " style="
       border: none;">Cancel</button>
+    </div>
+    <div class="col-6 p-0">
+      <button *ngIf="isSameUser" (click)="onSave()" class="w-100 h-100 font-weight-bold theme-secondary-btn">Save</button>
+      <button *ngIf="!isSameUser" (click)="onSave()" class="w-100 h-100 font-weight-bold theme-secondary-btn">Create</button>
+    </div>
   </div>
-  <div class="col-6 p-0">
-    <button *ngIf="isSameUser" (click)="onSave()" class="w-100 h-100 font-weight-bold theme-secondary-btn">Save</button>
-    <button *ngIf="!isSameUser" (click)="onSave()"
-      class="w-100 h-100 font-weight-bold theme-secondary-btn">Create</button>
-  </div>
-</div>

@@ -532,6 +532,24 @@ export class JobDetailComponent implements OnInit {
     this.desiredSkills.removeAt(index);
   }
 
+  viewCandidates(myModal: any) {
+    this.tagName = this.tags.map((res)=>res.TagName);
+    if(this.tags.length > 0){
+      this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
+        response => {
+          this.matchingConsultants = response;
+          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
+        })
+    }
+  }
+
+  filterCandidatesByMatchScore(matchingConsultants: any[]) {
+    this.candidateCountList[0].count = matchingConsultants.filter((x) => x.RelevancePercentage > 90).length;
+    this.candidateCountList[1].count = matchingConsultants.filter((x) => x.RelevancePercentage > 80 && x.RelevancePercentage <= 90).length;
+    this.candidateCountList[2].count = matchingConsultants.filter((x) => x.RelevancePercentage >= 70 && x.RelevancePercentage <= 80).length;
+    this.candidateCountList[3].count = matchingConsultants.filter((x) => x.RelevancePercentage < 70).length;
+    this.pieChartData = this.candidateCountList.map(x => x.count);
+  }
   add(event: MatChipInputEvent, isAdd): void {
     if (isAdd) {
       const input = event.input;
@@ -548,26 +566,7 @@ export class JobDetailComponent implements OnInit {
     }
 
   }
-
-  viewCandidates(myModal: any) {
-    if(this.tags.length > 1){
-      this.tagName = this.tags.map((res)=>res.TagName);
-      this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
-        response => {
-          this.matchingConsultants = response;
-          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
-        })
-    }
-  }
-
-  filterCandidatesByMatchScore(matchingConsultants: any[]) {
-    this.candidateCountList[0].count = matchingConsultants.filter((x) => x.RelevancePercentage > 90).length;
-    this.candidateCountList[1].count = matchingConsultants.filter((x) => x.RelevancePercentage > 80 && x.RelevancePercentage <= 90).length;
-    this.candidateCountList[2].count = matchingConsultants.filter((x) => x.RelevancePercentage >= 70 && x.RelevancePercentage <= 80).length;
-    this.candidateCountList[3].count = matchingConsultants.filter((x) => x.RelevancePercentage < 70).length;
-    this.pieChartData = this.candidateCountList.map(x => x.count);
-  }
-
+  
   removeTag(tag): void {
     const index = this.tags.indexOf(tag);
 
