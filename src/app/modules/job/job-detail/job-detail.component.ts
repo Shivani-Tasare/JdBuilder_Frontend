@@ -569,6 +569,7 @@ export class JobDetailComponent implements OnInit {
     this.smartService.fetchCandidatesDetails(this.jobDetail.ProfileDetail.ProfileId).subscribe(
       response => {
         this.matchingConsultants = response;
+        this.candidateRecordsAsPerSection = response['MatchingConsultants'];
         this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
       })
   }
@@ -584,6 +585,7 @@ export class JobDetailComponent implements OnInit {
     this.candidateCountList[2].count = this.candidateCountList[2].candidateDetail.length;
     this.candidateCountList[3].count = this.candidateCountList[3].candidateDetail.length;
     this.pieChartData = this.candidateCountList.map(x => x.count);
+
   }
 
   removeTag(tag): void {
