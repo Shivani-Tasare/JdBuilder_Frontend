@@ -197,10 +197,7 @@
                       </mat-chip>
                       <input #tagInput [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         formControlName="tagsCtrl" [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event,true)">
-                        <span id="tickIcon" class="material-icons tickIcon" (click)="updateTags()">
-                          check_circle_outline
-                        </span>
-                      </mat-chip-list>
+                    </mat-chip-list>
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                       <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
                         {{tag.TagName}}
@@ -210,13 +207,10 @@
                   <mat-error class="col-8">
                     <div *ngIf="(submitted || jobDescriptionForm.get('tagsCtrl').touched) && tags.length<1">
                       Please enter tags.
-                    </div> 
-                    <div *ngIf="(this.jobDescriptionForm.get('tagsCtrl').touched)">
-                      You have unsaved Tags.
                     </div>
                   </mat-error>
-                    <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
-                      references.</small>
+                  <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
+                    references.</small>
                   <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
                   <div class="col-12" formArrayName="mandatorySkills"
                     *ngFor="let skill of jobDescriptionForm.get('mandatorySkills')['controls']; let i = index;">
@@ -419,8 +413,8 @@
                   <div class="col-12 d-none pr-0 d-lg-block">
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
                       class=" btn theme-color-btn mr-2" />
-                    <input id="viewButton" data-toggle="modal" [disabled]="tags<1" data-target="#myModal" type="button" (click)="viewCandidates(myModal)"
-                      value="View Candidates" class=" btn theme-color-btn mr-2" />
+                    <input id="viewButton" data-toggle="modal" [disabled]="tags<1" data-target="#myModal" type="button"
+                      (click)="viewCandidates(myModal)" value="View Candidates" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)"
                       (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="!isSameUser && saveAsCopy " (click)="onSave()" type="button" value="Save As Copy"
@@ -673,44 +667,37 @@
         <div>
           <div>
             <div class="chart">
-              <canvas baseChart
-              *ngIf="!!pieChartData.length"
-                [data]="pieChartData"
-                [labels]="pieChartLabels"
-                [chartType]="pieChartType"
-                [options]="pieChartOptions"
-                [plugins]="pieChartPlugins"
-                [colors]="pieChartColors"
-                [legend]="pieChartLegend"
-                (chartClick)="onChartClick($event)">
+              <canvas baseChart *ngIf="!!pieChartData.length" [data]="pieChartData" [labels]="pieChartLabels"
+                [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins"
+                [colors]="pieChartColors" [legend]="pieChartLegend" (chartClick)="onChartClick($event)">
               </canvas>
               <span class="no-chart" *ngIf="!pieChartData.length">No data</span>
             </div>
           </div>
-<div class="row">
-  <div class="col-11 candidate-details">
+          <div class="row">
+            <div class="col-11 candidate-details">
 
-          <table class="table table-bordered p-3 my-3">
-            <thead>
-              <tr>
-                <th scope="col">Candidate Name</th>
-                <th scope="col">Region</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="noBorder" *ngFor="let c of candidateRecordsAsPerSection">
-                <td><a target="_blank" [href]="c.ProfileURLLink">{{c.EmployeeName}}</a></td>
-                <td>{{c.Location ? c.Location : '-'}}</td>
-              </tr>
-              
-            </tbody>
-            <tfoot>
-              <tr class="text-right" *ngIf="!candidateRecordsAsPerSection?.length"> No Record Found!</tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-        
+              <table class="table table-bordered p-3 my-3">
+                <thead>
+                  <tr>
+                    <th scope="col">Candidate Name</th>
+                    <th scope="col">Region</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="noBorder" *ngFor="let c of candidateRecordsAsPerSection">
+                    <td><a target="_blank" [href]="c.ProfileURLLink">{{c.EmployeeName}}</a></td>
+                    <td>{{c.Location ? c.Location : '-'}}</td>
+                  </tr>
+
+                </tbody>
+                <tfoot>
+                  <tr class="text-right" *ngIf="!candidateRecordsAsPerSection?.length"> No Record Found!</tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">
