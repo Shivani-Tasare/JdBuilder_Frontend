@@ -59,6 +59,7 @@ export class CreateJdComponent implements OnInit {
   color: ThemePalette = 'primary';
   isPrivateChecked = false;
   disabled = false;
+  associatedTags = [];
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -286,15 +287,24 @@ export class CreateJdComponent implements OnInit {
     }
 
   }
-
+  appendToTags(index) {
+    this.tags.push({Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName});
+    this.associatedTags.splice(index, 1);
+  }
   removeTag(tag): void {
     const index = this.tags.indexOf(tag);
 
-    if (index >= 0) {
-      this.tags.splice(index, 1);
-      this.allTags.push(tag);
-      this.deletedTags.push(tag.Id);
+    if(tag.Id.startsWith('ID')) {
+      this.allTags  = this.allTags.filter((r)=>{
+        return r.Id  != tag.Id;
+      });
+     } else  {
+        if(index >= 0) {
+        this.allTags.push(tag);
+      }
     }
+    this.tags.splice(index, 1);
+    this.deletedTags.push(tag.Id);
   }
   selected(event: MatAutocompleteSelectedEvent): void {
     this.tags.push(event.option.value);
@@ -305,6 +315,45 @@ export class CreateJdComponent implements OnInit {
       }
     });
     this.tagsCtrl.setValue(null);
+    this.jobService.FetchAssociatedTags(event.option.value).subscribe((skillData: any) => {
+
+      // skills
+
+    })
+
+    const associatedTagsList = [
+                    'Appium',
+                    'Cucumber',
+                    'Google Chrome',
+                    'Hudson',
+                    'Internet Explorer 9',
+                    'Java',
+                    'Java 7',
+                    'Java 8',
+                    'Jira',
+                    'Manual Testing',
+                    'Maven',
+                    'Mobile Apps-Mobile Sites',
+                    'Mobile Testing',
+                    'Mozilla Firefox',
+                    'MySQL',
+                    'Safari',
+                    'Selenium',
+                    'SQL',
+                    'SQL Server 2008',
+                    'Test Automation',
+                    'Test Case Design/Creation',
+                    'TestNG',
+                    'Automated Testing (Tools/Methods)',
+                    'Functional Testing',
+                    'GitHub',
+                    'InVision App',
+                    'Regression Testing',
+                    'REST-assured'
+    ]
+    associatedTagsList.forEach((v,i)=> {
+      this.associatedTags.push({Id: `ID${i}`, TagName: v});
+    })
   }
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
     if (isMandatory) {

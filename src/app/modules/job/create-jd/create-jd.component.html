@@ -131,6 +131,7 @@
                     </div>
                   </mat-error>
                 </div>
+
                 <p class="col-12 pt-2 font-weight-bold">TAGS</p>
                 <mat-form-field class="col-12 example-chip-list">
                   <mat-chip-list #chipList>
@@ -154,6 +155,14 @@
                     Please enter tags.
                   </div>
                 </mat-error>
+                <div class="suggested-tags" *ngIf="!!associatedTags.length">
+                  <ul>
+                  <label for=""> Suggested Tags</label>
+                    <li *ngFor="let t of associatedTags;let i=index" (click)="appendToTags(i)">
+                      {{ t.TagName }}
+                    </li>
+                  </ul>
+               </div>
 
                 <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                   references.</small>

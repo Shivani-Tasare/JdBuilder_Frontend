@@ -36,6 +36,10 @@ export class Job1ServiceService {
     return this.httpClient.get(`${url}/FetchAllSkills?searchString=${searchString}
     `);
   }
+  FetchAssociatedTags(searchString) {
+    return this.httpClient.get(`${url}/AssociatedTags?searchText=${searchString}
+    `);
+  }
   FetchUserDetails(){
     return this.httpClient.get(`${url}/FetchUserDetails`);
   }
