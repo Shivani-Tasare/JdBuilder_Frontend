@@ -40,6 +40,7 @@ export class CreateJdComponent implements OnInit {
   mandatoryTags = new FormControl();
   desiredTags = new FormControl();
   filteredTags: Observable<string[]>;
+  filteredTagsDesired: Observable<string[]>;
   mandatoryTagsList = [];
   desiredTagsList = [];
   allTags = [];
@@ -111,10 +112,7 @@ export class CreateJdComponent implements OnInit {
       SkillTypeName: 'Desired'
     }));
 
-    const defaultMandatoryTags = []
-    //defaultMandatoryTags.push(this.formBuilder.group({Id:'',TagName:'',TagType:1}));
-    const defaultDesiredTags = []
-    //defaultDesiredTags.push(this.formBuilder.group({Id:'',TagName:'',TagType:2}));
+    
     defaultQualification.push(this.createQualification({ Id: 0, Name: '', isEditing: true }));
     defaultResponsibility.push(this.formBuilder.group({ Id: '', Responsibility: ['', Validators.required], isEditing: true }));
 
@@ -124,8 +122,8 @@ export class CreateJdComponent implements OnInit {
       selectedDesignation: new FormControl('', Validators.required),
       selectedLocation: new FormControl('', Validators.required),
       selectedExperience: new FormControl('', Validators.required),
-      mandatoryTags: this.formBuilder.array(defaultMandatoryTags),
-      desiredTags: this.formBuilder.array(defaultDesiredTags),
+      mandatoryTags: new FormControl('',Validators.required),
+      desiredTags: new FormControl('',Validators.required),
       desiredSkills: this.formBuilder.array(defaultDesiredSkill),
       mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
       qualifications: this.formBuilder.array(defaultQualification),
@@ -149,6 +147,7 @@ export class CreateJdComponent implements OnInit {
     this.jobService.FetchTagsList().subscribe((tags: any) => {
       if (tags.StatusCode === 200) {
         this.allTags = tags.ProfileTagsList;
+        this.allTagsDesired = tags.ProfileTagsList;
         for (let index = 0; this.allTags.length > index; index++) {
           for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
             if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id) {
@@ -169,12 +168,7 @@ export class CreateJdComponent implements OnInit {
               }
             })
           );
-      }
-    });
-    this.jobService.FetchTagsList().subscribe((tags: any) => {
-      if (tags.StatusCode === 200) {
-        this.allTagsDesired = tags.ProfileTagsList;
-        for (let index = 0; this.allTags.length > index; index++) {
+        for (let index = 0; this.allTagsDesired.length > index; index++) {
           for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
             if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id) {
               this.allTagsDesired.splice(index, 1);
@@ -183,17 +177,17 @@ export class CreateJdComponent implements OnInit {
             }
           }
         }
-        // this.filteredTags = this.jobDescriptionForm.get("desiredTags").valueChanges
-        //   .pipe(
-        //     startWith(''),
-        //     map(val => {
-        //       if (val && val.length >= 2) {
-        //         return this._filter(val);
-        //       } else {
-        //         return [];
-        //       }
-        //     })
-        //   );
+        this.filteredTagsDesired = this.jobDescriptionForm.get("desiredTags").valueChanges
+          .pipe(
+            startWith(''),
+            map(val => {
+              if (val && val.length >= 2) {
+                return this._filter(val);
+              } else {
+                return [];
+              }
+            })
+          );
       }
     });
   }
@@ -475,7 +469,7 @@ export class CreateJdComponent implements OnInit {
 
   onSave() {
     this.submitted = true;
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.isDuplicateDesignation) {
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || this.isDuplicateDesignation) {
       return;
     }
     const jdObject = {

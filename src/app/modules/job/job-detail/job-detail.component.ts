@@ -54,6 +54,7 @@ export class JobDetailComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tagsCtrl = new FormControl();
   filteredTags: Observable<string[]>;
+  filteredTagsDesired: Observable<string[]>;
   tags = [] ;
   allTags = [];
   isEditJd = false;
@@ -95,7 +96,7 @@ export class JobDetailComponent implements OnInit {
   @ViewChild('tagInputDesired') tagInputDesired: ElementRef<HTMLInputElement>;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
-  @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
+ @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
   @ViewChild('content', {}) content: ElementRef;
   capturedImage;
   candidatesCount: number[];
@@ -328,11 +329,7 @@ export class JobDetailComponent implements OnInit {
 
 
   initLoad() {
-    
-    const defaultMandatoryTags = []
-    //defaultMandatoryTags.push(this.formBuilder.group({Id:'',TagName:'',TagType:1}));
-    const defaultDesiredTags = []
-    //defaultDesiredTags.push(this.formBuilder.group({Id:'',TagName:'',TagType:2}));
+  
     this.selectedLocationName = [];
     this.jobService.fetchProfiles(location.pathname.split('/').pop()).subscribe((jobDetail: any) => {
       if (jobDetail.StatusCode === 200) {
@@ -362,7 +359,7 @@ export class JobDetailComponent implements OnInit {
           ele.Responsibility = [ele.Responsibility, Validators.required]
           defaultResponsibility.push(this.formBuilder.group(ele));
         });
-        this.tags = jobDetail.ProfileDetail.TagsList;
+        this.mandatoryTagsList = jobDetail.ProfileDetail.TagsList;
         this.isPrivateChecked = jobDetail.ProfileDetail.IsPrivate;
         this.jobDescriptionForm = this.formBuilder.group({
           title: new FormControl(jobDetail.ProfileDetail.ProfileName),
@@ -375,8 +372,8 @@ export class JobDetailComponent implements OnInit {
           mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
           qualifications: this.formBuilder.array(defaultQualification),
           rolesAndResponsibility: this.formBuilder.array(defaultResponsibility),
-          mandatoryTags: this.formBuilder.array(defaultMandatoryTags),
-          desiredTags: this.formBuilder.array(defaultDesiredTags),
+          mandatoryTags: new FormControl('',Validators.required),
+          desiredTags: new FormControl('',Validators.required)
         });
         this.jobService.FetchExperienceList().subscribe((experiences: any) => {
           if (experiences.StatusCode === 200) {
@@ -431,9 +428,10 @@ export class JobDetailComponent implements OnInit {
       this.jobService.FetchTagsList().subscribe((tags: any) => {
         if (tags.StatusCode === 200) {
           this.allTags = tags.ProfileTagsList;
+          this.allTagsDesired = tags.ProfileTagsList;
           for (let index = 0; this.allTags.length > index; index++) {
-            for (let index2 = 0; this.tags.length > index2; index2++) {
-              if (this.allTags[index].Id === this.tags[index2].Id) {
+            for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
+              if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id) {
                 this.allTags.splice(index, 1);
                 index = 0;
                 index2 = 0;
@@ -441,6 +439,26 @@ export class JobDetailComponent implements OnInit {
             }
           }
           this.filteredTags = this.jobDescriptionForm.get("mandatoryTags").valueChanges
+            .pipe(
+              startWith(''),
+              map(val => {
+                if (val && val.length >= 2) {
+                  return this._filter(val);
+                } else {
+                  return [];
+                }
+              })
+            );
+          for (let index = 0; this.allTagsDesired.length > index; index++) {
+            for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
+              if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id) {
+                this.allTagsDesired.splice(index, 1);
+                index = 0;
+                index2 = 0;
+              }
+            }
+          }
+          this.filteredTagsDesired = this.jobDescriptionForm.get("desiredTags").valueChanges
             .pipe(
               startWith(''),
               map(val => {
@@ -783,10 +801,9 @@ export class JobDetailComponent implements OnInit {
    
     this.submitted = true;
 
-    if (this.jobDescriptionForm.invalid || this.tags.length < 1 || this.isDuplicateDesignation) {
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1|| this.isDuplicateDesignation) {
       return;
     }
-
     const jdObject = {
       ProfileId: location.pathname.split('/').pop(),
       ProfileName: this.jobDescriptionForm.get('title').value,
@@ -797,7 +814,8 @@ export class JobDetailComponent implements OnInit {
       SkillList: [...this.jobDescriptionForm.get('mandatorySkills').value, ...this.jobDescriptionForm.get('desiredSkills').value],
       QualificationList: this.jobDescriptionForm.get('qualifications').value,
       ResponsibilityList: this.jobDescriptionForm.get('rolesAndResponsibility').value,
-      TagsList: [...this.mandatoryTagsList, ...this.desiredTagsList],
+      TagsList: (this.mandatoryTagsList.map((obj) => {obj.TagType =1;return obj;}),
+        this.desiredTagsList.map((obj) => {obj.TagType =2;return obj;})),
       DeletedQualifications: this.deletedQualifications,
       DeletedSkills: this.deletedSkills,
       DeletedResponsibilities: this.deletedResponsiblities,

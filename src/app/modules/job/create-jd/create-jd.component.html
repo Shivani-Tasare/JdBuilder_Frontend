@@ -140,7 +140,7 @@
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
                     <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [formControl]="mandatoryTags"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
                       [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true,1)">
                   </mat-chip-list>
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event,1)">
@@ -162,11 +162,11 @@
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                       </mat-chip>
                       <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [formControl]="desiredTags"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="desiredTags"
                         [matAutocomplete]="autoDesired" (matChipInputTokenEnd)="addDesiredTag($event,true,2)">
                     </mat-chip-list>
                     <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event,2)">
-                      <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                      <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
                         {{tag.TagName}}
                       </mat-option>
                     </mat-autocomplete>
@@ -176,7 +176,6 @@
                       Please enter tags.
                     </div>
                   </mat-error>
-
                 <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                   references.</small>
                 <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>

@@ -196,7 +196,7 @@
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
                     <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [formControl]="mandatoryTags"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
                       [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true,1)">
                   </mat-chip-list>
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event,1)">
@@ -218,11 +218,11 @@
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                       </mat-chip>
                       <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [formControl]="desiredTags"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="desiredTags"
                         [matAutocomplete]="autoDesired" (matChipInputTokenEnd)="addDesiredTag($event,true,2)">
                     </mat-chip-list>
                     <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event,2)">
-                      <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                      <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
                         {{tag.TagName}}
                       </mat-option>
                     </mat-autocomplete>
@@ -437,7 +437,7 @@
                   <div class="col-12 d-none pr-0 d-lg-block">
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
                       class=" btn theme-color-btn mr-2" />
-                    <input id="viewButton" data-toggle="modal" [disabled]="tags<1" data-target="#myModal" type="button"
+                    <input id="viewButton" data-toggle="modal"  data-target="#myModal" type="button"
                       (click)="viewCandidates(myModal)" value="View Candidates" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)"
                       (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2" />
@@ -567,9 +567,13 @@
                     <p class="ellipsis" style="color:gray">{{jobDescriptionForm.controls.about.value}}</p>
                     <hr>
                   </div>
-                  <p class="col-12 pt-2 font-weight-bold">TAGS</p>
+                  <p class="col-12 pt-2 font-weight-bold">MANDATORY TAGS</p>
                   <mat-chip-list class="col-12">
-                    <mat-chip *ngFor="let tag of tags">{{tag.TagName}}</mat-chip>
+                    <mat-chip *ngFor="let tag of mandatoryTagsList">{{tag.TagName}}</mat-chip>
+                  </mat-chip-list>
+                  <p class="col-12 pt-2 font-weight-bold">DESIRED TAGS</p>
+                  <mat-chip-list class="col-12">
+                    <mat-chip *ngFor="let tag of desiredTagsList">{{tag.TagName}}</mat-chip>
                   </mat-chip-list>
                   <div class="col-12">
                     <hr>
