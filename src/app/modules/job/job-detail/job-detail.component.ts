@@ -75,6 +75,8 @@ export class JobDetailComponent implements OnInit {
   copiedJd;
   jdDetails: JdDetails[];
   emailSearch = new FormControl();
+  associatedTags = [];
+
   //[['90-100% '], ['80-90% '], ['70-80 %'], ['<70 %']];
   candidateCountList = [
     { id: 0, range: '90 to 100', count: 0 , candidateDetail: [], label: '90-100% '},
@@ -591,12 +593,28 @@ export class JobDetailComponent implements OnInit {
   
   removeTag(tag): void {
     const index = this.tags.indexOf(tag);
+    this.associatedTags = [];
 
-    if (index >= 0) {
-      this.tags.splice(index, 1);
-      this.allTags.push(tag);
-      this.deletedTags.push(tag.Id);
+    if(tag.Id.startsWith('ID')) {
+      this.allTags  = this.allTags.filter((r)=>{
+        return r.Id  != tag.Id;
+      });
+     } else  {
+        if(index >= 0) {
+        this.allTags.push(tag);
+      }
     }
+    this.tags.splice(index, 1);
+    this.deletedTags.push(tag.Id);
+    this.fetchAssociatedTags(this.tags[this.tags.length-1].TagName);
+  }
+  fetchAssociatedTags(value) {
+    this.associatedTags = [];
+    this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
+      skillData.forEach((v,i)=> {
+        this.associatedTags.push({Id: `ID${i}`, TagName: v});
+      });
+    })
   }
   selected(event: MatAutocompleteSelectedEvent): void {
     this.tags.push(event.option.value);
@@ -607,6 +625,7 @@ export class JobDetailComponent implements OnInit {
       }
     });
     this.tagsCtrl.setValue(null);
+    this.fetchAssociatedTags(event.option.value.TagName);
   }
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
     if (isMandatory) {
@@ -779,5 +798,9 @@ export class JobDetailComponent implements OnInit {
         this.toastr.error(updatedData.Message, 'Error');
       }
     });
+  }
+  appendToTags(index) {
+    this.tags.push({Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName});
+    this.associatedTags.splice(index, 1);
   }
 }

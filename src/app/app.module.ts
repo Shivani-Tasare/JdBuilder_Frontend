@@ -30,7 +30,7 @@ import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
-import { SuggestedTagViewComponent } from './modules/job/suggested-tag-view/suggested-tag-view.component';
+import { SharedModule } from './shared';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +39,6 @@ import { SuggestedTagViewComponent } from './modules/job/suggested-tag-view/sugg
     JobListingComponent,
     CreateJdComponent,
     JdsSharedComponent,
-    SuggestedTagViewComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +55,7 @@ import { SuggestedTagViewComponent } from './modules/job/suggested-tag-view/sugg
     ReactiveFormsModule,
     MaterialUiModule,
     InfiniteScrollModule,
+    SharedModule
   ],
   providers: [JobServiceService, LoaderService, AdalService, AdalConfigService,
     { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor, multi: true },

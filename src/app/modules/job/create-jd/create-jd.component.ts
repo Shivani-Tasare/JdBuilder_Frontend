@@ -306,48 +306,16 @@ export class CreateJdComponent implements OnInit {
     }
     this.tags.splice(index, 1);
     this.deletedTags.push(tag.Id);
-
-    console.log(this.tags[this.tags.length-1]);
     this.fetchAssociatedTags(this.tags[this.tags.length-1].TagName);
   }
 
   fetchAssociatedTags(value) {
+    this.associatedTags = [];
     this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
-      // this.associatedTagsList = skillData;
+      skillData.forEach((v,i)=> {
+        this.associatedTags.push({Id: `ID${i}`, TagName: v});
+      });
     })
-      const associatedTagsList = [
-        'Appium',
-        'Cucumber',
-        'Google Chrome',
-        'Hudson',
-        'Internet Explorer 9',
-        'Java',
-        'Java 7',
-        'Java 8',
-        'Jira',
-        'Manual Testing',
-        'Maven',
-        'Mobile Apps-Mobile Sites',
-        'Mobile Testing',
-        'Mozilla Firefox',
-        'MySQL',
-        'Safari',
-        'Selenium',
-        'SQL',
-        'SQL Server 2008',
-        'Test Automation',
-        'Test Case Design/Creation',
-        'TestNG',
-        'Automated Testing (Tools/Methods)',
-        'Functional Testing',
-        'GitHub',
-        'InVision App',
-        'Regression Testing',
-        'REST-assured'
-  ]
-  associatedTagsList.forEach((v,i)=> {
-    this.associatedTags.push({Id: `ID${i}`, TagName: v});
-  });
   }
   selected(event: MatAutocompleteSelectedEvent): void {
     this.tags.push(event.option.value);

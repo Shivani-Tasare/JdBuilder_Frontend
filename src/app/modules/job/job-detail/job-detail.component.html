@@ -209,6 +209,8 @@
                       Please enter tags.
                     </div>
                   </mat-error>
+                  <app-suggested-tag-view (onTagEmitt)="appendToTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
+
                   <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                     references.</small>
                   <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
