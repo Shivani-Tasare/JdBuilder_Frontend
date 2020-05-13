@@ -39,6 +39,7 @@ export class JobDetailComponent implements OnInit {
   candidateRecordsAsPerSection;
   deletedQualifications: string[] = [];
   deletedResponsiblities: string[] = [];
+  allTagsDesired =[]
   deletedTags: string[] = [];
   designations: string[] = [];
   filteredDesignations: string[] = []
@@ -63,6 +64,8 @@ export class JobDetailComponent implements OnInit {
   suggestedSkill = [];
   suggestedQualification = [];
   suggestedResponsibilities = [];
+  mandatoryTags = new FormControl();
+  desiredTags = new FormControl();
   suggestedSummary = []
   selectedIndex = 2
   isSameUser = false
@@ -71,6 +74,8 @@ export class JobDetailComponent implements OnInit {
   IsReviewJd;
   saveAsCopy;
   IsSharedJD;
+  mandatoryTagsList = [];
+  desiredTagsList = [];
   IsReviewMode = 0;
   copiedJd;
   jdDetails: JdDetails[];
@@ -86,9 +91,11 @@ export class JobDetailComponent implements OnInit {
   isPrivateChecked = false;
   disabled = false;
 
-  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild('tagInputMandatory') tagInputMandatory: ElementRef<HTMLInputElement>;
+  @ViewChild('tagInputDesired') tagInputDesired: ElementRef<HTMLInputElement>;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
   @ViewChild('content', {}) content: ElementRef;
   capturedImage;
   candidatesCount: number[];
@@ -321,6 +328,11 @@ export class JobDetailComponent implements OnInit {
 
 
   initLoad() {
+    
+    const defaultMandatoryTags = []
+    //defaultMandatoryTags.push(this.formBuilder.group({Id:'',TagName:'',TagType:1}));
+    const defaultDesiredTags = []
+    //defaultDesiredTags.push(this.formBuilder.group({Id:'',TagName:'',TagType:2}));
     this.selectedLocationName = [];
     this.jobService.fetchProfiles(location.pathname.split('/').pop()).subscribe((jobDetail: any) => {
       if (jobDetail.StatusCode === 200) {
@@ -363,7 +375,8 @@ export class JobDetailComponent implements OnInit {
           mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
           qualifications: this.formBuilder.array(defaultQualification),
           rolesAndResponsibility: this.formBuilder.array(defaultResponsibility),
-          tagsCtrl: new FormControl(''),
+          mandatoryTags: this.formBuilder.array(defaultMandatoryTags),
+          desiredTags: this.formBuilder.array(defaultDesiredTags),
         });
         this.jobService.FetchExperienceList().subscribe((experiences: any) => {
           if (experiences.StatusCode === 200) {
@@ -427,7 +440,7 @@ export class JobDetailComponent implements OnInit {
               }
             }
           }
-          this.filteredTags = this.jobDescriptionForm.get("tagsCtrl").valueChanges
+          this.filteredTags = this.jobDescriptionForm.get("mandatoryTags").valueChanges
             .pipe(
               startWith(''),
               map(val => {
@@ -572,41 +585,77 @@ export class JobDetailComponent implements OnInit {
     this.pieChartData = this.candidateCountList.map(x => x.count);
 
   }
-  add(event: MatChipInputEvent, isAdd): void {
+  addMandatoryTag(event: MatChipInputEvent, isAdd, TagType): void {
+    if (isAdd) {
+        const input = event.input;
+        const value = event.value;
+        // Add our tag
+        if ((value || '').trim()) {
+          this.mandatoryTagsList.push({ Id: '', TagName: value.trim(), TagType });
+        }
+        // Reset the input value
+        if (input) {
+          input.value = '';
+        }       
+        this.mandatoryTags.setValue(null);
+      }
+  }
+
+  addDesiredTag(event: MatChipInputEvent, isAdd, TagType){
     if (isAdd) {
       const input = event.input;
       const value = event.value;
-
+      // Add our tag
       if ((value || '').trim()) {
-        this.tags.push({ Id: '', TagName: value.trim() });
+        this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType });
       }
-
+      // Reset the input value
       if (input) {
         input.value = '';
-      }
-      this.tagsCtrl.setValue(null);
+      }       
+      this.desiredTags.setValue(null);
     }
-
   }
-  
-  removeTag(tag): void {
-    const index = this.tags.indexOf(tag);
+
+  removeDesiredTag(tag,TagType): void {
+    const index = this.desiredTagsList.indexOf(tag);
 
     if (index >= 0) {
-      this.tags.splice(index, 1);
+      this.desiredTagsList.splice(index, 1);
+      this.allTagsDesired.push(tag);
+      this.deletedTags.push(tag.Id);
+    }
+  }
+  removeMandatoryTag(tag){
+    const index = this.mandatoryTagsList.indexOf(tag);
+
+    if (index >= 0) {
+      this.mandatoryTagsList.splice(index, 1);
       this.allTags.push(tag);
       this.deletedTags.push(tag.Id);
     }
   }
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.value);
-    this.tagInput.nativeElement.value = '';
+
+  selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
+    this.desiredTagsList.push(event.option.value);
+      this.tagInputDesired.nativeElement.value = '';
+      this.allTagsDesired.filter((option, index) => {
+        if (option.Id.toLowerCase().includes(event.option.value.Id)) {
+          this.allTagsDesired.splice(index, 1);
+        }
+      });
+      this.desiredTags.setValue(null);
+  }
+
+  selectedMandatoryTag(event: MatAutocompleteSelectedEvent,TagType){
+    this.mandatoryTagsList.push(event.option.value);
+    this.tagInputMandatory.nativeElement.value = '';
     this.allTags.filter((option, index) => {
       if (option.Id.toLowerCase().includes(event.option.value.Id)) {
         this.allTags.splice(index, 1);
       }
     });
-    this.tagsCtrl.setValue(null);
+    this.mandatoryTags.setValue(null);
   }
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
     if (isMandatory) {
@@ -748,7 +797,7 @@ export class JobDetailComponent implements OnInit {
       SkillList: [...this.jobDescriptionForm.get('mandatorySkills').value, ...this.jobDescriptionForm.get('desiredSkills').value],
       QualificationList: this.jobDescriptionForm.get('qualifications').value,
       ResponsibilityList: this.jobDescriptionForm.get('rolesAndResponsibility').value,
-      TagsList: this.tags,
+      TagsList: [...this.mandatoryTagsList, ...this.desiredTagsList],
       DeletedQualifications: this.deletedQualifications,
       DeletedSkills: this.deletedSkills,
       DeletedResponsibilities: this.deletedResponsiblities,
