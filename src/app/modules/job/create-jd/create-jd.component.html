@@ -155,14 +155,17 @@
                     Please enter tags.
                   </div>
                 </mat-error>
-                <div class="suggested-tags" *ngIf="!!associatedTags.length">
+
+                <app-suggested-tag-view (onTagEmitt)="appendToTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
+
+                <!-- <div class="suggested-tags" *ngIf="!!associatedTags.length">
                   <ul>
                   <label for=""> Suggested Tags</label>
                     <li *ngFor="let t of associatedTags;let i=index" (click)="appendToTags(i)">
                       {{ t.TagName }}
                     </li>
                   </ul>
-               </div>
+               </div> -->
 
                 <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                   references.</small>

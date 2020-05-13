@@ -37,7 +37,7 @@ export class Job1ServiceService {
     `);
   }
   FetchAssociatedTags(searchString) {
-    return this.httpClient.get(`${url}/AssociatedTags?searchText=${searchString}
+    return this.httpClient.get(`${url}/AssociatedTags?searchText=${encodeURIComponent(searchString)}
     `);
   }
   FetchUserDetails(){

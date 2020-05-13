@@ -30,6 +30,7 @@ import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
+import { SuggestedTagViewComponent } from './modules/job/suggested-tag-view/suggested-tag-view.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,7 @@ import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.componen
     JobListingComponent,
     CreateJdComponent,
     JdsSharedComponent,
+    SuggestedTagViewComponent
   ],
   imports: [
     BrowserModule,
