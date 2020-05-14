@@ -188,29 +188,55 @@
                     </mat-error>
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">TAGS</p>
-                  <mat-form-field class="col-12 example-chip-list">
-                    <mat-chip-list #chipList>
-                      <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                        (removed)="removeTag(tag)">
+                <mat-form-field class="col-12 example-chip-list" style="padding-bottom: 15px;">
+                  <mat-chip-list #chipList>
+                    <mat-chip *ngFor="let tag of mandatoryTagsList" [selectable]="selectable" [removable]="removable"
+                      (removed)="removeMandatoryTag(tag)">
+                      {{tag.TagName}}
+                      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
+                      [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true,1)">
+                  </mat-chip-list>
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event,1)">
+                    <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                      {{tag.TagName}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <mat-error class="col-8">
+                  <div *ngIf="(submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
+                    Please enter tags.
+                  </div>
+                </mat-error>
+                <app-suggested-tag-view (onTagEmitt)="appendToMandatoryTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
+
+
+
+                  <mat-form-field class="col-12 pt-10 example-chip-list">
+                    <mat-chip-list #chipListDesired>
+                      <mat-chip *ngFor="let tag of desiredTagsList" [selectable]="selectable" [removable]="removable"
+                        (removed)="removeDesiredTag(tag)">
                         {{tag.TagName}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                       </mat-chip>
-                      <input #tagInput [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        formControlName="tagsCtrl" [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event,true)">
+                      <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="desiredTags"
+                        [matAutocomplete]="autoDesired" (matChipInputTokenEnd)="addDesiredTag($event,true,2)">
                     </mat-chip-list>
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                      <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                    <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event,2)">
+                      <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
                         {{tag.TagName}}
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
                   <mat-error class="col-8">
-                    <div *ngIf="(submitted || jobDescriptionForm.get('tagsCtrl').touched) && tags.length<1">
+                    <div *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length<1">
                       Please enter tags.
                     </div>
                   </mat-error>
-                  <app-suggested-tag-view (onTagEmitt)="appendToTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
-
+                  
                   <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                     references.</small>
                   <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
@@ -415,7 +441,7 @@
                   <div class="col-12 d-none pr-0 d-lg-block">
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
                       class=" btn theme-color-btn mr-2" />
-                    <input id="viewButton" data-toggle="modal" [disabled]="tags<1" data-target="#myModal" type="button"
+                    <input id="viewButton" data-toggle="modal"  data-target="#myModal" type="button"
                       (click)="viewCandidates(myModal)" value="View Candidates" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)"
                       (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2" />
@@ -545,9 +571,13 @@
                     <p class="ellipsis" style="color:gray">{{jobDescriptionForm.controls.about.value}}</p>
                     <hr>
                   </div>
-                  <p class="col-12 pt-2 font-weight-bold">TAGS</p>
+                  <p class="col-12 pt-2 font-weight-bold">MANDATORY TAGS</p>
                   <mat-chip-list class="col-12">
-                    <mat-chip *ngFor="let tag of tags">{{tag.TagName}}</mat-chip>
+                    <mat-chip *ngFor="let tag of mandatoryTagsList">{{tag.TagName}}</mat-chip>
+                  </mat-chip-list>
+                  <p class="col-12 pt-2 font-weight-bold">DESIRED TAGS</p>
+                  <mat-chip-list class="col-12">
+                    <mat-chip *ngFor="let tag of desiredTagsList">{{tag.TagName}}</mat-chip>
                   </mat-chip-list>
                   <div class="col-12">
                     <hr>

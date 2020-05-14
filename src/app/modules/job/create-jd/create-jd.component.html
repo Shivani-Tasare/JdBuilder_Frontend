@@ -133,41 +133,54 @@
                 </div>
 
                 <p class="col-12 pt-2 font-weight-bold">TAGS</p>
-                <mat-form-field class="col-12 example-chip-list">
+                <mat-form-field class="col-12 example-chip-list" style="padding-bottom: 15px;">
                   <mat-chip-list #chipList>
-                    <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                      (removed)="removeTag(tag)">
+                    <mat-chip *ngFor="let tag of mandatoryTagsList" [selectable]="selectable" [removable]="removable"
+                      (removed)="removeMandatoryTag(tag)">
                       {{tag.TagName}}
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
-                    <input #tagInput [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                      formControlName="tagsCtrl" [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event,true)">
+                    <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
+                      [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true,1)">
                   </mat-chip-list>
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event,1)">
                     <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
                       {{tag.TagName}}
                     </mat-option>
                   </mat-autocomplete>
-
                 </mat-form-field>
-                <mat-error class="col-8">
-                  <div *ngIf="(submitted || jobDescriptionForm.get('tagsCtrl').touched) && tags.length<1">
+                
+                <mat-error class="col-8" *ngIf="(submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
+                  <div >
                     Please enter tags.
                   </div>
                 </mat-error>
+                <app-suggested-tag-view (onTagEmitt)="appendToMandatoryTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
 
-                <app-suggested-tag-view (onTagEmitt)="appendToTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
-
-                <!-- <div class="suggested-tags" *ngIf="!!associatedTags.length">
-                  <ul>
-                  <label for=""> Suggested Tags</label>
-                    <li *ngFor="let t of associatedTags;let i=index" (click)="appendToTags(i)">
-                      {{ t.TagName }}
-                    </li>
-                  </ul>
-               </div> -->
-
-                <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
+                  <mat-form-field class="col-12 pt-10 example-chip-list">
+                    <mat-chip-list #chipListDesired>
+                      <mat-chip *ngFor="let tag of desiredTagsList" [selectable]="selectable" [removable]="removable"
+                        (removed)="removeDesiredTag(tag)">
+                        {{tag.TagName}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="desiredTags"
+                        [matAutocomplete]="autoDesired" (matChipInputTokenEnd)="addDesiredTag($event,true,2)">
+                    </mat-chip-list>
+                    <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event,2)">
+                      <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
+                        {{tag.TagName}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <mat-error class="col-8">
+                    <div *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length<1">
+                      Please enter tags.
+                    </div>
+                  </mat-error>
+                                 <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                   references.</small>
                 <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
                 <div class="col-12" formArrayName="mandatorySkills"
