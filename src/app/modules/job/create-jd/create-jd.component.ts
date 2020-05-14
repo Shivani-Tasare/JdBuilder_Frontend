@@ -333,10 +333,16 @@ export class CreateJdComponent implements OnInit {
   }
   appendToMandatoryTags(index) {
     this.mandatoryTagsList.push({Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName});
+    this.allTags  = this.allTags.filter((r)=>{
+      return r.TagName  != this.associatedTags[index].TagName;
+    });
     this.associatedTags.splice(index, 1);
   }
   appendToDesiredTags(index) {
     this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName});
+    this.allTagsDesired  = this.allTagsDesired.filter((r)=>{
+      return r.TagName  != this.associatedDesiredTags[index].TagName;
+    });
     this.associatedDesiredTags.splice(index, 1);
   }
   removeDesiredTag(tag,TagType): void {
@@ -354,6 +360,7 @@ export class CreateJdComponent implements OnInit {
       this.deletedTags.push(tag.Id);
     }
   }
+  this.allTagsDesired.push(tag);
     (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName)
     : null;
@@ -370,10 +377,11 @@ export class CreateJdComponent implements OnInit {
 
     if (index >= 0) {
       this.mandatoryTagsList.splice(index, 1);
-      this.allTags.push(tag);
       this.deletedTags.push(tag.Id);
       }
+      
     }
+    this.allTags.push(tag);
     (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
     : null;
@@ -382,10 +390,18 @@ export class CreateJdComponent implements OnInit {
   fetchAssociatedTags(value) {
     this.associatedTags = [];
     this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
-      skillData = skillData.splice(0,3)
-      skillData.forEach((v,i)=> {
-        this.associatedTags.push({Id: `ID${i}`, TagName: v});
+      const skillDataNamesOnly = [];
+      this.mandatoryTagsList.filter((r)=>{
+                  skillDataNamesOnly.push(r.TagName);
       });
+     
+
+      skillData.forEach((v,i)=> {
+        if(skillDataNamesOnly.indexOf(v) < 0) {
+          this.associatedTags.push({Id: `ID${i}`, TagName: v});
+      }
+      });
+      this.associatedTags = this.associatedTags.splice(0,3)
     })
   }
   fetchAssociatedDesiredTags(value) {
