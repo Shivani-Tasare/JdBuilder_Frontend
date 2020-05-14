@@ -93,6 +93,12 @@ export class CreateJdComponent implements OnInit {
       return option.TagName.toLowerCase().includes(filterValue);
     });
   }
+  private _filterTag(value: any): string[] {
+    const filterValue = value.Id ? value.Id.toLowerCase() : value.toLowerCase();
+    return this.allTagsDesired.filter((option, index) => {
+      return option.TagName.toLowerCase().includes(filterValue);
+    });
+  }
   ngOnInit() {
 
     const defaultMandatorySkill = [];
@@ -125,8 +131,8 @@ export class CreateJdComponent implements OnInit {
       selectedDesignation: new FormControl('', Validators.required),
       selectedLocation: new FormControl('', Validators.required),
       selectedExperience: new FormControl('', Validators.required),
-      mandatoryTags: new FormControl('',Validators.required),
-      desiredTags: new FormControl('',Validators.required),
+      mandatoryTags: new FormControl(''),
+      desiredTags: new FormControl(''),
       desiredSkills: this.formBuilder.array(defaultDesiredSkill),
       mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
       qualifications: this.formBuilder.array(defaultQualification),
@@ -151,15 +157,6 @@ export class CreateJdComponent implements OnInit {
       if (tags.StatusCode === 200) {
         this.allTags = tags.ProfileTagsList;
         this.allTagsDesired = tags.ProfileTagsList;
-        for (let index = 0; this.allTags.length > index; index++) {
-          for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
-            if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id) {
-              this.allTags.splice(index, 1);
-              index = 0;
-              index2 = 0;
-            }
-          }
-        }
         this.filteredTags = this.jobDescriptionForm.get("mandatoryTags").valueChanges
           .pipe(
             startWith(''),
@@ -171,21 +168,12 @@ export class CreateJdComponent implements OnInit {
               }
             })
           );
-        for (let index = 0; this.allTagsDesired.length > index; index++) {
-          for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
-            if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id) {
-              this.allTagsDesired.splice(index, 1);
-              index = 0;
-              index2 = 0;
-            }
-          }
-        }
         this.filteredTagsDesired = this.jobDescriptionForm.get("desiredTags").valueChanges
           .pipe(
             startWith(''),
             map(val => {
               if (val && val.length >= 2) {
-                return this._filter(val);
+                return this._filterTag(val);
               } else {
                 return [];
               }
@@ -332,11 +320,11 @@ export class CreateJdComponent implements OnInit {
     }
   }
   appendToMandatoryTags(index) {
-    this.mandatoryTagsList.push({Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName});
+    this.mandatoryTagsList.push({Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName , TagType: 1});
     this.associatedTags.splice(index, 1);
   }
   appendToDesiredTags(index) {
-    this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName});
+    this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName , TagType: 2});
     this.associatedDesiredTags.splice(index, 1);
   }
   removeDesiredTag(tag,TagType): void {
@@ -399,24 +387,16 @@ export class CreateJdComponent implements OnInit {
   }
   selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
     this.desiredTagsList.push(event.option.value);
+    this.desiredTagsList.map(x => x.TagType = 2)
       this.tagInputDesired.nativeElement.value = '';
-      this.allTagsDesired.filter((option, index) => {
-        if (option.Id.toLowerCase().includes(event.option.value.Id)) {
-          this.allTagsDesired.splice(index, 1);
-        }
-      });
       this.fetchAssociatedDesiredTags(event.option.value.TagName);
       this.desiredTags.setValue(null);
   }
 
   selectedMandatoryTag(event: MatAutocompleteSelectedEvent,TagType){
     this.mandatoryTagsList.push(event.option.value);
+    this.mandatoryTagsList.map(x => x.TagType = 1);
     this.tagInputMandatory.nativeElement.value = '';
-    this.allTags.filter((option, index) => {
-      if (option.Id.toLowerCase().includes(event.option.value.Id)) {
-        this.allTags.splice(index, 1);
-      }
-    });
     this.fetchAssociatedTags(event.option.value.TagName);
     this.mandatoryTags.setValue(null);
   }
@@ -532,8 +512,7 @@ export class CreateJdComponent implements OnInit {
       SkillList: [...this.jobDescriptionForm.get('mandatorySkills').value, ...this.jobDescriptionForm.get('desiredSkills').value],
       QualificationList: this.jobDescriptionForm.get('qualifications').value,
       ResponsibilityList: this.jobDescriptionForm.get('rolesAndResponsibility').value,
-      TagsList:[...this.mandatoryTagsList, ...this.desiredTagsList],
-     // TagsList: this.mandatoryTagsList,
+      TagsList:(this.mandatoryTagsList.concat(this.desiredTagsList)),
       DeletedQualifications: this.deletedQualifications,
       DeletedSkills: this.deletedSkills,
       DeletedResponsibilities: this.deletedResponsiblities,
