@@ -64,6 +64,7 @@ export class CreateJdComponent implements OnInit {
   isPrivateChecked = false;
   disabled = false;
   associatedTags = [];
+  associatedDesiredTags =[];
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagInputMandatory') tagInputMandatory: ElementRef<HTMLInputElement>;
   @ViewChild('tagInputDesired') tagInputDesired: ElementRef<HTMLInputElement>;
@@ -334,15 +335,28 @@ export class CreateJdComponent implements OnInit {
     this.mandatoryTagsList.push({Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName});
     this.associatedTags.splice(index, 1);
   }
-  
+  appendToDesiredTags(index) {
+    this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName});
+    this.associatedDesiredTags.splice(index, 1);
+  }
   removeDesiredTag(tag,TagType): void {
     const index = this.desiredTagsList.indexOf(tag);
-
+    this.associatedDesiredTags = [];
+    if(tag.Id.startsWith('ID')) {
+          this.allTagsDesired  = this.allTagsDesired.filter((r)=>{
+            return r.Id  != tag.Id;
+          });
+          this.desiredTagsList.splice(index, 1);
+         } else {
     if (index >= 0) {
       this.desiredTagsList.splice(index, 1);
       this.allTagsDesired.push(tag);
       this.deletedTags.push(tag.Id);
     }
+  }
+    (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
+    this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName)
+    : null;
   }
   removeMandatoryTag(tag){
     const index = this.mandatoryTagsList.indexOf(tag);
@@ -360,7 +374,9 @@ export class CreateJdComponent implements OnInit {
       this.deletedTags.push(tag.Id);
       }
     }
-    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
+    (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
+    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
+    : null;
   }
 
   fetchAssociatedTags(value) {
@@ -372,7 +388,15 @@ export class CreateJdComponent implements OnInit {
       });
     })
   }
-
+  fetchAssociatedDesiredTags(value) {
+    this.associatedTags = [];
+    this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
+      skillData = skillData.splice(0,3)
+      skillData.forEach((v,i)=> {
+        this.associatedDesiredTags.push({Id: `ID${i}`, TagName: v});
+      });
+    })
+  }
   selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
     this.desiredTagsList.push(event.option.value);
       this.tagInputDesired.nativeElement.value = '';
@@ -381,6 +405,7 @@ export class CreateJdComponent implements OnInit {
           this.allTagsDesired.splice(index, 1);
         }
       });
+      this.fetchAssociatedDesiredTags(event.option.value.TagName);
       this.desiredTags.setValue(null);
   }
 

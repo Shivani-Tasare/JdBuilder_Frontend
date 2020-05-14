@@ -82,6 +82,7 @@ export class JobDetailComponent implements OnInit {
   jdDetails: JdDetails[];
   emailSearch = new FormControl();
   associatedTags = [];
+  associatedDesiredTags = [];
 
   //[['90-100% '], ['80-90% '], ['70-80 %'], ['<70 %']];
   candidateCountList = [
@@ -640,30 +641,35 @@ export class JobDetailComponent implements OnInit {
   removeDesiredTag(tag,TagType): void {
     const index = this.desiredTagsList.indexOf(tag);
 
-    if (index >= 0) {
+    this.associatedTags = [];
+
+    if(tag.Id.startsWith('ID')) {
+      this.allTagsDesired  = this.allTagsDesired.filter((r)=>{
+        return r.Id  != tag.Id;
+      });
+     this.desiredTagsList.splice(index, 1);
+
+     } else { 
+       if (index >= 0) {
       this.desiredTagsList.splice(index, 1);
       this.allTagsDesired.push(tag);
       this.deletedTags.push(tag.Id);
-    }
+    } 
+    
+  }
+  (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
+  this.fetchAssociatedDesiredTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
+  : null;
   }
   appendToMandatoryTags(index) {
     this.mandatoryTagsList.push({Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName});
     this.associatedTags.splice(index, 1);
   }
-  // removeTag(tag): void {
-  //   const index = this.tags.indexOf(tag);
-  //   this.associatedTags = [];
-
-  //   if(tag.Id.startsWith('ID')) {
-  //     this.allTags  = this.allTags.filter((r)=>{
-  //       return r.Id  != tag.Id;
-  //     });
-  //    } else  {
-  //       if(index >= 0) {
-  //       this.allTags.push(tag);
-  //     }
-  //   }
-  // }
+  appendToDesiredTags(index) {
+    this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName});
+    this.associatedDesiredTags.splice(index, 1);
+  }
+ 
   removeMandatoryTag(tag){
     const index = this.mandatoryTagsList.indexOf(tag);
 
@@ -682,7 +688,9 @@ export class JobDetailComponent implements OnInit {
       this.allTags.push(tag);
       this.deletedTags.push(tag.Id);
     }
-    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
+    (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
+    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
+    : null;
   }
 }
   fetchAssociatedTags(value) {
@@ -694,7 +702,15 @@ export class JobDetailComponent implements OnInit {
       });
     })
   }
-
+  fetchAssociatedDesiredTags(value) {
+    this.associatedTags = [];
+    this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
+      skillData = skillData.splice(0,3)
+      skillData.forEach((v,i)=> {
+        this.associatedDesiredTags.push({Id: `ID${i}`, TagName: v});
+      });
+    })
+  }
   selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
     this.desiredTagsList.push(event.option.value);
       this.tagInputDesired.nativeElement.value = '';
@@ -704,6 +720,8 @@ export class JobDetailComponent implements OnInit {
         }
       });
       this.desiredTags.setValue(null);
+    this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName);
+
   }
 
   selectedMandatoryTag(event: MatAutocompleteSelectedEvent,TagType){
