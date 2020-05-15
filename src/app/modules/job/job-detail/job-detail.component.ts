@@ -442,7 +442,7 @@ export class JobDetailComponent implements OnInit {
           this.allTagsDesired = [...tags.ProfileTagsList];
           for (let index = 0; this.allTags.length > index; index++) {
             for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
-              if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id) {
+              if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
                 this.allTags.splice(index, 1);
                 index = 0;
                 index2 = 0;
@@ -462,7 +462,7 @@ export class JobDetailComponent implements OnInit {
             );
           for (let index = 0; this.allTagsDesired.length > index; index++) {
             for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
-              if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id) {
+              if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id || this.allTagsDesired[index].TagName === this.desiredTagsList[index2].TagName) {
                 this.allTagsDesired.splice(index, 1);
                 index = 0;
                 index2 = 0;
@@ -628,11 +628,7 @@ export class JobDetailComponent implements OnInit {
           input.value = '';
         }       
         this.mandatoryTags.setValue(null);
-      }
-      console.log(this.mandatoryTagsList);
-      console.log(this.mandatoryTags);
-      
-      
+      }    
   }
 
   addDesiredTag(event: MatChipInputEvent, isAdd, TagType){
@@ -744,9 +740,7 @@ export class JobDetailComponent implements OnInit {
       if (option.Id.toLowerCase().includes(event.option.value.Id)) {
         this.allTags.splice(index,1);
       }
-    });
-    console.log(this.allTagsDesired);
-    
+    }); 
     this.mandatoryTags.setValue(null);
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
   }
