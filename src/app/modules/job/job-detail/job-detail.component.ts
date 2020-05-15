@@ -714,7 +714,7 @@ export class JobDetailComponent implements OnInit {
     })
   }
   fetchAssociatedDesiredTags(value) {
-    this.associatedTags = [];
+    this.associatedDesiredTags = [];
     this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
       skillData = skillData.splice(0,3)
       skillData.forEach((v,i)=> {
