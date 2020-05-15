@@ -591,8 +591,9 @@ export class JobDetailComponent implements OnInit {
   }
 
   viewCandidates(myModal: any) {
-    this.tagName = this.tags.map((res)=>res.TagName);
-    if(this.tags.length > 0){
+    const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+    this.tagName = tags.map((res)=>res.TagName);
+    if(tags.length > 0){
       this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
         response => {
           this.matchingConsultants = response;
@@ -679,7 +680,6 @@ export class JobDetailComponent implements OnInit {
       this.deletedDesiredTags.push(tag.Id);
     }
   }
-  this.allTagsDesired.push(tag);
     (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName)
     : null;
@@ -699,7 +699,6 @@ export class JobDetailComponent implements OnInit {
       this.allTags.push(tag);
       this.deletedMandatoryTags.push(tag.Id);
     }
-    this.allTags.push(tag);
     (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
     : null;

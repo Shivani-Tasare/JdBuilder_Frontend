@@ -367,7 +367,6 @@ export class CreateJdComponent implements OnInit {
       this.deletedDesiredTags.push(tag.Id);
     }
   }
-  this.allTagsDesired.push(tag);
     (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName)
     : null;
@@ -388,7 +387,6 @@ export class CreateJdComponent implements OnInit {
       }
       
     }
-    this.allTags.push(tag);
     (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
     : null;
