@@ -156,8 +156,17 @@ export class CreateJdComponent implements OnInit {
     });
     this.jobService.FetchTagsList().subscribe((tags: any) => {
       if (tags.StatusCode === 200) {
-        this.allTags = tags.ProfileTagsList;
-        this.allTagsDesired = tags.ProfileTagsList;
+        this.allTags = [...tags.ProfileTagsList];
+        this.allTagsDesired = [...tags.ProfileTagsList];
+        for (let index = 0; this.allTags.length > index; index++) {
+          for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
+            if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id) {
+              this.allTags.splice(index, 1);
+              index = 0;
+              index2 = 0;
+            }
+          }
+        }
         this.filteredTags = this.jobDescriptionForm.get("mandatoryTags").valueChanges
           .pipe(
             startWith(''),
@@ -169,6 +178,15 @@ export class CreateJdComponent implements OnInit {
               }
             })
           );
+        for (let index = 0; this.allTagsDesired.length > index; index++) {
+          for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
+            if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id) {
+              this.allTagsDesired.splice(index, 1);
+              index = 0;
+              index2 = 0;
+            }
+          }
+        }
         this.filteredTagsDesired = this.jobDescriptionForm.get("desiredTags").valueChanges
           .pipe(
             startWith(''),
