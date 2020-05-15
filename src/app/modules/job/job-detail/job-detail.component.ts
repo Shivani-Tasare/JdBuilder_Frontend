@@ -440,15 +440,15 @@ export class JobDetailComponent implements OnInit {
         if (tags.StatusCode === 200) {
           this.allTags = [...tags.ProfileTagsList];
           this.allTagsDesired = [...tags.ProfileTagsList];
-          // for (let index = 0; this.allTags.length > index; index++) {
-          //   for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
-          //     if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id) {
-          //       this.allTags.splice(index, 1);
-          //       index = 0;
-          //       index2 = 0;
-          //     }
-          //   }
-          // }
+          for (let index = 0; this.allTags.length > index; index++) {
+            for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
+              if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id) {
+                this.allTags.splice(index, 1);
+                index = 0;
+                index2 = 0;
+              }
+            }
+          }
           this.filteredTags = this.jobDescriptionForm.get("mandatoryTags").valueChanges
             .pipe(
               startWith(''),
@@ -460,15 +460,15 @@ export class JobDetailComponent implements OnInit {
                 }
               })
             );
-          // for (let index = 0; this.allTagsDesired.length > index; index++) {
-          //   for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
-          //     if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id) {
-          //       this.allTagsDesired.splice(index, 1);
-          //       index = 0;
-          //       index2 = 0;
-          //     }
-          //   }
-          // }
+          for (let index = 0; this.allTagsDesired.length > index; index++) {
+            for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
+              if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id) {
+                this.allTagsDesired.splice(index, 1);
+                index = 0;
+                index2 = 0;
+              }
+            }
+          }
           this.filteredTagsDesired = this.jobDescriptionForm.get("desiredTags").valueChanges
             .pipe(
               startWith(''),
@@ -729,7 +729,7 @@ export class JobDetailComponent implements OnInit {
       this.tagInputDesired.nativeElement.value = '';
       this.allTagsDesired.filter((option, index) => {
         if (option.Id.toLowerCase().includes(event.option.value.Id)) {
-          this.allTagsDesired.splice(index, 1);
+          this.allTagsDesired.splice(index,1);
         }
       });
       this.desiredTags.setValue(null);
@@ -743,9 +743,11 @@ export class JobDetailComponent implements OnInit {
     this.tagInputMandatory.nativeElement.value = '';
     this.allTags.filter((option, index) => {
       if (option.Id.toLowerCase().includes(event.option.value.Id)) {
-        this.allTags.splice(index, 1);
+        this.allTags.splice(index,1);
       }
     });
+    console.log(this.allTagsDesired);
+    
     this.mandatoryTags.setValue(null);
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
   }
