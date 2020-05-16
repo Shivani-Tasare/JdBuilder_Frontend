@@ -40,8 +40,8 @@ export class JobDetailComponent implements OnInit {
   deletedQualifications: string[] = [];
   deletedResponsiblities: string[] = [];
   allTagsDesired =[]
-  deletedMandatoryTags: string[] = [];
-  deletedDesiredTags: string[] = [];
+  deletedMandatoryTags = [];
+  deletedDesiredTags = [];
   designations: string[] = [];
   filteredDesignations: string[] = []
   experiences: string[] = [];
@@ -673,7 +673,7 @@ export class JobDetailComponent implements OnInit {
     if (index >= 0) {
       this.desiredTagsList.splice(index, 1);
       this.allTagsDesired.push(tag);
-      this.deletedDesiredTags.push(tag.Id);
+      this.deletedDesiredTags.push({Id:tag.Id,TagType:tag.TagType});
     }
   }
     (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
@@ -693,7 +693,7 @@ export class JobDetailComponent implements OnInit {
     if (index >= 0) {
       this.mandatoryTagsList.splice(index, 1);
       this.allTags.push(tag);
-      this.deletedMandatoryTags.push(tag.Id);
+      this.deletedMandatoryTags.push({Id:tag.Id,TagType:tag.TagType});
     }
     (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
