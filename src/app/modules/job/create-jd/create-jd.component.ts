@@ -344,6 +344,7 @@ export class CreateJdComponent implements OnInit {
       return r.TagName  != this.associatedTags[index].TagName;
     });
     this.associatedTags.splice(index, 1);
+    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
   }
   appendToDesiredTags(index) {
     this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName, TagType:2});
@@ -351,6 +352,7 @@ export class CreateJdComponent implements OnInit {
       return r.TagName  != this.associatedDesiredTags[index].TagName;
     });
     this.associatedDesiredTags.splice(index, 1);
+    this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName);
   }
   removeDesiredTag(tag,TagType): void {
     const index = this.desiredTagsList.indexOf(tag);
