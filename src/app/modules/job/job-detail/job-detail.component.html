@@ -435,9 +435,9 @@
 
                   </div>
                   <p class="col-12 pt-2 font-weight-bold mb-0">Last Updated By : <span
-                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName}}</span></p>
+                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName ? jobDetail.ProfileDetail.UpdaterName : jobDetail.ProfileDetail.CreatorName}}</span></p>
                   <p class="col-12 font-weight-bold mb-0">Last Updated On : <span
-                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdatedDate | date: 'dd-MMM-yyyy'}}</span>
+                      class="font-weight-normal">{{(jobDetail.ProfileDetail.UpdatedDate ? jobDetail.ProfileDetail.UpdatedDate : jobDetail.ProfileDetail.CreatedDate) | date: 'dd-MMM-yyyy'}}</span>
                   </p>
                   <div class="col-12 d-none pr-0 d-lg-block">
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
@@ -621,10 +621,10 @@
                     <hr>
                   </div>
                   <p class="col-12 pt-2 font-weight-bold mb-0">Last Updated By : <span
-                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName}}</span></p>
+                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName ? jobDetail.ProfileDetail.UpdaterName : jobDetail.ProfileDetail.CreatorName}}</span></p>
 
                   <p class="col-12 font-weight-bold mb-0">Last Updated On : <span
-                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdatedDate | date: 'dd-MMM-yyyy'}}</span>
+                      class="font-weight-normal">{{ (jobDetail.ProfileDetail.UpdatedDate ? jobDetail.ProfileDetail.UpdatedDate : jobDetail.ProfileDetail.CreatedDate) | date: 'dd-MMM-yyyy'}}</span>
                   </p>
                   <div class="col-6 col-lg-4">
                     <button (click)="downloadPDF2()" type="button" class="bg-white p-2 w-100">Export as Pdf</button>
