@@ -51,7 +51,8 @@ export class CreateJdComponent implements OnInit {
   selectedLocationName = '';
   selectedExperienceName = '';
   jobDetail;
-  suggestedSkill = [];
+  suggestedMandatorySkill = [];
+  suggestedDesiredSkill = [];
   suggestedQualification = [];
   suggestedResponsibilities = [];
   suggestedSummary = []
@@ -462,13 +463,27 @@ export class CreateJdComponent implements OnInit {
     this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = event.option.value
   }
 
-  getSkill(event) {
+  getMandatorySkill(event) {
     if (event.target.value.length > 2) {
       // check for letter and numbers
+      const tags = this.mandatoryTagsList.map((res)=>res.TagName);
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
-        this.jobService.FetchAllSkills(event.target.value).subscribe((skillData: any) => {
+        this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
-            this.suggestedSkill = skillData.Skills;
+            this.suggestedMandatorySkill = skillData.Skills;
+          }
+        })
+      }
+    }
+  }
+  getDesiredSkill(event) {
+    if (event.target.value.length > 2) {
+      // check for letter and numbers
+      const tags = this.desiredTagsList.map((res)=>res.TagName);
+      if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
+        this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
+          if (skillData.StatusCode) {
+            this.suggestedDesiredSkill = skillData.Skills;
           }
         })
       }

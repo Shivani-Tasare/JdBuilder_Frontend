@@ -249,10 +249,10 @@
                           <div class="input-group">
                             <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                               <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                                (keyup)="getSkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
+                                (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
                                 formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
                               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
-                                <mat-option *ngFor="let suggestion of suggestedSkill; let i = index;"
+                                <mat-option *ngFor="let suggestion of suggestedMandatorySkill; let i = index;"
                                   [value]="suggestion.SkillName">
                                   {{suggestion.SkillName}}
                                 </mat-option>
@@ -298,11 +298,11 @@
                           <div class="input-group">
                             <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                               <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
-                                #autosize="cdkTextareaAutosize" (keyup)="getSkill($event)" placeholder="Desired Skill"
+                                #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)" placeholder="Desired Skill"
                                 aria-label="Number" matInput formControlName="SkillName"
                                 [matAutocomplete]="auto"></textarea>
                               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
-                                <mat-option *ngFor="let suggestion of suggestedSkill; let i = index;"
+                                <mat-option *ngFor="let suggestion of suggestedDesiredSkill; let i = index;"
                                   [value]="suggestion.SkillName">
                                   {{suggestion.SkillName}}
                                 </mat-option>
