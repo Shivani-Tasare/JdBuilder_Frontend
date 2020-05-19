@@ -32,8 +32,12 @@ export class Job1ServiceService {
   FetchFilteredProfiles(params) {
     return this.httpClient.get(`${url}/FetchFilteredProfiles?experienceId=${params.experienceId}&locationId=${params.locationId}&designationId=${params.designationId}&pageSize=${params.pageSize}&pageIndex=${params.pageIndex}&tagString=${params.searchString}&myJD=${params.myJd}&sortDir=${params.sortByDate}&selectedUserId=${params.selectedUserId}&sharedJd=${params.sharedJD}`);
   }
-  FetchAllSkills(searchString) {
-    return this.httpClient.get(`${url}/FetchAllSkills?searchString=${searchString}
+  FetchAllSkills(searchString,tags) {
+    var tagName = encodeURIComponent(tags.join('|'));
+    return this.httpClient.get(`${url}/FetchAllSkills?searchString=${searchString}&tags=${tagName}`);
+  }
+  FetchAssociatedTags(searchString) {
+    return this.httpClient.get(`${url}/AssociatedTags?searchText=${encodeURIComponent(searchString)}
     `);
   }
   FetchUserDetails(){

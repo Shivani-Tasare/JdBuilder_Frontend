@@ -1,0 +1,8 @@
+<div class="suggested-tags" *ngIf="!!associatedTags.length">
+  <ul>
+  <label for=""> Suggested Tags</label>
+    <li *ngFor="let t of associatedTags;let i=index" (click)="appendToTags(i)">
+      {{ t.TagName }}
+    </li>
+  </ul>
+</div>

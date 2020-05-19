@@ -15,7 +15,7 @@ export class SmartServiceService {
 
   constructor( private httpClient : HttpClient) { }
   fetchCandidatesDetails(tagName) : Observable<any[]>{
-    var tags = encodeURIComponent(tagName);
-    return this.httpClient.get<any[]>(`${url}/getmatchingconsultants?tags=${tags}`);
+  var tags = encodeURIComponent(tagName.join('|'));
+  return this.httpClient.get<any[]>(`${url}/getmatchingconsultants?tags=${tags}`);
   }
 }

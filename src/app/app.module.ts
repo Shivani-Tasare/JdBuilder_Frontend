@@ -30,6 +30,7 @@ import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
+import { SharedModule } from './shared';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +55,7 @@ import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.componen
     ReactiveFormsModule,
     MaterialUiModule,
     InfiniteScrollModule,
+    SharedModule
   ],
   providers: [JobServiceService, LoaderService, AdalService, AdalConfigService,
     { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor, multi: true },

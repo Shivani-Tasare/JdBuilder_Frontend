@@ -131,31 +131,57 @@
                     </div>
                   </mat-error>
                 </div>
+
                 <p class="col-12 pt-2 font-weight-bold">TAGS</p>
                 <mat-form-field class="col-12 example-chip-list">
                   <mat-chip-list #chipList>
-                    <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                      (removed)="removeTag(tag)">
+                    <mat-chip *ngFor="let tag of mandatoryTagsList" [selectable]="selectable" [removable]="removable"
+                      (removed)="removeMandatoryTag(tag)">
                       {{tag.TagName}}
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
-                    <input #tagInput [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                      formControlName="tagsCtrl" [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event,true)">
+                    <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
+                      [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true,1)">
                   </mat-chip-list>
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event,1)">
                     <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
                       {{tag.TagName}}
                     </mat-option>
                   </mat-autocomplete>
-
                 </mat-form-field>
-                <mat-error class="col-8">
-                  <div *ngIf="(submitted || jobDescriptionForm.get('tagsCtrl').touched) && tags.length<1">
+                
+                <mat-error style="margin-bottom: 15px;" class="col-8" *ngIf="(submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
+                  <div >
                     Please enter tags.
                   </div>
                 </mat-error>
+                <app-suggested-tag-view  (onTagEmitt)="appendToMandatoryTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
 
-                <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
+                  <mat-form-field class="col-12 pt-10 example-chip-list">
+                    <mat-chip-list #chipListDesired>
+                      <mat-chip *ngFor="let tag of desiredTagsList" [selectable]="selectable" [removable]="removable"
+                        (removed)="removeDesiredTag(tag)">
+                        {{tag.TagName}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="desiredTags"
+                        [matAutocomplete]="autoDesired" (matChipInputTokenEnd)="addDesiredTag($event,true,2)">
+                    </mat-chip-list>
+                    <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event,2)">
+                      <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
+                        {{tag.TagName}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <mat-error style="margin-bottom: 15px;" class="col-8"  *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length<1">
+                    <div>
+                      Please enter tags.
+                    </div>
+                  </mat-error>
+                  <app-suggested-tag-view (onTagEmitt)="appendToDesiredTags($event)" [associatedTags]="associatedDesiredTags"></app-suggested-tag-view>
+                                 <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                   references.</small>
                 <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
                 <div class="col-12" formArrayName="mandatorySkills"
@@ -166,10 +192,10 @@
                         <div class="input-group">
                           <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                             <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                              (keyup)="getSkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
+                              (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
                               formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
-                              <mat-option *ngFor="let suggestion of suggestedSkill; let i = index;"
+                              <mat-option *ngFor="let suggestion of suggestedMandatorySkill; let i = index;"
                                 [value]="suggestion.SkillName">
                                 {{suggestion.SkillName}}
                               </mat-option>
@@ -213,11 +239,11 @@
                         <div class="input-group">
                           <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                             <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
-                              #autosize="cdkTextareaAutosize" (keyup)="getSkill($event)" placeholder="Desired Skill"
+                              #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)" placeholder="Desired Skill"
                               aria-label="Number" matInput formControlName="SkillName"
                               [matAutocomplete]="auto"></textarea>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
-                              <mat-option *ngFor="let suggestion of suggestedSkill; let i = index;"
+                              <mat-option *ngFor="let suggestion of suggestedDesiredSkill; let i = index;"
                                 [value]="suggestion.SkillName">
                                 {{suggestion.SkillName}}
                               </mat-option>
