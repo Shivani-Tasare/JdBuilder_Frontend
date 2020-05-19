@@ -197,7 +197,7 @@
                     </mat-chip>
                     <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
-                      [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true)">
+                      [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true)" (focusout)="populateMandatorySkills()">
                   </mat-chip-list>
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event)">
                     <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
@@ -223,7 +223,7 @@
                       </mat-chip>
                       <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="desiredTags"
-                        [matAutocomplete]="autoDesired" (matChipInputTokenEnd)="addDesiredTag($event,true,2)">
+                        [matAutocomplete]="autoDesired" (matChipInputTokenEnd)="addDesiredTag($event,true,2)" (focusout)="populateDesiredSkills()">
                     </mat-chip-list>
                     <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event)">
                       <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
@@ -484,7 +484,7 @@
   </div>
   <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
     <div class="col-6 p-0">
-      <button data-toggle="modal" data-target="#myModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
+      <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
       border: none;">View Candidate</button>
     </div>
     <div class="col-6 p-0">

@@ -110,6 +110,8 @@ export class JobDetailComponent implements OnInit {
   filteredEmails: any;
   isIconChecked: boolean = false;
   tagName: string[]=[];
+  mandatorySkillData: string[];
+  desiredSkillData: string[];
   constructor(private loaderService: LoaderService, public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
   public downloadPDF() {
@@ -508,23 +510,23 @@ export class JobDetailComponent implements OnInit {
       SkillTypeName: 'Desired'
     });
   }
-  addMandatorySkill(): void {
+  addMandatorySkill(skills?:string): void {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     const newSkill = {
       isEditing: true,
       SkillId: 0,
-      SkillName: '',
+      SkillName: skills ? skills : '',
       SkillTypeId: 1,
       SkillTypeName: 'Mandatory'
     };
     this.mandatorySkills.push(this.createMandatorySkill(newSkill));
   }
-  addDesiredSkill(): void {
+  addDesiredSkill(skills?:string): void {
     this.mandatorySkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     const newSkill = {
       isEditing: true,
       SkillId: 0,
-      SkillName: '',
+      SkillName: skills ? skills : '',
       SkillTypeId: 1,
       SkillTypeName: 'Desired'
     };
@@ -654,6 +656,7 @@ export class JobDetailComponent implements OnInit {
       return r.TagName  != this.associatedTags[index].TagName;
     });
     this.associatedTags.splice(index, 1);
+    
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
   }
   appendToDesiredTags(index) {
@@ -760,6 +763,29 @@ export class JobDetailComponent implements OnInit {
   selectResponsibility(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
     this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = event.option.value
   }
+
+  populateMandatorySkills(){
+    const tags = this.mandatoryTagsList.map((res)=>res.TagName);
+     this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
+      console.log(res);
+      this.mandatorySkillData = res;
+     })
+    this.mandatorySkillData.forEach((opt)=>{
+      this.addMandatorySkill(opt);
+    })
+  }
+
+  populateDesiredSkills(){
+    const tags = this.desiredTagsList.map((res)=>res.TagName);
+    this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
+      console.log(res);
+      this.desiredSkillData = res;
+    })
+    this.desiredSkillData.forEach((opt)=>{
+      this.addDesiredSkill(opt);
+    })
+  }
+
   getMandatorySkill(event) {
     if (event.target.value.length > 2) {
       const tags = this.mandatoryTagsList.map((res)=>res.TagName);

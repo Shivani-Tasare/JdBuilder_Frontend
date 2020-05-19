@@ -73,6 +73,8 @@ export class CreateJdComponent implements OnInit {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
+  desiredSkillData: string[] = [];
+  mandatorySkillData: string[] = [];
   constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService) { }
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -225,23 +227,24 @@ export class CreateJdComponent implements OnInit {
       SkillTypeName: 'Desired'
     });
   }
-  addMandatorySkill(): void {
+  addMandatorySkill(skill?:string): void {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
-    const newSkill = {
-      isEditing: true,
-      SkillId: 0,
-      SkillName: '',
-      SkillTypeId: 1,
-      SkillTypeName: 'Mandatory'
-    };
+     const newSkill = {
+        isEditing: true,
+        SkillId: 0,
+        SkillName: skill ? skill : '',
+        SkillTypeId: 1,
+        SkillTypeName: 'Mandatory'
+      };
+     
     this.mandatorySkills.push(this.createMandatorySkill(newSkill));
   }
-  addDesiredSkill(): void {
+  addDesiredSkill(skill?:string): void {
     this.mandatorySkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     const newSkill = {
       isEditing: true,
       SkillId: 0,
-      SkillName: '',
+      SkillName: skill ? skill : '',
       SkillTypeId: 1,
       SkillTypeName: 'Desired'
     };
@@ -449,6 +452,26 @@ export class CreateJdComponent implements OnInit {
     this.mandatoryTags.setValue(null);
   }
 
+  populateMandatorySkills(){
+    const tags = this.mandatoryTagsList.map((res)=>res.TagName);
+     this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
+      console.log(res);
+      this.mandatorySkillData = res;
+     })
+    this.mandatorySkillData.forEach((opt) =>{
+      this.addMandatorySkill(opt);
+    })
+  }
+  populateDesiredSkills(){
+    const tags = this.desiredTagsList.map((res)=>res.TagName);
+     this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
+      console.log(res);
+      this.desiredSkillData = res;
+     })
+    this.desiredSkillData.forEach((opt) =>{
+      this.addDesiredSkill(opt);
+    })
+  }
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
     if (isMandatory) {
       this.jobDescriptionForm.controls['mandatorySkills'].value[index].SkillName = event.option.value
