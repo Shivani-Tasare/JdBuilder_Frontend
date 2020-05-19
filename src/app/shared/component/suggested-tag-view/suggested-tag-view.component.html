@@ -1,6 +1,6 @@
-<div class="suggested-tags" *ngIf="!!associatedTags.length">
+  <div class="suggested-tags" *ngIf="!!associatedTags.length">
   <ul>
-  <label for=""> Suggested Tags</label>
+  <label for="">  {{ label }} </label>
     <li *ngFor="let t of associatedTags;let i=index" (click)="appendToTags(i)">
       {{ t.TagName }}
     </li>

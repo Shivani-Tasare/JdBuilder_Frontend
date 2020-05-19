@@ -210,7 +210,7 @@
                     Please enter tags.
                   </div>
                 </mat-error>
-                <app-suggested-tag-view (onTagEmitt)="appendToMandatoryTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
+                <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToMandatoryTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
 
 
 
@@ -236,7 +236,7 @@
                       Please enter tags.
                     </div>
                   </mat-error>
-                  <app-suggested-tag-view (onTagEmitt)="appendToDesiredTags($event)" [associatedTags]="associatedDesiredTags"></app-suggested-tag-view>
+                  <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToDesiredTags($event)" [associatedTags]="associatedDesiredTags"></app-suggested-tag-view>
 
                   <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                     references.</small>

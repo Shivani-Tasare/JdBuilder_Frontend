@@ -420,6 +420,7 @@ export class CreateJdComponent implements OnInit {
       });
     })
   }
+
   selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
     this.desiredTagsList.push(event.option.value);
     this.desiredTagsList.map(x => x.TagType = 2)
