@@ -456,7 +456,7 @@ export class CreateJdComponent implements OnInit {
 
   populateMandatorySkills(){
     const tags = this.mandatoryTagsList.map((res)=>res.TagName);
-     this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
+     this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
       console.log(res);
       this.mandatorySkillData = res;
      })
@@ -479,7 +479,7 @@ export class CreateJdComponent implements OnInit {
 
   populateDesiredSkills(){
     const tags = this.desiredTagsList.map((res)=>res.TagName);
-     this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
+     this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
       console.log(res);
       this.desiredSkillData = res;
      })
