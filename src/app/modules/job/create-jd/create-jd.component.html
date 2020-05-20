@@ -189,8 +189,8 @@
                   <div [formGroupName]="i">
                     <div class="row pb-2">
                       <div class="col-11 col-md-11 col-lg-11">
-                        <div class="input-group">
-                          <mat-form-field [hidden]='jobDescriptionForm.get("mandatoryTags").touched' class="col-12 px-0">
+                        <div id="inputboxMand" class="input-group">
+                          <mat-form-field  [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                             <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                               (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
                               formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
@@ -212,7 +212,7 @@
                         <p [hidden]='skill.controls.isEditing.value' class="my-auto" style="color:gray">
                           {{skill.controls.SkillName.value}}</p>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropleft">
+                      <div id="dotIcon" class="col-1 my-auto p-0 btn dropdown dropleft">
                         <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                         <div class="dropdown-menu">
                           <a class="dropdown-item" href="JavaScript:"
@@ -236,7 +236,7 @@
                   <div [formGroupName]="i">
                     <div class="row pb-2">
                       <div class="col-11 col-md-11 col-lg-11">
-                        <div class="input-group">
+                        <div id="inputboxDesi" class="input-group">
                           <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                             <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                               #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)" placeholder="Desired Skill"
@@ -260,7 +260,7 @@
                         <p [hidden]='skill.controls.isEditing.value' style="color:gray">
                           {{skill.controls.SkillName.value}}</p>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropleft">
+                      <div id="dotIconDesi" class="col-1 my-auto p-0 btn dropdown dropleft">
                         <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                         <div class="dropdown-menu">
                           <a class="dropdown-item" href="JavaScript:"

@@ -347,6 +347,7 @@ export class CreateJdComponent implements OnInit {
     this.allTags  = this.allTags.filter((r)=>{
       return r.TagName  != this.associatedTags[index].TagName;
     });
+    this.tagInputMandatory.nativeElement.focus();
     this.associatedTags.splice(index, 1);
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
   }
@@ -355,6 +356,7 @@ export class CreateJdComponent implements OnInit {
     this.allTagsDesired  = this.allTagsDesired.filter((r)=>{
       return r.TagName  != this.associatedDesiredTags[index].TagName;
     });
+    this.tagInputDesired.nativeElement.focus();
     this.associatedDesiredTags.splice(index, 1);
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName);
   }
@@ -454,22 +456,36 @@ export class CreateJdComponent implements OnInit {
 
   populateMandatorySkills(){
     const tags = this.mandatoryTagsList.map((res)=>res.TagName);
-     this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
+     this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
       console.log(res);
       this.mandatorySkillData = res;
      })
     this.mandatorySkillData.forEach((opt) =>{
       this.addMandatorySkill(opt);
+      this.toggleInputBox();
     })
   }
+
+  toggleInputBox(){
+    if(this.jobDescriptionForm.controls['mandatorySkills'].value[0]){
+      document.getElementById('inputboxMand').style.display = 'none';
+      document.getElementById('dotIcon').style.display = 'none';
+    }
+    if(this.jobDescriptionForm.controls['desiredSkills'].value[0]){
+      document.getElementById('inputboxDesi').style.display = 'none';
+      document.getElementById('dotIconDesi').style.display = 'none';
+    }
+  }
+
   populateDesiredSkills(){
     const tags = this.desiredTagsList.map((res)=>res.TagName);
-     this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
+     this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
       console.log(res);
       this.desiredSkillData = res;
      })
     this.desiredSkillData.forEach((opt) =>{
       this.addDesiredSkill(opt);
+      this.toggleInputBox();
     })
   }
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
