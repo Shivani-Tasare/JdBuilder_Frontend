@@ -6,7 +6,7 @@ import { JobServiceService } from 'src/app/shared/services/job-service.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { SmartServiceService } from 'src/app/services/smart-service.service';
 import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
-import { Observable } from 'rxjs';
+import { Observable, Subject, forkJoin } from 'rxjs';
 @Component({
   selector: 'app-job-listing',
   templateUrl: './job-listing.component.html',
@@ -33,7 +33,7 @@ export class JobListingComponent implements OnInit {
   userList;
   selectedUserId = ''
   sortByDate = 'desc'
-  sidebarIndex = 2
+  sidebarIndex = 2;
   constructor(private loaderService: LoaderService, private jobService: Job1ServiceService, private smartService: SmartServiceService, private toastr: ToastrService, private router: Router) {
   }
   ngOnInit() {

@@ -655,18 +655,19 @@ export class JobDetailComponent implements OnInit {
     this.allTags  = this.allTags.filter((r)=>{
       return r.TagName  != this.associatedTags[index].TagName;
     });
-    this.tagInputMandatory.nativeElement.focus();
     this.associatedTags.splice(index, 1);
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
+    this.populateMandatorySkills([this.mandatoryTagsList[this.mandatoryTagsList.length-1]])
+    
   }
   appendToDesiredTags(index) {
     this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName, TagType:2});
     this.allTagsDesired  = this.allTagsDesired.filter((r)=>{
       return r.TagName  != this.associatedDesiredTags[index].TagName;
     });
-    this.tagInputDesired.nativeElement.focus();
     this.associatedDesiredTags.splice(index, 1);
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName);
+    this.populateDesiredSkills([this.desiredTagsList[this.desiredTagsList.length-1]]);
   }
   removeDesiredTag(tag,TagType): void {
     const index = this.desiredTagsList.indexOf(tag);
@@ -686,6 +687,7 @@ export class JobDetailComponent implements OnInit {
     (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName)
     : null;
+    this.populateDesiredSkills(this.desiredTagsList);
   }
   removeMandatoryTag(tag){
     const index = this.mandatoryTagsList.indexOf(tag);
@@ -706,6 +708,7 @@ export class JobDetailComponent implements OnInit {
   (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
   this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
   : null;
+  this.populateMandatorySkills(this.mandatoryTagsList);
 }
   fetchAssociatedTags(value) {
     this.associatedTags = [];
@@ -736,6 +739,7 @@ export class JobDetailComponent implements OnInit {
       });
       this.desiredTags.setValue(null);
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName);
+    this.populateDesiredSkills([event.option.value]);
 
   }
 
@@ -749,6 +753,7 @@ export class JobDetailComponent implements OnInit {
       }
     }); 
     this.mandatoryTags.setValue(null);
+    this.populateMandatorySkills([event.option.value]);
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
   }
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
@@ -765,26 +770,28 @@ export class JobDetailComponent implements OnInit {
     this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = event.option.value
   }
 
-  populateMandatorySkills(){
-    const tags = this.mandatoryTagsList.map((res)=>res.TagName);
+  populateMandatorySkills(tag){
+    const tags = tag.map((res)=>res.TagName);
      this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
       console.log(res);
       this.mandatorySkillData = res;
+      this.mandatorySkillData.forEach((opt)=>{
+        this.addMandatorySkill(opt);
+      })
      })
-    this.mandatorySkillData.forEach((opt)=>{
-      this.addMandatorySkill(opt);
-    })
+   
   }
 
-  populateDesiredSkills(){
-    const tags = this.desiredTagsList.map((res)=>res.TagName);
+  populateDesiredSkills(tag){
+    const tags = tag.map((res)=>res.TagName);
     this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
       console.log(res);
       this.desiredSkillData = res;
+      this.desiredSkillData.forEach((opt)=>{
+        this.addDesiredSkill(opt);
+      })
     })
-    this.desiredSkillData.forEach((opt)=>{
-      this.addDesiredSkill(opt);
-    })
+    
   }
 
   getMandatorySkill(event) {
