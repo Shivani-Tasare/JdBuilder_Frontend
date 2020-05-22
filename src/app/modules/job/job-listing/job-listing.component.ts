@@ -116,8 +116,10 @@ export class JobListingComponent implements OnInit {
   filterProfile(paramObject) {
     this.jobService.FetchFilteredProfiles(paramObject).subscribe((FilteredList: any) => {
       if (FilteredList.StatusCode === 200) {
-        this.associatedTags = [{TagName:'JAVA'},{TagName:'SQL'},{TagName:'HTML'}];
-        // this.associatedTags  = FilteredList.AssociatedTags;
+        this.associatedTags = [];
+        FilteredList.AssociatedTags.map((r)=> {
+          this.associatedTags.push({TagName: r});
+        });
         this.jobs.push(...FilteredList.ProfileList);
         this.length = FilteredList.TotalRecords;
         const previousRecord = paramObject.pageIndex * paramObject.pageSize;
