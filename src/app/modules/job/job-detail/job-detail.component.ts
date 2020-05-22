@@ -600,6 +600,7 @@ export class JobDetailComponent implements OnInit {
       this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
         response => {
           this.matchingConsultants = response;
+          this.candidateRecordsAsPerSection = this.matchingConsultants["MatchingConsultants"]
           this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
         })
     }
