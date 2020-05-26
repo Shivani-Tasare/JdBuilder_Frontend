@@ -17,14 +17,14 @@
   </div>
   <div class="page-content container-fluid" [ngClass]="{'noscroll': isCollapseOn==true}">
 
-    <div class="row">
+    <div class="row" style="min-height: 86vh;">
       <div class="col-md-2 no-padding" style="background: #333333;">
         <div class="sidebar content-box" style="display: block;">
           <layout-sidebar></layout-sidebar>
         </div>
       </div>
       <div class="col-md-10 no-padding" >
-        <div class="container" style="background:linear-gradient(to bottom, #f5f5f5 0%, #c7c4c4 100%);">
+        <div class="container" style="min-height: 86vh;background:linear-gradient(to bottom, #f5f5f5 0%, #c7c4c4 100%);">
           <router-outlet></router-outlet>
         </div>
 
@@ -35,3 +35,4 @@
 <footer>
 </footer>
 <div class="overlay"  [ngClass]="{'overlay': isCollapseOn==true}" data-toggle="collapse" data-target="#collapsibleNavbar"></div>
+

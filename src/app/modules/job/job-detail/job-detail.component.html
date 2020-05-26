@@ -192,7 +192,7 @@
                   <mat-chip-list #chipList>
                     <mat-chip *ngFor="let tag of mandatoryTagsList" [selectable]="selectable" [removable]="removable"
                       (removed)="removeMandatoryTag(tag)">
-                      {{tag.TagName}}
+                      {{tag?.TagName}}
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
                     <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
@@ -201,7 +201,7 @@
                   </mat-chip-list>
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event)">
                     <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                      {{tag.TagName}}
+                      {{tag?.TagName}}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
@@ -210,7 +210,7 @@
                     Please enter tags.
                   </div>
                 </mat-error>
-                <app-suggested-tag-view (onTagEmitt)="appendToMandatoryTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
+                <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToMandatoryTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
 
 
 
@@ -218,7 +218,7 @@
                     <mat-chip-list #chipListDesired>
                       <mat-chip *ngFor="let tag of desiredTagsList" [selectable]="selectable" [removable]="removable"
                         (removed)="removeDesiredTag(tag)">
-                        {{tag.TagName}}
+                        {{tag?.TagName}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                       </mat-chip>
                       <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
@@ -227,7 +227,7 @@
                     </mat-chip-list>
                     <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event)">
                       <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
-                        {{tag.TagName}}
+                        {{tag?.TagName}}
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
@@ -236,7 +236,7 @@
                       Please enter tags.
                     </div>
                   </mat-error>
-                  <app-suggested-tag-view (onTagEmitt)="appendToDesiredTags($event)" [associatedTags]="associatedDesiredTags"></app-suggested-tag-view>
+                  <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToDesiredTags($event)" [associatedTags]="associatedDesiredTags"></app-suggested-tag-view>
 
                   <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                     references.</small>
@@ -251,10 +251,10 @@
                               <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                                 (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
                                 formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
-                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
+                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i,true)">
                                 <mat-option *ngFor="let suggestion of suggestedMandatorySkill; let i = index;"
-                                  [value]="suggestion.SkillName">
-                                  {{suggestion.SkillName}}
+                                  [value]="suggestion?.SkillName">
+                                  {{suggestion?.SkillName}}
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
@@ -277,7 +277,7 @@
                             <a class="dropdown-item" href="JavaScript:" (click)="moveToDesired(skill.controls,i)">Move
                               To Desired</a>
                             <a class="dropdown-item" href="JavaScript:"
-                              (click)='deleteSkill(skill.controls,i)'>Delete</a>
+                              (click)='deleteSkill(skill.controls,false,i)'>Delete</a>
                           </div>
                         </div>
                       </div>
@@ -303,8 +303,8 @@
                                 [matAutocomplete]="auto"></textarea>
                               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                                 <mat-option *ngFor="let suggestion of suggestedDesiredSkill; let i = index;"
-                                  [value]="suggestion.SkillName">
-                                  {{suggestion.SkillName}}
+                                  [value]="suggestion?.SkillName">
+                                  {{suggestion?.SkillName}}
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
@@ -327,14 +327,14 @@
                             <a class="dropdown-item" href="JavaScript:" (click)="moveToMandatory(skill.controls,i)">Move
                               To Mandatory</a>
                             <a class="dropdown-item" href="JavaScript:"
-                              (click)='deleteDesiredSkill(skill.controls,i)'>Delete</a>
+                              (click)='deleteDesiredSkill(skill.controls,false,i)'>Delete</a>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 pr-0">
-                    <button type="button" class="btn theme-color-btn btn-sm" (click)="addDesiredSkill()"> + Add</button>
+                    <button type="button" class="btn theme-color-btn btn-sm" (click)="addDesiredSkill($event)"> + Add</button>
                     <hr>
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">QUALIFICATION</p>
@@ -484,7 +484,7 @@
   </div>
   <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
     <div class="col-6 p-0">
-      <button data-toggle="modal" data-target="#myModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
+      <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
       border: none;">View Candidate</button>
     </div>
     <div class="col-6 p-0">
