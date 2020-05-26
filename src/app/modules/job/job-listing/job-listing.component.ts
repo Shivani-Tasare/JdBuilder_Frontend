@@ -119,21 +119,20 @@ export class JobListingComponent implements OnInit {
   }
   onPaginateChange(evn) {
     const paramObject = {
-      locationId: (this.selectedLocation && this.selectedLocation !== 'undefined') ? this.selectedLocation : 0,
-      experienceId: (this.selectedExperience && this.selectedExperience !== 'undefined') ? this.selectedExperience : 0,
-      designationId: (this.selectedDesignation && this.selectedDesignation !== 'undefined') ? this.selectedDesignation : 0,
       pageIndex: evn.pageIndex !== undefined ? evn.pageIndex : evn - 1,
       pageSize: evn.pageSize ? evn.pageSize : this.DefaultPageSize,
-      searchString: this.searchString ? this.searchString : '',
       myJd: this.myJd,
-      selectedUserId: this.selectedUserId ? this.selectedUserId : "",
       sortByDate: this.sortByDate,
       sharedJD: this.sharedJD
     };
     this.pageSelected = evn.pageIndex !== undefined ? evn.pageIndex : evn,
       this.DefaultPageSize = evn.pageSize ? evn.pageSize : this.DefaultPageSize;
 
-    this.filterProfile(paramObject);
+    this.jobService.getAllJobs(paramObject).subscribe((jobs: any) => {
+      this.jobs.push(...jobs.ProfileList);
+      this.length = jobs.TotalRecords;
+      this.range = `1-${this.jobs.length} of ${this.length}`;
+    });;
   }
   goToDetails(jobId) {
     this.loaderService.show();
