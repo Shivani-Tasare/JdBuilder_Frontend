@@ -225,3 +225,22 @@ paginator-page-size.mat-select-trigger {
 .active{
   background: #9E4587 !important;
 }
+ #primary-search {
+   
+ /deep/ .suggested-tags{
+  label{
+    color: white;
+    font-size: 12px;
+  }
+  ul {
+    padding: 0;
+    margin: 0 !important;
+    padding: 0;
+    padding-top: 8px !important;
+    li{
+      background-color: black;
+      color: white;
+    }
+  }
+}
+ }

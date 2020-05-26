@@ -33,7 +33,8 @@ export class JobListingComponent implements OnInit {
   userList;
   selectedUserId = ''
   sortByDate = 'desc'
-  sidebarIndex = 2;
+  sidebarIndex = 2
+  associatedTags = [];
   constructor(private loaderService: LoaderService, private jobService: Job1ServiceService, private smartService: SmartServiceService, private toastr: ToastrService, private router: Router) {
   }
   ngOnInit() {
@@ -88,6 +89,13 @@ export class JobListingComponent implements OnInit {
       this.range = `1-${this.jobs.length} of ${this.length}`;
     });
   }
+  appendToMandatoryTags(index){
+    console.log(this.searchString)
+    this.searchString = (!!this.searchString) ? this.searchString + ', ' +
+    this.associatedTags[index].TagName: this.associatedTags[index].TagName;
+    this.associatedTags.splice(index, 1);
+//    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
+  }
   search() {
     this.jobs = []
     const paramObject = {
@@ -96,7 +104,7 @@ export class JobListingComponent implements OnInit {
       designationId: (this.selectedDesignation && this.selectedDesignation !== 'undefined') ? this.selectedDesignation : 0,
       pageSize: this.DefaultPageSize,
       pageIndex: 0,
-      searchString: this.searchString ? this.searchString : '',
+      searchString: this.searchString ? encodeURIComponent(this.searchString) : '',
       myJd: this.myJd,
       sortByDate: this.sortByDate,
       selectedUserId: this.selectedUserId,
@@ -108,6 +116,10 @@ export class JobListingComponent implements OnInit {
   filterProfile(paramObject) {
     this.jobService.FetchFilteredProfiles(paramObject).subscribe((FilteredList: any) => {
       if (FilteredList.StatusCode === 200) {
+        this.associatedTags = [];
+        FilteredList.AssociatedTags.map((r,index)=> {
+          if(index < 3) this.associatedTags.push({TagName: r});
+        });
         this.jobs.push(...FilteredList.ProfileList);
         this.length = FilteredList.TotalRecords;
         const previousRecord = paramObject.pageIndex * paramObject.pageSize;
