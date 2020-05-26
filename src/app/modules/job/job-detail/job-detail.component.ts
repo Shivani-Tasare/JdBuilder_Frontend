@@ -14,16 +14,10 @@ import { Label } from 'ng2-charts';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { JobServiceService } from '../../../shared/services/job-service.service';
 import { AdalService } from 'src/app/shared/services/adal.service';
-import * as JSPdf from 'jspdf';
-import html2canvas from 'html2canvas';
 import { LoaderService } from 'src/app/shared/services/loader.service';
-import htmlToPdfmake from 'html-to-pdfmake'
-import pdfMake from 'pdfmake'
-import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { SmartServiceService } from 'src/app/services/smart-service.service';
 import { JdDetails } from 'src/app/shared/models/jd-details';
 import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-job-detail',
   templateUrl: './job-detail.component.html',
@@ -112,49 +106,7 @@ export class JobDetailComponent implements OnInit {
   tagName: string[]=[];
   constructor(private loaderService: LoaderService, public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
-  public downloadPDF() {
-    let loader = this.loaderService
-    loader.show();
-    let quotes = document.getElementById('content-pdf');
-    html2canvas(document.getElementById('content-pdf'), { scrollY: -window.scrollY }).then(function (canvas) {
-
-      var img = canvas.toDataURL("image/png");
-
-      var doc = new JSPdf('p', 'pt', 'letter');
-      for (var i = 0; i <= quotes.clientHeight / 1450; i++) {
-        var srcImg = canvas;
-        var sX = 0;
-        var sY = 1450 * i;
-        var sWidth = 1100;
-        var sHeight = 1450;
-        var dX = 0;
-        var dY = 0;
-        var dWidth = 1100;
-        var dHeight = 1450;
-
-        let onePageCanvas = document.createElement("canvas");
-        onePageCanvas.setAttribute('width', "1100");
-        onePageCanvas.setAttribute('height', "1450");
-        var ctx = onePageCanvas.getContext('2d');
-        ctx.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
-        var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
-
-        var width = onePageCanvas.width;
-        var height = onePageCanvas.clientHeight;
-
-        if (i > 0) {
-          doc.addPage(612, 791);
-        }
-
-        doc.setPage(i + 1);
-        doc.addImage(canvasDataURL, 'PNG', 25, 20, (width * 0.5), (height * 0.5));
-
-      }
-
-      doc.save('testCanvas.pdf');
-      loader.hide();
-    });
-  }
+  
   public downloadPDF2() {
     let htmlContent = this.document.getElementById('content-pdf')
     this.jobService.GeneratePDF({ htmlContent: htmlContent.outerHTML }).subscribe((data: any) => {
@@ -168,23 +120,7 @@ export class JobDetailComponent implements OnInit {
       window.URL.revokeObjectURL(link.href);
     })
   }
-  public downloadPDF3() {
-    let loader = this.loaderService
 
-    var html = htmlToPdfmake(this.document.getElementById('content-pdf').outerHTML);
-
-    var docDefinition = {
-      content: [
-        html
-      ],
-      styles: {
-        'html-strong': {
-          background: 'yellow'
-        }
-      }
-    };
-    var pdfDocGenerator = pdfMake.createPdf(docDefinition).download();
-  }
   // openCandidateProfile(link) {
   //   window.location.href = "";
 
