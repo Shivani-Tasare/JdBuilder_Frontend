@@ -194,7 +194,7 @@
                             <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                               (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
                               formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
-                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,true,i)">
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i,true)">
                               <mat-option *ngFor="let suggestion of suggestedMandatorySkill; let i = index;"
                                 [value]="suggestion?.SkillName">
                                 {{suggestion?.SkillName}}
