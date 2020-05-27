@@ -560,7 +560,7 @@ export class JobDetailComponent implements OnInit {
     if(onRemove){
       this.mandatorySkills.value.forEach((deletedSkill,i)=>{
         if(deletedSkill.SkillId.startsWith('Id')) {
-              this.mandatorySkills.removeAt(this.mandatorySkills.length - 1);
+              this.mandatorySkills.removeAt(this.mandatorySkills.length - 1);  
          }
       })
       this.populateMandatorySkills(this.mandatoryTagsList);
@@ -808,7 +808,7 @@ export class JobDetailComponent implements OnInit {
   populateMandatorySkills(tag){
     this.mandatorySkillData = [];
     const tags = tag.map((res)=>res.TagName);
-     this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
+     this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
       res.forEach((v,i)=>{
         this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
         this.addMandatorySkill(i,this.mandatorySkillData);
@@ -819,7 +819,7 @@ export class JobDetailComponent implements OnInit {
   populateDesiredSkills(tag){
     this.desiredSkillData = [];
     const tags = tag.map((res)=>res.TagName);
-    this.jobService.FetchAssociatedSkills(tags).subscribe((res) => {
+    this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
       res.forEach((v,i)=>{
         this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
         this.addDesiredSkill(i,this.desiredSkillData);
