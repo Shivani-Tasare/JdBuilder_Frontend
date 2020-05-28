@@ -36,7 +36,14 @@ export class Job1ServiceService {
     var tagName = encodeURIComponent(tags.join('|'));
     return this.httpClient.get(`${url}/FetchAllSkills?searchString=${searchString}&tags=${tagName}`);
   }
+
+  FetchAssociatedSkills(tags,tagType){
+    var tagName = encodeURIComponent(tags.join('|'));
+    return this.httpClient.get<string[]>(`${url}/getassociatedskills?tags=${tagName}&tagType=${tagType}`);
+  }
+
   FetchAssociatedTags(searchString) {
+    
     return this.httpClient.get(`${url}/AssociatedTags?searchText=${encodeURIComponent(searchString)}
     `);
   }

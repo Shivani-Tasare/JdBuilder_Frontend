@@ -73,6 +73,8 @@ export class CreateJdComponent implements OnInit {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
+  desiredSkillData = [];
+  mandatorySkillData = [];
   constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService) { }
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -206,7 +208,7 @@ export class CreateJdComponent implements OnInit {
   createMandatorySkill(newSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: newSkill.isEditing ? newSkill.isEditing : false,
-      SkillId: newSkill.SkillId,
+      SkillId: String(newSkill.SkillId),
       SkillName: [newSkill.SkillName, Validators.required],
       SkillTypeId: newSkill.SkillTypeId,
       SkillTypeName: newSkill.SkillTypeName,
@@ -219,33 +221,43 @@ export class CreateJdComponent implements OnInit {
   createDesiredSkill(desiredSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: desiredSkill.isEditing ? desiredSkill.isEditing : false,
-      SkillId: desiredSkill.SkillId,
+      SkillId: String(desiredSkill.SkillId),
       SkillName: [desiredSkill.SkillName, Validators.required],
       SkillTypeId: 2,
       SkillTypeName: 'Desired'
     });
   }
-  addMandatorySkill(): void {
+  addMandatorySkill(index?,skills?): void {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
-    const newSkill = {
-      isEditing: true,
-      SkillId: 0,
-      SkillName: '',
-      SkillTypeId: 1,
-      SkillTypeName: 'Mandatory'
-    };
-    this.mandatorySkills.push(this.createMandatorySkill(newSkill));
+    if(skills){
+      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,SkillId: skills[index].SkillId,
+        SkillName: skills[index].SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'}));
+    } else{
+      const newSkill = {
+        isEditing: true,
+        SkillId: 0,
+        SkillName: '',
+        SkillTypeId: 1,
+        SkillTypeName: 'Mandatory'
+      };
+      this.mandatorySkills.push(this.createMandatorySkill(newSkill));
+    }
   }
-  addDesiredSkill(): void {
-    this.mandatorySkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
-    const newSkill = {
-      isEditing: true,
-      SkillId: 0,
-      SkillName: '',
-      SkillTypeId: 1,
-      SkillTypeName: 'Desired'
-    };
-    this.mandatorySkills.push(this.createDesiredSkill(newSkill));
+  addDesiredSkill(index,skills?): void {
+    this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    if(skills){
+      this.desiredSkills.push(this.createDesiredSkill({isEditing: true,SkillId: skills[index].SkillId,
+        SkillName: skills[index].SkillName, SkillTypeId: 2, SkillTypeName: 'Desired'}));
+    } else{
+      const newSkill = {
+        isEditing: true,
+        SkillId: 0,
+        SkillName: '',
+        SkillTypeId: 2,
+        SkillTypeName: 'Desired'
+      };
+      this.desiredSkills.push(this.createDesiredSkill(newSkill));
+    }
   }
   addQualification(): void {
     this.qualifications = this.jobDescriptionForm.get('qualifications') as FormArray;
@@ -257,19 +269,41 @@ export class CreateJdComponent implements OnInit {
     const obj = { Id: '', Responsibility: ['', Validators.required], isEditing: true };
     this.rolesAndResponsibility.push(this.formBuilder.group(obj));
   }
-  deleteSkill(deletedSkill, index) {
+  deleteSkill(deletedSkill,onRemove, index?) {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
-    if (deletedSkill.SkillId.value !== 0) {
-      this.deletedSkills.push(deletedSkill.SkillId.value);
+    this.mandatorySkillData = [];
+    if(onRemove){
+      this.mandatorySkills.value.forEach((deletedSkill,i)=>{
+        if(deletedSkill.SkillId.startsWith('Id')) {
+              this.mandatorySkills.removeAt(this.mandatorySkills.length - 1);
+         }
+      })
+      this.populateMandatorySkills(this.mandatoryTagsList);
     }
-    this.mandatorySkills.removeAt(index);
+    if(deletedSkill.SkillId !== undefined){
+      if (deletedSkill.SkillId.value !== '0') {
+        this.deletedSkills.push(deletedSkill.SkillId.value);
+      }
+      this.mandatorySkills.removeAt(index);
+    }
   }
-  deleteDesiredSkill(deletedSkill, index) {
+  deleteDesiredSkill(deletedSkill,onRemove,index?) {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
-    if (deletedSkill.SkillId.value !== 0) {
-      this.deletedSkills.push(deletedSkill.SkillId.value);
+    this.desiredSkillData = [];
+    if(onRemove){
+      this.desiredSkills.value.forEach((deletedSkill,i)=>{
+        if(deletedSkill.SkillId.startsWith('Id')) {
+              this.desiredSkills.removeAt(this.desiredSkills.length - 1);
+         }
+      })
+      this.populateDesiredSkills(this.desiredTagsList);
     }
-    this.desiredSkills.removeAt(index);
+    if(deletedSkill.SkillId !== undefined){
+      if (deletedSkill.SkillId.value !== '0') {
+        this.deletedSkills.push(deletedSkill.SkillId.value);
+      }
+      this.desiredSkills.removeAt(index);
+    }
   }
   deleteQualification(deletedQualification, index) {
     this.qualifications = this.jobDescriptionForm.get('qualifications') as FormArray;
@@ -346,6 +380,7 @@ export class CreateJdComponent implements OnInit {
     });
     this.associatedTags.splice(index, 1);
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
+    this.populateMandatorySkills([this.mandatoryTagsList[this.mandatoryTagsList.length-1]])
   }
   appendToDesiredTags(index) {
     this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName, TagType:2});
@@ -354,6 +389,7 @@ export class CreateJdComponent implements OnInit {
     });
     this.associatedDesiredTags.splice(index, 1);
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName);
+    this.populateDesiredSkills([this.desiredTagsList[this.desiredTagsList.length-1]])
   }
   removeDesiredTag(tag,TagType): void {
     const index = this.desiredTagsList.indexOf(tag);
@@ -373,6 +409,7 @@ export class CreateJdComponent implements OnInit {
     (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName)
     : null;
+    this.deleteDesiredSkill(this.desiredSkills.value,true);
   }
   removeMandatoryTag(tag){
     const index = this.mandatoryTagsList.indexOf(tag);
@@ -393,6 +430,7 @@ export class CreateJdComponent implements OnInit {
     (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
     : null;
+    this.deleteSkill(this.mandatorySkills.value,true);
   }
 
   fetchAssociatedTags(value) {
@@ -421,6 +459,7 @@ export class CreateJdComponent implements OnInit {
       });
     })
   }
+
   selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
     this.desiredTagsList.push(event.option.value);
     this.desiredTagsList.map(x => x.TagType = 2)
@@ -431,8 +470,8 @@ export class CreateJdComponent implements OnInit {
         }
       });
       this.desiredTags.setValue(null);
+      this.populateDesiredSkills([event.option.value]);
       this.fetchAssociatedDesiredTags(event.option.value.TagName);
-      this.desiredTags.setValue(null);
   }
 
   selectedMandatoryTag(event: MatAutocompleteSelectedEvent,TagType){
@@ -444,11 +483,45 @@ export class CreateJdComponent implements OnInit {
         this.allTags.splice(index, 1);
       }
     });
-    this.desiredTags.setValue(null);
-    this.fetchAssociatedTags(event.option.value.TagName);
     this.mandatoryTags.setValue(null);
+    this.populateMandatorySkills([event.option.value]);
+    this.fetchAssociatedTags(event.option.value.TagName);
   }
 
+  populateMandatorySkills(tag){
+    this.mandatorySkillData = [];
+    const tags = tag.map((res)=>res.TagName);
+     this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
+      res.forEach((v,i)=>{
+        this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
+        this.addMandatorySkill(i,this.mandatorySkillData);
+      })
+     })
+     this.toggleInputBox(true);
+  }
+
+  toggleInputBox(isMandatory){
+    if(this.jobDescriptionForm.controls['mandatorySkills'].value[0].SkillName === "" && isMandatory){
+      document.getElementById('inputboxMand').style.display = 'none';
+      document.getElementById('dotIcon').style.display = 'none';
+    }
+   else if(this.jobDescriptionForm.controls['desiredSkills'].value[0].SkillName === ""){
+      document.getElementById('inputboxDesi').style.display = 'none';
+      document.getElementById('dotIconDesi').style.display = 'none';
+    }
+  }
+
+  populateDesiredSkills(tag){
+    this.desiredSkillData = [];
+    const tags = tag.map((res)=>res.TagName);
+    this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
+      res.forEach((v,i)=>{
+        this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
+        this.addDesiredSkill(i,this.desiredSkillData);
+      })
+    })
+    this.toggleInputBox(false);
+  }
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
     if (isMandatory) {
       this.jobDescriptionForm.controls['mandatorySkills'].value[index].SkillName = event.option.value

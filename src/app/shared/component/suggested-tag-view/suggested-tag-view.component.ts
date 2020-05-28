@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SuggestedTagViewComponent implements OnInit {
   @Input() associatedTags = [];
+  @Input() label ='';
   @Output() onTagEmitt = new EventEmitter();
   constructor() { }
 
