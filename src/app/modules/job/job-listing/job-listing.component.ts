@@ -48,12 +48,7 @@ export class JobListingComponent implements OnInit {
       this.myJd = false
       this.sidebarIndex = 1
     }
-    const pageParams = { sharedJD:this.sharedJD, pageSize: this.DefaultPageSize, pageIndex: this.pageSelected, myJd: this.myJd, sortByDate: this.sortByDate };
-    this.jobService.getAllJobs(pageParams).subscribe((jobs: any) => {
-      this.jobs = jobs.ProfileList; 
-      this.length = jobs.TotalRecords;
-      this.range = `1-${this.jobs.length} of ${this.length}`;
-    });
+    this.initLoad();
     this.jobService.FetchExperienceList().subscribe((experiences: any) => {
       if (experiences.StatusCode === 200) {
         this.experiences = experiences.ExperienceMasterList;
@@ -75,45 +70,22 @@ export class JobListingComponent implements OnInit {
       }
     });
   }
- 
-  refresh() {
-    this.selectedLocation = undefined;
-    this.selectedExperience = undefined;
-    this.selectedDesignation = undefined;
-    this.selectedUserId = ''
-    this.searchString = ''
-    const pageParams = { pageSize: 2, pageIndex: 0, myJd: this.myJd, sortByDate: this.sortByDate,sharedJD: this.sharedJD };
-    this.jobService.getAllJobs(pageParams).subscribe((jobs: any) => {
-      this.jobs = jobs.ProfileList;
-      this.length = jobs.TotalRecords;
-      this.range = `1-${this.jobs.length} of ${this.length}`;
-    });
-  }
-  appendToMandatoryTags(index){
-    console.log(this.searchString)
-    this.searchString = (!!this.searchString) ? this.searchString + ', ' +
-    this.associatedTags[index].TagName: this.associatedTags[index].TagName;
-    this.associatedTags.splice(index, 1);
-//    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
-  }
-  search() {
-    this.jobs = []
-    const paramObject = {
-      locationId: (this.selectedLocation && this.selectedLocation !== 'undefined') ? this.selectedLocation : 0,
-      experienceId: (this.selectedExperience && this.selectedExperience !== 'undefined') ? this.selectedExperience : 0,
-      designationId: (this.selectedDesignation && this.selectedDesignation !== 'undefined') ? this.selectedDesignation : 0,
-      pageSize: this.DefaultPageSize,
-      pageIndex: 0,
-      searchString: this.searchString ? encodeURIComponent(this.searchString) : '',
-      myJd: this.myJd,
-      sortByDate: this.sortByDate,
-      selectedUserId: this.selectedUserId,
-      sharedJD: this.sharedJD
-    };
-    this.pageSelected = 0
-    this.filterProfile(paramObject);
-  }
-  filterProfile(paramObject) {
+ initLoad(){
+   const pageParams = {
+    locationId: (this.selectedLocation && this.selectedLocation !== 'undefined') ? this.selectedLocation : 0,
+    experienceId: (this.selectedExperience && this.selectedExperience !== 'undefined') ? this.selectedExperience : 0,
+    designationId: (this.selectedDesignation && this.selectedDesignation !== 'undefined') ? this.selectedDesignation : 0,
+    pageSize: this.DefaultPageSize,
+    pageIndex: 0,
+    searchString: this.searchString ? encodeURIComponent(this.searchString) : '',
+    myJd: this.myJd,
+    sortByDate: this.sortByDate,
+    selectedUserId: this.selectedUserId,
+    sharedJD: this.sharedJD
+   }
+   this.fetchProfile(pageParams);
+ }
+  fetchProfile(paramObject) {
     this.jobService.FetchFilteredProfiles(paramObject).subscribe((FilteredList: any) => {
       if (FilteredList.StatusCode === 200) {
         this.associatedTags = [];
@@ -127,8 +99,22 @@ export class JobListingComponent implements OnInit {
       }
     });
   }
-  onUserChange(evn) {
+
+  refresh() {
+    this.initLoad()
   }
+  appendToMandatoryTags(index){
+    console.log(this.searchString)
+    this.searchString = (!!this.searchString) ? this.searchString + ', ' +
+    this.associatedTags[index].TagName: this.associatedTags[index].TagName;
+    this.associatedTags.splice(index, 1);
+//    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
+  }
+  search() {
+    this.jobs = []
+    this.initLoad();
+  }
+  
   onPaginateChange(evn) {
     const paramObject = {
       locationId: (this.selectedLocation && this.selectedLocation !== 'undefined') ? this.selectedLocation : 0,
@@ -144,7 +130,7 @@ export class JobListingComponent implements OnInit {
     };
     this.pageSelected = evn.pageIndex !== undefined ? evn.pageIndex : evn,
       this.DefaultPageSize = evn.pageSize ? evn.pageSize : this.DefaultPageSize;
-    this.filterProfile(paramObject);
+    this.fetchProfile(paramObject);
   }
   goToDetails(jobId) {
     this.loaderService.show();
