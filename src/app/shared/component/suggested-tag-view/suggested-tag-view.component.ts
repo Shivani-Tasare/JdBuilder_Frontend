@@ -13,9 +13,9 @@ export class SuggestedTagViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
   appendToTags(index) {
     this.onTagEmitt.emit(index);
   }
-
 }

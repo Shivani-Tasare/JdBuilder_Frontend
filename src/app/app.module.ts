@@ -31,6 +31,10 @@ import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
 import { SharedModule } from './shared';
+import { JobDetailEditModeComponent } from './modules/job/job-detail-edit-mode/job-detail-edit-mode.component';
+import { JobModule } from './modules/job/job.module';
+import { JobDetailComponent } from './modules/job/job-detail/job-detail.component';
+import { ViewCandidatesPieChartComponent } from './modules/job/view-candidates-pie-chart/view-candidates-pie-chart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,10 +43,12 @@ import { SharedModule } from './shared';
     JobListingComponent,
     CreateJdComponent,
     JdsSharedComponent,
+    JobDetailComponent,
+    JobDetailEditModeComponent,
+    ViewCandidatesPieChartComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
@@ -55,7 +61,8 @@ import { SharedModule } from './shared';
     ReactiveFormsModule,
     MaterialUiModule,
     InfiniteScrollModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule
   ],
   providers: [JobServiceService, LoaderService, AdalService, AdalConfigService,
     { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor, multi: true },

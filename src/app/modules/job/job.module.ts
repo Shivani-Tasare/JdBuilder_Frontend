@@ -16,12 +16,14 @@ import { PipesModule } from 'src/app/shared/pipes/jobId-pipe/pipe.module';
 import { CreateJdComponent } from './create-jd/create-jd.component';
 import { ContentPdfComponent } from './content-pdf/content-pdf.component';
 import { SharedModule } from 'src/app/shared';
+import { ViewCandidatesPieChartComponent } from './view-candidates-pie-chart/view-candidates-pie-chart.component';
 //import { JdsSharedComponent } from './jds-shared/jds-shared.component';
 @NgModule({
   declarations: [
     JobDetailComponent,
     ViewJdComponent,
     ContentPdfComponent,
+    ViewCandidatesPieChartComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,9 @@ import { SharedModule } from 'src/app/shared';
     ChartsModule,
     PipesModule,
     SharedModule
+  ],
+  exports:[
+    ViewCandidatesPieChartComponent
   ],
   providers: [Job1ServiceService]
 })
