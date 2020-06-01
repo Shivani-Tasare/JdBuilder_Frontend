@@ -377,52 +377,54 @@ export class JobDetailComponent implements OnInit {
           qualifications: this.formBuilder.array([this.formBuilder.group({ Id: 0, Name: 'default qualification' })]),
         });
       }
-      this.jobService.FetchTagsList().subscribe((tags: any) => {
-        if (tags.StatusCode === 200) {
-          this.allTags = [...tags.ProfileTagsList];
-          this.allTagsDesired = [...tags.ProfileTagsList];
-          for (let index = 0; this.allTags.length > index; index++) {
-            for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
-              if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
-                this.allTags.splice(index, 1);
-                index = 0;
-                index2 = 0;
+      if(this.isEditJd){
+        this.jobService.FetchTagsList().subscribe((tags: any) => {
+          if (tags.StatusCode === 200) {
+            this.allTags = [...tags.ProfileTagsList];
+            this.allTagsDesired = [...tags.ProfileTagsList];
+            for (let index = 0; this.allTags.length > index; index++) {
+              for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
+                if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
+                  this.allTags.splice(index, 1);
+                  index = 0;
+                  index2 = 0;
+                }
               }
             }
-          }
-          this.filteredTags = this.jobDescriptionForm.get("mandatoryTags").valueChanges
-            .pipe(
-              startWith(''),
-              map(val => {
-                if (val && val.length >= 2) {
-                  return this._filter(val);
-                } else {
-                  return [];
+            this.filteredTags = this.jobDescriptionForm.get("mandatoryTags").valueChanges
+              .pipe(
+                startWith(''),
+                map(val => {
+                  if (val && val.length >= 2) {
+                    return this._filter(val);
+                  } else {
+                    return [];
+                  }
+                })
+              );
+            for (let index = 0; this.allTagsDesired.length > index; index++) {
+              for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
+                if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id || this.allTagsDesired[index].TagName === this.desiredTagsList[index2].TagName) {
+                  this.allTagsDesired.splice(index, 1);
+                  index = 0;
+                  index2 = 0;
                 }
-              })
-            );
-          for (let index = 0; this.allTagsDesired.length > index; index++) {
-            for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
-              if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id || this.allTagsDesired[index].TagName === this.desiredTagsList[index2].TagName) {
-                this.allTagsDesired.splice(index, 1);
-                index = 0;
-                index2 = 0;
               }
             }
+            this.filteredTagsDesired = this.jobDescriptionForm.get("desiredTags").valueChanges
+              .pipe(
+                startWith(''),
+                map(val => {
+                  if (val && val.length >= 2) {
+                    return this._filterTag(val);
+                  } else {
+                    return [];
+                  }
+                })
+              );
           }
-          this.filteredTagsDesired = this.jobDescriptionForm.get("desiredTags").valueChanges
-            .pipe(
-              startWith(''),
-              map(val => {
-                if (val && val.length >= 2) {
-                  return this._filterTag(val);
-                } else {
-                  return [];
-                }
-              })
-            );
-        }
-      });
+        });
+      }
     });
   }
   compareWithFunc = (a: any, b: any) => a == b;

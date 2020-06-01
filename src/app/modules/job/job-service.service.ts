@@ -8,9 +8,7 @@ const url = Config.url;
 export class Job1ServiceService {
   
   constructor(private httpClient: HttpClient) { }
-  getAllJobs(pageParams) {
-    return this.httpClient.get(`${url}/FetchProfiles?pageSize=${pageParams.pageSize}&pageIndex=${pageParams.pageIndex}&myJD=${pageParams.myJd}&sortDir=${pageParams.sortByDate}&sharedJd=${pageParams.sharedJD}`);
-  }
+  
   fetchProfiles(jdId) {
     return this.httpClient.get(`${url}/FetchProfileDetails?profileId=${jdId}`);
   }

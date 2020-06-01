@@ -490,38 +490,34 @@ export class CreateJdComponent implements OnInit {
 
   populateMandatorySkills(tag){
     this.mandatorySkillData = [];
+    this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     const tags = tag.map((res)=>res.TagName);
      this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
       res.forEach((v,i)=>{
-        this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
-        this.addMandatorySkill(i,this.mandatorySkillData);
+        if(this.jobDescriptionForm.controls['mandatorySkills'].value[0].SkillName === ''){
+          this.mandatorySkills.removeAt(0);
+           this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
+          this.addMandatorySkill(i,this.mandatorySkillData);
+        }
       })
      })
-     this.toggleInputBox(true);
-  }
-
-  toggleInputBox(isMandatory){
-    if(this.jobDescriptionForm.controls['mandatorySkills'].value[0].SkillName === "" && isMandatory){
-      document.getElementById('inputboxMand').style.display = 'none';
-      document.getElementById('dotIcon').style.display = 'none';
-    }
-   else if(this.jobDescriptionForm.controls['desiredSkills'].value[0].SkillName === ""){
-      document.getElementById('inputboxDesi').style.display = 'none';
-      document.getElementById('dotIconDesi').style.display = 'none';
-    }
   }
 
   populateDesiredSkills(tag){
     this.desiredSkillData = [];
+    this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     const tags = tag.map((res)=>res.TagName);
     this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
       res.forEach((v,i)=>{
+        if(this.jobDescriptionForm.controls['desiredSkills'].value[0].SkillName === ''){
+          this.desiredSkills.removeAt(0);
         this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
         this.addDesiredSkill(i,this.desiredSkillData);
+        }
       })
     })
-    this.toggleInputBox(false);
   }
+
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
     if (isMandatory) {
       this.jobDescriptionForm.controls['mandatorySkills'].value[index].SkillName = event.option.value
