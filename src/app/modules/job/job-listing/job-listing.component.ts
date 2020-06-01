@@ -101,7 +101,12 @@ export class JobListingComponent implements OnInit {
   }
 
   refresh() {
-    this.initLoad()
+    this.selectedLocation = undefined;
+    this.selectedExperience = undefined;
+    this.selectedDesignation = undefined;
+    this.selectedUserId = ''
+    this.searchString = ''
+   this.initLoad();
   }
   appendToMandatoryTags(index){
     console.log(this.searchString)
@@ -115,6 +120,8 @@ export class JobListingComponent implements OnInit {
     this.initLoad();
   }
   
+  onUserChange(evn) {
+  }
   onPaginateChange(evn) {
     const paramObject = {
       locationId: (this.selectedLocation && this.selectedLocation !== 'undefined') ? this.selectedLocation : 0,
