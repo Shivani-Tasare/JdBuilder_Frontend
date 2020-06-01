@@ -497,8 +497,11 @@ export class CreateJdComponent implements OnInit {
         if(this.jobDescriptionForm.controls['mandatorySkills'].value[0].SkillName === ''){
           this.mandatorySkills.removeAt(0);
            this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
-          this.addMandatorySkill(i,this.mandatorySkillData);
-        }
+          this.addMandatorySkill(i,this.mandatorySkillData);}
+          else{
+            this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
+            this.addMandatorySkill(i,this.mandatorySkillData);
+          }
       })
      })
   }
@@ -512,6 +515,9 @@ export class CreateJdComponent implements OnInit {
         if(this.jobDescriptionForm.controls['desiredSkills'].value[0].SkillName === ''){
           this.desiredSkills.removeAt(0);
         this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
+        this.addDesiredSkill(i,this.desiredSkillData);
+        }else{
+          this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
         this.addDesiredSkill(i,this.desiredSkillData);
         }
       })
