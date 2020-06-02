@@ -190,7 +190,7 @@
                   <p class="col-12 pt-2 font-weight-bold">TAGS</p>
                 <mat-form-field class="col-12 example-chip-list">
                   <mat-chip-list #chipList>
-                    <mat-chip *ngFor="let tag of mandatoryTagsList" [selectable]="selectable" [removable]="removable"
+                    <mat-chip *ngFor="let tag of mandatoryTagsList;" [selectable]="selectable" [removable]="removable"
                       (removed)="removeMandatoryTag(tag)">
                       {{tag?.TagName}}
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
