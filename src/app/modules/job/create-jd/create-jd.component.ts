@@ -604,9 +604,7 @@ export class CreateJdComponent implements OnInit {
     this.jobDescriptionForm.patchValue({ about: "" })
   }
   checkDuplicateDesignation(event) {
-
-    if (isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
-      this.FetchProfileSummary({ value: 0, viewValue: event.target.value })
+//     this.FetchProfileSummary({ value: 0, viewValue: event.target.value })
       let isChecked = false
       this.designations.forEach((designation: any) => {
         if (!isChecked) {
@@ -618,7 +616,6 @@ export class CreateJdComponent implements OnInit {
           }
         }
       });
-    }
   }
   filterDesignationList(evnt) {
     if ((evnt.keyCode >= 48 && evnt.keyCode <= 57) || (evnt.keyCode >= 65 && evnt.keyCode <= 90) || evnt.keyCode === 8) {
