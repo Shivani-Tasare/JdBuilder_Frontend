@@ -51,7 +51,6 @@
                 <mat-error class="col-8 offset-4 px-0">
                   <div *ngIf="(submitted || jobDescriptionForm.get('selectedDesignation').touched)">
                     <div *ngIf="jobDescriptionForm.get('selectedDesignation').invalid">Please select designation.</div>
-                    <div *ngIf="isDuplicateDesignation">Entered designation is already exists.</div>
                   </div>
                 </mat-error>
                 <p class="col-4 m-auto pt-2 font-weight-bold">EXPERIENCE</p>

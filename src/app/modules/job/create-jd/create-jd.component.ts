@@ -582,8 +582,11 @@ export class CreateJdComponent implements OnInit {
       }
     }
   }
+  getDesignationNameFromID(designationEvent:  string) {
+    return this.designations.find((r: any) => r.Id == designationEvent)['DesignationName'];
+  }
   FetchProfileSummary(designationEvent) {
-    this.selectedDesignationName = designationEvent.viewValue;
+    this.selectedDesignationName = this.getDesignationNameFromID(designationEvent.value);
     let designationObject = { designationId: designationEvent.value, name: designationEvent.viewValue }
     this.jobService.FetchProfileSummary(designationObject).subscribe((Data: any) => {
       if (Data.StatusCode) {
@@ -598,7 +601,7 @@ export class CreateJdComponent implements OnInit {
     this.jobDescriptionForm.patchValue({ about: "" })
   }
   checkDuplicateDesignation(event) {
-//     this.FetchProfileSummary({ value: 0, viewValue: event.target.value })
+    //this.FetchProfileSummary({ value: 0, viewValue: event.target.value })
       let isChecked = false
       this.designations.forEach((designation: any) => {
         if (!isChecked) {
@@ -628,9 +631,11 @@ export class CreateJdComponent implements OnInit {
 
   onSave() {
     this.submitted = true;
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || this.isDuplicateDesignation) {
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1) {
       return;
     }
+
+    
     const jdObject = {
       ProfileName: this.jobDescriptionForm.get('title').value,
       About: this.jobDescriptionForm.get('about').value,
