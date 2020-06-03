@@ -17,6 +17,7 @@ import { AdalService } from 'src/app/shared/services/adal.service';
   styleUrls: ['../job-detail/job-detail.component.scss']
 })
 export class CreateJdComponent implements OnInit {
+  selectedDesignationId: number;
   jobDescriptionForm: FormGroup;
   mandatorySkills: FormArray;
   desiredSkills: FormArray;
@@ -607,6 +608,7 @@ export class CreateJdComponent implements OnInit {
         if (!isChecked) {
           if (designation.DesignationName.trim().toLowerCase() === event.target.value.trim().toLowerCase()) {
             this.isDuplicateDesignation = true
+            this.selectedDesignationId = designation.Id;
             isChecked = true
           } else {
             this.isDuplicateDesignation = false
@@ -639,7 +641,7 @@ export class CreateJdComponent implements OnInit {
     const jdObject = {
       ProfileName: this.jobDescriptionForm.get('title').value,
       About: this.jobDescriptionForm.get('about').value,
-      DesignationId: isNaN(this.jobDescriptionForm.get('selectedDesignation').value) ? 0 : this.jobDescriptionForm.get('selectedDesignation').value,
+      DesignationId: !this.isDuplicateDesignation ? 0 :  this.selectedDesignationId,
       LocationId: this.jobDescriptionForm.get('selectedLocation').value,
       ExperienceId: this.jobDescriptionForm.get('selectedExperience').value,
       SkillList: [...this.jobDescriptionForm.get('mandatorySkills').value, ...this.jobDescriptionForm.get('desiredSkills').value],
@@ -650,7 +652,7 @@ export class CreateJdComponent implements OnInit {
       DeletedSkills: this.deletedSkills,
       DeletedResponsibilities: this.deletedResponsiblities,
       DeletedTags: (this.deletedMandatoryTags.concat(this.deletedDesiredTags)),
-      NewDesignation: isNaN(this.jobDescriptionForm.get('selectedDesignation').value) ? this.jobDescriptionForm.get('selectedDesignation').value : undefined,
+      NewDesignation: !this.isDuplicateDesignation ? this.jobDescriptionForm.get('selectedDesignation').value : undefined,
       isPrivate: this.isPrivateChecked
     };
     this.jobService.CreateProfile(jdObject).subscribe((updatedData: any) => {
