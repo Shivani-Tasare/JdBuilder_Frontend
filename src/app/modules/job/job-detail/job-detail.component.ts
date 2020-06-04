@@ -113,7 +113,8 @@ export class JobDetailComponent implements OnInit {
   
   public downloadPDF2() {
     let htmlContent = this.document.getElementById('content-pdf')
-    this.jobService.GeneratePDF({ htmlContent: htmlContent.outerHTML }).subscribe((data: any) => {
+    let fileName = this.selectedDesignationName;
+    this.jobService.GeneratePDF({ htmlContent: htmlContent.outerHTML , fileName:fileName }).subscribe((data: any) => {
       let blob = new Blob([data.body], {
         type: 'application/pdf'
       });
