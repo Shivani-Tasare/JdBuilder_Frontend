@@ -113,7 +113,8 @@ export class JobDetailComponent implements OnInit {
   
   public downloadPDF2() {
     let htmlContent = this.document.getElementById('content-pdf')
-    this.jobService.GeneratePDF({ htmlContent: htmlContent.outerHTML }).subscribe((data: any) => {
+    let fileName = this.selectedDesignationName;
+    this.jobService.GeneratePDF({ htmlContent: htmlContent.outerHTML , fileName:fileName }).subscribe((data: any) => {
       let blob = new Blob([data.body], {
         type: 'application/pdf'
       });
@@ -591,13 +592,17 @@ export class JobDetailComponent implements OnInit {
     this.pieChartData = this.candidateCountList.map(x => x.count);
 
   }
-  addMandatoryTag(event: MatChipInputEvent, isAdd, TagType): void {
+  addMandatoryTag(event: MatChipInputEvent, isAdd, i): void {
     if (isAdd) {
         const input = event.input;
         const value = event.value;
+        let index = this.mandatoryTagsList.findIndex((i)=>{
+          return (i.TagName == value);
+        })
         // Add our tag
         if ((value || '').trim()) {
-          this.mandatoryTagsList.push({ Id: '', TagName: value.trim()});
+          if(index === -1 || value !== this.mandatoryTagsList[index].TagName)
+          this.mandatoryTagsList.push({ Id: '', TagName: value.trim()});  
         }
         // Reset the input value
         if (input) {
@@ -611,8 +616,12 @@ export class JobDetailComponent implements OnInit {
     if (isAdd) {
       const input = event.input;
       const value = event.value;
+      let index = this.desiredTagsList.findIndex((i)=>{
+        return (i.TagName == value);
+      })
       // Add our tag
       if ((value || '').trim()) {
+        if(index === -1 || value !== this.desiredTagsList[index].TagName)
         this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType });
       }
       // Reset the input value

@@ -184,7 +184,7 @@
                   references.</small>
                 <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
                 <div class="col-12" formArrayName="mandatorySkills"
-                  *ngFor="let skill of jobDescriptionForm.get('mandatorySkills')['controls']; let i = index;">
+                  *ngFor="let skill of jobDescriptionForm?.get('mandatorySkills')['controls']; let i = index;">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
                       <div class="col-11 col-md-11 col-lg-11">
