@@ -778,25 +778,25 @@
                 <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
                   (ngSubmit)="onSave()">
                   <div class="row">
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">DESIGNATION</p>
-                    <p class="col-12 pt-2" style="text-align: justify;font-size: 24px;color: black;">
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">DESIGNATION</p>
+                    <p class="col-12 pt-2" style="text-align: justify;font-size: 19px;color: black;">
                       {{selectedDesignationName}}</p>
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">EXPERIENCE</p>
-                    <p class="col-12 pt-2" style="text-align: justify;font-size: 24px;color: black;">
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">EXPERIENCE</p>
+                    <p class="col-12 pt-2" style="text-align: justify;font-size: 19px;color: black;">
                       {{selectedExperienceName}}</p>
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">LOCATION</p>
-                    <p class="col-12 pt-2" style="text-align: justify;font-size: 24px;color: black;">
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">LOCATION</p>
+                    <p class="col-12 pt-2" style="text-align: justify;font-size: 19px;color: black;">
                       {{selectedLocationName.join(', ')}}</p>
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">SUMMARY</p>
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">SUMMARY</p>
 
                     <div class="col-12">
-                      <p style="text-align: justify;font-size: 24px;color: black;">
+                      <p style="text-align: justify;font-size: 19px;color: black;">
                         {{jobDescriptionForm.controls.about.value}}</p>
                       <hr>
                     </div>
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">MANDATORY TAGS</p>
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">MANDATORY TAGS</p>
                     <mat-chip-list class="col-12">
-                      <mat-chip style="text-align: justify;font-size: 24px;color: black;background-color: #e0e0e0;
+                      <mat-chip style="text-align: justify;font-size: 19px;color: black;background-color: #e0e0e0;
                     color: rgba(0,0,0,.87);transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
     display: inline-flex;
     padding: 9px 12px;
@@ -809,9 +809,9 @@
                     <div class="col-12">
                       <hr>
                     </div>
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">DESIRED TAGS</p>
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">DESIRED TAGS</p>
                     <mat-chip-list class="col-12">
-                      <mat-chip style="text-align: justify;font-size: 24px;color: black;background-color: #e0e0e0;
+                      <mat-chip style="text-align: justify;font-size: 19px;color: black;background-color: #e0e0e0;
                     color: rgba(0,0,0,.87);transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
     display: inline-flex;
     padding: 9px 12px;
@@ -824,9 +824,9 @@
                     <div class="col-12">
                       <hr>
                     </div>
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">MANDATORY SKILLS</p>
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">MANDATORY SKILLS</p>
                     <p class="col-12">
-                      <span style="text-align: justify;font-size: 24px;color: black;"
+                      <span style="text-align: justify;font-size: 19px;color: black;"
                         *ngFor="let skill of jobDescriptionForm.get('mandatorySkills')['controls']; let i = index;">
                         {{skill.controls.SkillName.value}}<span *ngIf="i !== tags.length-1">.<br /></span>
                       </span>
@@ -834,9 +834,9 @@
                     <div class="col-12">
                       <hr>
                     </div>
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">DESIRED SKILLS</p>
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">DESIRED SKILLS</p>
                     <p class="col-12">
-                      <span style="text-align: justify;font-size: 24px;color: black;"
+                      <span style="text-align: justify;font-size: 19px;color: black;"
                         *ngFor="let skill of jobDescriptionForm.get('desiredSkills')['controls']; let i = index;">
                         {{skill.controls.SkillName.value}}<span *ngIf="i !== tags.length-1">.<br /></span>
                       </span>
@@ -844,9 +844,9 @@
                     <div class="col-12">
                       <hr>
                     </div>
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">QUALIFICATION</p>
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">QUALIFICATION</p>
                     <p class="col-12">
-                      <span style="text-align: justify;font-size: 24px;color: black;"
+                      <span style="text-align: justify;font-size: 19px;color: black;"
                         *ngFor="let item of jobDescriptionForm.get('qualifications')['controls']; let i = index;">
                         {{item.controls.Name.value}}<span *ngIf="i !== tags.length-1">.<br /></span>
                       </span>
@@ -854,10 +854,10 @@
                     <div class="col-12">
                       <hr>
                     </div>
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 30px;color: black;">ROLE AND
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">ROLE AND
                       RESPONSIBILITIES</p>
                     <p class="col-12">
-                      <span style="text-align: justify;font-size: 24px;color: black;"
+                      <span style="text-align: justify;font-size: 19px;color: black;"
                         *ngFor="let item of jobDescriptionForm.get('rolesAndResponsibility')['controls']; let i = index;">
                         {{item.controls.Responsibility.value}}<span *ngIf="i !== tags.length-1">.<br /></span>
                       </span>
@@ -865,25 +865,25 @@
                     <div class="col-12">
                       <hr>
                     </div>
-                    <p class="col-12 pt-2 font-weight-bold mb-0" style="font-size: 26px;color: black;">CREATED BY :
+                    <p class="col-12 pt-2 font-weight-bold mb-0" style="font-size: 21px;color: black;">CREATED BY :
                       <span class="font-weight-normal"
-                        style="text-align: justify;font-size: 24px;color: black;">{{jobDetail.ProfileDetail.CreatorName}}</span>
+                        style="text-align: justify;font-size: 19px;color: black;">{{jobDetail.ProfileDetail.CreatorName}}</span>
                     </p>
 
-                    <p class="col-12 font-weight-bold mb-0" style="font-size: 26px;color: black;">UPDATED ON : <span
+                    <p class="col-12 font-weight-bold mb-0" style="font-size: 21px;color: black;">UPDATED ON : <span
                         class="font-weight-normal"
-                        style="text-align: justify;font-size: 24px;color: black;">{{jobDetail.ProfileDetail.UpdatedDate | date: 'dd-MMM-yyyy'}}</span>
+                        style="text-align: justify;font-size: 19px;color: black;">{{jobDetail.ProfileDetail.UpdatedDate | date: 'dd-MMM-yyyy'}}</span>
                     </p>
-                    <p class="col-12 font-weight-bold" style="font-size: 26px;color: black;">CREATED ON : <span
+                    <p class="col-12 font-weight-bold" style="font-size: 21px;color: black;">CREATED ON : <span
                         class="font-weight-normal"
-                        style="text-align: justify;font-size: 24px;color: black;">{{jobDetail.ProfileDetail.CreatedDate | date: 'dd-MMM-yyyy'}}</span>
+                        style="text-align: justify;font-size: 19px;color: black;">{{jobDetail.ProfileDetail.CreatedDate | date: 'dd-MMM-yyyy'}}</span>
                     </p>
                   </div>
 
                 </form>
                 <style>
                   .p-header {
-                    font-size: 30px;
+                    font-size: 25px;
                     color: black;
                   }
                 </style>
