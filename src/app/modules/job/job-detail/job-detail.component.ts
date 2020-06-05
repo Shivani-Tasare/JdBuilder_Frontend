@@ -145,6 +145,7 @@ export class JobDetailComponent implements OnInit {
     responsive: true,
     legend: {
       position: 'bottom',
+      onClick: null
     },
     plugins: {
       datalabels: {
