@@ -253,7 +253,7 @@
                                 formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
                               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i,true)">
                                 <mat-option *ngFor="let suggestion of suggestedMandatorySkill; let i = index;"
-                                  [value]="suggestion?.SkillName">
+                                  [value]="suggestion?.SkillName" multipleLineOption>
                                   {{suggestion?.SkillName}}
                                 </mat-option>
                               </mat-autocomplete>
@@ -303,7 +303,7 @@
                                 [matAutocomplete]="auto"></textarea>
                               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                                 <mat-option *ngFor="let suggestion of suggestedDesiredSkill; let i = index;"
-                                  [value]="suggestion?.SkillName">
+                                  [value]="suggestion?.SkillName" multipleLineOption>
                                   {{suggestion?.SkillName}}
                                 </mat-option>
                               </mat-autocomplete>
@@ -352,7 +352,7 @@
                               <mat-autocomplete #auto="matAutocomplete"
                                 (optionSelected)="selectQualification($event,i)">
                                 <mat-option *ngFor="let qualification of suggestedQualification; let i = index;"
-                                  [value]="qualification.Name">
+                                  [value]="qualification.Name" multipleLineOption>
                                   {{qualification.Name}}
                                 </mat-option>
                               </mat-autocomplete>
@@ -399,7 +399,7 @@
                               <mat-autocomplete #auto="matAutocomplete"
                                 (optionSelected)="selectResponsibility($event,i)">
                                 <mat-option *ngFor="let responsibility of suggestedResponsibilities; let i = index;"
-                                  [value]="responsibility.Responsibility">
+                                  [value]="responsibility.Responsibility" multipleLineOption>
                                   {{responsibility.Responsibility}}
                                 </mat-option>
                               </mat-autocomplete>

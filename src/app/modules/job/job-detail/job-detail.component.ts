@@ -120,7 +120,7 @@ export class JobDetailComponent implements OnInit {
       });
       var link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.download = 'samplePDFFile.pdf';
+      link.download = this.selectedDesignationName + '.pdf';
       link.click();
       window.URL.revokeObjectURL(link.href);
     })
@@ -652,6 +652,7 @@ export class JobDetailComponent implements OnInit {
     this.populateDesiredSkills([this.desiredTagsList[this.desiredTagsList.length-1]]);
   }
   removeDesiredTag(tag,TagType): void {
+    this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     const index = this.desiredTagsList.indexOf(tag);
     this.associatedDesiredTags = [];
     if(tag.Id.startsWith('ID')) {
@@ -672,6 +673,7 @@ export class JobDetailComponent implements OnInit {
     this.deleteDesiredSkill(this.desiredSkills.value,true);
   }
   removeMandatoryTag(tag){
+    this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     const index = this.mandatoryTagsList.indexOf(tag);
     this.associatedTags = [];
     if(tag.Id.startsWith('ID')) {
