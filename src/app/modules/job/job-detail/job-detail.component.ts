@@ -839,9 +839,7 @@ export class JobDetailComponent implements OnInit {
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
   }
-  clearSummary() {
-    this.jobDescriptionForm.patchValue({ about: "" })
-  }
+
   checkDuplicateDesignation(event) {
     if (!isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
       this.isDuplicateDesignation = false
