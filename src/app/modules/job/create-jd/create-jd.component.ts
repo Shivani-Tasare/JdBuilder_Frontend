@@ -320,7 +320,15 @@ export class CreateJdComponent implements OnInit {
     }
     this.rolesAndResponsibility.removeAt(index);
   }
+
+  isSkillNameNotEmpty(controls) {
+    console.log(controls.SkillName.value);
+    return controls.SkillName.value.trim() !=""; 
+
+  }
+
   moveToDesired(selectedSkill, index) {
+  //  debugger;
     const updatedSkill = {
       SkillId: selectedSkill.SkillId.value,
       SkillName: selectedSkill.SkillName.value
