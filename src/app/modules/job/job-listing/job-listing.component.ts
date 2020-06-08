@@ -106,8 +106,15 @@ export class JobListingComponent implements OnInit {
     this.selectedDesignation = undefined;
     this.selectedUserId = ''
     this.searchString = ''
-   this.initLoad();
+    const pageParams = {pageSize: 5, pageIndex: 0, myJd: this.myJd, sortByDate: this.sortByDate,sharedJD: this.sharedJD ,locationId: 0,
+    experienceId : 0,designationId: 0, selectedUserId : '', searchString : ''}
+    this.jobService.FetchFilteredProfiles(pageParams).subscribe((jobs: any) => {
+          this.jobs = jobs.ProfileList;
+          this.length = jobs.TotalRecords;
+          this.range = `1-${this.jobs.length} of ${this.length}`;
+    })
   }
+
   appendToMandatoryTags(index){
     console.log(this.searchString)
     this.searchString = (!!this.searchString) ? this.searchString + ', ' +

@@ -409,6 +409,7 @@ export class CreateJdComponent implements OnInit {
             return r.Id  != tag.Id;
           });
           this.desiredTagsList.splice(index, 1);
+          this.allTagsDesired.push(tag);
          } else {
     if (index >= 0) {
       this.desiredTagsList.splice(index, 1);
@@ -430,10 +431,12 @@ export class CreateJdComponent implements OnInit {
             return r.Id  != tag.Id;
           });
           this.mandatoryTagsList.splice(index, 1);
+          this.allTags.push(tag);
          } else {
 
     if (index >= 0) {
       this.mandatoryTagsList.splice(index, 1);
+      this.allTags.push(tag);
       this.deletedMandatoryTags.push({Id:tag.Id,TagType:tag.TagType});
       }
       
