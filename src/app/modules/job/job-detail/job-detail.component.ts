@@ -886,6 +886,7 @@ export class JobDetailComponent implements OnInit {
   deleteProfile() {
     this.jobService.deleteProfile(location.href.split('/')[location.href.split('/').length - 1]).subscribe((data: any) => {
       if (data.StatusCode === 200) {
+        this.toastr.success(data.Message, 'Success');
         this.router.navigate(['myJd']);
       }
     })
