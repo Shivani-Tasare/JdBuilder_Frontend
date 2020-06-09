@@ -288,7 +288,7 @@ export class CreateJdComponent implements OnInit {
       this.mandatorySkills.removeAt(index);
     }
     if(this.mandatorySkills.length == 0){
-      this.desiredSkills.push(this.createMandatorySkill({isEditing: true,
+      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,
         SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
     }
   }
