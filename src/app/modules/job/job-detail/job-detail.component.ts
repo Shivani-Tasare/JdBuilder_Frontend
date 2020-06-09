@@ -511,6 +511,10 @@ export class JobDetailComponent implements OnInit {
       }
       this.mandatorySkills.removeAt(index);
     }    
+    if(this.mandatorySkills.length == 0){
+      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
+    }
   }
   deleteDesiredSkill(deletedSkill, onRemove ,index?) {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
@@ -528,6 +532,10 @@ export class JobDetailComponent implements OnInit {
         this.deletedSkills.push(deletedSkill.SkillId.value);
       }
       this.desiredSkills.removeAt(index);
+    }
+    if(this.desiredSkills.length == 0){
+      this.desiredSkills.push(this.createDesiredSkill({isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 2, SkillTypeName: 'Desired'}))
     }
   }
   deleteQualification(deletedQualification, index) {
@@ -553,6 +561,10 @@ export class JobDetailComponent implements OnInit {
     this.desiredSkills.push(this.createDesiredSkill(updatedSkill));
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkills.removeAt(index);
+    if(this.mandatorySkills.length == 0){
+      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
+    }
   }
   moveToMandatory(selectedSkill, index) {
     const updatedSkill = {
@@ -565,6 +577,10 @@ export class JobDetailComponent implements OnInit {
     this.mandatorySkills.push(this.createMandatorySkill(updatedSkill));
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.removeAt(index);
+    if(this.desiredSkills.length == 0){
+      this.desiredSkills.push(this.createDesiredSkill({isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 2, SkillTypeName: 'Desired'}))
+    }
   }
 
   viewCandidates(myModal: any) {
