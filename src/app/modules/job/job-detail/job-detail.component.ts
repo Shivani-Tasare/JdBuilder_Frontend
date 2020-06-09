@@ -859,7 +859,11 @@ export class JobDetailComponent implements OnInit {
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
   }
+  isSkillNameNotEmpty(controls) {
+    console.log(controls.SkillName.value);
+    return controls.SkillName.value.trim() !=""; 
 
+  }
   checkDuplicateDesignation(event) {
     if (!isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
       this.isDuplicateDesignation = false

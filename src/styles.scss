@@ -17,3 +17,7 @@ body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
 .pointer{
   cursor: pointer;
 }
+.mat-autocomplete-panel .mat-option {
+  height: unset;
+  padding: 8px 16px;
+}

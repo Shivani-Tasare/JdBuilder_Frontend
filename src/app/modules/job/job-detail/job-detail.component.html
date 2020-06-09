@@ -274,7 +274,7 @@
                           <div class="dropdown-menu" style="left:25px !important">
                             <a class="dropdown-item" href="JavaScript:"
                               (click)='skill.controls.isEditing.value = true'>Edit</a>
-                            <a class="dropdown-item" href="JavaScript:" (click)="moveToDesired(skill.controls,i)">Move
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"  (click)="moveToDesired(skill.controls,i)">Move
                               To Desired</a>
                             <a class="dropdown-item" href="JavaScript:"
                               (click)='deleteSkill(skill.controls,false,i)'>Delete</a>
@@ -324,7 +324,7 @@
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="JavaScript:"
                               (click)='skill.controls.isEditing.value = true'>Edit</a>
-                            <a class="dropdown-item" href="JavaScript:" (click)="moveToMandatory(skill.controls,i)">Move
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"  (click)="moveToMandatory(skill.controls,i)">Move
                               To Mandatory</a>
                             <a class="dropdown-item" href="JavaScript:"
                               (click)='deleteDesiredSkill(skill.controls,false,i)'>Delete</a>
