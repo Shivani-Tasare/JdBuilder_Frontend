@@ -661,6 +661,7 @@ export class JobDetailComponent implements OnInit {
             return r.Id  != tag.Id;
           });
           this.desiredTagsList.splice(index, 1);
+          this.allTagsDesired.push(tag);
          } else {
     if (index >= 0) {
       this.desiredTagsList.splice(index, 1);
@@ -682,6 +683,7 @@ export class JobDetailComponent implements OnInit {
             return r.Id  != tag.Id;
           });
           this.mandatoryTagsList.splice(index, 1);
+          this.allTags.push(tag);
          } else {
 
     if (index >= 0) {
@@ -888,6 +890,7 @@ export class JobDetailComponent implements OnInit {
   deleteProfile() {
     this.jobService.deleteProfile(location.href.split('/')[location.href.split('/').length - 1]).subscribe((data: any) => {
       if (data.StatusCode === 200) {
+        this.toastr.success(data.Message, 'Success');
         this.router.navigate(['myJd']);
       }
     })
