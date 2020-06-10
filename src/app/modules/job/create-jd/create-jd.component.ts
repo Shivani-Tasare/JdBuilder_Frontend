@@ -288,7 +288,7 @@ export class CreateJdComponent implements OnInit {
       this.mandatorySkills.removeAt(index);
     }
     if(this.mandatorySkills.length == 0){
-      this.desiredSkills.push(this.createMandatorySkill({isEditing: true,
+      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,
         SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
     }
   }
@@ -328,7 +328,15 @@ export class CreateJdComponent implements OnInit {
     }
     this.rolesAndResponsibility.removeAt(index);
   }
+
+  isSkillNameNotEmpty(controls) {
+    console.log(controls.SkillName.value);
+    return controls.SkillName.value.trim() !=""; 
+
+  }
+
   moveToDesired(selectedSkill, index) {
+  //  debugger;
     const updatedSkill = {
       SkillId: selectedSkill.SkillId.value,
       SkillName: selectedSkill.SkillName.value
