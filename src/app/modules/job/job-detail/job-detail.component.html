@@ -795,32 +795,14 @@
                       <hr>
                     </div>
                     <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">MANDATORY TAGS</p>
-                    <mat-chip-list class="col-12">
-                      <mat-chip style="text-align: justify;font-size: 19px;color: black;background-color: #e0e0e0;
-                    color: rgba(0,0,0,.87);transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
-    display: inline-flex;
-    padding: 9px 12px;
-    border-radius: 16px;
-    align-items: center;
-    cursor: default;
-    min-height: 40px;
-    height: 1px;" *ngFor="let tag of mandatoryTagsList">{{tag.TagName}}</mat-chip>
-                    </mat-chip-list>
+                    <p class="col-12 pt-2" style="text-align: justify;font-size: 19px;color: black;">
+                      {{selectmandatorytags.join(', ')}}</p>
                     <div class="col-12">
                       <hr>
                     </div>
                     <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">DESIRED TAGS</p>
-                    <mat-chip-list class="col-12">
-                      <mat-chip style="text-align: justify;font-size: 19px;color: black;background-color: #e0e0e0;
-                    color: rgba(0,0,0,.87);transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
-    display: inline-flex;
-    padding: 9px 12px;
-    border-radius: 16px;
-    align-items: center;
-    cursor: default;
-    min-height: 40px;
-    height: 1px;" *ngFor="let tag of desiredTagsList">{{tag.TagName}}</mat-chip>
-                    </mat-chip-list>
+                    <p class="col-12 pt-2" style="text-align: justify;font-size: 19px;color: black;">
+                      {{selectdesiredtags.join(', ')}}</p>
                     <div class="col-12">
                       <hr>
                     </div>

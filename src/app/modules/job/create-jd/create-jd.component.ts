@@ -330,7 +330,6 @@ export class CreateJdComponent implements OnInit {
   }
 
   isSkillNameNotEmpty(controls) {
-    console.log(controls.SkillName.value);
     return controls.SkillName.value.trim() !=""; 
 
   }
@@ -342,6 +341,8 @@ export class CreateJdComponent implements OnInit {
       SkillName: selectedSkill.SkillName.value
     };
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    if(this.desiredSkills.value[0].SkillName == '')
+    this.desiredSkills.removeAt(0);
     this.desiredSkills.push(this.createDesiredSkill(updatedSkill));
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkills.removeAt(index);
@@ -358,6 +359,8 @@ export class CreateJdComponent implements OnInit {
       SkillTypeName: 'Mandatory'
     };
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    if(this.mandatorySkills.value[0].SkillName == '')
+    this.mandatorySkills.removeAt(0);
     this.mandatorySkills.push(this.createMandatorySkill(updatedSkill));
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.removeAt(index);
