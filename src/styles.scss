@@ -21,3 +21,8 @@ body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
   height: unset;
   padding: 8px 16px;
 }
+.dropdown {
+  .dropdown-menu{
+    z-index: 999999 !important;
+  }
+}
