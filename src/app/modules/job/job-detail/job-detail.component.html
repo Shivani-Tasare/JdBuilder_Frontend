@@ -322,7 +322,7 @@
                         <div class="col-1 my-auto p-0 btn dropdown dropleft">
                           <i [hidden]="jobDescriptionForm.get('desiredSkills').length == 1 && !isSkillNameNotEmpty(skill.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="JavaScript:" * ngIf="!skill.controls.isEditing.value"
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                               (click)='skill.controls.isEditing.value = true'>Edit</a>
                             <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"  (click)="moveToMandatory(skill.controls,i)">Move
                               To Mandatory</a>
