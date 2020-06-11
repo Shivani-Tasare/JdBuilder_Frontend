@@ -547,6 +547,8 @@ export class JobDetailComponent implements OnInit {
       this.deletedQualifications.push(deletedQualification.Id.value);
     }
     this.qualifications.removeAt(index);
+    if(this.qualifications.length == 0)
+    this.addQualification();
   }
   deleteResponsiblity(deletedResponsibility, index: number) {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
@@ -554,6 +556,8 @@ export class JobDetailComponent implements OnInit {
       this.deletedResponsiblities.push(deletedResponsibility.Id.value);
     }
     this.rolesAndResponsibility.removeAt(index);
+    if(this.rolesAndResponsibility.length == 0)
+    this.addResponsibility();
   }
   moveToDesired(selectedSkill, index) {
     const updatedSkill = {
@@ -868,9 +872,13 @@ export class JobDetailComponent implements OnInit {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
   }
   isSkillNameNotEmpty(controls) {
-    console.log(controls.SkillName.value);
-    return controls.SkillName.value.trim() !=""; 
-
+    return controls.SkillName.value.trim() !="" ; 
+  }
+  isQualificationEmpty(controls){
+    return controls.Name.value.trim() !="";
+  }
+  isResponsibilityEmpty(controls){
+  return controls.Responsibility.value.trim() !="";
   }
   checkDuplicateDesignation(event) {
     if (!isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
