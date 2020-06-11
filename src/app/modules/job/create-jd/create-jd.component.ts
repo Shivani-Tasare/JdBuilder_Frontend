@@ -320,6 +320,7 @@ export class CreateJdComponent implements OnInit {
       this.deletedQualifications.push(deletedQualification.Id.value);
     }
     this.qualifications.removeAt(index);
+    this.qualifications.length == 0 ? this.addQualification() : null;
   }
   deleteResponsiblity(deletedResponsibility, index: number) {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
@@ -327,21 +328,26 @@ export class CreateJdComponent implements OnInit {
       this.deletedResponsiblities.push(deletedResponsibility.Id.value);
     }
     this.rolesAndResponsibility.removeAt(index);
+    this.rolesAndResponsibility.length == 0 ? this.addResponsibility() : null;
   }
 
   isSkillNameNotEmpty(controls) {
-    console.log(controls.SkillName.value);
     return controls.SkillName.value.trim() !=""; 
-
   }
-
+  isQualificationEmpty(controls){
+    return controls.Name.value.trim() !="";
+  }
+  isResponsibilityEmpty(controls){
+  return controls.Responsibility.value.trim() !="";
+  }
   moveToDesired(selectedSkill, index) {
-  //  debugger;
     const updatedSkill = {
       SkillId: selectedSkill.SkillId.value,
       SkillName: selectedSkill.SkillName.value
     };
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    if(this.desiredSkills.value[0].SkillName == '')
+    this.desiredSkills.removeAt(0);
     this.desiredSkills.push(this.createDesiredSkill(updatedSkill));
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkills.removeAt(index);
@@ -358,6 +364,8 @@ export class CreateJdComponent implements OnInit {
       SkillTypeName: 'Mandatory'
     };
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    if(this.mandatorySkills.value[0].SkillName == '')
+    this.mandatorySkills.removeAt(0);
     this.mandatorySkills.push(this.createMandatorySkill(updatedSkill));
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.removeAt(index);

@@ -81,7 +81,6 @@ export class JobDetailComponent implements OnInit {
   associatedSkills = [];
   associatedDesriredSkills = [];
   associatedDesiredTags = [];
-
   //[['90-100% '], ['80-90% '], ['70-80 %'], ['<70 %']];
   candidateCountList = [
     { id: 0, range: '90 to 100', count: 0 , candidateDetail: [], label: '90-100% '},
@@ -108,6 +107,8 @@ export class JobDetailComponent implements OnInit {
   tagName: string[]=[];
   mandatorySkillData = [];
   desiredSkillData = [];
+  selectmandatorytags: any[];
+  selectdesiredtags: any[];
   constructor(private loaderService: LoaderService, private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
   
@@ -290,7 +291,9 @@ export class JobDetailComponent implements OnInit {
           this.isSameUser = true
         }
         this.mandatoryTagsList = jobDetail.ProfileDetail.TagsList.filter((x)=>x.TagType === 1);
+        this.selectmandatorytags = this.mandatoryTagsList.map((x)=> x.TagName);
         this.desiredTagsList = jobDetail.ProfileDetail.TagsList.filter((x) => x.TagType === 2);
+        this.selectdesiredtags = this.desiredTagsList.map((x)=>x.TagName);
         this.isDataFetched = true;
         const defaultMandatorySkill = [];
         const defaultDesiredSkill = [];
@@ -544,6 +547,8 @@ export class JobDetailComponent implements OnInit {
       this.deletedQualifications.push(deletedQualification.Id.value);
     }
     this.qualifications.removeAt(index);
+    if(this.qualifications.length == 0)
+    this.addQualification();
   }
   deleteResponsiblity(deletedResponsibility, index: number) {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
@@ -551,6 +556,8 @@ export class JobDetailComponent implements OnInit {
       this.deletedResponsiblities.push(deletedResponsibility.Id.value);
     }
     this.rolesAndResponsibility.removeAt(index);
+    if(this.rolesAndResponsibility.length == 0)
+    this.addResponsibility();
   }
   moveToDesired(selectedSkill, index) {
     const updatedSkill = {
@@ -558,6 +565,8 @@ export class JobDetailComponent implements OnInit {
       SkillName: selectedSkill.SkillName.value
     };
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    if(this.desiredSkills.value[0].SkillName == '')
+    this.desiredSkills.removeAt(0);
     this.desiredSkills.push(this.createDesiredSkill(updatedSkill));
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkills.removeAt(index);
@@ -574,6 +583,8 @@ export class JobDetailComponent implements OnInit {
       SkillTypeName: 'Mandatory'
     };
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    if(this.mandatorySkills.value[0].SkillName == '')
+    this.mandatorySkills.removeAt(0);
     this.mandatorySkills.push(this.createMandatorySkill(updatedSkill));
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.removeAt(index);
@@ -659,6 +670,7 @@ export class JobDetailComponent implements OnInit {
     this.populateMandatorySkills([this.mandatoryTagsList[this.mandatoryTagsList.length-1]])
     
   }
+
   appendToDesiredTags(index) {
     this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName, TagType:2});
     this.allTagsDesired  = this.allTagsDesired.filter((r)=>{
@@ -860,9 +872,13 @@ export class JobDetailComponent implements OnInit {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
   }
   isSkillNameNotEmpty(controls) {
-    console.log(controls.SkillName.value);
-    return controls.SkillName.value.trim() !=""; 
-
+    return controls.SkillName.value.trim() !="" ; 
+  }
+  isQualificationEmpty(controls){
+    return controls.Name.value.trim() !="";
+  }
+  isResponsibilityEmpty(controls){
+  return controls.Responsibility.value.trim() !="";
   }
   checkDuplicateDesignation(event) {
     if (!isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {

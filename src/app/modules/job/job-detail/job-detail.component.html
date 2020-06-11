@@ -270,9 +270,9 @@
                             {{skill.controls.SkillName.value}}</p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                          <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                          <i  [hidden]="jobDescriptionForm.get('mandatorySkills').length == 1 && !isSkillNameNotEmpty(skill.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu" style="left:25px !important">
-                            <a class="dropdown-item" href="JavaScript:"
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                               (click)='skill.controls.isEditing.value = true'>Edit</a>
                             <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"  (click)="moveToDesired(skill.controls,i)">Move
                               To Desired</a>
@@ -320,9 +320,9 @@
                             {{skill.controls.SkillName.value}}</p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                          <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                          <i [hidden]="jobDescriptionForm.get('desiredSkills').length == 1 && !isSkillNameNotEmpty(skill.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="JavaScript:"
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                               (click)='skill.controls.isEditing.value = true'>Edit</a>
                             <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"  (click)="moveToMandatory(skill.controls,i)">Move
                               To Mandatory</a>
@@ -369,9 +369,9 @@
                           </p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                          <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                          <i [hidden]="jobDescriptionForm.get('qualifications').length==1 && !isQualificationEmpty(item.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="JavaScript:"
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
                               (click)='item.controls.isEditing.value = true'>Edit</a>
                             <a class="dropdown-item" href="JavaScript:"
                               (click)='deleteQualification(item.controls,i)'>Delete</a>
@@ -416,10 +416,10 @@
                             {{item.controls.Responsibility.value}}</p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                          <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"
+                          <i [hidden]="jobDescriptionForm.get('rolesAndResponsibility').length == 1 && !isResponsibilityEmpty(item.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"
                             data-display="static"></i>
                           <div class="dropdown-menu dropdown-width">
-                            <a class="dropdown-item" href="JavaScript:"
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
                               (click)='item.controls.isEditing.value = true'>Edit</a>
                             <a class="dropdown-item" href="JavaScript:"
                               (click)='deleteResponsiblity(item.controls,i)'>Delete</a>
@@ -795,32 +795,14 @@
                       <hr>
                     </div>
                     <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">MANDATORY TAGS</p>
-                    <mat-chip-list class="col-12">
-                      <mat-chip style="text-align: justify;font-size: 19px;color: black;background-color: #e0e0e0;
-                    color: rgba(0,0,0,.87);transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
-    display: inline-flex;
-    padding: 9px 12px;
-    border-radius: 16px;
-    align-items: center;
-    cursor: default;
-    min-height: 40px;
-    height: 1px;" *ngFor="let tag of mandatoryTagsList">{{tag.TagName}}</mat-chip>
-                    </mat-chip-list>
+                    <p class="col-12 pt-2" style="text-align: justify;font-size: 19px;color: black;">
+                      {{selectmandatorytags.join(', ')}}</p>
                     <div class="col-12">
                       <hr>
                     </div>
                     <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px;color: black;">DESIRED TAGS</p>
-                    <mat-chip-list class="col-12">
-                      <mat-chip style="text-align: justify;font-size: 19px;color: black;background-color: #e0e0e0;
-                    color: rgba(0,0,0,.87);transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
-    display: inline-flex;
-    padding: 9px 12px;
-    border-radius: 16px;
-    align-items: center;
-    cursor: default;
-    min-height: 40px;
-    height: 1px;" *ngFor="let tag of desiredTagsList">{{tag.TagName}}</mat-chip>
-                    </mat-chip-list>
+                    <p class="col-12 pt-2" style="text-align: justify;font-size: 19px;color: black;">
+                      {{selectdesiredtags.join(', ')}}</p>
                     <div class="col-12">
                       <hr>
                     </div>
