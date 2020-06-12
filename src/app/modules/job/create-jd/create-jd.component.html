@@ -32,10 +32,12 @@
             <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
               (ngSubmit)="onSave()">
               <div class="row">
-                <p class="col-4">Make It As Private JD</p>
-                <mat-slide-toggle class="col-8 pl-0" [color]="color" [checked]="isPrivateChecked"
+                <p style="padding-top: 8px;" class="col-4">Make It As Private JD</p>
+                <section class="example-section col-8 pl-0" style="height: 35px;">
+                  <mat-slide-toggle  [color]="color" [checked]="isPrivateChecked"
                   [(ngModel)]="isPrivateChecked" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
                 </mat-slide-toggle>
+                </section>
                 <p class="col-4 m-auto font-weight-bold">DESIGNATION</p>
                 <mat-form-field class="col-8 pl-0">
                   <input (focusout)="checkDuplicateDesignation($event)"
