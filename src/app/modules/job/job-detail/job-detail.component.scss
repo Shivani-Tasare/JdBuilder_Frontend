@@ -16,7 +16,16 @@ background-color: white;
   text-align: right;
   cursor: pointer;
 }
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
 
+.example-margin {
+  margin-bottom: 38px;
+}
 tr.noBorder td {
   border: 0;
 }
