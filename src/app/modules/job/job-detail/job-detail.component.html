@@ -88,8 +88,8 @@
                 (ngSubmit)="onSave()">
                 <div class="row">
                   <p  *ngIf="isSameUser" class="col-4">Make It As Private JD</p>
-                  <section *ngIf="isSameUser" class="example-section col-8 pl-0" style="height: 35px;">
-                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="isPrivateChecked"
+                  <section class="example-section col-8 pl-0" *ngIf="isSameUser" style="height: 35px;">
+                    <mat-slide-toggle class="pb-5" [color]="color" [checked]="isPrivateChecked"
                     [(ngModel)]="isPrivateChecked" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
                   </mat-slide-toggle>
                   </section>
@@ -271,7 +271,7 @@
                           <p [hidden]='skill.controls.isEditing.value' class="my-auto" style="color:gray">
                             {{skill.controls.SkillName.value}}</p>
                         </div>
-                        <div class="col-1 my-auto p-0 btn dropdown dropleft">
+                        <div class="col-1 my-auto p-0 btn dropdown dropright">
                           <i  [hidden]="jobDescriptionForm.get('mandatorySkills').length == 1 && !isSkillNameNotEmpty(skill.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu" style="left:25px !important">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
@@ -321,7 +321,7 @@
                           <p [hidden]='skill.controls.isEditing.value' style="color:gray">
                             {{skill.controls.SkillName.value}}</p>
                         </div>
-                        <div class="col-1 my-auto p-0 btn dropdown dropleft">
+                        <div class="col-1 my-auto p-0 btn dropdown dropright">
                           <i [hidden]="jobDescriptionForm.get('desiredSkills').length == 1 && !isSkillNameNotEmpty(skill.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
@@ -370,7 +370,7 @@
                           <p [hidden]='item.controls.isEditing.value' style="color:gray">{{item.controls.Name.value}}
                           </p>
                         </div>
-                        <div class="col-1 my-auto p-0 btn dropdown dropleft">
+                        <div class="col-1 my-auto p-0 btn dropdown dropright">
                           <i [hidden]="jobDescriptionForm.get('qualifications').length==1 && !isQualificationEmpty(item.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
@@ -417,10 +417,10 @@
                           <p [hidden]='item.controls.isEditing.value' style="color:gray">
                             {{item.controls.Responsibility.value}}</p>
                         </div>
-                        <div class="col-1 my-auto p-0 btn dropdown dropleft">
+                        <div class="col-1 my-auto p-0 btn dropdown dropright">
                           <i [hidden]="jobDescriptionForm.get('rolesAndResponsibility').length == 1 && !isResponsibilityEmpty(item.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"
                             data-display="static"></i>
-                          <div class="dropdown-menu dropdown-width">
+                          <div class="dropdown-menu dropdown-right">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
                               (click)='item.controls.isEditing.value = true'>Edit</a>
                             <a class="dropdown-item" href="JavaScript:"
