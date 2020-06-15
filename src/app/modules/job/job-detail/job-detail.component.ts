@@ -565,9 +565,9 @@ export class JobDetailComponent implements OnInit {
       SkillName: selectedSkill.SkillName.value
     };
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    this.desiredSkills.push(this.createDesiredSkill(updatedSkill));
     if(this.desiredSkills.value[0].SkillName == '')
     this.desiredSkills.removeAt(0);
-    this.desiredSkills.push(this.createDesiredSkill(updatedSkill));
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkills.removeAt(index);
     if(this.mandatorySkills.length == 0){
@@ -583,9 +583,9 @@ export class JobDetailComponent implements OnInit {
       SkillTypeName: 'Mandatory'
     };
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    this.mandatorySkills.push(this.createMandatorySkill(updatedSkill));
     if(this.mandatorySkills.value[0].SkillName == '')
     this.mandatorySkills.removeAt(0);
-    this.mandatorySkills.push(this.createMandatorySkill(updatedSkill));
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.removeAt(index);
     if(this.desiredSkills.length == 0){

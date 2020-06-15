@@ -88,8 +88,8 @@
                 (ngSubmit)="onSave()">
                 <div class="row">
                   <p  *ngIf="isSameUser" class="col-4">Make It As Private JD</p>
-                  <section class="example-section col-8 pl-0" style="height: 35px;">
-                    <mat-slide-toggle class="pb-5" *ngIf="isSameUser" [color]="color" [checked]="isPrivateChecked"
+                  <section *ngIf="isSameUser" class="example-section col-8 pl-0" style="height: 35px;">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="isPrivateChecked"
                     [(ngModel)]="isPrivateChecked" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
                   </mat-slide-toggle>
                   </section>
