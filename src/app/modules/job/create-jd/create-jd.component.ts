@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, ViewChild, HostListener, Inject } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Job1ServiceService } from '../job-service.service';
 import { MatChipInputEvent } from '@angular/material';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -128,12 +128,12 @@ export class CreateJdComponent implements OnInit {
 
     
     defaultQualification.push(this.createQualification({ Id: 0, Name: '', isEditing: true }));
-    defaultResponsibility.push(this.formBuilder.group({ Id: '', Responsibility: ['', Validators.required], isEditing: true }));
+    defaultResponsibility.push(this.formBuilder.group({ Id: '', Responsibility: ['',[Validators.required,this.noWhitespaceValidator]], isEditing: true }));
 
     this.jobDescriptionForm = this.formBuilder.group({
       title: new FormControl(''),
-      about: new FormControl('', Validators.required),
-      selectedDesignation: new FormControl('', Validators.required),
+      about: new FormControl('', [Validators.required,this.noWhitespaceValidator]),
+      selectedDesignation: new FormControl('', [Validators.required,Validators.pattern("(?!^ +$)^.+$")]),
       selectedLocation: new FormControl('', Validators.required),
       selectedExperience: new FormControl('', Validators.required),
       mandatoryTags: new FormControl(''),
@@ -205,25 +205,30 @@ export class CreateJdComponent implements OnInit {
       }
     });
   }
+  noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+}
   compareWithFunc = (a: any, b: any) => a == b;
   createMandatorySkill(newSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: newSkill.isEditing ? newSkill.isEditing : false,
       SkillId: String(newSkill.SkillId),
-      SkillName: [newSkill.SkillName, Validators.required],
+      SkillName: [newSkill.SkillName, [Validators.required,this.noWhitespaceValidator]],
       SkillTypeId: newSkill.SkillTypeId,
       SkillTypeName: newSkill.SkillTypeName,
     });
   }
   createQualification(qualificationObj): FormGroup {
-    qualificationObj.Name = [qualificationObj.Name, Validators.required]
+    qualificationObj.Name = [qualificationObj.Name, [Validators.required,this.noWhitespaceValidator]]
     return this.formBuilder.group(qualificationObj);
   }
   createDesiredSkill(desiredSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: desiredSkill.isEditing ? desiredSkill.isEditing : false,
       SkillId: String(desiredSkill.SkillId),
-      SkillName: [desiredSkill.SkillName, Validators.required],
+      SkillName: [desiredSkill.SkillName, [Validators.required,this.noWhitespaceValidator]],
       SkillTypeId: 2,
       SkillTypeName: 'Desired'
     });
@@ -267,7 +272,7 @@ export class CreateJdComponent implements OnInit {
   }
   addResponsibility(): void {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
-    const obj = { Id: '', Responsibility: ['', Validators.required], isEditing: true };
+    const obj = { Id: '', Responsibility: ['', [Validators.required,this.noWhitespaceValidator]], isEditing: true };
     this.rolesAndResponsibility.push(this.formBuilder.group(obj));
   }
   deleteSkill(deletedSkill,onRemove, index?) {
