@@ -1,6 +1,6 @@
-import { Component, OnInit, Directive, ChangeDetectorRef, ElementRef, ViewChild, HostListener, Inject } from '@angular/core';
+import { Component, OnInit, Directive, ChangeDetectorRef, ElementRef, ViewChild, HostListener, Inject, ViewEncapsulation } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Job1ServiceService } from '../job-service.service';
 import { MatChipInputEvent, MatDialog } from '@angular/material';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -194,6 +194,7 @@ export class JobDetailComponent implements OnInit {
       return option.TagName.toLowerCase().includes(filterValue);
     });
   }
+  
   ngOnInit() {
     this.initLoad();
     //for edit mode
@@ -314,15 +315,15 @@ export class JobDetailComponent implements OnInit {
         });
         jobDetail.ProfileDetail.ResponsibilityList.forEach((ele) => {
           ele.isEditing = false
-          ele.Responsibility = [ele.Responsibility, Validators.required]
+          ele.Responsibility = [ele.Responsibility, [Validators.required,,this.noWhitespaceValidator]]
           defaultResponsibility.push(this.formBuilder.group(ele));
         }); 
         this.isPrivateChecked = jobDetail.ProfileDetail.IsPrivate;
         this.jobDescriptionForm = this.formBuilder.group({
           title: new FormControl(jobDetail.ProfileDetail.ProfileName),
-          about: new FormControl(jobDetail.ProfileDetail.About, Validators.required),
+          about: new FormControl(jobDetail.ProfileDetail.About, [Validators.required,this.noWhitespaceValidator]),
           selectedDesignation: new FormControl(jobDetail.ProfileDetail.DesignationId, Validators.required),
-          selectedDesignationN: new FormControl(jobDetail.ProfileDetail.DesignationName, Validators.required),
+          selectedDesignationN: new FormControl(jobDetail.ProfileDetail.DesignationName, [Validators.required,Validators.pattern("(?!^ +$)^.+$")]),
           selectedLocation: new FormControl(jobDetail.ProfileDetail.LocationId, Validators.required),
           selectedExperience: new FormControl(jobDetail.ProfileDetail.ExperienceId, Validators.required),
           desiredSkills: this.formBuilder.array(defaultDesiredSkill),
@@ -432,25 +433,30 @@ export class JobDetailComponent implements OnInit {
       }
     });
   }
+  noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+}
   compareWithFunc = (a: any, b: any) => a == b;
   createMandatorySkill(newSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: newSkill.isEditing ? newSkill.isEditing : false,
       SkillId: String(newSkill.SkillId),
-      SkillName: [newSkill.SkillName, Validators.required],
+      SkillName: [newSkill.SkillName, [Validators.required,this.noWhitespaceValidator]],
       SkillTypeId: newSkill.SkillTypeId,
       SkillTypeName: newSkill.SkillTypeName,
     });
   }
   createQualification(qualificationObj): FormGroup {
-    qualificationObj.Name = [qualificationObj.Name, Validators.required]
+    qualificationObj.Name = [qualificationObj.Name, [Validators.required,this.noWhitespaceValidator]]
     return this.formBuilder.group(qualificationObj);
   }
   createDesiredSkill(desiredSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: desiredSkill.isEditing ? desiredSkill.isEditing : false,
       SkillId: String(desiredSkill.SkillId),
-      SkillName: [desiredSkill.SkillName, Validators.required],
+      SkillName: [desiredSkill.SkillName, [Validators.required,,this.noWhitespaceValidator]],
       SkillTypeId: 2,
       SkillTypeName: 'Desired'
     });
@@ -494,7 +500,7 @@ export class JobDetailComponent implements OnInit {
   }
   addResponsibility(): void {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
-    const obj = { Id: '', Responsibility: ['', Validators.required], isEditing: true };
+    const obj = { Id: '', Responsibility: ['', [Validators.required,this.noWhitespaceValidator]], isEditing: true };
     this.rolesAndResponsibility.push(this.formBuilder.group(obj));
   }
   deleteSkill(deletedSkill,onRemove,index?) {
@@ -919,6 +925,7 @@ export class JobDetailComponent implements OnInit {
       })
     }
   }
+
   deleteProfile() {
     this.jobService.deleteProfile(location.href.split('/')[location.href.split('/').length - 1]).subscribe((data: any) => {
       if (data.StatusCode === 200) {
@@ -938,9 +945,8 @@ export class JobDetailComponent implements OnInit {
   onSave() {
    
     this.submitted = true;
-    //this.jobDescriptionForm.controls['this.mandatoryTags'].setValue(this.mandatoryTagsList);
-    //this.jobDescriptionForm.controls['this.desiredTags'].setValue(this.desiredTagsList);
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1|| this.isDuplicateDesignation) {
+    
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1|| this.isDuplicateDesignation ) {
       return;
     }
     const jdObject = {
