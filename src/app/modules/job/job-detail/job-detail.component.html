@@ -637,6 +637,12 @@
                   <div class="col-12 d-none pr-0 d-lg-block pt-4">
                     <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)"
                       value="View Candidates" class=" mr-2 btn theme-color-btn" />
+
+                      <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+                      value="View iCIMS Candidates" class=" mr-2 btn theme-color-btn" />
+
+
+
                     <input (click)="fixHeader();onEdit()" type="button" value="Edit" class="btn theme-color-btn mr-2" />
                     <input data-toggle="modal" data-target="#deleteConfirmation" *ngIf="isSameUser" type="button"
                       value="Delete" class="btn theme-color-btn" />
@@ -741,6 +747,69 @@
       </div>
     </div>
   </div>
+
+
+  <div class="modal" id="iCIMSCandidateModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header pb-0 pr-1 pt-1 border-0">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+     
+        <div>
+          <div class="row">
+            <div class="col-11 candidate-details">
+              <!-- <div
+              class="search-results"
+              infiniteScroll
+              [infiniteScrollDistance]="2"
+              [infiniteScrollThrottle]="50"
+              (scrolled)="onScroll()"
+              [scrollWindow]="false"
+              > -->
+              
+              <table class="table table-bordered p-3 my-3">
+                <thead>
+                  <tr>
+                    <th scope="col">Candidate Name</th>
+                    <th scope="col">Region</th>
+                    <th scope="col">Phone no.</th>
+                    <th scope="col">Email</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="noBorder" *ngFor="let c of test">
+                    <td>{{ c?.firstName + " " + c?.lastName }}</td>
+                    <td>{{ getAddress(c.addresses) }}</td>
+                    <td>{{ c.phones?.phoneNumber }}</td>
+                    <td>{{ c.email }}</td>
+                  </tr>
+
+                </tbody>
+                <tfoot>
+                  <tr class="text-right" *ngIf="!candidateRecordsAsPerSection?.length"> No Record Found!</tr>
+                </tfoot>
+              </table>
+            </div>
+        </div>
+          <!-- </div> -->
+
+        <!-- Modal footer -->
+        <!-- <div class="modal-footer">
+        </div> -->
+
+      </div>
+    </div>
+
+
+</div>
+  </div>
+
+  
 
   <!-- The Modal -->
   <div class="modal fade" id="deleteConfirmation">

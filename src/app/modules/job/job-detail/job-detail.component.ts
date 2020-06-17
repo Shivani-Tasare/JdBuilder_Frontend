@@ -24,6 +24,213 @@ import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+  length = 100;
+  test = [
+    {
+        "firstName": "Shane",
+        "addresses": null,
+        "folder": {
+            "id": "D32004",
+            "formattedvalue": "Cand:Inactive",
+            "value": "Cand:Inactive"
+        },
+        "phones": null,
+        "links": [
+            {
+                "rel": "self",
+                "title": "The current profile being viewed.",
+                "url": "https://api.icims.com/customers/6155/people/98390"
+            }
+        ],
+        "email": "bruggess@rose-hulman.edu",
+        "lastName": "Bruggeman"
+    },
+    {
+        "firstName": "Stephen",
+        "addresses": [
+            {
+                "addressCity": "Indianapolis",
+                "entry": 115442,
+                "addressZip": "46220",
+                "addressState": {
+                    "id": "D41001017",
+                    "abbrev": "IN",
+                    "value": "Indiana"
+                },
+                "addressCountry": {
+                    "id": "D41001",
+                    "abbrev": "US",
+                    "value": "United States"
+                },
+                "addressType": {
+                    "id": "D84002",
+                    "formattedvalue": "Home",
+                    "value": "Home"
+                },
+                "addressStreet1": "5738 N Rural St.",
+                "primary": true
+            }
+        ],
+        "folder": {
+            "id": "D32007",
+            "formattedvalue": "Cand:Active",
+            "value": "Cand:Active"
+        },
+        "phones": [
+            {
+                "phonetype": {
+                    "id": "D83002",
+                    "formattedvalue": "Home",
+                    "value": "Home"
+                },
+                "entry": 125087,
+                "phoneNumber": "310.985.1627",
+                "primary": true
+            }
+        ],
+        "links": [
+            {
+                "rel": "self",
+                "title": "The current profile being viewed.",
+                "url": "https://api.icims.com/customers/6155/people/125551"
+            }
+        ],
+        "email": "gardnersj@gmail.com",
+        "lastName": "Gardner"
+    },
+    {
+        "firstName": "Joshua",
+        "addresses": [
+            {
+                "addressCity": "Indianapolis",
+                "entry": 121238,
+                "addressZip": "46239",
+                "addressState": {
+                    "id": "D41001017",
+                    "abbrev": "IN",
+                    "value": "Indiana"
+                },
+                "addressCountry": {
+                    "id": "D41001",
+                    "abbrev": "US",
+                    "value": "United States"
+                },
+                "addressType": {
+                    "id": "D84002",
+                    "formattedvalue": "Home",
+                    "value": "Home"
+                },
+                "addressStreet1": "8039 Wildwood Farms Dr",
+                "primary": true
+            }
+        ],
+        "folder": {
+            "id": "D32018",
+            "formattedvalue": "Emp:Former Employee",
+            "value": "Emp:Former Employee"
+        },
+        "phones": [
+            {
+                "phonetype": {
+                    "id": "D83004",
+                    "formattedvalue": "Mobile",
+                    "value": "Mobile"
+                },
+                "entry": 131046,
+                "phoneNumber": "317-937-7493",
+                "primary": true
+            }
+        ],
+        "links": [
+            {
+                "rel": "self",
+                "title": "The current profile being viewed.",
+                "url": "https://api.icims.com/customers/6155/people/131202"
+            }
+        ],
+        "email": "jholmer.in@gmail.com",
+        "lastName": "Holmer"
+    },
+    {
+        "firstName": "Priyanka",
+        "addresses": null,
+        "folder": {
+            "id": "D32007",
+            "formattedvalue": "Cand:Active",
+            "value": "Cand:Active"
+        },
+        "phones": [
+            {
+                "phonetype": {
+                    "id": "D83004",
+                    "formattedvalue": "Mobile",
+                    "value": "Mobile"
+                },
+                "entry": 167482,
+                "phoneNumber": "8618949706",
+                "primary": true
+            }
+        ],
+        "links": [
+            {
+                "rel": "self",
+                "title": "The current profile being viewed.",
+                "url": "https://api.icims.com/customers/6155/people/168342"
+            }
+        ],
+        "email": "priyankaprakash5794@gmail.com",
+        "lastName": "Prakash"
+    },
+    {
+        "firstName": "Aniket",
+        "addresses": [
+            {
+                "addressCity": "Hyderabad",
+                "entry": 152971,
+                "addressZip": null,
+                "addressState": null,
+                "addressCountry": null,
+                "addressType": {
+                    "id": "D84002",
+                    "formattedvalue": "Home",
+                    "value": "Home"
+                },
+                "addressStreet1": "304, Tulips residency, Camelot Layout, Botanical Garden Road",
+                "primary": true
+            }
+        ],
+        "folder": {
+            "id": "D32007",
+            "formattedvalue": "Cand:Active",
+            "value": "Cand:Active"
+        },
+        "phones": [
+            {
+                "phonetype": {
+                    "id": "D83004",
+                    "formattedvalue": "Mobile",
+                    "value": "Mobile"
+                },
+                "entry": 167951,
+                "phoneNumber": "+91-9000988943",
+                "primary": true
+            }
+        ],
+        "links": [
+            {
+                "rel": "self",
+                "title": "The current profile being viewed.",
+                "url": "https://api.icims.com/customers/6155/people/168886"
+            }
+        ],
+        "email": "aniket.gupta309@gmail.com",
+        "lastName": "Gupta"
+    }
+];
+  pageSize = 2;
+  pageSizeOptions: number[] = [2, 5, 10, 25, 100];
+  pageSelected = 0;
+  DefaultPageSize = 5;
   jobDescriptionForm: FormGroup;
   mandatorySkills: FormArray;
   desiredSkills: FormArray;
@@ -493,6 +700,18 @@ export class JobDetailComponent implements OnInit {
       this.desiredSkills.push(this.createDesiredSkill(newSkill));
     }
   }
+  getAddress(address) {
+    if(!!address) {
+      return  address.map((r)=> {
+        if(!!r.addressCountry) {
+          return (r.addressCountry.value);
+        }
+        return [];        
+        }).join(', ')
+    }
+
+return '';
+  }
   addQualification(): void {
     this.qualifications = this.jobDescriptionForm.get('qualifications') as FormArray;
     const obj = { Id: 0, Name: '', isEditing: true };
@@ -611,6 +830,32 @@ export class JobDetailComponent implements OnInit {
           this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
         })
     }
+  }
+
+  viewiCIMSCandidates(myModal: any) {
+    console.log('1');
+  }
+  
+  onPaginateChange(evn) {
+    const paramObject = {
+      test: 1
+    };
+    this.pageSelected = evn.pageIndex !== undefined ? evn.pageIndex : evn,
+      this.DefaultPageSize = evn.pageSize ? evn.pageSize : this.DefaultPageSize;
+    this.fetchProfile(paramObject);
+  }
+  fetchProfile(paramObject) {
+    for(var i =0; i<100;i++) {
+      this.test.push(1);
+ }
+    // this.jobService.FetchFilteredProfiles(paramObject).subscribe((FilteredList: any) => {
+    
+    // });
+  }
+
+  onScroll() {
+    let pageDetails = { pageIndex: this.pageSelected + 1 };
+    this.onPaginateChange(pageDetails);
   }
 
   filterCandidatesByMatchScore(matchingConsultants: any[]) {
