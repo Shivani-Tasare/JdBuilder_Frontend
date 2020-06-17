@@ -343,6 +343,14 @@ export class JobDetailComponent implements OnInit {
             });
           }
         });
+          const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+          this.tagName = tags.map((res)=>res.TagName);
+          if(tags.length > 0){
+            this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
+              response => {
+                this.matchingConsultants = response;
+              })
+          }
         this.jobService.FetchLocationList().subscribe((locations: any) => {
           if (locations.StatusCode === 200) {
             this.locations = locations.LocationMasterList;
@@ -600,7 +608,7 @@ export class JobDetailComponent implements OnInit {
     }
   }
 
-  viewCandidates(myModal: any) {
+  viewCandidates(myModal?: any) {
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res)=>res.TagName);
     if(tags.length > 0){
