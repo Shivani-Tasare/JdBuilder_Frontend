@@ -26,3 +26,7 @@ body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
     z-index: 999999 !important;
   }
 }
+
+.mat-autocomplete-panel.mat-autocomplete-visible, .mat-select-panel {
+  border: 1px solid #9a9a9a
+}
