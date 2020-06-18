@@ -235,3 +235,16 @@ tr.noBorder td {
   height: 10rem;
   overflow: scroll;
 }
+
+#iCIMSCandidateModal {
+  .modal-dialog {
+    max-width: 85vw;
+    .modal-content{
+      height: 90vh;
+      .candidate-details{
+        overflow: auto;
+        max-height: 84vh;
+      }
+    }
+  }
+}

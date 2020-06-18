@@ -770,30 +770,8 @@
               (scrolled)="onScroll()"
               [scrollWindow]="false"
               > -->
-              
-              <table class="table table-bordered p-3 my-3">
-                <thead>
-                  <tr>
-                    <th scope="col">Candidate Name</th>
-                    <th scope="col">Region</th>
-                    <th scope="col">Phone no.</th>
-                    <th scope="col">Email</th>
-                    
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="noBorder" *ngFor="let c of test">
-                    <td>{{ c?.firstName + " " + c?.lastName }}</td>
-                    <td>{{ getAddress(c.addresses) }}</td>
-                    <td>{{ c.phones?.phoneNumber }}</td>
-                    <td>{{ c.email }}</td>
-                  </tr>
-
-                </tbody>
-                <tfoot>
-                  <tr class="text-right" *ngIf="!candidateRecordsAsPerSection?.length"> No Record Found!</tr>
-                </tfoot>
-              </table>
+              <div ><p  class="mb-0"> Total Candidates </p><h4> {{(!!test.length) ? test.length : 0}} </h4></div>
+                <app-i-cimscandidate-list [data]="test" ></app-i-cimscandidate-list>
             </div>
         </div>
           <!-- </div> -->

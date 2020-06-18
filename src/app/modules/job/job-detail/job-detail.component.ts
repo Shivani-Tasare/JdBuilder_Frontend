@@ -700,18 +700,7 @@ export class JobDetailComponent implements OnInit {
       this.desiredSkills.push(this.createDesiredSkill(newSkill));
     }
   }
-  getAddress(address) {
-    if(!!address) {
-      return  address.map((r)=> {
-        if(!!r.addressCountry) {
-          return (r.addressCountry.value);
-        }
-        return [];        
-        }).join(', ')
-    }
 
-return '';
-  }
   addQualification(): void {
     this.qualifications = this.jobDescriptionForm.get('qualifications') as FormArray;
     const obj = { Id: 0, Name: '', isEditing: true };
@@ -846,7 +835,7 @@ return '';
   }
   fetchProfile(paramObject) {
     for(var i =0; i<100;i++) {
-      this.test.push(1);
+    //  this.test.push(1);
  }
     // this.jobService.FetchFilteredProfiles(paramObject).subscribe((FilteredList: any) => {
     
@@ -854,8 +843,8 @@ return '';
   }
 
   onScroll() {
-    let pageDetails = { pageIndex: this.pageSelected + 1 };
-    this.onPaginateChange(pageDetails);
+    // let pageDetails = { pageIndex: this.pageSelected + 1 };
+    // this.onPaginateChange(pageDetails);
   }
 
   filterCandidatesByMatchScore(matchingConsultants: any[]) {
