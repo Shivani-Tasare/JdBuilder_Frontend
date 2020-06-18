@@ -444,6 +444,9 @@
                   <div class="col-12 d-none pr-0 d-lg-block">
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
                       class=" btn theme-color-btn mr-2" />
+                      <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+                      value="View iCIMS Candidates" class=" mr-2 btn theme-color-btn" />
+
                     <input id="viewButton" data-toggle="modal"  data-target="#myModal" type="button"
                       (click)="viewCandidates(myModal)" value="View Candidates" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)"

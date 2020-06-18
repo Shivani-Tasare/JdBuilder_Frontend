@@ -10,11 +10,13 @@
   </thead>
   <tbody>
     <tr class="noBorder" *ngFor="let c of data">
-      <td>{{ c?.firstName + " " + c?.lastName }}</td>
-      <td>{{ getAddress(c.addresses) }}</td>
-      <td>{{ getPhoneNumber(c?.phones)}}</td>
-      <td>{{ c?.email }}</td>
+      <td>{{ c?.FirstName + " " + c?.LastName }}</td>
+      <td>{{ getAddress(c.Addresses) }}</td>
+      <td>{{ getPhoneNumber(c?.Phones)}}</td>
+      <td>{{ c?.Email }}</td>
     </tr>
-    <tr class="text-right" *ngIf="!data?.length"> No Record Found!</tr>
+    <tr  class="text-center ng-star-inserted" colspan="3">
+      <td colspan="4"> No Record Found!</td>
+  </tr>
   </tbody> 
 </table>
