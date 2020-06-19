@@ -14,8 +14,8 @@ export class ICIMSCandidateListComponent implements OnInit {
   getAddress(address) {
     if(!!address) {
       return  address.map((r)=> {
-        if(!!r.addressCountry) {
-          return (r.addressCountry.value);
+        if(!!r.AddressCountry) {
+          return (r.AddressCountry.Value);
         }
         return [];        
         }).join(', ')
@@ -27,8 +27,8 @@ return '';
 getPhoneNumber(phone) {
     if(!!phone) {
       return  phone.map((r)=> {
-        if(!!r.phoneNumber) {
-          return (r.phoneNumber);
+        if(!!r.PhoneNumber) {
+          return (r.PhoneNumber);
         }
         return [];        
         }).join(', ')
