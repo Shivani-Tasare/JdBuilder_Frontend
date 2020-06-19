@@ -24,6 +24,12 @@ import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+  length = 100;
+  iCIMSCandidates = [];
+  pageSize = 2;
+  pageSizeOptions: number[] = [2, 5, 10, 25, 100];
+  pageSelected = 0;
+  DefaultPageSize = 5;
   jobDescriptionForm: FormGroup;
   mandatorySkills: FormArray;
   desiredSkills: FormArray;
@@ -501,6 +507,7 @@ export class JobDetailComponent implements OnInit {
       this.desiredSkills.push(this.createDesiredSkill(newSkill));
     }
   }
+
   addQualification(): void {
     this.qualifications = this.jobDescriptionForm.get('qualifications') as FormArray;
     const obj = { Id: 0, Name: '', isEditing: true };
@@ -619,6 +626,41 @@ export class JobDetailComponent implements OnInit {
           this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
         })
     }
+  }
+
+  viewiCIMSCandidates(myModal: any) {
+    this.iCIMSCandidates = [];
+    const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+    this.tagName = tags.map((res)=>res.TagName);
+    if(tags.length > 0){
+      this.smartService.fetchiCIMSCandidatesDetails(this.tagName).subscribe(
+        response => {
+        this.iCIMSCandidates  = response;
+        }, error => {
+        })
+    }
+  }
+  
+  onPaginateChange(evn) {
+    const paramObject = {
+      test: 1
+    };
+    this.pageSelected = evn.pageIndex !== undefined ? evn.pageIndex : evn,
+      this.DefaultPageSize = evn.pageSize ? evn.pageSize : this.DefaultPageSize;
+    this.fetchProfile(paramObject);
+  }
+  fetchProfile(paramObject) {
+    for(var i =0; i<100;i++) {
+    //  this.test.push(1);
+ }
+    // this.jobService.FetchFilteredProfiles(paramObject).subscribe((FilteredList: any) => {
+    
+    // });
+  }
+
+  onScroll() {
+    // let pageDetails = { pageIndex: this.pageSelected + 1 };
+    // this.onPaginateChange(pageDetails);
   }
 
   filterCandidatesByMatchScore(matchingConsultants: any[]) {

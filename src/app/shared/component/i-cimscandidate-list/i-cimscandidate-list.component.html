@@ -1,0 +1,22 @@
+<table class="table table-bordered p-3 my-3">
+  <thead>
+    <tr>
+      <th scope="col">Candidate Name</th>
+      <th scope="col">Region</th>
+      <th scope="col">Phone no.</th>
+      <th scope="col">Email</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="noBorder" *ngFor="let c of data">
+      <td>{{ c?.FirstName + " " + c?.LastName }}</td>
+      <td>{{ getAddress(c.Addresses) }}</td>
+      <td>{{ getPhoneNumber(c?.Phones)}}</td>
+      <td>{{ c?.Email }}</td>
+    </tr>
+    <tr  class="text-center ng-star-inserted" colspan="3">
+      <td colspan="4"> No Record Found!</td>
+  </tr>
+  </tbody> 
+</table>

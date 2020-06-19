@@ -17,6 +17,8 @@ import { CreateJdComponent } from './create-jd/create-jd.component';
 import { ContentPdfComponent } from './content-pdf/content-pdf.component';
 import { SharedModule } from 'src/app/shared';
 //import { JdsSharedComponent } from './jds-shared/jds-shared.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 @NgModule({
   declarations: [
     JobDetailComponent,
@@ -33,6 +35,7 @@ import { SharedModule } from 'src/app/shared';
     NgxPaginationModule,
     ChartsModule,
     PipesModule,
+    InfiniteScrollModule,
     SharedModule
   ],
   providers: [Job1ServiceService]
