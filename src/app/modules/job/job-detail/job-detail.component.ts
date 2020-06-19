@@ -621,17 +621,14 @@ export class JobDetailComponent implements OnInit {
   }
 
   viewiCIMSCandidates(myModal: any) {
+    this.iCIMSCandidates = [];
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res)=>res.TagName);
     if(tags.length > 0){
       this.smartService.fetchiCIMSCandidatesDetails(this.tagName).subscribe(
         response => {
-      console.log(response);
-      
-this.iCIMSCandidates  = response;
-          // this.matchingConsultants = response;
-          // this.candidateRecordsAsPerSection = this.matchingConsultants["MatchingConsultants"]
-          // this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
+        this.iCIMSCandidates  = response;
+        }, error => {
         })
     }
   }
