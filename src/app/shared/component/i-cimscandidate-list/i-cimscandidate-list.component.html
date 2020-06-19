@@ -15,7 +15,7 @@
       <td>{{ getPhoneNumber(c?.Phones)}}</td>
       <td>{{ c?.Email }}</td>
     </tr>
-    <tr  class="text-center ng-star-inserted" colspan="3">
+    <tr  *ngIf="!data.length" class="text-center ng-star-inserted" colspan="3">
       <td colspan="4"> No Record Found!</td>
   </tr>
   </tbody> 
