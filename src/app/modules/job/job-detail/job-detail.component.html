@@ -393,7 +393,7 @@
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
                           <div class="form-group">
-                            <mat-form-field [hidden]='!item.controls.isEditing.value' class="col-12 px-0">
+                            <mat-form-field [class.visibility-hidden]="!item.controls.isEditing.value" class="col-12 px-0">
                               <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                                 #autosize="cdkTextareaAutosize" (keyup)="getResponsibilities($event)"
                                 placeholder="Role And Responsibility" aria-label="Number" matInput
