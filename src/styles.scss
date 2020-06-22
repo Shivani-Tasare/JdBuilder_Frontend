@@ -32,6 +32,6 @@ body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
 }
 .visibility-hidden {
   visibility: hidden !important;
-  position: absolute; 
+  position: absolute !important; 
   left: -999em;
 }
