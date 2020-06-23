@@ -24,6 +24,12 @@ import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+  length = 100;
+  iCIMSCandidates = [];
+  pageSize = 2;
+  pageSizeOptions: number[] = [2, 5, 10, 25, 100];
+  pageSelected = 0;
+  DefaultPageSize = 5;
   jobDescriptionForm: FormGroup;
   mandatorySkills: FormArray;
   desiredSkills: FormArray;
@@ -504,6 +510,7 @@ export class JobDetailComponent implements OnInit {
       this.desiredSkills.push(this.createDesiredSkill(newSkill));
     }
   }
+
   addQualification(): void {
     this.qualifications = this.jobDescriptionForm.get('qualifications') as FormArray;
     const obj = { Id: 0, Name: '', isEditing: true };
@@ -620,8 +627,48 @@ export class JobDetailComponent implements OnInit {
           this.matchingConsultants = response;
           this.candidateRecordsAsPerSection = this.matchingConsultants["MatchingConsultants"]
           this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"],true);
+        },error =>{
+          this.matchingConsultants['Count'] = 0;
+          this.candidateRecordsAsPerSection = null;
+          this.matchingConsultants["MatchingConsultants"] = [];
+          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"],false);
         })
     }
+  }
+
+  viewiCIMSCandidates(myModal: any) {
+    this.iCIMSCandidates = [];
+    const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+    this.tagName = tags.map((res)=>res.TagName);
+    if(tags.length > 0){
+      this.smartService.fetchiCIMSCandidatesDetails(this.tagName).subscribe(
+        response => {
+        this.iCIMSCandidates  = response;
+        }, error => {
+        })
+    }
+  }
+  
+  onPaginateChange(evn) {
+    const paramObject = {
+      test: 1
+    };
+    this.pageSelected = evn.pageIndex !== undefined ? evn.pageIndex : evn,
+      this.DefaultPageSize = evn.pageSize ? evn.pageSize : this.DefaultPageSize;
+    this.fetchProfile(paramObject);
+  }
+  fetchProfile(paramObject) {
+    for(var i =0; i<100;i++) {
+    //  this.test.push(1);
+ }
+    // this.jobService.FetchFilteredProfiles(paramObject).subscribe((FilteredList: any) => {
+    
+    // });
+  }
+
+  onScroll() {
+    // let pageDetails = { pageIndex: this.pageSelected + 1 };
+    // this.onPaginateChange(pageDetails);
   }
 
   filterCandidatesByMatchScore(matchingConsultants: any[],isViewButton?) {
@@ -634,7 +681,7 @@ export class JobDetailComponent implements OnInit {
     this.candidateCountList[1].count = this.candidateCountList[1].candidateDetail.length;
     this.candidateCountList[2].count = this.candidateCountList[2].candidateDetail.length;
     this.candidateCountList[3].count = this.candidateCountList[3].candidateDetail.length;
-    isViewButton ? this.pieChartData = this.candidateCountList.map(x => x.count) : null;
+    isViewButton ? this.pieChartData = this.candidateCountList.map(x => x.count) :  this.pieChartData = [];
 
   }
   addMandatoryTag(event: MatChipInputEvent, isAdd, i): void {
@@ -874,17 +921,25 @@ export class JobDetailComponent implements OnInit {
   }
 
   FetchProfileSummary(designationEvent) {
-
     this.selectedDesignationName = designationEvent.viewValue;
     this.jobDescriptionForm.patchValue({ selectedDesignationN: designationEvent.viewValue })
     this.jobDescriptionForm.patchValue({ selectedDesignation: designationEvent.value })
     let designationObject = { designationId: designationEvent.value, name: designationEvent.viewValue }
+    this.filteredDesignations.filter((option, index) => {
+      if (option['DesignationName'] == this.selectedDesignationName) {
+        this.filteredDesignations.splice(index,1);
+      }else{
+        this.filteredDesignations.push(option);
+      }
+      })  
+
     this.jobService.FetchProfileSummary(designationObject).subscribe((Data: any) => {
       if (Data.StatusCode) {
         this.suggestedSummary = Data.ProfileSummary;
       }
     })
   }
+  
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
   }
