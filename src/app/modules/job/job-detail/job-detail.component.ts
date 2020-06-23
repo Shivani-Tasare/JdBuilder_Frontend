@@ -925,14 +925,6 @@ export class JobDetailComponent implements OnInit {
     this.jobDescriptionForm.patchValue({ selectedDesignationN: designationEvent.viewValue })
     this.jobDescriptionForm.patchValue({ selectedDesignation: designationEvent.value })
     let designationObject = { designationId: designationEvent.value, name: designationEvent.viewValue }
-    this.filteredDesignations.filter((option, index) => {
-      if (option['DesignationName'] == this.selectedDesignationName) {
-        this.filteredDesignations.splice(index,1);
-      }else{
-        this.filteredDesignations.push(option);
-      }
-      })  
-
     this.jobService.FetchProfileSummary(designationObject).subscribe((Data: any) => {
       if (Data.StatusCode) {
         this.suggestedSummary = Data.ProfileSummary;

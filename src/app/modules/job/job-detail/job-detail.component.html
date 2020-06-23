@@ -87,11 +87,11 @@
               <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
                 (ngSubmit)="onSave()">
                 <div class="row">
-                  <p *ngIf="isSameUser" class="col-4">Make It As Private JD</p>
+                  <p  *ngIf="isSameUser" class="col-4">Make It As Private JD</p>
                   <section class="example-section col-8 pl-0" *ngIf="isSameUser" style="height: 35px;">
                     <mat-slide-toggle class="pb-5" [color]="color" [checked]="isPrivateChecked"
-                      [(ngModel)]="isPrivateChecked" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
-                    </mat-slide-toggle>
+                    [(ngModel)]="isPrivateChecked" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+                  </mat-slide-toggle>
                   </section>
                   <p class="col-4 pt-2 font-weight-bold">DESIGNATION</p>
                   <mat-form-field class="col-8 pl-0">
@@ -171,10 +171,10 @@
                       </div>
 
                       <!-- Left and right controls -->
-                      <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                      <a class="carousel-control-prev" href="#demo"  data-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
                       </a>
-                      <a class="carousel-control-next" href="#demo" data-slide="next">
+                      <a class="carousel-control-next" href="#demo"  data-slide="next">
                         <span class="carousel-control-next-icon"></span>
                       </a>
 
@@ -190,31 +190,31 @@
                     </mat-error>
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">TAGS</p>
-                  <mat-form-field class="col-12 example-chip-list">
-                    <mat-chip-list #chipList>
-                      <mat-chip *ngFor="let tag of mandatoryTagsList;" [selectable]="selectable" [removable]="removable"
-                        (removed)="removeMandatoryTag(tag)">
-                        {{tag?.TagName}}
-                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                      </mat-chip>
-                      <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
-                        [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true)">
-                    </mat-chip-list>
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event)">
-                      <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                        {{tag?.TagName}}
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
-                  <mat-error style="margin-bottom: 15px;" class="col-8"
-                    *ngIf="(submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
-                    <div>
-                      Please enter tags.
-                    </div>
-                  </mat-error>
-                  <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToMandatoryTags($event)"
-                    [associatedTags]="associatedTags"></app-suggested-tag-view>
+                <mat-form-field class="col-12 example-chip-list">
+                  <mat-chip-list #chipList>
+                    <mat-chip *ngFor="let tag of mandatoryTagsList;" [selectable]="selectable" [removable]="removable"
+                      (removed)="removeMandatoryTag(tag)">
+                      {{tag?.TagName}}
+                      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
+                      [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true)">
+                  </mat-chip-list>
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event)">
+                    <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                      {{tag?.TagName}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <mat-error style="margin-bottom: 15px;" class="col-8" *ngIf="(submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
+                  <div >
+                    Please enter tags.
+                  </div>
+                </mat-error>
+                <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToMandatoryTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
+
+
 
                   <mat-form-field class="col-12 pt-10 example-chip-list">
                     <mat-chip-list #chipListDesired>
@@ -233,14 +233,12 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
-                  <mat-error style="margin-bottom: 15px;" class="col-8"
-                    *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length<1">
-                    <div>
+                  <mat-error style="margin-bottom: 15px;" class="col-8" *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length<1">
+                    <div >
                       Please enter tags.
                     </div>
                   </mat-error>
-                  <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToDesiredTags($event)"
-                    [associatedTags]="associatedDesiredTags"></app-suggested-tag-view>
+                  <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToDesiredTags($event)" [associatedTags]="associatedDesiredTags"></app-suggested-tag-view>
 
                   <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                     references.</small>
@@ -253,9 +251,8 @@
                           <div class="input-group">
                             <mat-form-field [class.visibility-hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                               <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                                (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number"
-                                matInput formControlName="SkillName" [value]="SkillName"
-                                [matAutocomplete]="auto"></textarea>
+                                (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
+                                formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
                               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i,true)">
                                 <mat-option *ngFor="let suggestion of suggestedMandatorySkill; let i = index;"
                                   [value]="suggestion?.SkillName" multipleLineOption>
@@ -275,13 +272,11 @@
                             {{skill.controls.SkillName.value}}</p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
-                          <i [hidden]="jobDescriptionForm.get('mandatorySkills').length == 1 && !isSkillNameNotEmpty(skill.controls)"
-                            class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                          <i  [hidden]="jobDescriptionForm.get('mandatorySkills').length == 1 && !isSkillNameNotEmpty(skill.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu" style="left:25px !important">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                               (click)='skill.controls.isEditing.value = true'>Edit</a>
-                            <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"
-                              (click)="moveToDesired(skill.controls,i)">Move
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"  (click)="moveToDesired(skill.controls,i)">Move
                               To Desired</a>
                             <a class="dropdown-item" href="JavaScript:"
                               (click)='deleteSkill(skill.controls,false,i)'>Delete</a>
@@ -305,8 +300,8 @@
                           <div class="input-group">
                             <mat-form-field [class.visibility-hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                               <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
-                                #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)"
-                                placeholder="Desired Skill" aria-label="Number" matInput formControlName="SkillName"
+                                #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)" placeholder="Desired Skill"
+                                aria-label="Number" matInput formControlName="SkillName"
                                 [matAutocomplete]="auto"></textarea>
                               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                                 <mat-option *ngFor="let suggestion of suggestedDesiredSkill; let i = index;"
@@ -327,13 +322,11 @@
                             {{skill.controls.SkillName.value}}</p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
-                          <i [hidden]="jobDescriptionForm.get('desiredSkills').length == 1 && !isSkillNameNotEmpty(skill.controls)"
-                            class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                          <i [hidden]="jobDescriptionForm.get('desiredSkills').length == 1 && !isSkillNameNotEmpty(skill.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                               (click)='skill.controls.isEditing.value = true'>Edit</a>
-                            <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"
-                              (click)="moveToMandatory(skill.controls,i)">Move
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"  (click)="moveToMandatory(skill.controls,i)">Move
                               To Mandatory</a>
                             <a class="dropdown-item" href="JavaScript:"
                               (click)='deleteDesiredSkill(skill.controls,false,i)'>Delete</a>
@@ -343,8 +336,7 @@
                     </div>
                   </div>
                   <div class="col-12 pr-0">
-                    <button type="button" class="btn theme-color-btn btn-sm" (click)="addDesiredSkill($event)"> +
-                      Add</button>
+                    <button type="button" class="btn theme-color-btn btn-sm" (click)="addDesiredSkill($event)"> + Add</button>
                     <hr>
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">QUALIFICATION</p>
@@ -379,8 +371,7 @@
                           </p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
-                          <i [hidden]="jobDescriptionForm.get('qualifications').length==1 && !isQualificationEmpty(item.controls)"
-                            class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                          <i [hidden]="jobDescriptionForm.get('qualifications').length==1 && !isQualificationEmpty(item.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
                               (click)='item.controls.isEditing.value = true'>Edit</a>
@@ -427,8 +418,7 @@
                             {{item.controls.Responsibility.value}}</p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
-                          <i [hidden]="jobDescriptionForm.get('rolesAndResponsibility').length == 1 && !isResponsibilityEmpty(item.controls)"
-                            class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"
+                          <i [hidden]="jobDescriptionForm.get('rolesAndResponsibility').length == 1 && !isResponsibilityEmpty(item.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"
                             data-display="static"></i>
                           <div class="dropdown-menu dropdown-right">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
@@ -447,8 +437,7 @@
 
                   </div>
                   <p class="col-12 pt-2 font-weight-bold mb-0">Last Updated By : <span
-                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName ? jobDetail.ProfileDetail.UpdaterName : jobDetail.ProfileDetail.CreatorName}}</span>
-                  </p>
+                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName ? jobDetail.ProfileDetail.UpdaterName : jobDetail.ProfileDetail.CreatorName}}</span></p>
                   <p class="col-12 font-weight-bold mb-0">Last Updated On : <span
                       class="font-weight-normal">{{(jobDetail.ProfileDetail.UpdatedDate ? jobDetail.ProfileDetail.UpdatedDate : jobDetail.ProfileDetail.CreatedDate) | date: 'dd-MMM-yyyy'}}</span>
                   </p>
@@ -500,8 +489,7 @@
   </div>
   <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
     <div class="col-6 p-0">
-      <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
-        class="w-100 h-100 font-weight-bold theme-color-btn " style="
+      <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
       border: none;">View Candidate</button>
     </div>
     <div class="col-6 p-0">
@@ -638,8 +626,7 @@
                     <hr>
                   </div>
                   <p class="col-12 pt-2 font-weight-bold mb-0">Last Updated By : <span
-                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName ? jobDetail.ProfileDetail.UpdaterName : jobDetail.ProfileDetail.CreatorName}}</span>
-                  </p>
+                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName ? jobDetail.ProfileDetail.UpdaterName : jobDetail.ProfileDetail.CreatorName}}</span></p>
 
                   <p class="col-12 font-weight-bold mb-0">Last Updated On : <span
                       class="font-weight-normal">{{ (jobDetail.ProfileDetail.UpdatedDate ? jobDetail.ProfileDetail.UpdatedDate : jobDetail.ProfileDetail.CreatedDate) | date: 'dd-MMM-yyyy'}}</span>
