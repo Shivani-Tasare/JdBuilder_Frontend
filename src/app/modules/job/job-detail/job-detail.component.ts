@@ -115,6 +115,7 @@ export class JobDetailComponent implements OnInit {
   desiredSkillData = [];
   selectmandatorytags: any[];
   selectdesiredtags: any[];
+  isDeletedJD: boolean = false;
   constructor(private loaderService: LoaderService, private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
   
@@ -293,6 +294,10 @@ export class JobDetailComponent implements OnInit {
   
     this.selectedLocationName = [];
     this.jobService.fetchProfiles(location.pathname.split('/').pop()).subscribe((jobDetail: any) => {
+      if(jobDetail.StatusCode === 400){
+        this.isDeletedJD =  true;
+        this.router.navigate(['**']);
+      }
       if (jobDetail.StatusCode === 200) {
         if (this.adalService.userInfo.profile.oid === jobDetail.ProfileDetail.CreatedBy) {
           this.isSameUser = true
