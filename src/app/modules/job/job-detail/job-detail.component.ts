@@ -355,6 +355,8 @@ export class JobDetailComponent implements OnInit {
             this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
               response => {
                 this.matchingConsultants = response;
+                let consultants = this.matchingConsultants["MatchingConsultants"];
+                this.filterCandidatesByMatchScore(consultants);
               })
           }
         this.jobService.FetchLocationList().subscribe((locations: any) => {
@@ -422,6 +424,7 @@ export class JobDetailComponent implements OnInit {
                   }
                 })
               );
+              
             for (let index = 0; this.allTagsDesired.length > index; index++) {
               for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
                 if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id || this.allTagsDesired[index].TagName === this.desiredTagsList[index2].TagName) {
@@ -623,7 +626,12 @@ export class JobDetailComponent implements OnInit {
         response => {
           this.matchingConsultants = response;
           this.candidateRecordsAsPerSection = this.matchingConsultants["MatchingConsultants"]
-          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"]);
+          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"],true);
+        },error =>{
+          this.matchingConsultants['Count'] = 0;
+          this.candidateRecordsAsPerSection = null;
+          this.matchingConsultants["MatchingConsultants"] = [];
+          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"],false);
         })
     }
   }
@@ -663,7 +671,7 @@ export class JobDetailComponent implements OnInit {
     // this.onPaginateChange(pageDetails);
   }
 
-  filterCandidatesByMatchScore(matchingConsultants: any[]) {
+  filterCandidatesByMatchScore(matchingConsultants: any[],isViewButton?) {
      
     this.candidateCountList[0].candidateDetail = matchingConsultants.filter((x) => x.RelevancePercentage > 90);
     this.candidateCountList[1].candidateDetail = matchingConsultants.filter((x) => x.RelevancePercentage > 80 && x.RelevancePercentage <= 90);
@@ -673,7 +681,7 @@ export class JobDetailComponent implements OnInit {
     this.candidateCountList[1].count = this.candidateCountList[1].candidateDetail.length;
     this.candidateCountList[2].count = this.candidateCountList[2].candidateDetail.length;
     this.candidateCountList[3].count = this.candidateCountList[3].candidateDetail.length;
-    this.pieChartData = this.candidateCountList.map(x => x.count);
+    isViewButton ? this.pieChartData = this.candidateCountList.map(x => x.count) :  this.pieChartData = [];
 
   }
   addMandatoryTag(event: MatChipInputEvent, isAdd, i): void {
@@ -913,7 +921,6 @@ export class JobDetailComponent implements OnInit {
   }
 
   FetchProfileSummary(designationEvent) {
-
     this.selectedDesignationName = designationEvent.viewValue;
     this.jobDescriptionForm.patchValue({ selectedDesignationN: designationEvent.viewValue })
     this.jobDescriptionForm.patchValue({ selectedDesignation: designationEvent.value })
@@ -924,6 +931,7 @@ export class JobDetailComponent implements OnInit {
       }
     })
   }
+  
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
   }
