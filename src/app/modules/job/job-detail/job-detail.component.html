@@ -251,7 +251,7 @@
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
                           <div class="input-group">
-                            <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
+                            <mat-form-field [class.visibility-hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                               <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                                 (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number"
                                 matInput formControlName="SkillName" [value]="SkillName"
@@ -303,7 +303,7 @@
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
                           <div class="input-group">
-                            <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
+                            <mat-form-field [class.visibility-hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                               <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                                 #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)"
                                 placeholder="Desired Skill" aria-label="Number" matInput formControlName="SkillName"
@@ -354,7 +354,7 @@
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
                           <div class="input-group">
-                            <mat-form-field [hidden]='!item.controls.isEditing.value' class="col-12 px-0">
+                            <mat-form-field [class.visibility-hidden]='!item.controls.isEditing.value' class="col-12 px-0">
                               <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                                 #autosize="cdkTextareaAutosize" (keyup)="getQualifications($event)"
                                 placeholder="Qualification" aria-label="Number" matInput formControlName="Name"
@@ -402,7 +402,7 @@
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
                           <div class="form-group">
-                            <mat-form-field [hidden]='!item.controls.isEditing.value' class="col-12 px-0">
+                            <mat-form-field [class.visibility-hidden]="!item.controls.isEditing.value" class="col-12 px-0">
                               <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                                 #autosize="cdkTextareaAutosize" (keyup)="getResponsibilities($event)"
                                 placeholder="Role And Responsibility" aria-label="Number" matInput
