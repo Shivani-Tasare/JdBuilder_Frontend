@@ -144,11 +144,11 @@ export class JobDetailComponent implements OnInit {
     const candidateRecords = this.candidateCountList.filter( (r) => {
       return r.label == event.active[0]._model.label;
     });
-    this.candidateRecordsAsPerSection = (candidateRecords.length > 0) 
-      ? candidateRecords[0].candidateDetail : [];
+    if(candidateRecords[0].count > 0) {
+      this.candidateRecordsAsPerSection = candidateRecords[0].candidateDetail;
     }
-
     }
+  }
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
