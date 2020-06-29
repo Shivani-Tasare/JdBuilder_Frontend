@@ -6,7 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./i-cimscandidate-list.component.scss']
 })
 export class ICIMSCandidateListComponent implements OnInit {
-  @Input() data = [];
+  //@Input() data = [];
+  @Input() data = {Total: null, CandidateList: []};
   constructor() { }
 
   ngOnInit() {
