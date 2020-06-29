@@ -25,7 +25,8 @@ import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
 })
 export class JobDetailComponent implements OnInit {
   length = 100;
-  iCIMSCandidates = [];
+ iCIMSCandidates = {};
+ //iCIMSCandidates = [];
   pageSize = 2;
   pageSizeOptions: number[] = [2, 5, 10, 25, 100];
   pageSelected = 0;
@@ -650,14 +651,111 @@ export class JobDetailComponent implements OnInit {
   }
 
   viewiCIMSCandidates(myModal: any) {
-    this.iCIMSCandidates = [];
+    // this.iCIMSCandidates = [];
+    this.iCIMSCandidates = {};
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res)=>res.TagName);
     if(tags.length > 0){
       this.smartService.fetchiCIMSCandidatesDetails(this.tagName).subscribe(
         response => {
-        this.iCIMSCandidates  = response;
+           this.iCIMSCandidates  = response;
         }, error => {
+          // this.iCIMSCandidates = {
+          //   "Total": 20,
+          //   "CandidateList": [
+          //     {
+          //       "SystemId": 2,
+          //       "Name": null,
+          //       "Email": "amarender.p10@gmail.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 5,
+          //       "Name": null,
+          //       "Email": "ajm786@hotmail.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 9,
+          //       "Name": null,
+          //       "Email": "alicialjk@yahoo.co.uk",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 12,
+          //       "Name": null,
+          //       "Email": "allu.s1227@gmail.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 13,
+          //       "Name": null,
+          //       "Email": "alexanderdeuel@gmail.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 14,
+          //       "Name": null,
+          //       "Email": ".tung@gmail.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 15,
+          //       "Name": null,
+          //       "Email": "aewhale@Spam-Zapper.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 18,
+          //       "Name": null,
+          //       "Email": "animesh@infoobjects.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 19,
+          //       "Name": null,
+          //       "Email": "Aamin3@gmu.edu",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 20,
+          //       "Name": null,
+          //       "Email": "ajaykumar.cjr1@gmail.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 21,
+          //       "Name": null,
+          //       "Email": "amrarafa@fas.harvard.edu",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 22,
+          //       "Name": null,
+          //       "Email": "Abdel.abd333@gmail.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     },
+          //     {
+          //       "SystemId": 24,
+          //       "Name": null,
+          //       "Email": "andrea.james84@yahoo.com",
+          //       "Location": null,
+          //       "TotalYearsOfExperience": null
+          //     }
+          //   ]
+          // };
         })
     }
   }
