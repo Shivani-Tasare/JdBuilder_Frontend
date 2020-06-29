@@ -401,7 +401,7 @@
                               <mat-autocomplete #auto="matAutocomplete"
                                 (optionSelected)="selectResponsibility($event,i)">
                                 <mat-option *ngFor="let responsibility of suggestedResponsibilities; let i = index;"
-                                  [value]="responsibility.Responsibility" multipleLineOption>
+                                  [value]="removeSpace(responsibility.Responsibility)" multipleLineOption>
                                   {{responsibility.Responsibility}}
                                 </mat-option>
                               </mat-autocomplete>
