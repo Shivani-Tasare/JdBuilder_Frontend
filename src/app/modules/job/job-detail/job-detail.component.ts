@@ -145,11 +145,11 @@ export class JobDetailComponent implements OnInit {
     const candidateRecords = this.candidateCountList.filter( (r) => {
       return r.label == event.active[0]._model.label;
     });
-    this.candidateRecordsAsPerSection = (candidateRecords.length > 0) 
-      ? candidateRecords[0].candidateDetail : [];
+    if(candidateRecords[0].count > 0) {
+      this.candidateRecordsAsPerSection = candidateRecords[0].candidateDetail;
     }
-
     }
+  }
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
@@ -529,14 +529,18 @@ export class JobDetailComponent implements OnInit {
   }
   deleteSkill(deletedSkill,onRemove,index?) {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    const skills = deletedSkill;
     this.mandatorySkillData = [];
     if(onRemove){
       this.mandatorySkills.value.forEach((deletedSkill,i)=>{
+        let index = skills.findIndex((i)=>{
+          return (i.SkillId.startsWith('Id'));
+        })
         if(deletedSkill.SkillId.startsWith('Id')) {
-              this.mandatorySkills.removeAt(this.mandatorySkills.length - 1);  
+              this.mandatorySkills.removeAt(index);  
          }
       })
-      this.populateMandatorySkills(this.mandatoryTagsList);
+       this.populateMandatorySkills(this.mandatoryTagsList);
     }
     if(deletedSkill.SkillId !== undefined){
       if (deletedSkill.SkillId.value !== '0') {
@@ -552,10 +556,14 @@ export class JobDetailComponent implements OnInit {
   deleteDesiredSkill(deletedSkill, onRemove ,index?) {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkillData = [];
+    const skills = deletedSkill;
     if(onRemove){
       this.desiredSkills.value.forEach((deletedSkill,i)=>{
+        let index = skills.findIndex((i)=>{
+          return (i.SkillId.startsWith('Id'));
+        })
         if(deletedSkill.SkillId.startsWith('Id')) {
-              this.desiredSkills.removeAt(this.desiredSkills.length - 1);
+              this.desiredSkills.removeAt(index);
          }
       })
       this.populateDesiredSkills(this.desiredTagsList);
@@ -591,7 +599,7 @@ export class JobDetailComponent implements OnInit {
   }
   moveToDesired(selectedSkill, index) {
     const updatedSkill = {
-      SkillId: selectedSkill.SkillId.value,
+      SkillId: (`MID${selectedSkill.SkillId.value}`),
       SkillName: selectedSkill.SkillName.value
     };
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
@@ -607,7 +615,7 @@ export class JobDetailComponent implements OnInit {
   }
   moveToMandatory(selectedSkill, index) {
     const updatedSkill = {
-      SkillId: selectedSkill.SkillId.value,
+      SkillId: (`MID${selectedSkill.SkillId.value}`),
       SkillName: selectedSkill.SkillName.value,
       SkillTypeId: 1,
       SkillTypeName: 'Mandatory'
@@ -895,20 +903,32 @@ export class JobDetailComponent implements OnInit {
   fetchAssociatedTags(value) {
     this.associatedTags = [];
     this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
-      skillData = skillData.splice(0,3)
-      skillData.forEach((v,i)=> {
-        this.associatedTags.push({Id: `ID${i}`, TagName: v});
+      const skillDataNamesOnly = [];
+      this.mandatoryTagsList.filter((r)=>{
+                  skillDataNamesOnly.push(r.TagName);
       });
+      skillData.forEach((v,i)=> {
+        if(skillDataNamesOnly.indexOf(v) < 0) {
+          this.associatedTags.push({Id: `ID${i}`, TagName: v});
+      }
+      });
+      this.associatedTags = this.associatedTags.splice(0,3)
     })
   }
   fetchAssociatedDesiredTags(value) {
     this.associatedDesiredTags = [];
     this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
-      skillData = skillData.splice(0,3)
-      skillData.forEach((v,i)=> {
+      const skillDataNamesOnly = [];
+      this.desiredTagsList.filter((r)=>{
+        skillDataNamesOnly.push(r.TagName);
+        });
+        skillData.forEach((v,i)=> {
+        if(skillDataNamesOnly.indexOf(v) < 0) {
         this.associatedDesiredTags.push({Id: `ID${i}`, TagName: v});
-      });
-    })
+        }
+        });
+        this.associatedDesiredTags = this.associatedDesiredTags.splice(0,3)
+        })
   }
   selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
     this.desiredTagsList.push(event.option.value);
