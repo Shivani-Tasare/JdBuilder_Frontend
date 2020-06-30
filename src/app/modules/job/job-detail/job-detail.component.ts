@@ -986,29 +986,18 @@ export class JobDetailComponent implements OnInit {
         this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
         
           for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
-            if(this.mandatorySkillData[i].SkillName !== undefined){
+            // if(this.mandatorySkills.value[index2].SkillName !== undefined || this.mandatorySkillData[i].SkillName !== undefined){
             if (this.mandatorySkillData[i].SkillName === this.mandatorySkills.value[index2].SkillName) {
               this.mandatorySkillData.splice(i, 1);
                   index2 = 0;
             }
-          }
         }
       
          this.addMandatorySkill(i,this.mandatorySkillData) ;
      })
   })
 }
-//   const skillDataNamesOnly = [];
-//   this.mandatoryTagsList.filter((r)=>{
-//               skillDataNamesOnly.push(r.TagName);
-//   });
-//   skillData.forEach((v,i)=> {
-//     if(skillDataNamesOnly.indexOf(v) < 0) {
-//       this.associatedTags.push({Id: `ID${i}`, TagName: v});
-//   }
-//   });
-//   this.associatedTags = this.associatedTags.splice(0,3)
-// })
+
   populateDesiredSkills(tag){
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkillData = [];
@@ -1016,6 +1005,13 @@ export class JobDetailComponent implements OnInit {
     this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
       res.forEach((v,i)=>{
         this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
+        for (let index2 = 0; this.desiredSkills.length > index2; index2++) {
+          // if(this.desiredSkills.value[index2].SkillName !== undefined || this.desiredSkillData[i].SkillName !== undefined){
+          if (this.desiredSkillData[i].SkillName === this.desiredSkills.value[index2].SkillName) {
+            this.desiredSkillData.splice(i, 1);
+                index2 = 0;
+          }
+      }
         this.addDesiredSkill(i,this.desiredSkillData);
       })
     })
