@@ -235,6 +235,11 @@ export class CreateJdComponent implements OnInit {
       SkillTypeName: 'Desired'
     });
   }
+
+  removeSpace(str) {
+    return str.trim().replace(/[\s]+/g, ' ')
+  }
+
   addMandatorySkill(index?,skills?): void {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     if(skills){
@@ -592,7 +597,7 @@ export class CreateJdComponent implements OnInit {
     this.jobDescriptionForm.controls['qualifications'].value[index].Name = event.option.value
   }
   selectResponsibility(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
-    this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = event.option.value
+    this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = this.removeSpace(event.option.value)
   }
 
   getMandatorySkill(event) {

@@ -291,7 +291,9 @@ export class JobDetailComponent implements OnInit {
     })
   }
 
-
+  removeSpace(str) {
+    return str.trim().replace(/[\s]+/g, ' ')
+  }
   initLoad() {
   
     this.selectedLocationName = [];
@@ -328,7 +330,7 @@ export class JobDetailComponent implements OnInit {
         });
         jobDetail.ProfileDetail.ResponsibilityList.forEach((ele) => {
           ele.isEditing = false
-          ele.Responsibility = [ele.Responsibility, [Validators.required,,this.noWhitespaceValidator]]
+          ele.Responsibility = [this.removeSpace(ele.Responsibility), [Validators.required,,this.noWhitespaceValidator]]
           defaultResponsibility.push(this.formBuilder.group(ele));
         }); 
         this.isPrivateChecked = jobDetail.ProfileDetail.IsPrivate;
@@ -971,7 +973,7 @@ export class JobDetailComponent implements OnInit {
     this.jobDescriptionForm.controls['qualifications'].value[index].Name = event.option.value
   }
   selectResponsibility(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
-    this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = event.option.value
+    this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = this.removeSpace(event.option.value)
   }
 
   populateMandatorySkills(tag){
