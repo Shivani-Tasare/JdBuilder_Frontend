@@ -76,6 +76,7 @@ export class CreateJdComponent implements OnInit {
   @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
   desiredSkillData = [];
   mandatorySkillData = [];
+  desigOption: number;
   constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService) { }
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -648,6 +649,7 @@ export class CreateJdComponent implements OnInit {
     return this.designations.find((r: any) => r.Id == designationEvent)['DesignationName'];
   }
   FetchProfileSummary(designationEvent) {
+    this.desigOption = 3;
     this.selectedDesignationName = this.getDesignationNameFromID(designationEvent.value);
     let designationObject = { designationId: designationEvent.value, name: designationEvent.viewValue }
     this.jobService.FetchProfileSummary(designationObject).subscribe((Data: any) => {
@@ -655,6 +657,9 @@ export class CreateJdComponent implements OnInit {
         this.suggestedSummary = Data.ProfileSummary;
       }
     })
+  }
+  removeDesignation(event){
+    this.desigOption = event.length;
   }
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
