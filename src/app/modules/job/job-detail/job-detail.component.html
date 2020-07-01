@@ -98,9 +98,9 @@
                     <input (focusout)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
                       aria-label="Number" (keyup)="clearDesignationId($event);filterDesignationList($event)" matInput
                       [value]="selectedDesignationName" formControlName="selectedDesignationN"
-                      [matAutocomplete]="desig">
+                      [matAutocomplete]="desig" (keydown.backspace)="removeDesignation($event.target.value)">
                     <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
-                      <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName">
+                      <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName && desigOption > 1">
                         {{designation.DesignationName}}
                       </mat-option>
                     </mat-autocomplete>
