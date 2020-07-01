@@ -562,19 +562,15 @@ export class CreateJdComponent implements OnInit {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkillData = [];
     const tags = tag.map((res)=>res.TagName);
-    console.log(this.mandatorySkills);
      this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
       res.forEach((v,i)=>{
-        this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
-        
           for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
-            // if(this.mandatorySkills.value[index2].SkillName !== undefined || this.mandatorySkillData[i].SkillName !== undefined){
-            if (this.mandatorySkillData[i].SkillName === this.mandatorySkills.value[index2].SkillName) {
-              this.mandatorySkillData.splice(i, 1);
+            if (v !== this.mandatorySkills.value[index2].SkillName) {
+              this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
                   index2 = 0;
             }
-        }
-      
+          }
+          if(this.mandatorySkillData.length > 0)
          this.addMandatorySkill(i,this.mandatorySkillData) ;
          if(this.mandatorySkills.value[0].SkillName==='')
           this.mandatorySkills.removeAt(0);
@@ -588,14 +584,13 @@ export class CreateJdComponent implements OnInit {
     const tags = tag.map((res)=>res.TagName);
     this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
       res.forEach((v,i)=>{
-        this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
         for (let index2 = 0; this.desiredSkills.length > index2; index2++) {
-          // if(this.desiredSkills.value[index2].SkillName !== undefined || this.desiredSkillData[i].SkillName !== undefined){
-          if (this.desiredSkillData[i].SkillName === this.desiredSkills.value[index2].SkillName) {
-            this.desiredSkillData.splice(i, 1);
+          if (v !== this.desiredSkills.value[index2].SkillName) {
+            this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
                 index2 = 0;
           }
       }
+      if(this.desiredSkillData.length > 0)
         this.addDesiredSkill(i,this.desiredSkillData);
         if(this.desiredSkills.value[0].SkillName==='')
           this.desiredSkills.removeAt(0);
