@@ -76,6 +76,7 @@ export class CreateJdComponent implements OnInit {
   @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
   desiredSkillData = [];
   mandatorySkillData = [];
+  desigOption: number;
   constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService) { }
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -558,29 +559,41 @@ export class CreateJdComponent implements OnInit {
   }
 
   populateMandatorySkills(tag){
-    this.mandatorySkillData = [];
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    this.mandatorySkillData = [];
     const tags = tag.map((res)=>res.TagName);
      this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
       res.forEach((v,i)=>{
-        this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
-          this.addMandatorySkill(i,this.mandatorySkillData);
-          if(this.mandatorySkills.value[0].SkillName==='')
+          for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
+            if (v !== this.mandatorySkills.value[index2].SkillName) {
+              this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
+                  index2 = 0;
+            }
+          }
+          if(this.mandatorySkillData.length > 0)
+         this.addMandatorySkill(i,this.mandatorySkillData) ;
+         if(this.mandatorySkills.value[0].SkillName==='')
           this.mandatorySkills.removeAt(0);
-      })
      })
-  }
+  })
+}
 
-  populateDesiredSkills(tag){
-    this.desiredSkillData = [];
+ populateDesiredSkills(tag){
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    this.desiredSkillData = [];
     const tags = tag.map((res)=>res.TagName);
     this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
       res.forEach((v,i)=>{
-        this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
+        for (let index2 = 0; this.desiredSkills.length > index2; index2++) {
+          if (v !== this.desiredSkills.value[index2].SkillName) {
+            this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
+                index2 = 0;
+          }
+      }
+      if(this.desiredSkillData.length > 0)
         this.addDesiredSkill(i,this.desiredSkillData);
-        if(this.desiredSkills.value[0].SkillName === '')
-        this.desiredSkills.removeAt(0);
+        if(this.desiredSkills.value[0].SkillName==='')
+          this.desiredSkills.removeAt(0);
       })
     })
   }
@@ -653,6 +666,7 @@ export class CreateJdComponent implements OnInit {
     return this.designations.find((r: any) => r.Id == designationEvent)['DesignationName'];
   }
   FetchProfileSummary(designationEvent) {
+    this.desigOption = 3;
     this.selectedDesignationName = this.getDesignationNameFromID(designationEvent.value);
     let designationObject = { designationId: designationEvent.value, name: designationEvent.viewValue }
     this.jobService.FetchProfileSummary(designationObject).subscribe((Data: any) => {
@@ -660,6 +674,9 @@ export class CreateJdComponent implements OnInit {
         this.suggestedSummary = Data.ProfileSummary;
       }
     })
+  }
+  removeDesignation(event){
+    this.desigOption = event.length;
   }
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
