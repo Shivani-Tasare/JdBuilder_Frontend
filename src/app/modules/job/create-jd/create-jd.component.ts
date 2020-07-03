@@ -562,15 +562,14 @@ export class CreateJdComponent implements OnInit {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkillData = [];
     const tags = tag.map((res)=>res.TagName);
-     this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
+    this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
       res.forEach((v,i)=>{
-          for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
-            if (v !== this.mandatorySkills.value[index2].SkillName) {
-              this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
-                  index2 = 0;
-            }
-          }
-          if(this.mandatorySkillData.length > 0)
+          this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
+        for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
+        if(v === this.mandatorySkills.value[index2].SkillName)
+        this.mandatorySkillData.splice(i,1);
+        }
+        if(this.mandatorySkillData.length > 0)
          this.addMandatorySkill(i,this.mandatorySkillData) ;
          if(this.mandatorySkills.value[0].SkillName==='')
           this.mandatorySkills.removeAt(0);
@@ -584,11 +583,10 @@ export class CreateJdComponent implements OnInit {
     const tags = tag.map((res)=>res.TagName);
     this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
       res.forEach((v,i)=>{
-        for (let index2 = 0; this.desiredSkills.length > index2; index2++) {
-          if (v !== this.desiredSkills.value[index2].SkillName) {
-            this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
-                index2 = 0;
-          }
+          this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
+          for (let index2 = 0; this.desiredSkills.length > index2; index2++) {
+            if(v === this.desiredSkills.value[index2].SkillName)
+            this.desiredSkillData.splice(i,1);
       }
       if(this.desiredSkillData.length > 0)
         this.addDesiredSkill(i,this.desiredSkillData);
