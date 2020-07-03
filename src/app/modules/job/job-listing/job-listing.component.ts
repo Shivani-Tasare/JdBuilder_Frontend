@@ -26,7 +26,7 @@ export class JobListingComponent implements OnInit {
   pageSize = 2;
   pageSizeOptions: number[] = [2, 5, 10, 25, 100];
   pageSelected = 0;
-  DefaultPageSize = 5;
+  DefaultPageSize = 3;
   range;
   myJd = true;
   sharedJD = false;
