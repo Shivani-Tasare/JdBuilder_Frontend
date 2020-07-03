@@ -22,4 +22,8 @@ export class SmartServiceService {
     var tags = encodeURIComponent(tagName.join('|'));
     return this.httpClient.get<any[]>(`${url}/icims/search/people?skills=${tags}&skillType=2`);
     }
+
+  getResumeDetails(): Observable<any[]>{
+    return this.httpClient.get<any[]>(`${url}`);
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-i-cimscandidate-list',
@@ -8,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ICIMSCandidateListComponent implements OnInit {
   //@Input() data = [];
   @Input() data = {Total: null, CandidateList: []};
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -36,5 +37,9 @@ getPhoneNumber(phone) {
     }
 
 return '';
+  }
+
+  viewResume(name: String){
+    this.router.navigate(['/view-resume/:id' + name]);
   }
 }

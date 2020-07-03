@@ -20,7 +20,7 @@
       <td>{{ c?.Location }}</td>
       <td>{{ c?.TotalYearsOfExperience}}</td>
       <td>{{ c?.Email }}</td>
-      <td><a href="javascript:void(0);">View Resume</a></td>
+      <td><a href="javascript:void(0);" (click)="viewResume(c.Name)">View Resume</a></td>
 
     </tr>
     <tr  *ngIf="!data.Total" class="text-center ng-star-inserted" colspan="3">
