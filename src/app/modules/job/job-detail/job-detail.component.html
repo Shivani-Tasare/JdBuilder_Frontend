@@ -453,7 +453,11 @@
                       (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="!isSameUser && saveAsCopy " (click)="onSave()" type="button" value="Save As Copy"
                       class=" btn theme-color-btn mr-2" />
+                    <div style="margin-top: 10px;">
+                      <mat-slide-toggle  (change)="onSlideChange($event)" >{{toggleMessage}}</mat-slide-toggle>
+                    </div>
                   </div>
+
                 </div>
               </form>
             </div>

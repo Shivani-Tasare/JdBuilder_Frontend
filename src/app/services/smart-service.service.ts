@@ -18,8 +18,8 @@ export class SmartServiceService {
   var tags = encodeURIComponent(tagName.join('|'));
   return this.httpClient.get<any[]>(`${url}/getmatchingconsultants?tags=${tags}`);
   }
-  fetchiCIMSCandidatesDetails(tagName) : Observable<any[]>{
+  fetchiCIMSCandidatesDetails(tagName, skillCheckToggle) : Observable<any[]>{
     var tags = encodeURIComponent(tagName.join('|'));
-    return this.httpClient.get<any[]>(`${url}/icims/search/people?skills=${tags}&pageSize=10&pageIndex=1`);
+    return this.httpClient.get<any[]>(`${url}/icims/search/people?skills=${tags}&skillType=${skillCheckToggle}`);
     }
 }

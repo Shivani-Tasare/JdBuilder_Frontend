@@ -25,6 +25,7 @@ const modules = [
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatDialogModule,
+  MatSlideToggleModule,
   MatSlideToggleModule
 ];
 @NgModule({

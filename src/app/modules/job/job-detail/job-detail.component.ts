@@ -24,7 +24,9 @@ import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+  skillCheckToggle = 1;
   length = 100;
+  toggleMessage ='Request ICIMS candidates by skillset';
  iCIMSCandidates = {};
  //iCIMSCandidates = [];
   pageSize = 2;
@@ -504,6 +506,18 @@ export class JobDetailComponent implements OnInit {
       this.mandatorySkills.push(this.createMandatorySkill(newSkill));
     }
   }
+
+  onSlideChange(e) {
+    if(e.checked) {
+      this.toggleMessage = 'Candidates by skillset';
+      this.skillCheckToggle = 2;
+    }
+      else {
+        this.toggleMessage = 'Candidates by skills'
+        this.skillCheckToggle = 1;
+      }
+           }
+  
   addDesiredSkill(index,skills?): void {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     if(skills){
@@ -660,7 +674,7 @@ export class JobDetailComponent implements OnInit {
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res)=>res.TagName);
     if(tags.length > 0){
-      this.smartService.fetchiCIMSCandidatesDetails(this.tagName).subscribe(
+      this.smartService.fetchiCIMSCandidatesDetails(this.tagName, this.skillCheckToggle).subscribe(
         response => {
            this.iCIMSCandidates  = response;
         }, error => {
