@@ -979,17 +979,22 @@ export class JobDetailComponent implements OnInit {
   populateMandatorySkills(tag){
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkillData = [];
+    let skills = []
     const tags = tag.map((res)=>res.TagName);
      this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
       res.forEach((v,i)=>{
-        for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
-          if (v !== this.mandatorySkills.value[index2].SkillName) {
+        // for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
+        //   if (v !== this.mandatorySkills.value[index2].SkillName) {
           this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
-          index2 =0 ;
-            }
+         // index2 =0 ;
+        //     }
+        // }
+        for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
+        skills = this.mandatorySkillData.filter((x) => {
+        return x !== this.mandatorySkills.value[index2].SkillName})
         }
         if(this.mandatorySkillData.length > 0)
-         this.addMandatorySkill(i,this.mandatorySkillData) ;
+         this.addMandatorySkill(i,skills) ;
      })
   })
 }

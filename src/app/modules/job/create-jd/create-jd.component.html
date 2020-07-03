@@ -42,7 +42,7 @@
                 <mat-form-field class="col-8 pl-0">
                   <input (focusout)="checkDuplicateDesignation($event)" 
                     (keyup.enter)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
-                    aria-label="Number" matInput formControlName="selectedDesignation" [value]="selectedDesignationName"
+                    aria-label="Number" matInput formControlName="selectedDesignationN" [value]="selectedDesignationName"
                     (keyup)="filterDesignationList($event)" [matAutocomplete]="desig" (keydown.backspace)="removeDesignation($event.target.value)">
                   <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
                     <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName && desigOption > 1">
