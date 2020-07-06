@@ -18,6 +18,7 @@ import { ContentPdfComponent } from './content-pdf/content-pdf.component';
 import { SharedModule } from 'src/app/shared';
 //import { JdsSharedComponent } from './jds-shared/jds-shared.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   ],
   imports: [
     CommonModule,
+    RouterModule,
     ReactiveFormsModule,
     FormsModule,
     JobRoutingModule,

@@ -39,7 +39,7 @@ getPhoneNumber(phone) {
 return '';
   }
 
-  viewResume(name: String){
-    this.router.navigate(['/view-resume/:id' + name]);
+  viewResume(email: String){
+    window.open("//" + `'/view-resume/${email}'`, '_blank');
   }
 }

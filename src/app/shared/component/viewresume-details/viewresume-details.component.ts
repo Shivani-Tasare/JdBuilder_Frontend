@@ -8,16 +8,20 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./viewresume-details.component.scss']
 })
 export class ViewresumeDetailsComponent implements OnInit {
-
-  constructor(private smartService: SmartServiceService,private route: ActivatedRoute) { }
-
-  ngOnInit() {
+  email: String;
+  resumeData = 'Nothing to display!';
+  constructor(private smartService: SmartServiceService,private route: ActivatedRoute) { 
     this.route.params.subscribe(params => {
-      
+      this.email = params['id'];
+      console.log(params);
     })
 
-    this.smartService.getResumeDetails().subscribe(response => {
 
+  }
+
+  ngOnInit() {
+        this.smartService.getResumeDetails(this.email).subscribe(response => {
+            this.resumeData = response;
     })
   }
 

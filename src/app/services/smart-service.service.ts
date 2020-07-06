@@ -23,7 +23,7 @@ export class SmartServiceService {
     return this.httpClient.get<any[]>(`${url}/icims/search/people?skills=${tags}&skillType=2`);
     }
 
-  getResumeDetails(): Observable<any[]>{
-    return this.httpClient.get<any[]>(`${url}`);
+  getResumeDetails(email: String): Observable<string>{
+    return this.httpClient.get<string>(`${url}/icims/people/resume?email=${email}`);
   }
 }
