@@ -591,7 +591,7 @@
                   <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
                   <p class="col-12">
                     <span *ngFor="let skill of jobDescriptionForm.get('mandatorySkills')['controls']; let i = index;">
-                      {{skill.controls.SkillName.value}}<span *ngIf="i !== mandatoryTagsList.length-1">.<br /></span>
+                      {{skill.controls.SkillName.value}}<span>.<br /></span>
                     </span>
                   </p>
                   <div class="col-12">
@@ -600,7 +600,7 @@
                   <p class="col-12 pt-2 font-weight-bold">DESIRED SKILLS</p>
                   <p class="col-12">
                     <span *ngFor="let skill of jobDescriptionForm.get('desiredSkills')['controls']; let i = index;">
-                      {{skill.controls.SkillName.value}}<span *ngIf="i !== desiredTagsList.length-1">.<br /></span>
+                      {{skill.controls.SkillName.value}}<span>.<br /></span>
                     </span>
                   </p>
                   <div class="col-12">
@@ -619,7 +619,7 @@
                   <p class="col-12">
                     <span
                       *ngFor="let item of jobDescriptionForm.get('rolesAndResponsibility')['controls']; let i = index;">
-                      {{item.controls.Responsibility.value}}<span *ngIf="i !== tags.length-1">.<br /></span>
+                      {{item.controls.Responsibility.value}}<span *ngIf="i !== tags.length-1">.<br/></span>
                     </span>
                   </p>
                   <div class="col-12">
