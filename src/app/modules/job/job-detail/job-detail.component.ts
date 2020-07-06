@@ -490,7 +490,7 @@ export class JobDetailComponent implements OnInit {
   addMandatorySkill(index,skills?): void {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     if(skills){
-      
+
       this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,SkillId: skills[index].SkillId,
         SkillName: skills[index].SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'}));
     } else{

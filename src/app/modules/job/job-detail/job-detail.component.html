@@ -445,10 +445,10 @@
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
                       class=" btn theme-color-btn mr-2" />
                       <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-                      value="View iCIMS Candidates" class=" mr-2 btn theme-color-btn" />
+                      value="View External Pool" class=" mr-2 btn theme-color-btn" />
 
                     <input id="viewButton" data-toggle="modal"  data-target="#myModal" type="button"
-                      (click)="viewCandidates(myModal)" value="View Candidates" class=" btn theme-color-btn mr-2" />
+                      (click)="viewCandidates(myModal)" value="View Internal Pool" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)"
                       (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="!isSameUser && saveAsCopy " (click)="onSave()" type="button" value="Save As Copy"
@@ -635,14 +635,14 @@
                     <button (click)="downloadPDF2()" type="button" class="bg-white p-2 w-100">Export as Pdf</button>
                   </div>
                   <div class="col-6 col-lg-4">
-                    <button type="button" class="bg-white p-2 w-100">Request To iCIMS</button>
+                    <button type="button" class="bg-white p-2 w-100">Request to Refill</button>
                   </div>
                   <div class="col-12 d-none pr-0 d-lg-block pt-4">
                     <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)"
-                      value="View Candidates" class=" mr-2 btn theme-color-btn" />
+                      value="View Internal Pool" class=" mr-2 btn theme-color-btn" />
 
                       <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-                      value="View iCIMS Candidates" class=" mr-2 btn theme-color-btn" />
+                      value="View External Pool" class=" mr-2 btn theme-color-btn" />
 
 
 
@@ -684,7 +684,7 @@
     <div class="col-6 p-0">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
         class="w-100 h-100 font-weight-bold theme-color-btn" style="
-      border: none;">View Candidates</button>
+      border: none;">View Internal Pool</button>
       <!-- The Modal -->
     </div>
     <div class="col-6 p-0">

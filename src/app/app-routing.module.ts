@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
 import { JobListingComponent } from './modules/job/job-listing/job-listing.component';
 import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
+import { ViewresumeDetailsComponent } from './shared/component/viewresume-details/viewresume-details.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'allJd', pathMatch: 'full'},
@@ -14,7 +15,9 @@ const routes: Routes = [
   {path: 'allJd', component: JobListingComponent},
   {path: 'jdsShared', component: JdsSharedComponent},
   {path: 'myJd', component: JobListingComponent},
+  {path: 'view-resume/:id', component: ViewresumeDetailsComponent},
   {path: '**', component: PageNotFoundComponent}
+ 
 ];
 
 @NgModule({

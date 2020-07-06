@@ -3,25 +3,16 @@
     <tr>
       <th scope="col">Candidate Name</th>
       <th scope="col">Region</th>
-      <th scope="col">Total Experience</th>
       <th scope="col">Email</th>
       <th scope="col">Resume</th>
     </tr>
   </thead>
   <tbody>
     <tr class="noBorder" *ngFor="let c of data?.CandidateList">
-      <!-- <td>{{ c?.FirstName + " " + c?.LastName }}</td>
+      <td>{{ c?.FirstName + " " + c?.LastName }}</td>
       <td>{{ getAddress(c.Addresses) }}</td>
-      <td>{{ getPhoneNumber(c?.Phones)}}</td>
-      <td>{{ c?.Email }}</td> -->
-
-
-      <td>{{ c?.Name }}</td>
-      <td>{{ c?.Location }}</td>
-      <td>{{ c?.TotalYearsOfExperience}}</td>
       <td>{{ c?.Email }}</td>
-      <td><a href="javascript:void(0);">View Resume</a></td>
-
+      <td><a  target="_blank" [routerLink]="['/view-resume', c.Email]" >View</a></td>
     </tr>
     <tr  *ngIf="!data.Total" class="text-center ng-star-inserted" colspan="3">
       <td colspan="5"> No Record Found!</td>
