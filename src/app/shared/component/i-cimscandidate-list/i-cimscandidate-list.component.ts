@@ -9,31 +9,38 @@ import { ChartOptions } from 'chart.js';
 })
 export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   //@Input() data = [];
-  @Input() data = {Total: null, CandidateList: []};
+  @Input() data = {TotalCount: "0", CandidateList: [], ExactMatch:null, PartialMatch: null};
   constructor(private router: Router) { }
 
   public pieChartLabels:string[] = ['Exact Match', 'Partial Match'];
   public pieChartData:number[] = [0, 0];
   public pieChartType:string = 'pie';
  
-  // events
-  // public chartClicked(e:any):void {
-  //   console.log(e);
-  // }
+  //events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
  
-  // public chartHovered(e:any):void {
-  //   console.log(e);
-  // }
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
   get showChart() {
-    return ((this.pieChartData[0] || this.pieChartData[1]) ? true: false )
+    return !!this.data['TotalCount'] && !!this.data['TotalCount'].split('+')[0];
   }
   ngOnInit() {
     console.log(this.data);
   }
   ngOnChanges() {
     if(!!this.data) {
-      this.data.CandidateList = !!this.data['ExactMatch'].CandidateList.length ? this.data['ExactMatch'].CandidateList : this.data['PartialMatch'].CandidateList;
-      this.pieChartData = [this.data['ExactMatch'].Total, this.data['PartialMatch'].Total];
+      this.data.CandidateList = 
+      !!(!!this.data['ExactMatch'] && !!this.data['ExactMatch'].Total)? 
+      this.data['ExactMatch'].CandidateList:
+      (!!this.data['PartialMatch'] && !!this.data['PartialMatch'].Total ? this.data['PartialMatch'].CandidateList : []);
+      
+      this.pieChartData =[
+      !!this.data['ExactMatch'] ? this.data['ExactMatch'].Total : 0,
+      !!this.data['PartialMatch'] ? this.data['PartialMatch'].Total: 0
+    ];
     }
   }
   public pieChartOptions: ChartOptions = {
