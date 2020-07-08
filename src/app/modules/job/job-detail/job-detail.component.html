@@ -253,10 +253,10 @@
                               <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                                 (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
                                 formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
-                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i,true)">
+                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                                 <mat-option *ngFor="let suggestion of suggestedMandatorySkill; let i = index;"
-                                  [value]="suggestion?.SkillName" multipleLineOption>
-                                  {{suggestion?.SkillName}}
+                                  [value]="suggestion.SkillName">
+                                  {{suggestion.SkillName}}
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
@@ -305,8 +305,13 @@
                                 [matAutocomplete]="auto"></textarea>
                               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                                 <mat-option *ngFor="let suggestion of suggestedDesiredSkill; let i = index;"
+<<<<<<< .merge_file_a07076
                                   [value]="suggestion?.SkillName" multipleLineOption>
                                   {{suggestion?.SkillName}}
+=======
+                                  [value]="suggestion.SkillName">
+                                  {{suggestion.SkillName}}
+>>>>>>> .merge_file_a22756
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
