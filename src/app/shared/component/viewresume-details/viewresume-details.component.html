@@ -5,7 +5,7 @@
       <div class="d-none d-lg-block">
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-            <p class="pull-left font-weight-bold mb-0 sub-heading"> {{name}}</p>
+            <p class="pull-left font-weight-bold mb-0 sub-heading">Resume</p>
           </div>
         </div>
       </div>
@@ -13,7 +13,7 @@
       <!-- Mobile View -->
       <div class="row d-lg-none">
         <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-          <p class="pull-left font-weight-bold mb-0 sub-heading">{{name}}</p>
+          <p class="pull-left font-weight-bold mb-0 sub-heading">Resume</p>
         </div>
       </div>
     </div>
@@ -22,8 +22,8 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md-12">
-        <p style="background-color: white;padding: 20px; font-family: verdana, geneva;
-        font-size: 10pt;" [innerHtml]="resumeData">
+        <p style="background-color: white;padding: 20px;">
+          {{resumeData}}
         </p>
       </div>
     </div>
