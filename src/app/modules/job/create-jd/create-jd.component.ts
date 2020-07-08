@@ -675,6 +675,7 @@ export class CreateJdComponent implements OnInit {
   }
   removeDesignation(event){
     this.desigOption = event.length;
+    event.length <= 1 ? this.selectedDesignationName = '' : null;
   }
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })

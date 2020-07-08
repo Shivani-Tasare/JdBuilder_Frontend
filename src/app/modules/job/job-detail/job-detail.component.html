@@ -318,7 +318,7 @@
                               </div>
                             </mat-error>
                           </div>
-                          <p [hidden]='skill.controls.isEditing.value' style="color:gray">
+                          <p class="my-auto" [hidden]='skill.controls.isEditing.value' style="color:gray">
                             {{skill.controls.SkillName.value}}</p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
@@ -392,7 +392,7 @@
                     <div [formGroupName]="i">
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
-                          <div class="form-group">
+                          <div class="input-group">
                             <mat-form-field [class.visibility-hidden]="!item.controls.isEditing.value" class="col-12 px-0">
                               <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                                 #autosize="cdkTextareaAutosize" (keyup)="getResponsibilities($event)"
@@ -414,7 +414,7 @@
                               </div>
                             </mat-error>
                           </div>
-                          <p [hidden]='item.controls.isEditing.value' style="color:gray">
+                          <p [hidden]='item.controls.isEditing.value' class="my-auto" style="color:gray">
                             {{item.controls.Responsibility.value}}</p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
@@ -617,7 +617,7 @@
                   <p class="col-12 pt-2 font-weight-bold">ROLE AND RESPONSIBILITIES</p>
                   <p class="col-12">
                     <span
-                      *ngFor="let item of jobDescriptionForm.get('rolesAndResponsibility')['controls']; let i = index;">
+                      *ngFor="let item of jobDescriptionForm.get('rolesAndResponsibility')['controls']; let i = index;" style="margin-bottom: 7px;display:block">
                       {{item.controls.Responsibility.value}}<span *ngIf="i !== tags.length-1">.<br/></span>
                     </span>
                   </p>
