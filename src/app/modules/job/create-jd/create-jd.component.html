@@ -45,7 +45,7 @@
                     aria-label="Number" matInput formControlName="selectedDesignation" [value]="selectedDesignationName"
                     (keyup)="filterDesignationList($event)" [matAutocomplete]="desig" (keydown.backspace)="removeDesignation($event.target.value)">
                   <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
-                    <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName && desigOption > 1">
+                    <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName">
                       {{designation.DesignationName}}
                     </mat-option>
                   </mat-autocomplete>
@@ -195,10 +195,10 @@
                             <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                               (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
                               formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
-                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i,true)">
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                               <mat-option *ngFor="let suggestion of suggestedMandatorySkill; let i = index;"
-                                [value]="suggestion?.SkillName" multipleLineOption>
-                                {{suggestion?.SkillName}}
+                                [value]="suggestion.SkillName">
+                                {{suggestion.SkillName}}
                               </mat-option>
                             </mat-autocomplete>
                           </mat-form-field>
@@ -245,8 +245,8 @@
                               [matAutocomplete]="auto"></textarea>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                               <mat-option *ngFor="let suggestion of suggestedDesiredSkill; let i = index;"
-                                [value]="suggestion?.SkillName" multipleLineOption>
-                                {{suggestion?.SkillName}}
+                                [value]="suggestion.SkillName">
+                                {{suggestion.SkillName}}
                               </mat-option>
                             </mat-autocomplete>
                           </mat-form-field>
