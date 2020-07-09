@@ -20,10 +20,10 @@ export class SmartServiceService {
   }
   fetchiCIMSCandidatesDetails(tagName) : Observable<any[]>{
     var tags = encodeURIComponent(tagName.join('|'));
-    return this.httpClient.get<any[]>(`${url}/icims/search/people?skills=${tags}&skillType=2`);
+    return this.httpClient.get<any[]>(`${url}/icims/search/people?skills=${tags}`);
     }
 
-  getResumeDetails(email: String): Observable<string>{
-    return this.httpClient.get<string>(`${url}/icims/people/resume?email=${email}`);
+  getResumeDetails(id: String): Observable<string>{
+    return this.httpClient.get<string>(`${url}/icims/people/resumeText?id=${id}`);
   }
 }

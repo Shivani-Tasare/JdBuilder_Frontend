@@ -21,7 +21,7 @@
       <td>{{ c?.FirstName + " " + c?.LastName }}</td>
       <td>{{ getAddress(c.Addresses) }}</td>
       <td>{{ c?.Email }}</td>
-      <td><a  target="_blank" [routerLink]="['/view-resume', c.Email]" >View</a></td>
+      <td><a  target="_blank" [routerLink]="['/view-resume', c.CandidateId]" >View</a></td>
     </tr>
     <tr  *ngIf="!data?.TotalCount" class="text-center ng-star-inserted" colspan="3">
       <td colspan="5"> No Record Found!</td>
