@@ -305,13 +305,8 @@
                                 [matAutocomplete]="auto"></textarea>
                               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                                 <mat-option *ngFor="let suggestion of suggestedDesiredSkill; let i = index;"
-<<<<<<< .merge_file_a07076
-                                  [value]="suggestion?.SkillName" multipleLineOption>
-                                  {{suggestion?.SkillName}}
-=======
                                   [value]="suggestion.SkillName">
                                   {{suggestion.SkillName}}
->>>>>>> .merge_file_a22756
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
