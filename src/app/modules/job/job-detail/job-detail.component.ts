@@ -117,7 +117,6 @@ export class JobDetailComponent implements OnInit {
   selectmandatorytags: any[];
   selectdesiredtags: any[];
   isDeletedJD: boolean = false;
-  desigOption: number;
   constructor(private loaderService: LoaderService, private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
   
@@ -1060,7 +1059,6 @@ export class JobDetailComponent implements OnInit {
   }
 
   FetchProfileSummary(designationEvent) {
-    this.desigOption = 3;
     this.selectedDesignationName = designationEvent.viewValue;
     this.jobDescriptionForm.patchValue({ selectedDesignationN: designationEvent.viewValue })
     this.jobDescriptionForm.patchValue({ selectedDesignation: designationEvent.value })
@@ -1071,9 +1069,7 @@ export class JobDetailComponent implements OnInit {
       }
     })
   }
-  removeDesignation(event){
-    this.desigOption = event.length;
-  }
+  
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
   }

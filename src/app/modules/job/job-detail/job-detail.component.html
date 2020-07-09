@@ -98,9 +98,9 @@
                     <input (focusout)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
                       aria-label="Number" (keyup)="clearDesignationId($event);filterDesignationList($event)" matInput
                       [value]="selectedDesignationName" formControlName="selectedDesignationN"
-                      [matAutocomplete]="desig" (keydown.backspace)="removeDesignation($event.target.value)">
+                      [matAutocomplete]="desig">
                     <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
-                      <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName && desigOption > 1">
+                      <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName &&  this.jobDescriptionForm.get('selectedDesignationN').value.length >= 1">
                         {{designation.DesignationName}}
                       </mat-option>
                     </mat-autocomplete>
@@ -589,7 +589,7 @@
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
                   <p class="col-12">
-                    <span *ngFor="let skill of jobDescriptionForm.get('mandatorySkills')['controls']; let i = index;">
+                    <span class="spacing" *ngFor="let skill of jobDescriptionForm.get('mandatorySkills')['controls']; let i = index;">
                       {{skill.controls.SkillName.value}}<span>.<br /></span>
                     </span>
                   </p>
@@ -598,7 +598,7 @@
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">DESIRED SKILLS</p>
                   <p class="col-12">
-                    <span *ngFor="let skill of jobDescriptionForm.get('desiredSkills')['controls']; let i = index;">
+                    <span class="spacing" *ngFor="let skill of jobDescriptionForm.get('desiredSkills')['controls']; let i = index;">
                       {{skill.controls.SkillName.value}}<span>.<br /></span>
                     </span>
                   </p>
@@ -607,7 +607,7 @@
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">QUALIFICATION</p>
                   <p class="col-12">
-                    <span *ngFor="let item of jobDescriptionForm.get('qualifications')['controls']; let i = index;">
+                    <span class="spacing" *ngFor="let item of jobDescriptionForm.get('qualifications')['controls']; let i = index;">
                       {{item.controls.Name.value}}<span *ngIf="i !== tags.length-1">.<br /></span>
                     </span>
                   </p>
@@ -616,8 +616,8 @@
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">ROLE AND RESPONSIBILITIES</p>
                   <p class="col-12">
-                    <span
-                      *ngFor="let item of jobDescriptionForm.get('rolesAndResponsibility')['controls']; let i = index;" style="margin-bottom: 7px;display:block">
+                    <span class="spacing"
+                      *ngFor="let item of jobDescriptionForm.get('rolesAndResponsibility')['controls']; let i = index;">
                       {{item.controls.Responsibility.value}}<span *ngIf="i !== tags.length-1">.<br/></span>
                     </span>
                   </p>
@@ -739,7 +739,6 @@
               </table>
             </div>
           </div>
-
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">
