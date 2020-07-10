@@ -1,3 +1,12 @@
+<div style="display: block">
+  <canvas *ngIf="!!showChart" baseChart height="80"
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [chartType]="pieChartType"
+          [options]="pieChartOptions"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+</div>
 <table class="table table-bordered p-3 my-3">
   <thead>
     <tr>
@@ -14,7 +23,7 @@
       <td>{{ c?.Email }}</td>
       <td><a  target="_blank" [routerLink]="['/view-resume', c.Email]" >View</a></td>
     </tr>
-    <tr  *ngIf="!data.Total" class="text-center ng-star-inserted" colspan="3">
+    <tr  *ngIf="!data?.TotalCount" class="text-center ng-star-inserted" colspan="3">
       <td colspan="5"> No Record Found!</td>
   </tr>
   </tbody> 

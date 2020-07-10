@@ -444,12 +444,11 @@
                   <div class="col-12 d-none pr-0 d-lg-block">
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
                       class=" btn theme-color-btn mr-2" />
-                      <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-                      value="View External Pool" class=" mr-2 btn theme-color-btn" />
-
                     <input id="viewButton" data-toggle="modal"  data-target="#myModal" type="button"
                       (click)="viewCandidates(myModal)" value="View Internal Pool" class=" btn theme-color-btn mr-2" />
-                    <input *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)"
+                      <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+                      value="View External Pool" class=" mr-2 btn theme-color-btn" />
+                      <input *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)"
                       (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="!isSameUser && saveAsCopy " (click)="onSave()" type="button" value="Save As Copy"
                       class=" btn theme-color-btn mr-2" />
@@ -734,7 +733,8 @@
 
                 </tbody>
                 <tfoot>
-                  <tr class="text-right" *ngIf="!candidateRecordsAsPerSection?.length"> No Record Found!</tr>
+                  <tr class="text-center" *ngIf="!candidateRecordsAsPerSection?.length">
+                    <td colspan="2">No Record Found!</td> </tr>
                 </tfoot>
               </table>
             </div>
@@ -770,7 +770,7 @@
               (scrolled)="onScroll()"
               [scrollWindow]="false"
               > -->
-              <div ><p  class="mb-0"> Total Candidates </p><h4> {{iCIMSCandidates?.Total}} </h4></div>
+              <div ><p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4></div>
                 <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
             </div>
         </div>
