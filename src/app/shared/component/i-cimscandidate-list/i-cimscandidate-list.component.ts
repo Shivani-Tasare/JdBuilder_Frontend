@@ -70,6 +70,24 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
 
 return '';
   }
+getLocation(address) {
+    if(!!address) {
+      return  address.map((r)=> {
+        let location = '';
+        if(!!r.AddressCity) {
+          location = r.AddressCity;
+        }
+        if(!!r.AddressState) {
+          location += ', ' + r.AddressState.Value;
+        }
+        return location;
+       // return [];        
+        }).join(' | ')
+    }
+
+return '';
+  }
+
 
 getPhoneNumber(phone) {
     if(!!phone) {
