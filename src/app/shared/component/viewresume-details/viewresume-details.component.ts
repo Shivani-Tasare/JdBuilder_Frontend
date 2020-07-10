@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SecurityContext } from '@angular/core';
 import { SmartServiceService } from 'src/app/services/smart-service.service';
 import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-viewresume-details',
@@ -8,21 +9,19 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./viewresume-details.component.scss']
 })
 export class ViewresumeDetailsComponent implements OnInit {
-  email: String;
+  id: String;
+  name: string;
   resumeData = 'Nothing to display!';
-  constructor(private smartService: SmartServiceService,private route: ActivatedRoute) { 
+  constructor(private smartService: SmartServiceService,private route: ActivatedRoute,
+    private sanitizer: DomSanitizer) { 
     this.route.params.subscribe(params => {
-      this.email = params['id'];
-      console.log(params);
+      this.id = params['id'];
     })
-
-
   }
 
   ngOnInit() {
-        this.smartService.getResumeDetails(this.email).subscribe(response => {
-            this.resumeData = response;
+        this.smartService.getResumeDetails(this.id).subscribe(response => {
+        this.resumeData = this.sanitizer.sanitize(SecurityContext.HTML, response.replace(/(?:\r\n|\r|\n)/g, '<br>'))
     })
   }
-
 }
