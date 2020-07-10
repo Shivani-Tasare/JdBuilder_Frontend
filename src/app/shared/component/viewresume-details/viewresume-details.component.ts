@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ViewresumeDetailsComponent implements OnInit {
   id: String;
   name: string;
-  resumeData = 'Nothing to display!';
+  resumeData = '';
   constructor(private smartService: SmartServiceService,private route: ActivatedRoute,
     private sanitizer: DomSanitizer) { 
     this.route.params.subscribe(params => {
