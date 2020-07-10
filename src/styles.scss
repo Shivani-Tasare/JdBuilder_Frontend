@@ -35,3 +35,7 @@ body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
   position: absolute !important; 
   left: -999em;
 }
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  position: initial !important;
+}
