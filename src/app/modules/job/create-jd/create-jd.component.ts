@@ -712,7 +712,36 @@ export class CreateJdComponent implements OnInit {
     }
   }
 
+  getIdsOfMovedToMandatorySkills(){
+    this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    for(let i=0; i < this.mandatorySkills.length; i++){
+      if(this.mandatorySkills.value[i].SkillId.startsWith('MID')){
+       const id =  this.mandatorySkills.value[i].SkillId.slice(3);
+       const SkillName = this.mandatorySkills.value[i].SkillName;
+       this.mandatorySkills.removeAt(i);
+       this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,SkillId: id,
+        SkillName: SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
+        i = 0;
+      }
+    }
+  }
+  getIdsOfMovedToDesiredSkills(){
+    this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    for(let i=0; i < this.desiredSkills.length; i++){
+      if(this.desiredSkills.value[i].SkillId.startsWith('MID')){
+       const id =  this.desiredSkills.value[i].SkillId.slice(3);
+       const SkillName = this.desiredSkills.value[i].SkillName;
+       this.desiredSkills.removeAt(i);
+       this.desiredSkills.push(this.createDesiredSkill({isEditing: true,SkillId: id,
+        SkillName: SkillName, SkillTypeId: 2, SkillTypeName: 'Desired'}))
+        i = 0;
+      }
+    }
+  }
+
   onSave() {
+    this.getIdsOfMovedToMandatorySkills();
+    this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
     if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1) {
       return;

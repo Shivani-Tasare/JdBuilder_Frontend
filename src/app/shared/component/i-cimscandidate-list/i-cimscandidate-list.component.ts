@@ -28,7 +28,6 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
     return !!this.data['TotalCount'] && !!this.data['TotalCount'].split('+')[0];
   }
   ngOnInit() {
-    console.log(this.data);
   }
   ngOnChanges() {
     if(!!this.data) {
