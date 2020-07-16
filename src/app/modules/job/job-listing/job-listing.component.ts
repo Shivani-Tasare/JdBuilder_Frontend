@@ -116,7 +116,6 @@ export class JobListingComponent implements OnInit {
   }
 
   appendToMandatoryTags(index){
-    console.log(this.searchString)
     this.searchString = (!!this.searchString) ? this.searchString + ', ' +
     this.associatedTags[index].TagName: this.associatedTags[index].TagName;
     this.associatedTags.splice(index, 1);
