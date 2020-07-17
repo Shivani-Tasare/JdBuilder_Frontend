@@ -771,8 +771,26 @@
               (scrolled)="onScroll()"
               [scrollWindow]="false"
               > -->
-              <div ><p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4></div>
-                <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
+              <div class="row">
+                <div class="col-6"><p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4></div>
+                <div  class="col-6 mar10">
+                  <select name="filterBy" id="filterBy" (change)="changeFilter($event)">
+                    <option value="-1" disabled>Filter By</option>
+                    <option value="0" >Country</option>
+                    <option value="1" >State</option>
+                    <option value="2" >City</option>
+                  </select>
+                  <select name="filterBy" id="filterBy"  *ngIf="!!selectionsFilter.length">
+                    <option *ngFor="let s of selectionsFilter" [value]="s">{{s}}</option>
+                  </select>
+                  </div>
+              </div>
+              
+
+
+
+  
+              <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
             </div>
         </div>
           <!-- </div> -->

@@ -24,6 +24,12 @@ import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+  filterOptions = {
+    "0": ["USA", "India"],
+    "1": ["Delhi", "Noida", "Indiana"],
+    "2":  ["UP", "Indiana"]
+  };
+  selectionsFilter =[];
   length = 100;
  iCIMSCandidates = {};
  //iCIMSCandidates = [];
@@ -251,7 +257,11 @@ export class JobDetailComponent implements OnInit {
       this.router.navigate(['allJd/job-description/view/' + this.jobDetail.ProfileDetail.ProfileId]);
     }
   }
+  changeFilter(e) {
+    console.log(e.target.value);
+     this.selectionsFilter =   this.filterOptions[e.target.value];
 
+  }
   toggleShare() {
     var inputBox = this.document.getElementById('email');
     var shareButton = this.document.getElementById('shareButton');

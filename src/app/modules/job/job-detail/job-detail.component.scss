@@ -254,3 +254,19 @@ tr.noBorder td {
   margin-bottom: 7px;
   display: block;
 }
+
+.mar10 {
+  text-align: right;
+  select, button {
+    margin-right: 10px;
+  }
+  select{
+    height: 31px;
+  }
+  button {
+    font-size: 14px;
+    padding: 10px;
+    padding-top: 4px;
+    padding-bottom: 3px;
+  }
+}
