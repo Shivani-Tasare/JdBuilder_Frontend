@@ -82,7 +82,10 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
           location += address[0].AddressCountry.Value;
         }
         if(!!address[0].AddressCity) {
-          location +=' - '+ address[0].AddressCity;
+            if(!!address[0].AddressCountry) {
+              location +=' - ';    
+            }
+          location += address[0].AddressCity;
         }
         if(!!address[0].AddressState) {
           location += ', ' + address[0].AddressState.Value;
