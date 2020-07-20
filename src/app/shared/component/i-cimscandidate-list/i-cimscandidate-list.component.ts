@@ -15,7 +15,11 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   public pieChartLabels:string[] = ['Exact Match', 'Partial Match'];
   public pieChartData:number[] = [0, 0];
   public pieChartType:string = 'pie';
- 
+  public pieChartColors = [
+    {
+      backgroundColor: ['#264d00', '#ffa600'],
+    },
+  ];
   //events
   public chartClicked(e:any):void {
     console.log(e);
@@ -59,12 +63,19 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   };
   getAddress(address) {
     if(!!address) {
-      return  address.map((r)=> {
+      return  address[0].map((r)=> {
+        let location = '';
         if(!!r.AddressCountry) {
-          return (r.AddressCountry.Value);
+          location += r.AddressCountry.Value;
         }
-        return [];        
-        }).join(', ')
+        if(!!r.AddressCity) {
+          location +=', '+ r.AddressCity;
+        }
+        if(!!r.AddressState) {
+          location += ', ' + r.AddressState.Value;
+        }
+        return location;        
+        });
     }
 
 return '';

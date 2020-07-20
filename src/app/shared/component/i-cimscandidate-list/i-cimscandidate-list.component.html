@@ -3,6 +3,7 @@
           [data]="pieChartData"
           [labels]="pieChartLabels"
           [chartType]="pieChartType"
+          [colors]="pieChartColors"
           [options]="pieChartOptions"
           (chartHover)="chartHovered($event)"
           (chartClick)="chartClicked($event)"></canvas>
@@ -12,19 +13,14 @@
     <tr>
       <th scope="col">Candidate Name</th>
       <th scope="col">Region</th>
-      <th scope="col">Location</th>
-      <th scope="col">Email</th>
-      <th scope="col">Resume</th>
+      <!-- <th scope="col">Location</th> -->
     </tr>
   </thead>
   <tbody>
     <tr class="noBorder" *ngFor="let c of data?.CandidateList">
-      <td>{{ c?.FirstName + " " + c?.LastName }}</td>
+      <td><a  target="_blank" [routerLink]="['/view-resume', c.CandidateId]" >{{ c?.FirstName + " " + c?.LastName }}</a></td>
       <td>{{ getAddress(c.Addresses) }}</td>
-      <td>{{ getLocation(c.Addresses) }}</td>
-
-      <td>{{ c?.Email }}</td>
-      <td><a  target="_blank" [routerLink]="['/view-resume', c.CandidateId]" >View</a></td>
+      <!-- <td>{{ getLocation(c.Addresses) }}</td> -->
     </tr>
     <tr  *ngIf="!data?.TotalCount" class="text-center ng-star-inserted" colspan="3">
       <td colspan="5"> No Record Found!</td>
