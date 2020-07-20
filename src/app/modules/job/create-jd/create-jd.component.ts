@@ -721,7 +721,7 @@ export class CreateJdComponent implements OnInit {
        this.mandatorySkills.removeAt(i);
        this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,SkillId: id,
         SkillName: SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
-        i = 0;
+        i = -1;
       }
     }
   }
@@ -734,7 +734,7 @@ export class CreateJdComponent implements OnInit {
        this.desiredSkills.removeAt(i);
        this.desiredSkills.push(this.createDesiredSkill({isEditing: true,SkillId: id,
         SkillName: SkillName, SkillTypeId: 2, SkillTypeName: 'Desired'}))
-        i = 0;
+        i = -1;
       }
     }
   }
