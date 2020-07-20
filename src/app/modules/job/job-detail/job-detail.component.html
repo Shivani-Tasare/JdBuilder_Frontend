@@ -761,8 +761,6 @@
         <!-- Modal body -->
      
         <div>
-          <div class="row">
-            <div class="col-11 candidate-details">
               <!-- <div
               class="search-results"
               infiniteScroll
@@ -771,10 +769,8 @@
               (scrolled)="onScroll()"
               [scrollWindow]="false"
               > -->
-              <div ><p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4></div>
+              <div class="modal-body pt-0"><p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4></div>
                 <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
-            </div>
-        </div>
           <!-- </div> -->
 
         <!-- Modal footer -->

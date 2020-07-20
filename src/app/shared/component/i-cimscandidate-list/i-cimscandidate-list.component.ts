@@ -63,22 +63,33 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   };
   getAddress(address) {
     if(!!address) {
-      return  address[0].map((r)=> {
+      // return  address[0].map((r)=> {
+      //   let location = '';
+      //   if(!!r.AddressCountry) {
+      //     location += r.AddressCountry.Value;
+      //   }
+      //   if(!!r.AddressCity) {
+      //     location +=', '+ r.AddressCity;
+      //   }
+      //   if(!!r.AddressState) {
+      //     location += ', ' + r.AddressState.Value;
+      //   }
+      //   return location;        
+      //   });
+      //return `${address[0].AddressCountry.Value} - ${address[0].AddressCity}, ${address[0].AddressState.Value}`;
         let location = '';
-        if(!!r.AddressCountry) {
-          location += r.AddressCountry.Value;
+        if(!!address[0].AddressCountry) {
+          location += address[0].AddressCountry.Value;
         }
-        if(!!r.AddressCity) {
-          location +=', '+ r.AddressCity;
+        if(!!address[0].AddressCity) {
+          location +=' - '+ address[0].AddressCity;
         }
-        if(!!r.AddressState) {
-          location += ', ' + r.AddressState.Value;
+        if(!!address[0].AddressState) {
+          location += ', ' + address[0].AddressState.Value;
         }
         return location;        
-        });
     }
-
-return '';
+    return '';
   }
 getLocation(address) {
     if(!!address) {
