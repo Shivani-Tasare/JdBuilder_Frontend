@@ -17,7 +17,7 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   public pieChartType:string = 'pie';
   public pieChartColors = [
     {
-      backgroundColor: ['#264d00', '#ffa600'],
+      backgroundColor: ['#66cc00', '#ffa600'],
     },
   ];
   //events
