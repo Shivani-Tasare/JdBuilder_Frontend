@@ -445,7 +445,7 @@
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
                       class=" btn theme-color-btn mr-2" />
                     
-                    <input id="viewButton" data-toggle="modal"  data-target="#myModal" type="button"
+                    <input id="viewButton" data-toggle="modal" data-target="#myModal" type="button"
                       (click)="viewCandidates(myModal)" value="View Internal Pool" class=" btn theme-color-btn mr-2" />
                       <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
                       value="View External Pool" class=" mr-2 btn theme-color-btn" />
@@ -689,13 +689,13 @@
       <button (click)="fixHeader();onEdit()" class="w-100 h-100 font-weight-bold theme-secondary-btn">Edit JD</button>
     </div>
   </div>
-  <div class="modal" id="myModal">
+  <div class="modal" id="myModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- Modal Header -->
         <div class="modal-header pb-0 pr-1 pt-1 border-0">
           <h4 class="modal-title"></h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button style="margin: 0rem; padding: 0rem;" type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
         <div class="modal-body pt-0">
@@ -750,13 +750,13 @@
   </div>
 
 
-  <div class="modal" id="iCIMSCandidateModal">
+  <div class="modal" id="iCIMSCandidateModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- Modal Header -->
         <div class="modal-header pb-0 pr-1 pt-1 border-0">
           <h4 class="modal-title"></h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <button style="margin: 0rem; padding: 0rem;" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         </div>
         <!-- Modal body -->
      
