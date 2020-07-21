@@ -15,7 +15,11 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   public pieChartLabels:string[] = ['Exact Match', 'Partial Match'];
   public pieChartData:number[] = [0, 0];
   public pieChartType:string = 'pie';
- 
+  public pieChartColors = [
+    {
+      backgroundColor: ['#66cc00', '#ffa600'],
+    },
+  ];
   //events
   public chartClicked(e:any):void {
     console.log(e);
@@ -59,15 +63,36 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   };
   getAddress(address) {
     if(!!address) {
-      return  address.map((r)=> {
-        if(!!r.AddressCountry) {
-          return (r.AddressCountry.Value);
+      // return  address[0].map((r)=> {
+      //   let location = '';
+      //   if(!!r.AddressCountry) {
+      //     location += r.AddressCountry.Value;
+      //   }
+      //   if(!!r.AddressCity) {
+      //     location +=', '+ r.AddressCity;
+      //   }
+      //   if(!!r.AddressState) {
+      //     location += ', ' + r.AddressState.Value;
+      //   }
+      //   return location;        
+      //   });
+      //return `${address[0].AddressCountry.Value} - ${address[0].AddressCity}, ${address[0].AddressState.Value}`;
+        let location = '';
+        if(!!address[0].AddressCountry) {
+          location += address[0].AddressCountry.Value;
         }
-        return [];        
-        }).join(', ')
+        if(!!address[0].AddressCity) {
+            if(!!address[0].AddressCountry) {
+              location +=' - ';    
+            }
+          location += address[0].AddressCity;
+        }
+        if(!!address[0].AddressState) {
+          location += ', ' + address[0].AddressState.Value;
+        }
+        return location;        
     }
-
-return '';
+    return '';
   }
 getLocation(address) {
     if(!!address) {
