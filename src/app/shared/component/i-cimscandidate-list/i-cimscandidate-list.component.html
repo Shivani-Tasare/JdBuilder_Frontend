@@ -1,35 +1,43 @@
-<div style="display: block">
-  <canvas *ngIf="!!showChart" baseChart
-          [data]="pieChartData"
-          [labels]="pieChartLabels"
-          [chartType]="pieChartType"
-          [colors]="pieChartColors"
-          [options]="pieChartOptions"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
-</div>
-
-<div class="row">
-  <div class="col-11 candidate-details">
-
-    <table class="table table-bordered p-3 my-3">
-      <thead>
-        <tr>
-          <th scope="col">Candidate Name</th>
-          <th scope="col">Region</th>
-          <!-- <th scope="col">Location</th> -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="noBorder" *ngFor="let c of data?.CandidateList">
-          <td><a  target="_blank" [routerLink]="['/view-resume', c.CandidateId]" >{{ c?.FirstName + " " + c?.LastName }}</a></td>
-          <td>{{ getAddress(c.Addresses) }}</td>
-          <!-- <td>{{ getLocation(c.Addresses) }}</td> -->
-        </tr>
-        <tr  *ngIf="!data?.TotalCount" class="text-center ng-star-inserted" colspan="3">
-          <td colspan="5"> No Record Found!</td>
-      </tr>
-      </tbody> 
-    </table>
+<div>
+  <div>
+    <div class="chart">
+    <canvas *ngIf="!!showChart" baseChart
+            [data]="pieChartData"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [colors]="pieChartColors"
+            [options]="pieChartOptions"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  <span class="no-chart" *ngIf="!showChart">No data</span>
   </div>
-</div>    
+  </div>
+  <div class="row">
+    <div class="col-11 candidate-details">
+  
+      <table class="table table-bordered p-3 my-3">
+        <thead>
+          <tr>
+            <th scope="col">Candidate Name</th>
+            <th scope="col">Region</th>
+            <!-- <th scope="col">Location</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="noBorder" *ngFor="let c of data?.CandidateList">
+            <td><a  target="_blank" [routerLink]="['/view-resume', c.CandidateId]" >{{ c?.FirstName + " " + c?.LastName }}</a></td>
+            <td>{{ getAddress(c.Addresses) ? getAddress(c.Addresses) : '-' }}</td>
+            <!-- <td>{{ getLocation(c.Addresses) }}</td> -->
+          </tr>
+        </tbody> 
+        <tfoot>
+          <tr  *ngIf="!data?.TotalCount" class="text-center">
+            <td colspan="2"> No Record Found!</td>
+        </tr>
+      </tfoot>
+      </table>
+    </div>
+  </div>    
+  </div>
+  <div class="modal-footer">
+  </div>
