@@ -21,7 +21,9 @@ export class ViewresumeDetailsComponent implements OnInit {
 
   ngOnInit() {
         this.smartService.getResumeDetails(this.id).subscribe(response => {
-        this.resumeData = this.sanitizer.sanitize(SecurityContext.HTML, response.replace(/(?:\r\n|\r|\n)/g, '<br>'))
+          response !== "" ? this.resumeData = this.sanitizer.sanitize(SecurityContext.HTML, response.replace(/(?:\r\n|\r|\n)/g, '<br>')) :
+          this.resumeData = "No resume available!"
+    
     })
   }
 }

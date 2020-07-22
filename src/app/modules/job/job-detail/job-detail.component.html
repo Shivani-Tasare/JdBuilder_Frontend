@@ -634,7 +634,7 @@
                     <button (click)="downloadPDF2()" type="button" class="bg-white p-2 w-100">Export as Pdf</button>
                   </div>
                   <div class="col-6 col-lg-4">
-                    <button type="button" class="bg-white p-2 w-100">Request to Refill</button>
+                    <button [disabled]="true" type="button" class="bg-white p-2 w-100">Request to Refill</button>
                   </div>
                   <div class="col-12 d-none pr-0 d-lg-block pt-4">
                     <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)"
@@ -761,26 +761,10 @@
         <!-- Modal body -->
      
         <div>
-              <!-- <div
-              class="search-results"
-              infiniteScroll
-              [infiniteScrollDistance]="2"
-              [infiniteScrollThrottle]="50"
-              (scrolled)="onScroll()"
-              [scrollWindow]="false"
-              > -->
               <div class="modal-body pt-0"><p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4></div>
                 <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
-          <!-- </div> -->
-
-        <!-- Modal footer -->
-        <!-- <div class="modal-footer">
-        </div> -->
-
       </div>
     </div>
-
-
 </div>
   </div>
 
