@@ -39,8 +39,8 @@
           <div class="dropdown-menu">
             <a [routerLink]="['/createJD']" class="dropdown-item" href="javascript:">Create New JD</a>
             <a class="dropdown-item" href="#">Sort By Score</a>
-            <a *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search()" class="dropdown-item" href="javascript:">Sort By Oldest Date</a>
-            <a *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search()" class="dropdown-item" href="javascript:">Sort By Newest Date</a>
+            <a *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search(true)" class="dropdown-item" href="javascript:">Sort By Oldest Date</a>
+            <a *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search(true)" class="dropdown-item" href="javascript:">Sort By Newest Date</a>
           </div>
         </div>
       </div>
@@ -155,9 +155,9 @@
   </div>
   <div class="col-md-5 d-none d-lg-block"></div>
   <div class="col-md-4 d-none d-lg-block">
-    <button *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search()">Sort By Oldest Date</button>
-    <button *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search()">Sort By Newest Date</button>
-    <button [disabled]="true" class="sort-btn px-3">Sort By Score</button>
+    <button *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search(true)">Sort By Oldest Date</button>
+    <button *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search(true)">Sort By Newest Date</button>
+    <button [hidden]="true" class="sort-btn px-3">Sort By Score</button>
   </div>
 </div>
 <div *ngIf="jobs.length > 0" class="list-group row pt-3">

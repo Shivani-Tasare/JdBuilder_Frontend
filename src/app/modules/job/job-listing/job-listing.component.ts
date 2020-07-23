@@ -121,9 +121,22 @@ export class JobListingComponent implements OnInit {
     this.associatedTags.splice(index, 1);
 //    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
   }
-  search() {
+  search(sort?) {
     this.jobs = []
-    this.initLoad();
+    const pageParams = {
+      locationId: (this.selectedLocation && this.selectedLocation !== 'undefined') ? this.selectedLocation : 0,
+      experienceId: (this.selectedExperience && this.selectedExperience !== 'undefined') ? this.selectedExperience : 0,
+      designationId: (this.selectedDesignation && this.selectedDesignation !== 'undefined') ? this.selectedDesignation : 0,
+      pageSize: this.DefaultPageSize,
+      pageIndex: 0,
+      searchString: this.searchString ? encodeURIComponent(this.searchString) : '',
+      myJd: this.myJd,
+      sortByDate: sort ? this.sortByDate : undefined,
+      selectedUserId: this.selectedUserId,
+      sharedJD: this.sharedJD
+     }
+     this.fetchProfile(pageParams);
+
   }
   
   onUserChange(evn) {
