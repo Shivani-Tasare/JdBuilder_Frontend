@@ -363,16 +363,16 @@ export class JobDetailComponent implements OnInit {
             });
           }
         });
-          const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
-          this.tagName = tags.map((res)=>res.TagName);
-          if(tags.length > 0){
-            this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
-              response => {
-                this.matchingConsultants = response;
-                let consultants = this.matchingConsultants["MatchingConsultants"];
-                this.filterCandidatesByMatchScore(consultants);
-              })
-          }
+          // const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+          // this.tagName = tags.map((res)=>res.TagName);
+          // if(tags.length > 0){
+          //   this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
+          //     response => {
+          //       this.matchingConsultants = response;
+          //       let consultants = this.matchingConsultants["MatchingConsultants"];
+          //       this.filterCandidatesByMatchScore(consultants);
+          //     })
+          // }
         this.jobService.FetchLocationList().subscribe((locations: any) => {
           if (locations.StatusCode === 200) {
             this.locations = locations.LocationMasterList;
@@ -537,18 +537,14 @@ export class JobDetailComponent implements OnInit {
   }
   deleteSkill(deletedSkill,onRemove,index?) {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
-    const skills = deletedSkill;
+    const removedTags = this.deletedMandatoryTags.map(x => x.TagName);
+    const tag = removedTags.pop()
     this.mandatorySkillData = [];
     if(onRemove){
       this.mandatorySkills.value.forEach((deletedSkill,i)=>{
-        let index = skills.findIndex((i)=>{
-          return (i.SkillId.startsWith('Id'));
-        })
-        if(deletedSkill.SkillId.startsWith('Id')) {
-              this.mandatorySkills.removeAt(index);  
-         }
+        if(deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase()))
+        this.mandatorySkills.removeAt(i);
       })
-       this.populateMandatorySkills(this.mandatoryTagsList);
     }
     if(deletedSkill.SkillId !== undefined){
       if (deletedSkill.SkillId.value !== '0') {
@@ -564,17 +560,13 @@ export class JobDetailComponent implements OnInit {
   deleteDesiredSkill(deletedSkill, onRemove ,index?) {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkillData = [];
-    const skills = deletedSkill;
+    const removedTags = this.deletedDesiredTags.map(x => x.TagName);
+    const tag = removedTags.pop()
     if(onRemove){
       this.desiredSkills.value.forEach((deletedSkill,i)=>{
-        let index = skills.findIndex((i)=>{
-          return (i.SkillId.startsWith('Id'));
-        })
-        if(deletedSkill.SkillId.startsWith('Id')) {
-              this.desiredSkills.removeAt(index);
-         }
+        if(deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase()))
+        this.desiredSkills.removeAt(i);
       })
-      this.populateDesiredSkills(this.desiredTagsList);
     }
     if(deletedSkill.SkillId !== undefined){
       if (deletedSkill.SkillId.value !== '0') {
@@ -786,11 +778,12 @@ export class JobDetailComponent implements OnInit {
           });
           this.desiredTagsList.splice(index, 1);
           this.allTagsDesired.push(tag);
+          this.deletedDesiredTags.push({Id:tag.Id,TagName:tag.TagName, TagType:tag.TagType});
          } else {
     if (index >= 0) {
       this.desiredTagsList.splice(index, 1);
       this.allTagsDesired.push(tag);
-      this.deletedDesiredTags.push({Id:tag.Id,TagType:tag.TagType});
+      this.deletedDesiredTags.push({Id:tag.Id,TagName:tag.TagName,TagType:tag.TagType});
     }
   }
     (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
@@ -808,12 +801,13 @@ export class JobDetailComponent implements OnInit {
           });
           this.mandatoryTagsList.splice(index, 1);
           this.allTags.push(tag);
+          this.deletedMandatoryTags.push({Id:tag.Id,TagName:tag.TagName, TagType:tag.TagType});
          } else {
 
     if (index >= 0) {
       this.mandatoryTagsList.splice(index, 1);
       this.allTags.push(tag);
-      this.deletedMandatoryTags.push({Id:tag.Id,TagType:tag.TagType});
+      this.deletedMandatoryTags.push({Id:tag.Id,TagName:tag.TagName, TagType:tag.TagType});
     }
   }
   (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
@@ -908,6 +902,8 @@ export class JobDetailComponent implements OnInit {
     if(this.mandatorySkillData.length > 0)
       this.addMandatorySkill(i,this.mandatorySkillData);
     })
+    if(this.mandatorySkills.value[0].SkillName==='')
+          this.mandatorySkills.removeAt(0);
   })  
 } 
 
@@ -925,6 +921,8 @@ export class JobDetailComponent implements OnInit {
       if(this.desiredSkillData.length > 0)
         this.addDesiredSkill(i,this.desiredSkillData);
       })
+      if(this.desiredSkills.value[0].SkillName==='')
+          this.desiredSkills.removeAt(0);
     })
   }
 
