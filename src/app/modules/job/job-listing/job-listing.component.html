@@ -157,7 +157,7 @@
   <div class="col-md-4 d-none d-lg-block">
     <button *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search()">Sort By Oldest Date</button>
     <button *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search()">Sort By Newest Date</button>
-    <button [disabled]="true" class="sort-btn px-3">Sort By Score</button>
+    <button [hidden]="true" class="sort-btn px-3">Sort By Score</button>
   </div>
 </div>
 <div *ngIf="jobs.length > 0" class="list-group row pt-3">
