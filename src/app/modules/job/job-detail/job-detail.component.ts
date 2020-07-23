@@ -363,16 +363,16 @@ export class JobDetailComponent implements OnInit {
             });
           }
         });
-          // const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
-          // this.tagName = tags.map((res)=>res.TagName);
-          // if(tags.length > 0){
-          //   this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
-          //     response => {
-          //       this.matchingConsultants = response;
-          //       let consultants = this.matchingConsultants["MatchingConsultants"];
-          //       this.filterCandidatesByMatchScore(consultants);
-          //     })
-          // }
+          const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+          this.tagName = tags.map((res)=>res.TagName);
+          if(tags.length > 0){
+            this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
+              response => {
+                this.matchingConsultants = response;
+                let consultants = this.matchingConsultants["MatchingConsultants"];
+                this.filterCandidatesByMatchScore(consultants);
+              })
+          }
         this.jobService.FetchLocationList().subscribe((locations: any) => {
           if (locations.StatusCode === 200) {
             this.locations = locations.LocationMasterList;
@@ -539,11 +539,12 @@ export class JobDetailComponent implements OnInit {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     const removedTags = this.deletedMandatoryTags.map(x => x.TagName);
     const tag = removedTags.pop()
-    this.mandatorySkillData = [];
     if(onRemove){
       this.mandatorySkills.value.forEach((deletedSkill,i)=>{
-        if(deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase()))
+        if(deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase())){
         this.mandatorySkills.removeAt(i);
+        this.deletedSkills.push(deletedSkill.SkillId);
+      }
       })
     }
     if(deletedSkill.SkillId !== undefined){
@@ -564,8 +565,10 @@ export class JobDetailComponent implements OnInit {
     const tag = removedTags.pop()
     if(onRemove){
       this.desiredSkills.value.forEach((deletedSkill,i)=>{
-        if(deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase()))
+        if(deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase())){
         this.desiredSkills.removeAt(i);
+        this.deletedSkills.push(deletedSkill.SkillId);
+      }
       })
     }
     if(deletedSkill.SkillId !== undefined){
