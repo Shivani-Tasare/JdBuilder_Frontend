@@ -235,20 +235,20 @@ export class JobDetailComponent implements OnInit {
   onEdit() {
     if (this.copiedJd) {
       if (!this.isSameUser) {
-        this.router.navigate(['jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId], { queryParams: { saveCopy: true } })
+        this.router.navigate(['main/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId], { queryParams: { saveCopy: true } })
       } else {
-        this.router.navigate(['jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId], { queryParams: { saveCopy: false } })
+        this.router.navigate(['main/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId], { queryParams: { saveCopy: false } })
       }
     } else {
-      this.router.navigate(['jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId])
+      this.router.navigate(['main/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId])
     }
   }
   onCancel() {
     if (this.isSameUser) {
-      this.router.navigate(['myJd/job-description/view/' + this.jobDetail.ProfileDetail.ProfileId]);
+      this.router.navigate(['main/myJd/job-description/view/' + this.jobDetail.ProfileDetail.ProfileId]);
     }
     else {
-      this.router.navigate(['allJd/job-description/view/' + this.jobDetail.ProfileDetail.ProfileId]);
+      this.router.navigate(['main/allJd/job-description/view/' + this.jobDetail.ProfileDetail.ProfileId]);
     }
   }
 
@@ -271,7 +271,7 @@ export class JobDetailComponent implements OnInit {
       let navigationExtras: NavigationExtras = {
         queryParams: { reviewMode: 1 }
       };
-      this.router.navigate(['jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId], navigationExtras);
+      this.router.navigate(['main/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId], navigationExtras);
     }
   }
   searchEmailOnKeypress(name) {
@@ -286,7 +286,7 @@ export class JobDetailComponent implements OnInit {
     this.toggleShare();
     this.url = this.document.URL;
     this.jobService.shareJdByEmail(emailId, this.url).subscribe(res => {
-      this.router.navigate(['jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId])
+      this.router.navigate(['main/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId])
       if(res.StatusCode === 200){
         this.toastr.success(res.Message,'Success');
       } else{
@@ -1046,14 +1046,14 @@ export class JobDetailComponent implements OnInit {
     this.jobService.deleteProfile(location.href.split('/')[location.href.split('/').length - 1]).subscribe((data: any) => {
       if (data.StatusCode === 200) {
         this.toastr.success(data.Message, 'Success');
-        this.router.navigate(['myJd']);
+        this.router.navigate(['main/myJd']);
       }
     })
   }
   makePrivate() {
     this.jobService.PrivatizeProfile(location.href.split('/')[location.href.split('/').length - 1]).subscribe((data: any) => {
       if (data.StatusCode === 200) {
-        this.router.navigate(['myJd']);
+        this.router.navigate(['main/myJd']);
       }
     })
   }
@@ -1123,12 +1123,12 @@ export class JobDetailComponent implements OnInit {
           document.body.scrollTop = 0;
           document.documentElement.scrollTop = 0;
           this.initLoad()
-          this.router.navigate(['myJd/job-description/view/', this.jobDetail.ProfileDetail.ProfileId]);
+          this.router.navigate(['main/myJd/job-description/view/', this.jobDetail.ProfileDetail.ProfileId]);
         } else if (this.IsSharedJD) {
-          this.router.navigate(['/jdsShared']);
+          this.router.navigate(['main/jdsShared']);
         }
         else {
-          this.router.navigate(['allJd/job-description/view/', this.jobDetail.ProfileDetail.ProfileId]);
+          this.router.navigate(['main/allJd/job-description/view/', this.jobDetail.ProfileDetail.ProfileId]);
         }
       } else {
         this.toastr.error(updatedData.Message, 'Error');

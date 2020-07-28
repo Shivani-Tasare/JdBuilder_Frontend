@@ -1,17 +1,18 @@
 import { Component, Inject, OnInit, HostListener,ElementRef} from '@angular/core';
-import { AdalService } from './shared/services/adal.service';
-import { APP_CONFIG, AppConfig } from './config/config';
+import { AdalService } from '../shared/services/adal.service';
+import { APP_CONFIG, AppConfig } from '../config/config';
 import { Router } from '@angular/router';
 import { mergeMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
-import { JobServiceService } from './shared/services/job-service.service';
+import { JobServiceService } from '../shared/services/job-service.service';
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss']
 })
-export class AppComponent implements OnInit {
+export class MainComponent implements OnInit {
+
   title = 'jobProject';
   isHome = false;
   isAuthenticated = false;
@@ -67,4 +68,5 @@ export class AppComponent implements OnInit {
     
   }
   
+
 }
