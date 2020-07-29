@@ -255,17 +255,20 @@ export class JobDetailComponent implements OnInit {
   toggleShare() {
     var inputBox = this.document.getElementById('email');
     var shareButton = this.document.getElementById('shareButton');
-    if (inputBox.style.display === "none") {
+    var button = this.document.getElementById('sharebtn') as HTMLButtonElement;
+    console.log(this.isPrivateChecked);
+    console.log(button.disabled);
+     if (!!this.isPrivateChecked && inputBox.style.display === "none") {
       inputBox.style.display = "block";
       shareButton.style.display = "none";
-    } else {
+    }else if(inputBox.style.display === "block" && this.isPrivateChecked){
       inputBox.style.display = "none";
       shareButton.style.display = "block";
-    }
+    } 
   }
 
   onShare() {
-    this.toggleShare();
+  //  this.toggleShare();
     this.IsReviewMode = 1;
     if (this.IsReviewMode === 1) {
       let navigationExtras: NavigationExtras = {
