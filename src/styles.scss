@@ -39,3 +39,11 @@ body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
 .mat-form-field-appearance-legacy .mat-form-field-underline {
   position: initial !important;
 }
+
+
+body:after{
+  display:none;
+  content: url("assets/images/mdpi/Splice-1-hover.png") 
+  url("assets/images/mdpi/Splice-2-hover.png") 
+  url("assets/images/mdpi/Splice-3-hover.png") url("assets/images/mdpi/Splice-4-hover.png");
+  } 

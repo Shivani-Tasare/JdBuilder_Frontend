@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AdalService } from '../shared/services/adal.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(private adalService: AdalService) { }
+  logout() {
+    this.adalService.logout();
+  }
 
   ngOnInit() {
   }
