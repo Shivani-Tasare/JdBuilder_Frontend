@@ -124,15 +124,15 @@ export class JobListingComponent implements OnInit {
   search(sort?) {
     this.jobs = []
     const pageParams = {
-      locationId: (this.selectedLocation && this.selectedLocation !== 'undefined') ? this.selectedLocation : 0,
-      experienceId: (this.selectedExperience && this.selectedExperience !== 'undefined') ? this.selectedExperience : 0,
-      designationId: (this.selectedDesignation && this.selectedDesignation !== 'undefined') ? this.selectedDesignation : 0,
+      locationId: (this.selectedLocation && this.selectedLocation !== 'undefined' && !sort) ? this.selectedLocation : 0,
+      experienceId: (this.selectedExperience && this.selectedExperience !== 'undefined'  && !sort) ? this.selectedExperience : 0,
+      designationId: (this.selectedDesignation && this.selectedDesignation !== 'undefined'  && !sort) ? this.selectedDesignation : 0,
       pageSize: this.DefaultPageSize,
       pageIndex: 0,
-      searchString: this.searchString ? encodeURIComponent(this.searchString) : '',
+      searchString: (this.searchString && !sort) ? encodeURIComponent(this.searchString) : '',
       myJd: this.myJd,
       sortByDate: sort ? this.sortByDate : undefined,
-      selectedUserId: this.selectedUserId,
+      selectedUserId: sort ? '' : this.selectedUserId,
       sharedJD: this.sharedJD
      }
      this.fetchProfile(pageParams);
