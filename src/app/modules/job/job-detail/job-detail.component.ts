@@ -118,6 +118,7 @@ export class JobDetailComponent implements OnInit {
   selectdesiredtags: any[];
   isDeletedJD: boolean = false;
   isEmailSent: boolean = false;
+  desigOption: any;
   constructor(private loaderService: LoaderService, private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
   
@@ -272,7 +273,12 @@ export class JobDetailComponent implements OnInit {
       shareButton.style.display = "block";
     } 
   }
-
+  
+  removeDesignation(event){
+    this.desigOption = event.length;
+    let length = this.jobDescriptionForm.get('selectedDesignationN').value.length;
+    length <= 1 ? this.selectedDesignationName = '' : null; 
+  }
   onShare() {
   //  this.toggleShare();
     this.IsReviewMode = 1;

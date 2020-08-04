@@ -97,10 +97,10 @@
                   <mat-form-field class="col-8 pl-0">
                     <input (focusout)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
                       aria-label="Number" (keyup)="clearDesignationId($event);filterDesignationList($event)" matInput
-                      [value]="selectedDesignationName" formControlName="selectedDesignationN"
+                      [value]="selectedDesignationName" formControlName="selectedDesignationN" (keydown.backspace)="removeDesignation($event.target.value)" 
                       [matAutocomplete]="desig">
                     <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
-                      <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName &&  this.jobDescriptionForm.get('selectedDesignationN').value.length >= 1">
+                      <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName">
                         {{designation.DesignationName}}
                       </mat-option>
                     </mat-autocomplete>
@@ -202,7 +202,7 @@
                       [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true)">
                   </mat-chip-list>
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event)">
-                    <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                    <mat-option  *ngFor="let tag of filteredTags | async" [value]="tag">
                       {{tag?.TagName}}
                     </mat-option>
                   </mat-autocomplete>
