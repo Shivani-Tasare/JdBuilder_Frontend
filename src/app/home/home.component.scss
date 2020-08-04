@@ -8,8 +8,12 @@
 }
 body{
     font-family: "railway";
+    background-color: #F2F4F3;
 }
 
+:root ::ng-deep body {
+    color:blue;
+  }
 
 .main{
     height: 28vmax;
@@ -28,40 +32,40 @@ body{
     background-repeat: no-repeat;
 }
 .one {
-    background-image:url("../../assets/images/mdpi/Splice-1.png");
+    background-image:url("../../assets/images/mdpi/1.png");
 }
 .two {
-    background-image: url("../../assets/images/mdpi/Splice-2.png");
+    background-image: url("../../assets/images/mdpi/2.png");
 }
 
 .three {
-    background-image: url("../../assets/images/mdpi/Splice-3.png");
+    background-image: url("../../assets/images/mdpi/3.png");
 }
 
 .four {
-    background-image: url("../../assets/images/mdpi/Splice-4.png");
+    background-image: url("../../assets/images/mdpi/4.png");
 }
 
 
 .one:hover {
    
-    background-image: url("../../assets/images/mdpi/Splice-1-hover.png");
+    background-image: url("../../assets/images/mdpi/H1.png");
 }
 .two:hover {
-    background-image: url("../../assets/images/mdpi/Splice-2-hover.png");
+    background-image: url("../../assets/images/mdpi/H2.png");
 }
 
 .three:hover {
-    background-image: url("../../assets/images/mdpi/Splice-3-hover.png");
+    background-image: url("../../assets/images/mdpi/H3.png");
 }
 
 .four:hover {
-    background-image: url("../../assets/images/mdpi/Splice-4-hover.png");
+    background-image: url("../../assets/images/mdpi/H4.png");
 }
 .logo{
-    height: 96px;
     font-size: 24px;
     top: 0px;
+    left: 18px;
     position: relative;
     vertical-align: middle;
 }
@@ -75,9 +79,9 @@ header {
     height: 100px;
     align-items: center;
     z-index: 1;
-    background: black;
     display: flex;
     width: 100%;
+    background-image: url("../../assets/images/header-bg.png");
     margin-bottom: 5px;
    }
 footer {
@@ -132,6 +136,10 @@ margin: 0 !important;
     }
     main{
         padding-bottom: 10px;
+    }
+    .logo{
+        width: 100%;
+        height: 100%;
     }
 }
 /* 768 484 */
