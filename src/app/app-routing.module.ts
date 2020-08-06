@@ -5,6 +5,7 @@ import { JobListingComponent } from './modules/job/job-listing/job-listing.compo
 import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
 import { ViewresumeDetailsComponent } from './shared/component/viewresume-details/viewresume-details.component';
+import { FAQIndexComponent } from './shared/component/faq-index/faq-index.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'allJd', pathMatch: 'full'},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: 'jdsShared', component: JdsSharedComponent},
   {path: 'myJd', component: JobListingComponent},
   {path: 'view-resume/:id', component: ViewresumeDetailsComponent},
+  {path: 'help', component: FAQIndexComponent},
   {path: '**', component: PageNotFoundComponent}
  
 ];

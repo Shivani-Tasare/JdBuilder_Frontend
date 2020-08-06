@@ -12,7 +12,7 @@
     <a [routerLink]="['/allJd']" [routerLinkActive]="['active']"  href="javascript:" class="px-3 list-group-item list-group-item-action side-tabs">All JDs</a>
     <a [routerLink]="['/myJd']" [routerLinkActive]="['active']"  href="javascript:" class="px-3 list-group-item list-group-item-action side-tabs">My JDs</a>
     <a [routerLinkActive]="['active']" [routerLink]="['/jdsShared']"  href="javascript:"  class="list-group-item list-group-item-action side-tabs">JD shared with me</a>
-    <a href="javascript:" class="px-3 list-group-item list-group-item-action side-tabs">FAQs/Help</a>
+    <a href="javascript:" [routerLink]="['/help']"  class="px-3 list-group-item list-group-item-action side-tabs">FAQs/Help</a>
   </div>
   </div>
   <div class="page-content container-fluid" [ngClass]="{'noscroll': isCollapseOn==true}">

@@ -276,9 +276,10 @@ export class JobDetailComponent implements OnInit {
   }
   
   removeDesignation(event){
-    this.desigOption = event.length;
-    let length = this.jobDescriptionForm.get('selectedDesignationN').value.length;
-    length <= 1 ? this.selectedDesignationName = '' : null; 
+    this.desigOption = event.target.value.length;
+    let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
+    console.log(length);
+    length == undefined ? this.selectedDesignationName = '' : null; 
   }
   onShare() {
   //  this.toggleShare();
