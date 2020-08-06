@@ -37,7 +37,7 @@
             data-toggle="dropdown"
           ></i>
           <div class="dropdown-menu">
-            <a [routerLink]="['/main/createJD']" class="dropdown-item" href="javascript:">Create New JD</a>
+            <a [routerLink]="['/jd-creator/createJD']" class="dropdown-item" href="javascript:">Create New JD</a>
             <a class="dropdown-item" href="#">Sort By Score</a>
             <a *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search(true)" class="dropdown-item" href="javascript:">Sort By Oldest Date</a>
             <a *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search(true)" class="dropdown-item" href="javascript:">Sort By Newest Date</a>
@@ -147,7 +147,7 @@
 
 <div class="row mt-3" style="height: 30px;">
   <div class="col-md-3 d-none d-lg-block">
-    <button [routerLink]="['/main/createJD']"
+    <button [routerLink]="['/jd-creator/createJD']"
       style="background: #9E4587;border: none;color: white;height: 100%;font-size: 13px;"
     >
       <i class="fa fa-plus" style="color: white;" aria-hidden="true"></i>Create New JD

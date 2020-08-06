@@ -12,7 +12,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   
-  {path :'main',component: MainComponent, children:[
+  {path :'jd-creator',component: MainComponent, children:[
     { path: '', redirectTo: 'allJd', pathMatch: 'full' },
     {  path: 'allJd', component: JobListingComponent,
     },

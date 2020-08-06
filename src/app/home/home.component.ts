@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AdalService } from '../shared/services/adal.service';
-
+import { APP_CONFIG, AppConfig } from '../config/config'
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -8,13 +8,26 @@ import { AdalService } from '../shared/services/adal.service';
 })
 export class HomeComponent implements OnInit {
 
+  isAuthenticated = false;
+  constructor(private adalService: AdalService,
+    @Inject(APP_CONFIG) private config: AppConfig) {}
 
-  constructor(private adalService: AdalService) { }
   logout() {
     this.adalService.logout();
   }
 
   ngOnInit() {
+    this.adalService.handleCallback();
+    this.adalService.getUserAuthenticationStatus().subscribe(value => {
+      if (value) {
+        this.isAuthenticated = value;
+      } else {
+        
+        this.isAuthenticated = value;
+      }
+    });
+    this.adalService.acquireTokenResilient(this.config.resource).subscribe((token) => {
+    });
   }
 
 }

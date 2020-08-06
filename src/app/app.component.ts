@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
   get isHomeCheck() {
     return  this.isHome;
   } 
-  ngOnInit() {;
+  ngOnInit() {
     this.adalService.handleCallback();
    
     this.subscription = this.adalService.getUserAuthenticationStatus().subscribe(value => {
