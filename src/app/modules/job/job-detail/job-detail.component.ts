@@ -174,6 +174,7 @@ export class JobDetailComponent implements OnInit {
   public pieChartColors = [
     {
       backgroundColor: ['#264d00', '#66cc00', '#b3ff66', '#ffa600'],
+      borderWidth: 0
     },
   ];
 
