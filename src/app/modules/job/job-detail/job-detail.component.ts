@@ -117,6 +117,8 @@ export class JobDetailComponent implements OnInit {
   selectmandatorytags: any[];
   selectdesiredtags: any[];
   isDeletedJD: boolean = false;
+  isEmailSent: boolean = false;
+  desigOption: any;
   constructor(private loaderService: LoaderService, private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
   
@@ -172,6 +174,7 @@ export class JobDetailComponent implements OnInit {
   public pieChartColors = [
     {
       backgroundColor: ['#264d00', '#66cc00', '#b3ff66', '#ffa600'],
+      borderWidth: 0
     },
   ];
 
@@ -258,7 +261,12 @@ export class JobDetailComponent implements OnInit {
     var button = this.document.getElementById('sharebtn') as HTMLButtonElement;
     console.log(this.isPrivateChecked);
     console.log(button.disabled);
-     if (!!this.isPrivateChecked && inputBox.style.display === "none") {
+    if(this.isPrivateChecked && inputBox.style.display === "none" && this.isEmailSent){
+      inputBox.style.display = "none";
+      shareButton.style.display = "block";
+      this.isEmailSent = false;
+    }
+     else if (!!this.isPrivateChecked && inputBox.style.display === "none" && !this.isEmailSent ) {
       inputBox.style.display = "block";
       shareButton.style.display = "none";
     }else if(inputBox.style.display === "block" && this.isPrivateChecked){
@@ -266,7 +274,12 @@ export class JobDetailComponent implements OnInit {
       shareButton.style.display = "block";
     } 
   }
-
+  
+  removeDesignation(event){
+    this.desigOption = event.length;
+    let length = this.jobDescriptionForm.get('selectedDesignationN').value.length;
+    length <= 1 ? this.selectedDesignationName = '' : null; 
+  }
   onShare() {
   //  this.toggleShare();
     this.IsReviewMode = 1;
@@ -295,7 +308,7 @@ export class JobDetailComponent implements OnInit {
       } else{
         this.toastr.error(res.Message,'Error');
       }
-      
+      this.isEmailSent = true;
     })
   }
 
