@@ -31,6 +31,7 @@ import { MaterialUiModule } from './modules/material-ui/material-ui.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
 import { SharedModule } from './shared';
+import { FAQIndexComponent } from './shared/component/faq-index/faq-index.component';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
 @NgModule({
@@ -41,6 +42,7 @@ import { MainComponent } from './main/main.component';
     JobListingComponent,
     CreateJdComponent,
     JdsSharedComponent,
+    FAQIndexComponent,
     HomeComponent,
     MainComponent,
   ],

@@ -3,7 +3,7 @@
         <a [routerLinkActive]="['active']" [routerLink]="['/jd-creator/allJd']"  href="javascript:" class="list-group-item list-group-item-action side-tabs">All JDs</a>
         <a [routerLinkActive]="['active']" [routerLink]="['/jd-creator/myJd']"   href="javascript:" class="list-group-item list-group-item-action side-tabs">My JDs</a>
         <a [routerLinkActive]="['active']" [routerLink]="['/jd-creator/jdsShared']"  href="javascript:"  class="list-group-item list-group-item-action side-tabs">JD shared with me</a>
-        <a href="javascript:" class="list-group-item list-group-item-action side-tabs">FAQs/Help</a>
+        <a href="javascript:" [routerLink]="['/jd-creator/help']" class="list-group-item list-group-item-action side-tabs">FAQs/Help</a>
       </div>
     </div>
 

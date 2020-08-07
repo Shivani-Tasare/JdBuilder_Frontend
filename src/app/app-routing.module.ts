@@ -5,6 +5,7 @@ import { JobListingComponent } from './modules/job/job-listing/job-listing.compo
 import { CreateJdComponent } from './modules/job/create-jd/create-jd.component';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
 import { ViewresumeDetailsComponent } from './shared/component/viewresume-details/viewresume-details.component';
+import { FAQIndexComponent } from './shared/component/faq-index/faq-index.component';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
 
@@ -22,6 +23,7 @@ const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'createJD', component: CreateJdComponent},
     {path: 'jdsShared', component: JdsSharedComponent},
+    {path: 'help', component: FAQIndexComponent},
     {path: 'myJd', component: JobListingComponent},
     {path: 'view-resume/:id', component: ViewresumeDetailsComponent},
   ]},

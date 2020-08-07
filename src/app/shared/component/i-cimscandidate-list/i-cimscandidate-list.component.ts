@@ -23,11 +23,11 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   ];
   //events
   public chartClicked(e:any):void {
-    console.log(e);
+     console.log(e);
   }
  
   public chartHovered(e:any):void {
-    console.log(e);
+     console.log(e);
   }
   get showChart() {
     return !!this.data['TotalCount'] && !!this.data['TotalCount'].split('+')[0];
@@ -40,10 +40,11 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
       !!(!!this.data['ExactMatch'] && !!this.data['ExactMatch'].Total)? 
       this.data['ExactMatch'].CandidateList:
       (!!this.data['PartialMatch'] && !!this.data['PartialMatch'].Total ? this.data['PartialMatch'].CandidateList : []);
-      
+  
       this.pieChartData =[
-      !!this.data['ExactMatch'] ? this.data['ExactMatch'].Total : 0,
-      !!this.data['PartialMatch'] ? this.data['PartialMatch'].Total: 0
+
+      !!this.data['ExactMatch'] ?  this.data['ExactMatch'].Total : 0,
+      !!this.data['PartialMatch'] ? this.data['PartialMatch'].Total : 0
     ];
     }
   }

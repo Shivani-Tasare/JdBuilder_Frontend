@@ -13,7 +13,8 @@ import {
   MatDialog,
   MAT_DIALOG_DATA,
   MatDialogModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatExpansionModule
 } from '@angular/material';
 const modules = [
   MatChipsModule,
@@ -25,7 +26,8 @@ const modules = [
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatDialogModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatExpansionModule
 ];
 @NgModule({
   declarations: [],
