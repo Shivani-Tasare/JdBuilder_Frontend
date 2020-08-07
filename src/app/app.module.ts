@@ -32,6 +32,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { JdsSharedComponent } from './modules/job/jds-shared/jds-shared.component';
 import { SharedModule } from './shared';
 import { FAQIndexComponent } from './shared/component/faq-index/faq-index.component';
+import { HomeComponent } from './home/home.component';
+import { MainComponent } from './main/main.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +43,8 @@ import { FAQIndexComponent } from './shared/component/faq-index/faq-index.compon
     CreateJdComponent,
     JdsSharedComponent,
     FAQIndexComponent,
+    HomeComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,

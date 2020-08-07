@@ -1,112 +1,186 @@
 <div class="row" style="background-color: #fff;">
-<div class="col-3 aa">
-<ul>
-  <li>How To Videos </li>
-  <li>FAQs</li>
-  <li>Login</li>
-  <li>Dashboard</li>
-  <ul><li>Search By Keyword</li>
-    <li>Designation</li>
-    <li>Experience</li>
-    <li>Created By</li>
-    <li>Location</li>
-    <li>Create New JD</li>
-    <li>My JD's </li>
-    <li>JD Shared with me </li></ul>
-  
-  <li>Edit JD</li>
-  <li>View Internal Pool/Video</li>
-  <li>View External Pool/Video</li>
-</ul>
-</div>
-<div class="col-9 aa">
-  <div><h3>HOW TO VIDEOS</h3></div>
-  <div><h3>FAQS</h3></div>
-    <mat-accordion>
-      <div style="margin-left: 2.5rem;">
-      <mat-expansion-panel class="accordian">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <h6><b>Which browser JD Supports</b></h6>
-          </mat-panel-title>   
-        </mat-expansion-panel-header>
-        <p>Smart supports both Google Chrome and IE-11, However for best user experience use Google Chrome</p>
-      </mat-expansion-panel>  
-  </div>
-  <div style="margin-left: 2.5rem;">
-      <mat-expansion-panel class="accordian">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <h6><b>What is "Make it as Private JD"</b></h6>
-          </mat-panel-title>   
-        </mat-expansion-panel-header>
-        <p>Select this option, if you want to have your JD as private and not visible to others during search</p>
-      </mat-expansion-panel>
-  </div>
-  <div style="margin-left: 2.5rem;">
-      <mat-expansion-panel class="accordian">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <h6><b>What is Mandatory/Desired Tags</b></h6>
-          </mat-panel-title>   
-        </mat-expansion-panel-header>
-        <p>To create a JD, Mandatory, Desired Tags are necessary to add skills that are required for that designation. By having so, mandatory and desired skills can be added under mandatory, desired skills section during JD creation.</p>
-      </mat-expansion-panel>
-    </div>
-    </mat-accordion>
-    <div class="heading"><h6><b>Login</b></h6>
-    <div style="font-size: 15px;">
-      Please navigate to the application using the URL <a href="https://jdbuilderweb.azurewebsites.net/">https://jdbuilderweb.azurewebsites.net/</a>. If you are doing Login for the first time, you would be prompted to enter your DMI Active Directory credentials – the same that you use for Microsoft Outlook and post authentication, you would be directed to Dashboard/Main page. If you have done Login in past, the system may directly take you to Dashboard page. 
-    </div>
-    </div>
-<div class="heading"><h6><b>Dashboard</b></h6>
-  <div style="font-size: 15px;">
-    There are several things you can do from the Dashboard:
-    Search by Keyword
-    Desgination
-    Experience
-    Created by
-    <img class="img" src="../../../../assets/images/dashboard.png" alt="">
-      </div>
-</div>
-<div class="heading"><h6><b>Search by Keyword</b></h6>
-  <div style="font-size: 15px;">
-    Basic keyword search can be achieved with this option, which will bring JD’s which containing the keyword given in search column.  </div></div>
-<div class="heading"><h6><b>Designation</b></h6>
-  <div style="font-size: 15px;">
-    JD’s Designation can be selected from the drop down list and view.  </div></div>
-<div class="heading"><h6><b>Experience</b></h6>
-  <div style="font-size: 15px;">
-    Experience drop down option have list of “Years of Experience”, by selecting one of the listed values from the drop down will display the JD’s with matches the selected value.  </div></div>
-<div class="heading"><h6><b>Created By</b></h6>
-  <div style="font-size: 15px;">
-    Created By drop down option have list of “Names” who have created the JD’s sofar, by selecting one of the listed values from the drop down will display the JD’s with matches the selected value.  </div></div>
-<div class="heading"><h6><b>Location</b></h6>
-  <div style="font-size: 15px;">
-    Location drop down option have list of “Location” from which JD’s are created, by selecting one of the listed values from the drop down will display the JD’s with matches the selected value.  </div></div>
-<div class="heading"><h6><b>Create New JD</b></h6>
-  <div style="font-size: 15px;">
-    To Create New JD, click on the button “Create New JD’s” and fill the appropriate columns in the form to create new JD. Refer “Create New JD” video for more details. 
-    <img class="img" src="../../../../assets/images/create JD.png" alt=""> </div></div>
-<div class="heading"><h6><b>Edit JD</b></h6>
-  <div  style="font-size: 15px;">
-    To Edit existing JD’s content use this option and this can be achieved by selecting the JD from dashboard
-    Dashboard – Select JD -> View Details -> Edit (at bottom of the page)
-    Refer Edit JD video for more details
-    <img class="img" class="img" src="../../../../assets/images/Edit JD.png" alt="">
-      </div></div>
-<div class="heading"><h6><b>My JD's </b></h6>
-  <div style="font-size: 15px;">
-    To view list of JD’s which you created can be seen under this option. 
-    <img class="img" src="../../../../assets/images/myJD.png" alt=""> </div></div>
-<div class="heading"><h6><b>JD Shared with me </b></h6>
-  <div style="font-size: 15px;">
-    You can view the JD’s which are shared to you by others. 
-    <img class="img" src="../../../../assets/images/SharedJD.png" alt="">
-  <p>This can be done by editing the JD, then select the option “Make It As Private JD” as Yes then provide the Name or Email address of a person, you want to share (as show in below image)</p>
-  <img class="img" src="../../../../assets/images/sharedJd1.png" alt="">
-  <img class="img" src="../../../../assets/images/sharedJD2.png" alt="">
-</div></div>
-</div>
+  <div class="col-3 aa">
+    <ul>
+      <li>How To Videos</li>
+      <li>FAQs</li>
+      <li><a id="login_A"
+        style="cursor: pointer;"
+        (click)="scrolltoDiv('login_A')">Login</a></li>
+      <li>
+        <a
+          id="dashboard_anchor"
+          style="cursor: pointer;"
+          (click)="scrolltoDiv('dashboard_anchor')"
+          >Dashboard</a
+        >
+      </li>
+      <ul>
+        <li>
+          <a id="search_anchor" style="cursor: pointer;" (click)="scrolltoDiv('search_anchor')"
+            >Search By Keyword</a
+          >
+        </li>
+        <li><a id="designation_anchor" style="cursor: pointer;" (click)="scrolltoDiv('designation_anchor')">Designation</a></li>
+        <li><a id="experience_anchor" style="cursor: pointer;" (click)="scrolltoDiv('experience_anchor')">Experience</a></li>
+        <li><a id="create_anchor" style="cursor: pointer;" (click)="scrolltoDiv('create_anchor')">Created By</a></li>
+        <li><a id="location_anchor" style="cursor: pointer;" (click)="scrolltoDiv('location_anchor')">Location</a></li>
+        <li><a id="newJD_anchor" style="cursor: pointer;" (click)="scrolltoDiv('newJD_anchor')">Create New JD</a></li>
+        <li><a id="myJd_anchor" style="cursor: pointer;" (click)="scrolltoDiv('myJd_anchor')">My JD's</a></li>
+        <li><a id="sharedJD_anchor" style="cursor: pointer;" (click)="scrolltoDiv('sharedJD_anchor')">JD Shared with me</a></li>
+      </ul>
 
+      <li><a id="EditJD_anchor" style="cursor: pointer;" (click)="scrolltoDiv('EditJD_anchor')">Edit JD</a></li>
+      <li><a id="Ipool_anchor" style="cursor: pointer;" (click)="scrolltoDiv('Ipool_anchor')">View Internal Pool/Video</a></li>
+      <li><a id="Epool_anchor" style="cursor: pointer;" (click)="scrolltoDiv('Epool_anchor')">View External Pool/Video</a></li>
+    </ul>
+  </div>
+  <div class="col-9 aa">
+    <div><h3>HOW TO VIDEOS</h3></div>
+    <div><h3>FAQS</h3></div>
+    <mat-accordion>
+      <div style="margin-left: 2.5rem; margin-bottom: 1rem;">
+        <mat-expansion-panel class="accordian">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h6><b>Which browser JD Supports</b></h6>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>
+            Smart supports both Google Chrome and IE-11, However for best user
+            experience use Google Chrome
+          </p>
+        </mat-expansion-panel>
+      </div>
+      <div style="margin-left: 2.5rem; margin-bottom: 1rem;">
+        <mat-expansion-panel class="accordian">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h6><b>What is "Make it as Private JD"</b></h6>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>
+            Select this option, if you want to have your JD as private and not
+            visible to others during search
+          </p>
+        </mat-expansion-panel>
+      </div>
+      <div style="margin-left: 2.5rem; margin-bottom: 1rem;">
+        <mat-expansion-panel class="accordian">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h6><b>What is Mandatory/Desired Tags</b></h6>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>
+            To create a JD, Mandatory, Desired Tags are necessary to add skills
+            that are required for that designation. By having so, mandatory and
+            desired skills can be added under mandatory, desired skills section
+            during JD creation.
+          </p>
+        </mat-expansion-panel>
+      </div>
+    </mat-accordion>
+    <div id="login" class="heading">
+      <h6><b>Login</b></h6>
+      <div style="font-size: 15px;">
+        Please navigate to the application using the URL
+        <a href="https://jdbuilderweb.azurewebsites.net/"
+          >https://jdbuilderweb.azurewebsites.net/</a
+        >. If you are doing Login for the first time, you would be prompted to
+        enter your DMI Active Directory credentials – the same that you use for
+        Microsoft Outlook and post authentication, you would be directed to
+        Dashboard/Main page. If you have done Login in past, the system may
+        directly take you to Dashboard page.
+      </div>
+    </div>
+    <div class="heading" id="dashboard">
+      <h6><b>Dashboard</b></h6>
+      <div style="font-size: 15px;">
+        There are several things you can do from the Dashboard: Search by
+        Keyword Desgination Experience Created by <br />
+        <img class="img" src="../../../../assets/images/dashboard.png" alt="" />
+      </div>
+    </div>
+    <div id="search" class="heading">
+      <h6><b>Search by Keyword</b></h6>
+      <div style="font-size: 15px;">
+        Basic keyword search can be achieved with this option, which will bring
+        JD’s which containing the keyword given in search column.
+      </div>
+    </div>
+    <div id='designation' class="heading">
+      <h6><b>Designation</b></h6>
+      <div style="font-size: 15px;">
+        JD’s Designation can be selected from the drop down list and view.
+      </div>
+    </div>
+    <div id="experience" class="heading">
+      <h6><b>Experience</b></h6>
+      <div style="font-size: 15px;">
+        Experience drop down option have list of “Years of Experience”, by
+        selecting one of the listed values from the drop down will display the
+        JD’s with matches the selected value.
+      </div>
+    </div>
+    <div id="createdby" class="heading">
+      <h6><b>Created By</b></h6>
+      <div style="font-size: 15px;">
+        Created By drop down option have list of “Names” who have created the
+        JD’s sofar, by selecting one of the listed values from the drop down
+        will display the JD’s with matches the selected value.
+      </div>
+    </div>
+    <div id="location" class="heading">
+      <h6><b>Location</b></h6>
+      <div style="font-size: 15px;">
+        Location drop down option have list of “Location” from which JD’s are
+        created, by selecting one of the listed values from the drop down will
+        display the JD’s with matches the selected value.
+      </div>
+    </div>
+    <div id="newJd" class="heading">
+      <h6><b>Create New JD</b></h6>
+      <div style="font-size: 15px;">
+        To Create New JD, click on the button “Create New JD’s” and fill the
+        appropriate columns in the form to create new JD. Refer “Create New JD”
+        video for more details.
+        <img class="img" src="../../../../assets/images/create JD.png" alt="" />
+      </div>
+    </div>
+    <div id="editJD" class="heading">
+      <h6><b>Edit JD</b></h6>
+      <div style="font-size: 15px;">
+        To Edit existing JD’s content use this option and this can be achieved
+        by selecting the JD from dashboard Dashboard – Select JD -> View Details
+        -> Edit (at bottom of the page) Refer Edit JD video for more details
+        <img
+          class="img"
+          class="img"
+          src="../../../../assets/images/Edit JD.png"
+          alt=""
+        />
+      </div>
+    </div>
+    <div id="myJD" class="heading">
+      <h6><b>My JD's </b></h6>
+      <div style="font-size: 15px;">
+        To view list of JD’s which you created can be seen under this option.
+        <img class="img" src="../../../../assets/images/myJD.png" alt="" />
+      </div>
+    </div>
+    <div id="sharedjd" class="heading">
+      <h6><b>JD Shared with me </b></h6>
+      <div style="font-size: 15px;">
+        You can view the JD’s which are shared to you by others.
+        <img class="img" src="../../../../assets/images/SharedJD.png" alt="" />
+        <p>
+          This can be done by editing the JD, then select the option “Make It As
+          Private JD” as Yes then provide the Name or Email address of a person,
+          you want to share (as show in below image)
+        </p>
+        <img class="img" src="../../../../assets/images/sharedJd1.png" alt="" />
+        <img class="img" src="../../../../assets/images/sharedJD2.png" alt="" />
+      </div>
+    </div>
+  </div>
 </div>
