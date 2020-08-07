@@ -8,13 +8,12 @@
 }
 body{
     font-family: "railway";
+    background-color: #F2F4F3;
 }
-body:after{
-display:none;
-content: url("../../assets/images/mdpi/Splice-1-hover.png") 
-url("../../assets/images/mdpi/Splice-2-hover.png") 
-url("../../assets/images/mdpi/Splice-3-hover.png") url("../../assets/images/mdpi/Splice-4-hover.png");
-} 
+
+:root ::ng-deep body {
+    color:blue;
+  }
 
 .main{
     height: 28vmax;
@@ -33,40 +32,40 @@ url("../../assets/images/mdpi/Splice-3-hover.png") url("../../assets/images/mdpi
     background-repeat: no-repeat;
 }
 .one {
-    background-image:url("../../assets/images/mdpi/Splice-1.png");
+    background-image:url("../../assets/images/mdpi/1.png");
 }
 .two {
-    background-image: url("../../assets/images/mdpi/Splice-2.png");
+    background-image: url("../../assets/images/mdpi/2.png");
 }
 
 .three {
-    background-image: url("../../assets/images/mdpi/Splice-3.png");
+    background-image: url("../../assets/images/mdpi/3.png");
 }
 
 .four {
-    background-image: url("../../assets/images/mdpi/Splice-4.png");
+    background-image: url("../../assets/images/mdpi/4.png");
 }
 
 
 .one:hover {
    
-    background-image: url("../../assets/images/mdpi/Splice-1-hover.png");
+    background-image: url("../../assets/images/mdpi/H1.png");
 }
 .two:hover {
-    background-image: url("../../assets/images/mdpi/Splice-2-hover.png");
+    background-image: url("../../assets/images/mdpi/H2.png");
 }
 
 .three:hover {
-    background-image: url("../../assets/images/mdpi/Splice-3-hover.png");
+    background-image: url("../../assets/images/mdpi/H3.png");
 }
 
 .four:hover {
-    background-image: url("../../assets/images/mdpi/Splice-4-hover.png");
+    background-image: url("../../assets/images/mdpi/H4.png");
 }
 .logo{
-    height: 96px;
     font-size: 24px;
     top: 0px;
+    left: 18px;
     position: relative;
     vertical-align: middle;
 }
@@ -80,9 +79,9 @@ header {
     height: 100px;
     align-items: center;
     z-index: 1;
-    background: black;
     display: flex;
     width: 100%;
+    background-image: url("../../assets/images/header-bg.png");
     margin-bottom: 5px;
    }
 footer {
@@ -92,7 +91,7 @@ footer {
     z-index: 999;
     background: #fff;
     width: 100%;
-    bottom: 0;
+    bottom: -1px;
     position: fixed;
 }
 .pull-right {
@@ -112,6 +111,7 @@ color: #fff;
 }
 .user{
 text-align: right;
+padding-right: 15px;
 }
 header label {
     font-size: 1.3vw;
@@ -131,11 +131,15 @@ margin: 0 !important;
 @media only screen and (max-width: 767px) {
     .one, .two, .three, .four {
         background-position: center;
-        background-size: 55%;
-        height: 60vmax;
+        background-size: 76%;
+        height: 40vmax;
     }
     main{
         padding-bottom: 10px;
+    }
+    .logo{
+        width: 100%;
+        height: 100%;
     }
 }
 /* 768 484 */

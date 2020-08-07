@@ -25,7 +25,7 @@
         </thead>
         <tbody>
           <tr class="noBorder" *ngFor="let c of data?.CandidateList">
-            <td><a  target="_blank" [routerLink]="['/main/view-resume', c.CandidateId]" >{{ c?.FirstName + " " + c?.LastName }}</a></td>
+            <td><a  target="_blank" [routerLink]="['/jd-creator/view-resume', c.CandidateId]" >{{ c?.FirstName + " " + c?.LastName }}</a></td>
             <td>{{ getAddress(c.Addresses) ? getAddress(c.Addresses) : '-' }}</td>
             <!-- <td>{{ getLocation(c.Addresses) }}</td> -->
           </tr>

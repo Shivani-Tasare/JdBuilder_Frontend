@@ -12,7 +12,7 @@
   text-align: center;
 }
 
-html, body { height: 100%; }
+html, body { height: 100%; background-color: #F2F4F3;}
 body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
 .pointer{
   cursor: pointer;
@@ -39,3 +39,11 @@ body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; }
 .mat-form-field-appearance-legacy .mat-form-field-underline {
   position: initial !important;
 }
+
+
+body:after{
+  display:none;
+  content: url("assets/images/mdpi/H1.png") 
+  url("assets/images/mdpi/H2.png") 
+  url("assets/images/mdpi/H3.png") url("assets/images/mdpi/H4.png");
+  } 
