@@ -255,23 +255,17 @@ export class JobDetailComponent implements OnInit {
     }
   }
 
-  toggleShare() {
+  toggleShare(isToggleClicked?, isButtonClicked?) {
     var inputBox = this.document.getElementById('email');
     var shareButton = this.document.getElementById('shareButton');
-    var button = this.document.getElementById('sharebtn') as HTMLButtonElement;
-    console.log(this.isPrivateChecked);
-    console.log(button.disabled);
-    if(this.isPrivateChecked && inputBox.style.display === "none" && this.isEmailSent){
+    if (inputBox.style.display === "none"  && isButtonClicked) {
+      inputBox.style.display = "block";
+      shareButton.style.display = "none";
+    }
+    else if((isToggleClicked && inputBox.style.display == "block") || this.isEmailSent){
       inputBox.style.display = "none";
       shareButton.style.display = "block";
       this.isEmailSent = false;
-    }
-     else if (!!this.isPrivateChecked && inputBox.style.display === "none" && !this.isEmailSent ) {
-      inputBox.style.display = "block";
-      shareButton.style.display = "none";
-    }else if(inputBox.style.display === "block" && this.isPrivateChecked){
-      inputBox.style.display = "none";
-      shareButton.style.display = "block";
     } 
   }
   
@@ -282,7 +276,7 @@ export class JobDetailComponent implements OnInit {
     length == undefined ? this.selectedDesignationName = '' : null; 
   }
   onShare() {
-  //  this.toggleShare();
+    
     this.IsReviewMode = 1;
     if (this.IsReviewMode === 1) {
       let navigationExtras: NavigationExtras = {
@@ -300,6 +294,7 @@ export class JobDetailComponent implements OnInit {
     }
   }
   onSend(emailId) {
+    this.isEmailSent = true;
     this.toggleShare();
     this.url = this.document.URL;
     this.jobService.shareJdByEmail(emailId, this.url).subscribe(res => {
@@ -309,7 +304,7 @@ export class JobDetailComponent implements OnInit {
       } else{
         this.toastr.error(res.Message,'Error');
       }
-      this.isEmailSent = true;
+      
     })
   }
 
@@ -380,16 +375,16 @@ export class JobDetailComponent implements OnInit {
             });
           }
         });
-          const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
-          this.tagName = tags.map((res)=>res.TagName);
-          if(tags.length > 0){
-            this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
-              response => {
-                this.matchingConsultants = response;
-                let consultants = this.matchingConsultants["MatchingConsultants"];
-                this.filterCandidatesByMatchScore(consultants);
-              })
-          }
+          // const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+          // this.tagName = tags.map((res)=>res.TagName);
+          // if(tags.length > 0){
+          //   this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
+          //     response => {
+          //       this.matchingConsultants = response;
+          //       let consultants = this.matchingConsultants["MatchingConsultants"];
+          //       this.filterCandidatesByMatchScore(consultants);
+          //     })
+          // }
         this.jobService.FetchLocationList().subscribe((locations: any) => {
           if (locations.StatusCode === 200) {
             this.locations = locations.LocationMasterList;
