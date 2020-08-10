@@ -127,14 +127,28 @@ header label {
 margin: 0 !important;
 }
 
+ @media (min-width: 320px) and (max-width: 480px) {
+    .margin-top-1-em{
+        padding-bottom: 2em;
+    }
+    .main{
+        height: 100%;
+    }
+    p.video-label{
+        line-height: 22px;
+    font-size: 1.2em;
+    padding: 7px;
+    }
+ }
 
 @media only screen and (max-width: 767px) {
+  
     .one, .two, .three, .four {
         background-position: center;
         background-size: 76%;
         height: 40vmax;
     }
-    main{
+    .main{
         padding-bottom: 10px;
     }
     .logo{
@@ -142,4 +156,28 @@ margin: 0 !important;
         height: 100%;
     }
 }
-/* 768 484 */
+.video-label{
+    font-size: 1.6em;
+}
+.center{
+    text-align: center;
+}
+.margin-top-1-em{
+    margin-top: 1em;
+}
+.videoBtn {
+    padding: 10px;
+    background: #000000;
+    color: white;
+    padding-left: 3em;
+    text-decoration: none;
+    padding-right: 2em;
+    span {
+        font-size: 1.3em;
+        margin-left: 10px;
+    } 
+    &:hover {
+        background: #262626;
+    }   
+
+}
