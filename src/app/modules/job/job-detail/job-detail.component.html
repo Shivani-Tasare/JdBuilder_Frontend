@@ -15,7 +15,7 @@
         <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
     </div>
     <div class="col-12">
-      <div id="shareButton" (click)="toggleShare()">
+      <div id="shareButton" (click)="toggleShare(false,true)">
         <button id="sharebtn" style="margin-top:5px" [disabled]="!isPrivateChecked"  class="btn theme-color-btn btn-sm"
           [hidden]="!isSameUser" type="button" (click)="onShare()">
           <i class="fa fa-share-square-o icon" aria-hidden="true"></i>Share
@@ -89,8 +89,8 @@
                 <div class="row">
                   <p  *ngIf="isSameUser" class="col-4">Make It As Private JD</p>
                   <section class="example-section col-8 pl-0" *ngIf="isSameUser" style="height: 35px;">
-                    <mat-slide-toggle class="pb-5" [color]="color" [checked]="isPrivateChecked"
-                    [(ngModel)]="isPrivateChecked" [ngModelOptions]="{standalone: true}" [disabled]="disabled" (click)="toggleShare()">
+                    <mat-slide-toggle  class="pb-5" [color]="color" [checked]="isPrivateChecked"
+                    [(ngModel)]="isPrivateChecked" [ngModelOptions]="{standalone: true}" [disabled]="disabled" (click)="toggleShare(true,false)">
                   </mat-slide-toggle>
                   </section>
                   <p class="col-4 pt-2 font-weight-bold">DESIGNATION</p>
