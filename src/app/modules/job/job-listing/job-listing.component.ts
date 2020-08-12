@@ -38,10 +38,10 @@ export class JobListingComponent implements OnInit {
   constructor(private loaderService: LoaderService, private jobService: Job1ServiceService, private smartService: SmartServiceService, private toastr: ToastrService, private router: Router) {
   }
   ngOnInit() {
-    if (location.pathname == '/myJd') {
+    if (location.pathname == '/jd-creator/myJd') {
       this.myJd = true
       this.sidebarIndex = 2
-    } else if(location.pathname == '/jdsShared') {
+    } else if(location.pathname == '/jd-creator/jdsShared') {
       this.sharedJD = true;
       this.myJd = false;
     } else {
