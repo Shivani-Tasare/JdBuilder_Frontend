@@ -23,10 +23,11 @@ const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'createJD', component: CreateJdComponent},
     {path: 'jdsShared', component: JdsSharedComponent},
-    {path: 'help', component: FAQIndexComponent},
+    
     {path: 'myJd', component: JobListingComponent},
     {path: 'view-resume/:id', component: ViewresumeDetailsComponent},
   ]},
+  {path: 'help', component: FAQIndexComponent},
   {path: '**', component: PageNotFoundComponent},
 ];
 

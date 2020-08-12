@@ -1,3 +1,23 @@
+<!-- <div class="row">
+  <div class="col-1"><button mat-icon-button [matMenuTriggerFor]="menu">
+    <i class="fa fa-bars" aria-hidden="true"></i>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <span>All JD</span>
+    </button>
+    <button mat-menu-item>
+      <span>My JD</span>
+    </button>
+    <button mat-menu-item>
+      <span>JD Shared with me</span>
+    </button>
+  </mat-menu></div>
+  
+</div> -->
+<div>
+  <layout-header></layout-header>
+</div>
 <div class="row" style="background-color: #fff;">
   <div class="col-3 aa">
     <ul>
@@ -24,13 +44,12 @@
         <li><a href="jd-creator/help#createdby" style="cursor: pointer;" >Created By</a></li>
         <li><a href="jd-creator/help#location" style="cursor: pointer;">Location</a></li>
         <li><a href="jd-creator/help#newJd" style="cursor: pointer;">Create New JD</a></li>
-        <li><a href="jd-creator/help#myJD" style="cursor: pointer;" >My JD's</a></li>
-        <li><a href="jd-creator/help#sharedjd" style="cursor: pointer;">JD Shared with me</a></li>
+        <li><a href="jd-creator/help#editJD" style="cursor: pointer;" >Edit JD</a></li>
+      <li><a href="jd-creator/help#Ipool" style="cursor: pointer;" >View Internal Pool</a></li>
+      <li><a href="jd-creator/help#Epool" style="cursor: pointer;" >View External Pool</a></li>
       </ul>
-
-      <li><a href="jd-creator/help#editJD" style="cursor: pointer;" >Edit JD</a></li>
-      <li><a href="jd-creator/help#Ipool" style="cursor: pointer;" >View Internal Pool/Video</a></li>
-      <li><a href="jd-creator/help#Epool" style="cursor: pointer;" >View External Pool/Video</a></li>
+      <li><a href="jd-creator/help#myJD" style="cursor: pointer;" >My JD's</a></li>
+      <li><a href="jd-creator/help#sharedjd" style="cursor: pointer;">JD Shared with me</a></li>
     </ul>
   </div>
   <div class="col-9 aa">
@@ -142,7 +161,7 @@
       <div style="font-size: 15px;">
         To Create New JD, click on the button “Create New JD’s” and fill the
         appropriate columns in the form to create new JD. Refer “Create New JD”
-        video for more details.
+        video for more details.<br>
         <img class="img" src="../../../../assets/images/create JD.png" alt="" />
       </div>
     </div>
@@ -154,7 +173,6 @@
         -> Edit (at bottom of the page) Refer Edit JD video for more details
         <img
           class="img"
-          class="img"
           src="../../../../assets/images/Edit JD.png"
           alt=""
         />
@@ -162,9 +180,37 @@
     </div>
     <div id="Ipool" class="heading">
       <h6><b>View Internal Pool</b></h6>
+      <div style="font-size: 15px;">
+        Profiles can be searched in SMART an internal system which matches a JD.
+To view profiles available in SMART, click on the view details of a JD and at bottom of the JD, Click on "View Internal Pool" button, which will list profiles matches this JD creteria. Click on any of candidate name, to view their profile available in SMART application.
+<img
+          class="img"
+          src="../../../../assets/images/iPool-1.png"
+          alt=""
+        />
+        <img
+          class="img"
+          src="../../../../assets/images/iPool-2.png"
+          alt=""
+        />
+      </div>
     </div>
     <div id="Epool" class="heading">
       <h6><b>View External Pool</b></h6>
+      <div style="font-size: 15px;">
+        Profiles can be searched in iCIMS an external system which matches the JD.  
+To view profiles available in iCIMS, click on the view details of a JD, then at bottom of the JD, Click on "View External Pool" button, which will list the profiles that matches this JD creteria. Click on any of candidate name, to view their profile from iCIMS.
+<img
+          class="img"
+          src="../../../../assets/images/ePool-1.png"
+          alt=""
+        />
+        <img
+          class="img"
+          src="../../../../assets/images/ePool-2.png"
+          alt=""
+        />
+      </div>
     </div>
     <div id="myJD" class="heading">
       <h6><b>My JD's </b></h6>
@@ -184,8 +230,15 @@
           you want to share (as show in below image)
         </p>
         <img class="img" src="../../../../assets/images/sharedJd1.png" alt="" />
-        <img class="img" src="../../../../assets/images/sharedJD2.png" alt="" />
+        <img style="margin-bottom: 1rem;" class="img" src="../../../../assets/images/sharedJD2.png" alt="" />
       </div>
     </div>
   </div>
 </div>
+<footer>
+  <div class="footer_color_bar">
+    <span class="pull-left">© 2020 RAPID DMI. All rights reserved. </span>
+    <span class="pull-right">version-1.0.0.0</span>
+    <div style="margin-top: 1rem;" class="clearfix"></div>
+</div>
+</footer>

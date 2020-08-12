@@ -14,12 +14,14 @@ import {
   MAT_DIALOG_DATA,
   MatDialogModule,
   MatSlideToggleModule,
+  MatMenuModule,
   MatExpansionModule
 } from '@angular/material';
 const modules = [
   MatChipsModule,
   MatFormFieldModule,
   MatIconModule,
+  MatMenuModule,
   MatAutocompleteModule,
   MatInputModule,
   MatSelectModule,
