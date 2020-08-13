@@ -375,16 +375,16 @@ export class JobDetailComponent implements OnInit {
             });
           }
         });
-          // const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
-          // this.tagName = tags.map((res)=>res.TagName);
-          // if(tags.length > 0){
-          //   this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
-          //     response => {
-          //       this.matchingConsultants = response;
-          //       let consultants = this.matchingConsultants["MatchingConsultants"];
-          //       this.filterCandidatesByMatchScore(consultants);
-          //     })
-          // }
+          const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+          this.tagName = tags.map((res)=>res.TagName);
+          if(tags.length > 0){
+            this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
+              response => {
+                this.matchingConsultants = response;
+                let consultants = this.matchingConsultants["MatchingConsultants"];
+                this.filterCandidatesByMatchScore(consultants);
+              })
+          }
         this.jobService.FetchLocationList().subscribe((locations: any) => {
           if (locations.StatusCode === 200) {
             this.locations = locations.LocationMasterList;
