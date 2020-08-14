@@ -64,7 +64,8 @@ export class AppComponent implements OnInit {
     this.adalService.acquireTokenResilient(this.config.resource).subscribe((token) => {
       
     });
-    
+    var title = document.querySelector('title')
+    location.pathname.includes('jd-creator') ? title.text = 'JD Creator' : title.text = 'RAPID'; 
   }
   
 }
