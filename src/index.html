@@ -1,8 +1,15 @@
 <!doctype html>
 <html lang="en">
+  <p id="msgWarning" style="color: white;
+  background-color: red;
+  padding: 13px;
+  font-weight: bold;
+  font-size: 17px;margin:0;">
+  This app is s best viewed through  latest versions of Chrome, Mozilla Firefox® or an equivalent browser software. Please switch to another browser for better experience
+  </p>
 <head>
   <meta charset="utf-8">
-  <title>RAPID</title>
+  <title>JobProject</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,17 +34,10 @@
         return M.join(' ');
     })();
    
-    if(navigator.browserType.includes('Edge') || navigator.browserType.includes('IE')) {
-      var node = document.createElement("p");
-      node.style = `color: white;
-      background-color: red;
-      padding: 13px;
-      font-weight: bold;
-      font-size: 17px;margin:0;`;
-      var textnode = document.createTextNode("This app is best viewed through  latest versions of Chrome, Mozilla Firefox® or an equivalent browser software. Please switch to another browser for better experience");         // Create a text node
-      node.appendChild(textnode);
-      document.querySelector('html').prepend(node);
+    if(!navigator.browserType ||  navigator.browserType.indexOf('Firefox') > -1 || navigator.browserType.indexOf('Chrome') > -1) {
+        document.getElementById('msgWarning').remove();
     }
+
   </script>
 </head>
 <body>
