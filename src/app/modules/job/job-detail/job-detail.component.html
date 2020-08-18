@@ -95,7 +95,7 @@
                   </section>
                   <p class="col-4 pt-2 font-weight-bold">DESIGNATION</p>
                   <mat-form-field class="col-8 pl-0">
-                    <input id="demo" (focusout)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
+                    <input (focusout)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
                       aria-label="Number" (keyup)="clearDesignationId($event);filterDesignationList($event)" matInput
                       [value]="selectedDesignationName" formControlName="selectedDesignationN" (keydown.backspace)="removeDesignation($event)" 
                       [matAutocomplete]="desig">
