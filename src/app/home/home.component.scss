@@ -16,53 +16,86 @@ body{
   }
 
 .main{
-    height: 28vmax;
-    width: 91%;
+    height: 20vmax;
+    width: 80%;
     left: 50%;
     position: relative;
     transform: translateX(-50%);
-    padding-top: 4%;
+    padding-top: 2%;
 }
 .one, .two, .three, .four {
-    transition: all .4s ease;
-    -webkit-transition: all .5s ease;
     height: 100%;
-    min-height: 300px;
+    min-height: 250px;
     background-size: 100%;
     cursor: pointer;
     background-repeat: no-repeat;
 }
+.hover-image {
+        visibility: hidden;
+        display: block;
+        content: '';
+        height: 100%;
+        min-height: 250px;
+        background-size: 100%;
+        cursor: pointer;
+        background-repeat: no-repeat;
+}
 .one {
+    
     background-image:url("../../assets/images/mdpi/1.png");
+    &:hover {
+        background-size: 0;
+        &:after {
+            visibility: visible;
+        }
+    }    
+    &:after {
+        @extend .hover-image;
+        background-image: url("../../assets/images/mdpi/H1.png");
+    }
 }
 .two {
     background-image: url("../../assets/images/mdpi/2.png");
+    &:hover {
+        background-size: 0;
+        &:after {
+            visibility: visible;
+        }
+    }
+    &:after {
+        @extend .hover-image;
+        background-image: url("../../assets/images/mdpi/H2.png");
+    }
 }
 
 .three {
+    &:hover {
+        background-size: 0;
+        &:after {
+            visibility: visible;
+        }
+    }
     background-image: url("../../assets/images/mdpi/3.png");
+    &:after {
+        @extend .hover-image;
+        background-image: url("../../assets/images/mdpi/H3.png");
+    }
 }
 
 .four {
+    &:hover {
+        background-size: 0;
+        &:after {
+            visibility: visible;
+        }
+    }
     background-image: url("../../assets/images/mdpi/4.png");
+    &:after {
+        @extend .hover-image;
+        background-image: url("../../assets/images/mdpi/H4.png");
+    }
 }
 
-
-.one:hover {
-   
-    background-image: url("../../assets/images/mdpi/H1.png");
-}
-.two:hover {
-    background-image: url("../../assets/images/mdpi/H2.png");
-}
-
-.three:hover {
-    background-image: url("../../assets/images/mdpi/H3.png");
-}
-
-.four:hover {
-    background-image: url("../../assets/images/mdpi/H4.png");
-}
 .logo{
     font-size: 24px;
     top: 0px;
@@ -146,7 +179,6 @@ margin: 0 !important;
   
     .one, .two, .three, .four {
         background-position: center;
-        background-size: 76%;
         height: 40vmax;
     }
     .main{
@@ -190,4 +222,9 @@ margin: 0 !important;
     -webkit-box-shadow: 0px -1px 40px -2px rgba(0,0,0,0.25);
     -moz-box-shadow: 0px -1px 40px -2px rgba(0,0,0,0.25);
     box-shadow: -1px 14px 17px -6px  rgba(0,0,0,0.25);
+}
+.hexa {
+    a {
+        height: 100%;
+    }
 }
