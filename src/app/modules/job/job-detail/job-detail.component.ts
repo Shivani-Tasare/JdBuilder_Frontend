@@ -302,7 +302,6 @@ export class JobDetailComponent implements OnInit {
       } else{
         this.toastr.error(res.Message,'Error');
       }
-      
     })
   }
 

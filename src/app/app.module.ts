@@ -34,7 +34,7 @@ import { SharedModule } from './shared';
 import { FAQIndexComponent } from './shared/component/faq-index/faq-index.component';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
-import { GlobalErrorHandler } from './shared/GlobalErrorHandler';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +67,7 @@ import { GlobalErrorHandler } from './shared/GlobalErrorHandler';
   providers: [JobServiceService, LoaderService, AdalService, AdalConfigService,
     { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
-    {provide: ErrorHandler, useClass: GlobalErrorHandler},
+    
     { provide: APP_CONFIG, useValue: {
       apiEndpoint: Config.url,
       clientId: Config.clientID,
