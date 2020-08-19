@@ -18,6 +18,8 @@ import { LoaderService } from 'src/app/shared/services/loader.service';
 import { SmartServiceService } from 'src/app/services/smart-service.service';
 import { JdDetails } from 'src/app/shared/models/jd-details';
 import { MatchingConsultants } from 'src/app/shared/models/matchingConsultants';
+import { saveAs } from 'file-saver';
+
 @Component({
   selector: 'app-job-detail',
   templateUrl: './job-detail.component.html',
@@ -124,16 +126,12 @@ export class JobDetailComponent implements OnInit {
   
   public downloadPDF2() {
     let htmlContent = this.document.getElementById('content-pdf')
-    let fileName = this.selectedDesignationName;
+     let fileName = this.selectedDesignationName;
     this.jobService.GeneratePDF({ htmlContent: htmlContent.outerHTML , fileName:fileName }).subscribe((data: any) => {
       let blob = new Blob([data.body], {
         type: 'application/pdf'
       });
-      var link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = this.selectedDesignationName + '.pdf';
-      link.click();
-      window.URL.revokeObjectURL(link.href);
+      saveAs(blob, fileName);
     })
   }
 
@@ -304,7 +302,6 @@ export class JobDetailComponent implements OnInit {
       } else{
         this.toastr.error(res.Message,'Error');
       }
-      
     })
   }
 
@@ -733,7 +730,7 @@ export class JobDetailComponent implements OnInit {
         // Add our tag
         if ((value || '').trim()) {
           if(index === -1 || value !== this.mandatoryTagsList[index].TagName)
-          this.mandatoryTagsList.push({ Id: '', TagName: value.trim()});  
+          this.mandatoryTagsList.push({ Id: '', TagName: value.trim(), TagType:1});  
         }
         // Reset the input value
         if (input) {
@@ -753,7 +750,7 @@ export class JobDetailComponent implements OnInit {
       // Add our tag
       if ((value || '').trim()) {
         if(index === -1 || value !== this.desiredTagsList[index].TagName)
-        this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType });
+        this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType: 2});
       }
       // Reset the input value
       if (input) {

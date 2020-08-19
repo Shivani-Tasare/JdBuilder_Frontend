@@ -2,7 +2,7 @@
   <div class="col-12" style="text-align: right;">
     <div style="display: none;" class="col-12" id="email">
       <mat-form-field>
-        <input type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)" placeholder="Enter Name or Email"
+        <input id="emailID" type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)" placeholder="Enter Name or Email"
           matInput [formControl]="emailSearch" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let option of filteredEmails" [value]="option">
@@ -95,7 +95,7 @@
                   </section>
                   <p class="col-4 pt-2 font-weight-bold">DESIGNATION</p>
                   <mat-form-field class="col-8 pl-0">
-                    <input id="demo" (focusout)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
+                    <input (focusout)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
                       aria-label="Number" (keyup)="clearDesignationId($event);filterDesignationList($event)" matInput
                       [value]="selectedDesignationName" formControlName="selectedDesignationN" (keydown.backspace)="removeDesignation($event)" 
                       [matAutocomplete]="desig">
