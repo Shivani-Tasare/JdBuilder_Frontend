@@ -33,17 +33,31 @@
       </a>
 
   </div>
-  <div class="margin-top-1-em center">
+  <div class="center" style="margin-top: 2em;">
     <p class="video-label">
-        
-      <b>Watch Video</b>: Introduction to RAPID
+       Introduction to RAPID : <a  data-toggle="modal" data-target="#video-tag" href="#" style="color:black;text-decoration: underline;">Watch Video</a>
     </p>
-    <div>
-      <video class="video-ctrl" poster="../../../../assets/images/video-preset.png" preload="metadata" controls>
-        <source src="https://360feedbackcontentprod.blob.core.windows.net/rapid-videos/Rapid-Demo-V3.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>  
+   
+    <div class="modal" id="video-tag" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header pb-0 pr-1 pt-1 border-0">
+            <h4 class="modal-title"></h4>
+           <button type="button" class="close" (click)="pauseVideo()" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div>
+                <video id="introVideo" class="video-ctrl" poster="../../../../assets/images/video-preset.png" preload="metadata" controls>
+                  <source src="https://360feedbackcontentprod.blob.core.windows.net/rapid-videos/Rapid-Demo-V3.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+          </div>
+        </div>
+      </div>
     </div>
+
+
   </div>
 </div>
 <footer>
