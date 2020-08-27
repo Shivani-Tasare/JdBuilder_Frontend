@@ -699,12 +699,23 @@
         </div>
         <!-- Modal body -->
         <div class="modal-body pt-0">
-          <p class="mb-0">
-            Total Candidates
-          </p>
-          <h4>
-            {{matchingConsultants?.Count}}
-          </h4>
+          <div class="row">
+            <div class="col-6">
+              <p class="mb-0">
+                Total Candidates
+              </p>
+              <h4>
+                {{matchingConsultants?.Count}}
+              </h4>
+            </div>
+            <div  class="col-6" style="text-align: right;padding-right: 30px;margin-top: 3px; font-size: 13px;">
+                  <select name="filterBy" id="filterBy" (change)="changeFilter($event)">
+                    <option value="-1" disabled>Select Region</option>
+                    <option value="All">All Region</option>
+                    <option *ngFor="let c of countryList;" [value]="c">{{c}}</option>
+                  </select>
+                  </div>
+              </div>
         </div>
         <div>
           <div>
@@ -727,7 +738,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="noBorder" *ngFor="let c of candidateRecordsAsPerSection">
+                  <tr class="noBorder" *ngFor="let c of candidateRecordsAsPerSectionTemp">
                     <td><a target="_blank" [href]="c.ProfileURLLink">{{c.EmployeeName}}</a></td>
                     <td>{{c.Location ? c.Location : '-'}}</td>
                   </tr>
@@ -762,7 +773,7 @@
      
         <div>
               <div class="modal-body pt-0"><p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4></div>
-                <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
+              <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
       </div>
     </div>
 </div>

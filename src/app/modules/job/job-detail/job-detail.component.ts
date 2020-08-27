@@ -27,6 +27,8 @@ import { saveAs } from 'file-saver';
 })
 export class JobDetailComponent implements OnInit {
   length = 100;
+  candidateRecordsAsPerSectionTemp = [];
+  countryList = [];
  iCIMSCandidates = {};
  //iCIMSCandidates = [];
   pageSize = 2;
@@ -651,7 +653,10 @@ export class JobDetailComponent implements OnInit {
       this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
         response => {
           this.matchingConsultants = response;
-          this.candidateRecordsAsPerSection = this.matchingConsultants["MatchingConsultants"]
+          this.candidateRecordsAsPerSection = this.matchingConsultants["MatchingConsultants"];
+          this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
+          const countryListArr = this.candidateRecordsAsPerSection.map((r)=>r.Location);
+          this.countryList =  Array.from(new Set(countryListArr));
           this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"],true);
         },error =>{
           this.matchingConsultants['Count'] = 0;
@@ -1143,5 +1148,19 @@ export class JobDetailComponent implements OnInit {
         this.toastr.error(updatedData.Message, 'Error');
       }
     });
+  }
+
+  changeFilter(e) {
+  const value = e.target.value;  
+  console.log(value);
+  if(value === 'All') {
+    this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
+  } else{ 
+    this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r)=> {
+      return r.Location === value; 
+    });
+  
+  }
+  this.filterCandidatesByMatchScore(this.candidateRecordsAsPerSectionTemp, true);
   }
   }
