@@ -19,6 +19,7 @@ export class MainComponent implements OnInit {
   subscription: Subscription;
   isCollapseOn = false;
   selectedIndex = 2
+  location : boolean = false;
   @HostListener('document:click', ['$event'])
   clickout(event) {
        setTimeout(()=>{
@@ -37,15 +38,24 @@ export class MainComponent implements OnInit {
   }
   constructor(private jobService:JobServiceService, private eRef: ElementRef, private adalService: AdalService, @Inject(APP_CONFIG) private config: AppConfig, private router: Router) {
     router.events.subscribe(val => {
+      
       if (location.pathname.indexOf("home") > 0) {
         this.isHome = true;
+        this.location = false;
       }
       if (location.pathname.indexOf("myJd") > 0) {
         this.selectedIndex = 2;
+        this.location = false;
       }
       if (location.pathname.indexOf("allJd") > 0) {
         this.selectedIndex = 1;
+        this.location = false;
       }
+      if(location.pathname.indexOf("help") > 0){
+        this.location = true;
+      }
+     console.log(this.location);
+     
     });
    }
   get isHomeCheck() {
@@ -53,7 +63,7 @@ export class MainComponent implements OnInit {
   } 
   ngOnInit() {;
     this.adalService.handleCallback();
-   
+    
     this.subscription = this.adalService.getUserAuthenticationStatus().subscribe(value => {
       if (value) {
         this.isAuthenticated = value;

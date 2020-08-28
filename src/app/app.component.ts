@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
   } 
   ngOnInit() {
     this.adalService.handleCallback();
-   
+  
     this.subscription = this.adalService.getUserAuthenticationStatus().subscribe(value => {
       if (value) {
         this.isAuthenticated = value;

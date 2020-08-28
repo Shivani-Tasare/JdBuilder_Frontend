@@ -87,10 +87,13 @@ export class JobListingComponent implements OnInit {
  }
   fetchProfile(paramObject) {
     this.jobService.FetchFilteredProfiles(paramObject).subscribe((FilteredList: any) => {
+      var skills;
       if (FilteredList.StatusCode === 200) {
         this.associatedTags = [];
-        (!!FilteredList.AssociatedTags) ? FilteredList.AssociatedTags.map((r,index)=> {
-          if(index < 3) this.associatedTags.push({TagName: r});
+        (!!FilteredList.AssociatedTags) ? FilteredList.AssociatedTags.forEach((v,index) => {
+         
+          if(index < 3 && this.searchString.toLowerCase().indexOf(v.toLowerCase()) < 0)
+          this.associatedTags.push({TagName: v});
         }) : null;
         this.jobs.push(...FilteredList.ProfileList);
         this.length = FilteredList.TotalRecords;

@@ -1,8 +1,11 @@
 
-<header>
-
+<header [ngClass]="{'h1class' : location , 'h2class': !location}">
   <div class="navbar px-0 navbar-expand-lg navbar-light bg-white border-bottom row m-0" >
     <div class="col-9">
+      <button *ngIf="!!location" style="background: #9E4587;border-radius: 0;display: inline;margin-right: 1rem;" class="navbar-toggler btn" type="button"
+    data-toggle="collapse" data-target="#collapsibleNavbar">
+    <i class="fa fa-bars fa-2x" style="color:white" aria-hidden="true"></i>
+  </button>
       <img class="navbar-brand pr-2 pt-0 pb-0" src="../../../../assets/images/DMI_Logo.png" style="height: 50px;border-right: 2px solid #969696;">
       <p class="navbar-brand font-weight-bold">RAPID JD CREATOR</p>
     </div>

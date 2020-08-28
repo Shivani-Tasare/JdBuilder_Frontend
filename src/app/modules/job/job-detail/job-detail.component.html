@@ -15,11 +15,11 @@
         <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
     </div>
     <div class="col-12">
-      <div id="shareButton" (click)="toggleShare(false,true)">
-        <button id="sharebtn" style="margin-top:5px;" [disabled]="!isPrivateChecked"  class="btn theme-color-btn btn-sm"
+      <div id="shareButton" (click)="toggleShare(false,true)" style="pointer-events: none;">
+        <button id="sharebtn" style="margin-top:5px;" [disabled]="!isPrivateChecked" [ngStyle]="{'pointer-events' : disabled ? 'none' : 'auto' }" class="btn theme-color-btn btn-sm"
           [hidden]="!isSameUser" type="button" (click)="onShare()">
-          <i class="fa fa-share-square-o" style="color: white;
-          padding-right: 3px;" aria-hidden="true"></i>Share
+          <i class="fa fa-share-square-o" style ="color: white;
+          padding-right: 3px; pointer-events: none;" aria-hidden="true"></i>Share
         </button>
       </div>
     </div>
@@ -96,11 +96,11 @@
                   </section>
                   <p class="col-4 pt-2 font-weight-bold">DESIGNATION</p>
                   <mat-form-field class="col-8 pl-0">
-                    <input (focusout)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
+                    <input type="text" placeholder="Select Designation"
                       aria-label="Number" (keyup)="clearDesignationId($event);filterDesignationList($event)" matInput
                       [value]="selectedDesignationName" formControlName="selectedDesignationN" (keydown.backspace)="removeDesignation($event)" 
                       [matAutocomplete]="desig">
-                    <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
+                    <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);checkDuplicateDesignation($event)" #desig="matAutocomplete">
                       <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName">
                         {{designation.DesignationName}}
                       </mat-option>
