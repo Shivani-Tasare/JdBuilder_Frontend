@@ -1,5 +1,4 @@
 *{
-    margin: 0;
     padding: 0;
 }
 @font-face {
@@ -16,16 +15,16 @@ body{
   }
 
 .main{
-    height: 20vmax;
+    height: 21vmax;
     width: 80%;
     left: 50%;
     position: relative;
     transform: translateX(-50%);
-    padding-top: 2%;
+    padding-top: 3%;
 }
 .one, .two, .three, .four {
     height: 100%;
-    min-height: 250px;
+    min-height: 242px;
     background-size: 100%;
     cursor: pointer;
     background-repeat: no-repeat;
@@ -166,20 +165,25 @@ margin: 0 !important;
         padding-bottom: 2em;
     }
     .main{
+        width: 68%;
         height: 100%;
     }
     p.video-label{
         line-height: 22px;
     font-size: 1.2em;
-    padding: 7px;
+    padding-bottom: 1em;
+
     }
  }
 
 @media only screen and (max-width: 767px) {
-  
+    .video-label{
+        padding-bottom: 1em;
+    }
     .one, .two, .three, .four {
         background-position: center;
-        height: 40vmax;
+        height: 35vmax;
+        margin-bottom: 1em;
     }
     .main{
         padding-bottom: 10px;
@@ -190,7 +194,7 @@ margin: 0 !important;
     }
 }
 .video-label{
-    font-size: 1.8em;
+    font-size: 1.2em;
 }
 .center{
     text-align: center;
@@ -215,16 +219,73 @@ margin: 0 !important;
 
 }
 .video-ctrl {
-    width: 70%;
-    margin-bottom: 5%;
-    border: 7px solid #ffffff;
+    width: 99%;
     outline: none;
-    -webkit-box-shadow: 0px -1px 40px -2px rgba(0,0,0,0.25);
-    -moz-box-shadow: 0px -1px 40px -2px rgba(0,0,0,0.25);
-    box-shadow: -1px 14px 17px -6px  rgba(0,0,0,0.25);
 }
 .hexa {
     a {
         height: 100%;
     }
 }
+
+
+
+
+
+
+
+.no-padding{
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+  .noscroll { overflow: hidden;}
+  .side-tabs{
+    background-color: #333333 !important;
+    color: white;
+    border-color: gray;
+  }
+  .active{
+    background: #9E4587 !important;
+  }
+  .navbar-collapse {
+    position: fixed;
+    right: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    width: 70%;
+    top: 11%;
+    transition: all 0.3s ease;
+    display: block;
+  }
+  .navbar-collapse.collapsing {
+    height: auto !important;
+    margin-right: 50%;
+    transition: all 0.3s ease;
+    display: block;
+  }
+  .navbar-collapse.show {
+    right: 30%;
+    height: 100%;
+    z-index: 10000;background:#333333
+  }
+  body{
+    overflow-y: hidden;
+  }
+  .overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 999; /* sidebar must have z-index > 999 */
+    background: rgba(0,0,0,0.5);
+    opacity: 99%; /* or background set to rgba(255, 255, 255, 0); */
+    top: 0;
+  }
+  #video-tag {
+    .modal-dialog{
+        max-width: 61vw;
+    }
+    .modal-header .close {
+        outline: none;
+    }
+  }

@@ -1,11 +1,11 @@
 <div *ngIf="isAuthenticated">
   <header class="row margin-0">
       <div style="padding-left: 3%;" class="col-7">
-          <img class="logo" src="../../assets/images/logo.png" alt="DMI">
+          <img class="logo" src="../../assets/images/Logo-rapid.svg" alt="DMI">
       </div>
       <div class="dropdown float-right user col-5">
         <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="../../../../assets/images/profile_dummy-grey.png" class="float-right img-fluid pointer" style="height: 50px;">
+          <img src="../../../../assets/images/Profile.svg" class="float-right img-fluid pointer" style="height: 50px;">
         </button>
         <div style="padding:0.85rem" class="dropdown-menu dropdown-menu-right dropdown-menu-md-right" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item" [routerLink]="" (click)="logout()">Logout</a>
@@ -33,17 +33,30 @@
       </a>
 
   </div>
-  <div class="margin-top-1-em center">
-    <p class="video-label">
-        
-      <b>Watch Video</b>: Introduction to RAPID
+  <div class="center" style="margin-top: 2em;">
+    <p class="video-label" style="color:#7E7E7E">
+       Introduction to RAPID : <a  data-toggle="modal" data-target="#video-tag" href="#" style="color:#7D1974;text-decoration: underline;">Watch Video</a>
     </p>
-    <div>
-      <video class="video-ctrl" poster="../../../../assets/images/video-preset.png" preload="metadata" controls>
-        <source src="https://360feedbackcontentprod.blob.core.windows.net/rapid-videos/Rapid-Demo-V3.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>  
+   
+    <div class="modal" id="video-tag" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header pb-0 pr-1 pt-1 border-0">
+           <button type="button" style="font-size: 3em;top: -27px;right: -24px;position: absolute;z-index: 9;color: white;opacity: 1;" class="close" (click)="pauseVideo()" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div>
+                <video id="introVideo" class="video-ctrl" poster="../../../../assets/images/video-preset.png" preload="metadata" controls>
+                  <source src="https://360feedbackcontentprod.blob.core.windows.net/rapid-videos/Rapid-Demo-V3.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+          </div>
+        </div>
+      </div>
     </div>
+
+
   </div>
 </div>
 <footer>
