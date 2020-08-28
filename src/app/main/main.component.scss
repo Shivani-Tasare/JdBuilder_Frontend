@@ -3,6 +3,14 @@
     padding-left: 0px;
   }
   .noscroll { overflow: hidden;}
+  .my-class2{
+    padding-top: 0px;
+  }
+  .my-class1{
+    padding-top: 80px;
+    top: 94px;
+    min-height: 100vh;
+  }
   .side-tabs{
     background-color: #333333 !important;
     color: white;
@@ -30,7 +38,8 @@
   }
   .navbar-collapse.show {
     right: 30%;
-    height: 100%;
+    left: 0%;
+    height: 85%;
     z-index: 10000;background:#333333
   }
   body{

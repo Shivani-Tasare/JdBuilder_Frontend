@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-faq-index',
-  templateUrl: './faq-index.component.html',
-  styleUrls: ['./faq-index.component.scss']
+  selector: "app-faq-index",
+  templateUrl: "./faq-index.component.html",
+  styleUrls: ["./faq-index.component.scss"],
 })
 export class FAQIndexComponent implements OnInit {
   panelOpenState = false;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
