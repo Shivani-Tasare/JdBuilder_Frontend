@@ -26,6 +26,7 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+  @ViewChild('countrySelect') countrySelect: ElementRef; 
   length = 100;
   candidateRecordsAsPerSectionTemp = [];
   countryList = [];
@@ -647,6 +648,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   viewCandidates(myModal?: any) {
+    this.countrySelect.nativeElement.value = "-1";
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res)=>res.TagName);
     if(tags.length > 0){

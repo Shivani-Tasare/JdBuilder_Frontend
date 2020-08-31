@@ -709,7 +709,7 @@
               </h4>
             </div>
             <div  class="col-6" style="text-align: right;padding-right: 30px;margin-top: 3px; font-size: 13px;">
-                  <select name="filterBy" id="filterBy" (change)="changeFilter($event)">
+                  <select name="filterBy" #countrySelect id="filterBy" (change)="changeFilter($event)">
                     <option value="-1" disabled>Select Region</option>
                     <option value="All">All Region</option>
                     <option *ngFor="let c of countryList;" [value]="c">{{c}}</option>
