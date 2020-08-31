@@ -148,7 +148,7 @@ export class JobDetailComponent implements OnInit {
       return r.label == event.active[0]._model.label;
     });
     if(candidateRecords[0].count > 0) {
-      this.candidateRecordsAsPerSection = candidateRecords[0].candidateDetail;
+      this.candidateRecordsAsPerSectionTemp = candidateRecords[0].candidateDetail;
     }
     }
   }
@@ -655,7 +655,12 @@ export class JobDetailComponent implements OnInit {
           this.matchingConsultants = response;
           this.candidateRecordsAsPerSection = this.matchingConsultants["MatchingConsultants"];
           this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
-          const countryListArr = this.candidateRecordsAsPerSection.map((r)=>r.Location);
+          let countryListArr = [];
+          this.candidateRecordsAsPerSection.map((r)=>{
+            if(r.Location !== null) {
+              countryListArr.push(r.Location);
+            }
+          });
           this.countryList =  Array.from(new Set(countryListArr));
           this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"],true);
         },error =>{
