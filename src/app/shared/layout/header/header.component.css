@@ -1,0 +1,13 @@
+.h1class{
+position: fixed;
+width: 100%;
+z-index: 10;
+/* padding-top: 20px; */
+background-color: white;
+}
+ 
+.h2class{
+    position: relative;
+    /* padding-top: 20px; */
+    background-color: white;
+}
