@@ -61,7 +61,7 @@
                   <p class="pull-left mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <p class="pull-right mb-0"># Internal Pool with 50% Match Score</p>
+                  <p class="pull-right mb-0">*Internal Pool with 50% Match Score</p>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@
                 <p class="pull-right mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                <p class="pull-left mb-0"># Internal Pool with 50% Match Score</p>
+                <p class="pull-left mb-0">*Internal Pool with 50% Match Score</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                 <h4 class="pull-right font-weight-bold mb-0 theme-color">{{matchingConsultants?.Count}}</h4>
@@ -462,22 +462,23 @@
               <table class="table table-bordered p-3 my-3">
                 <thead>
                   <tr>
-                    <th scope="col">Internal Pool</th>
                     <th scope="col">Match Percentage</th>
+                    <th scope="col">Internal Pool</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let count of candidateCountList" class="noBorder">
-                    <td>{{count?.count ? count.count : '0'}}</td>
                     <td>{{count?.range}}</td>
+                    <td>{{count?.count ? count.count : '0'}}</td>
                   </tr>
                   <tr>
+                    <td>Total</td>
                     <td>{{matchingConsultants?.Count}}</td>
-                    <td>All</td>
                   </tr>
                 </tbody>
 
               </table>
+              <p>*Powered By <b>SMART</b></p>
             </div>
           </div>
         </div>
@@ -535,7 +536,7 @@
                   <p class="pull-left mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <p class="pull-right mb-0"># Internal Pool with 50% Match Score</p>
+                  <p class="pull-right mb-0">*Internal Pool with 50% Match Score</p>
                 </div>
               </div>
             </div>
@@ -549,7 +550,7 @@
                 <p class="pull-right mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                <p class="pull-left mb-0"># Internal Pool with 50% Match Score</p>
+                <p class="pull-left mb-0">*Internal Pool with 50% Match Score</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                 <h4 class="pull-right font-weight-bold mb-0 theme-color">{{matchingConsultants?.Count}}</h4>
@@ -657,21 +658,22 @@
               <table class="table table-bordered p-3 my-3">
                 <thead>
                   <tr>
-                    <th scope="col">Internal Pool</th>
                     <th scope="col">Match Percentage</th>
+                    <th scope="col">Internal Pool</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let count of candidateCountList" class="noBorder">
-                    <td>{{count?.count ? count.count : '0'}}</td>
                     <td>{{count?.range}}</td>
+                    <td>{{count?.count ? count.count : '0'}}</td>
                   </tr>
                   <tr>
+                    <td>Total</td>
                     <td>{{matchingConsultants?.Count}}</td>
-                    <td>All</td>
                   </tr>
                 </tbody>
               </table>
+              <p style="padding-left: 10px;"><span>*</span> Powered By <b>SMART</b></p>
             </div>
           </div>
         </div>
