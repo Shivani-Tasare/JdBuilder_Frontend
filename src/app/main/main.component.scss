@@ -2,16 +2,9 @@
     padding-right: 0px;
     padding-left: 0px;
   }
-  .panel{
-    display: block;
-    position: fixed;
-    z-index: 9;
-    width: 224.828px;
-    height: 3403px;
+  a{
+    color: white;
   }
-  // .panel1{
-  //   display: block;
-  // }
   .noscroll { overflow: hidden;}
   .side-tabs{
     background-color: #333333 !important;
@@ -55,4 +48,17 @@
     opacity: 99%; /* or background set to rgba(255, 255, 255, 0); */
     top: 0;
   }
-  
+  @media only screen and (min-width: 280px) and (max-width: 767px) {
+    .panel{
+      display: block
+    }
+  }
+  @media only screen and (min-width: 768px){
+    .panel{
+      display: block;
+      position: fixed;
+      z-index: 9;
+      width: 224.828px;
+      height: 3403px;
+    }
+  }

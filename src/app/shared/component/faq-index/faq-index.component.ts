@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-faq-index',
@@ -10,6 +10,17 @@ export class FAQIndexComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if ((document.body.scrollTop > 140 ||
+      document.documentElement.scrollTop > 140) && document.getElementById('header')) {
+      document.getElementById('header').classList.add('fixed-header');
+    }
+    if (document.documentElement.scrollTop < 1 && document.getElementById('header')) {
+      document.getElementById('header').classList.remove('fixed-header');
+    }
   }
 
 }

@@ -38,7 +38,7 @@
           ></i>
           <div class="dropdown-menu">
             <a [routerLink]="['/jd-creator/createJD']" class="dropdown-item" href="javascript:">Create New JD</a>
-            <a class="dropdown-item" href="#">Sort By Score</a>
+            <a [hidden]="true" class="dropdown-item" href="#">Sort By Score</a>
             <a *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search(true)" class="dropdown-item" href="javascript:">Sort By Oldest Date</a>
             <a *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search(true)" class="dropdown-item" href="javascript:">Sort By Newest Date</a>
           </div>

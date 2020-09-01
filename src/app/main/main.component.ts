@@ -56,14 +56,6 @@ export class MainComponent implements OnInit {
       if(location.pathname.indexOf("help") > 0){
         this.location = true;
       }  
-      // if(window.screen.width <= 768 && window.screen.width >= 280){
-      //   this.mobileView = true;
-      // }
-      // else{
-      //   this.mobileView=false;
-      // }
-      // console.log(window.screen.width);
-      // console.log(this.mobileView);
     });
    }
   get isHomeCheck() {
