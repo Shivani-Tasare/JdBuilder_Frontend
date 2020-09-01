@@ -3,22 +3,23 @@
     <div style="display: none;" class="col-12" id="email">
       <mat-form-field>
         <input id="emailID" type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)" placeholder="Enter Name or Email"
-          matInput [formControl]="emailSearch" [matAutocomplete]="auto">
+          matInput [formControl]="emailSearch" [matAutocomplete]="auto" [(ngModel)]="value">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let option of filteredEmails" [value]="option">
             {{option}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <button style="font-size: 21px;" [hidden]="!isSameUser" type="button" class="btn btn-default btn-sm"
-        (click)="onSend(emailSearch.value)">
+      <button style="font-size: 21px;" *ngIf="value" [hidden]="!isSameUser" type="button" class="btn btn-default btn-sm"
+        (click)="onSend(emailSearch.value);value=''">
         <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
     </div>
-    <div class="col-12">
-      <div id="shareButton" (click)="toggleShare(false,true)">
-        <button id="sharebtn" style="margin-top:5px" [disabled]="!isPrivateChecked"  class="btn theme-color-btn btn-sm"
+    <div class="col-12" style="padding-top: 7px;">
+      <div id="shareButton" (click)="toggleShare(false,true)" style="pointer-events: none;">
+        <button id="sharebtn" style="margin-top:5px;" [disabled]="!isPrivateChecked" [ngStyle]="{'pointer-events' : disabled ? 'none' : 'auto' }" class="btn theme-color-btn btn-sm"
           [hidden]="!isSameUser" type="button" (click)="onShare()">
-          <i class="fa fa-share-square-o icon" aria-hidden="true"></i>Share
+          <i class="fa fa-share-square-o" style ="color: white;
+          padding-right: 3px; pointer-events: none;" aria-hidden="true"></i>Share
         </button>
       </div>
     </div>
@@ -95,11 +96,11 @@
                   </section>
                   <p class="col-4 pt-2 font-weight-bold">DESIGNATION</p>
                   <mat-form-field class="col-8 pl-0">
-                    <input (focusout)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
+                    <input type="text" placeholder="Select Designation"
                       aria-label="Number" (keyup)="clearDesignationId($event);filterDesignationList($event)" matInput
                       [value]="selectedDesignationName" formControlName="selectedDesignationN" (keydown.backspace)="removeDesignation($event)" 
                       [matAutocomplete]="desig">
-                    <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
+                    <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);checkDuplicateDesignation($event)" #desig="matAutocomplete">
                       <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName">
                         {{designation.DesignationName}}
                       </mat-option>
@@ -175,7 +176,7 @@
                         <span class="carousel-control-prev-icon"></span>
                       </a>
                       <a class="carousel-control-next" href="#demo"  data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
+                        <span class="carousel-control-next-icon" style="color: grey;"></span>
                       </a>
 
                     </div>
@@ -502,7 +503,7 @@
   <!-- VIEW MODE -->
   <div id="content" [hidden]="isEditJd" class="row bg-white pb-3">
     <div class="col-md-12 no-padding mb-5" style="font-size: 13px;">
-      <div class="row pt-2 pb-3 d-lg-none" id="header">
+      <div class="row pt-2 pb-3 d-lg-none" id="header" style="margin-top: 47px;">
         <div class="col-8">
           <button style="background: #9E4587;border-radius: 0;" class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#collapsibleNavbar">

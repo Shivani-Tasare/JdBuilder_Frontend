@@ -12,13 +12,14 @@ import { JobServiceService } from '../shared/services/job-service.service';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-
+  location = false;
   title = 'jobProject';
   isHome = false;
   isAuthenticated = false;
   subscription: Subscription;
   isCollapseOn = false;
   selectedIndex = 2
+  mobileView: boolean;
   @HostListener('document:click', ['$event'])
   clickout(event) {
        setTimeout(()=>{
@@ -39,13 +40,30 @@ export class MainComponent implements OnInit {
     router.events.subscribe(val => {
       if (location.pathname.indexOf("home") > 0) {
         this.isHome = true;
+        this.location = false;
       }
       if (location.pathname.indexOf("myJd") > 0) {
         this.selectedIndex = 2;
+        this.location = false;
       }
       if (location.pathname.indexOf("allJd") > 0) {
         this.selectedIndex = 1;
+        this.location = false;
       }
+      if(location.pathname.indexOf("jdsShared") > 0){
+        this.location = false;
+      }
+      if(location.pathname.indexOf("help") > 0){
+        this.location = true;
+      }  
+      // if(window.screen.width <= 768 && window.screen.width >= 280){
+      //   this.mobileView = true;
+      // }
+      // else{
+      //   this.mobileView=false;
+      // }
+      // console.log(window.screen.width);
+      // console.log(this.mobileView);
     });
    }
   get isHomeCheck() {

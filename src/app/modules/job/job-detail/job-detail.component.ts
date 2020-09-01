@@ -764,7 +764,7 @@ export class JobDetailComponent implements OnInit {
       // Add our tag
       if ((value || '').trim()) {
         if(index === -1 || value !== this.desiredTagsList[index].TagName)
-        this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType: 2});
+        this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType:2 });
       }
       // Reset the input value
       if (input) {

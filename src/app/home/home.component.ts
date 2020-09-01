@@ -30,4 +30,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  pauseVideo() {
+    let vid = <HTMLVideoElement>document.getElementById("introVideo");
+    vid.pause();
+  }
+
 }
