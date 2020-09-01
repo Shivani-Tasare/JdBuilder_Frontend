@@ -30,6 +30,7 @@ export class JobDetailComponent implements OnInit {
   length = 100;
   candidateRecordsAsPerSectionTemp = [];
   countryList = [];
+  selectedRegionInternal = null;
  iCIMSCandidates = {};
  //iCIMSCandidates = [];
   pageSize = 2;
@@ -649,6 +650,7 @@ export class JobDetailComponent implements OnInit {
 
   viewCandidates(myModal?: any) {
     this.countrySelect.nativeElement.value = "-1";
+    this.selectedRegionInternal = null;
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res)=>res.TagName);
     if(tags.length > 0){
@@ -1158,9 +1160,10 @@ export class JobDetailComponent implements OnInit {
   }
 
   changeFilter(e) {
-  const value = e.target.value;  
+  const value = e.target.value;
+  this.selectedRegionInternal = value;
   console.log(value);
-  if(value === 'All') {
+  if(value === 'ALL REGIONS') {
     this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
   } else{ 
     this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r)=> {

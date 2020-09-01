@@ -710,8 +710,8 @@
             </div>
             <div  class="col-6" style="text-align: right;padding-right: 30px;margin-top: 3px; font-size: 13px;">
                   <select name="filterBy" #countrySelect id="filterBy" (change)="changeFilter($event)">
-                    <option value="-1" disabled>Select Region</option>
-                    <option value="All">All Region</option>
+                    <option value="-1" disabled>SELECT REGION</option>
+                    <option value="ALL REGIONS">ALL REGIONS</option>
                     <option *ngFor="let c of countryList;" [value]="c">{{c}}</option>
                   </select>
                   </div>
@@ -720,6 +720,9 @@
         <div>
           <div>
             <div class="chart">
+              <span class="regionText" *ngIf="!!selectedRegionInternal">
+                Selected Region : <b> {{selectedRegionInternal}}</b>
+              </span>
               <canvas baseChart *ngIf="!!pieChartData.length" [data]="pieChartData" [labels]="pieChartLabels"
                 [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins"
                 [colors]="pieChartColors" [legend]="pieChartLegend" (chartClick)="onChartClick($event)">

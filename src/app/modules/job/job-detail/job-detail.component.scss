@@ -241,3 +241,14 @@ tr.noBorder td {
   margin-bottom: 7px;
   display: block;
 }
+.regionText {
+  position: relative;
+  float: right;
+  font-size: 13px;
+  right: 19px;
+  top: -9px;
+  border: 1px solid #dadada;
+  background: #dcdcdc;
+  color: black;
+  padding: 4px;
+}
