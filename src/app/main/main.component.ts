@@ -19,6 +19,7 @@ export class MainComponent implements OnInit {
   subscription: Subscription;
   isCollapseOn = false;
   selectedIndex = 2
+  mobileView: boolean;
   @HostListener('document:click', ['$event'])
   clickout(event) {
        setTimeout(()=>{
@@ -55,8 +56,14 @@ export class MainComponent implements OnInit {
       if(location.pathname.indexOf("help") > 0){
         this.location = true;
       }  
-      console.log(this.location);
-      
+      // if(window.screen.width <= 768 && window.screen.width >= 280){
+      //   this.mobileView = true;
+      // }
+      // else{
+      //   this.mobileView=false;
+      // }
+      // console.log(window.screen.width);
+      // console.log(this.mobileView);
     });
    }
   get isHomeCheck() {

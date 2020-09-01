@@ -1,4 +1,20 @@
-<span class="col-sm-12 aa">
+<div class="col-sm-12 aa" style="background: white;">
+  <div class="row pt-2 pb-3 d-lg-none" id="header" style="margin-top: 47px;">
+    <div class="col-8">
+      <button style="background: #9E4587;border-radius: 0;" class="navbar-toggler" type="button"
+        data-toggle="collapse" data-target="#collapsibleNavbar">
+        <i class="fa fa-bars fa-2x" style="color:white" aria-hidden="true"></i>
+      </button>
+      <span style="color:white;position: absolute;top: 20px;" class="pt-2 pl-2">VIEW JDs > JD DETAILS</span>
+    </div>
+    <div [routerLink]="['']" class="col-4 pt-2">
+      <div class="dropdown dropleft float-right">
+        <button type="button" class="btn theme-color-btn">
+          Back
+        </button>
+      </div>
+    </div>
+  </div>
     <div id="videos" class="heading"><h3>HOW TO VIDEOS</h3>
       <div class="row" style="padding-top: 15px;">
         <div class="col-sm-6">
@@ -6,7 +22,7 @@
             <span>Create JD</span>
           </div>
           <div class="col-sm-12">
-            <video width="350" height="200" controls>
+            <video width="350" height="200" style=" max-width: 100%;" controls>
               <source src="https://360feedbackcontentprod.blob.core.windows.net/rapid-videos/Create JD Video-19th Aug Revised-3- Compressed.mp4
               " type="video/mp4">
               Your browser does not support the video tag.
@@ -18,7 +34,7 @@
             <span>Search/View/Edit JD</span>
           </div>
           <div class="col-sm-12">
-            <video width="350" height="200" controls>
+            <video width="350" height="200" style=" max-width: 100%;" controls>
               <source src="https://360feedbackcontentprod.blob.core.windows.net/rapid-videos/Search view edit audio and video-final.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video> 
@@ -31,7 +47,7 @@
             <span>View External Pool</span>
           </div>
           <div class="col-sm-12">
-            <video width="350" height="200" controls>
+            <video width="350" height="200" style=" max-width: 100%;" controls>
               <source src="https://360feedbackcontentprod.blob.core.windows.net/rapid-videos/External video and audio-Final-compressed.mp4
               " type="video/mp4">
               Your browser does not support the video tag.
@@ -43,7 +59,7 @@
             <span>View Internal Pool</span>
           </div>
           <div class="col-sm-12">
-            <video width="350" height="200" controls>
+            <video width="350" height="200" style=" max-width: 100%;" controls>
               <source src="https://360feedbackcontentprod.blob.core.windows.net/rapid-videos/Internal Pool-20aug-final-compressed.mp4
               " type="video/mp4">
               Your browser does not support the video tag.
@@ -114,7 +130,7 @@
       <div style="font-size: 15px;">
         There are several things you can do from the Dashboard: Search by
         Keyword Designation Experience Created by <br />
-        <img class="img" src="../../../../assets/images/dashboard.png" alt="" />
+        <img class="img-fluid img" src="../../../../assets/images/dashboard.png" alt="" />
       </div>
     </div>
     <div id="search" class="heading">
@@ -160,7 +176,7 @@
         To Create New JD, click on the button “Create New JD’s” and fill the
         appropriate columns in the form to create new JD. Refer “Create New JD”
         video for more details.<br />
-        <img class="img" src="../../../../assets/images/create JD.png" alt="" />
+        <img class="img-fluid img" src="../../../../assets/images/create JD.png" alt="" />
       </div>
     </div>
     <div id="editJD" class="heading">
@@ -170,8 +186,7 @@
         by selecting the JD from dashboard Dashboard – Select JD -> View Details
         -> Edit (at bottom of the page) Refer Edit JD video for more details<br />
         <img
-          class="img"
-          class="img"
+          class="img-fluid img"
           src="../../../../assets/images/Edit JD.png"
           alt=""
         />
@@ -185,8 +200,8 @@
         and at bottom of the JD, Click on "View Internal Pool" button, which
         will list profiles matches this JD criteria. Click on any of candidate
         name, to view their profile available in SMART application.<br />
-        <img class="img" src="../../../../assets/images/iPool-1.png" alt="" />
-        <img class="img" src="../../../../assets/images/iPool-2.png" alt="" />
+        <img class="img-fluid img" src="../../../../assets/images/iPool-1.png" alt="" />
+        <img class="img-fluid img" src="../../../../assets/images/iPool-2.png" alt="" />
       </div>
     </div>
     <div id="Epool" class="heading">
@@ -194,32 +209,32 @@
       <div style="font-size: 15px;">
         Profiles can be searched in iCIMS an external system which matches the JD.  
 To view profiles available in iCIMS, click on the view details of a JD, then at bottom of the JD, Click on "View External Pool" button, which will list the profiles that matches this JD creteria. Click on any of candidate name, to view their profile from iCIMS.<br>
-        <img class="img" src="../../../../assets/images/ePool-1.png" alt="" />
-<img class="img" src="../../../../assets/images/ePool-2.png" alt="" /> 
+        <img class="img-fluid img" src="../../../../assets/images/ePool-1.png" alt="" />
+<img class="img-fluid img" src="../../../../assets/images/ePool-2.png" alt="" /> 
       </div>
     </div>
     <div id="myJD" class="heading">
       <h6><b>My JD's </b></h6>
       <div style="font-size: 15px;">
         To view list of JD’s which you created can be seen under this option.<br />
-        <img class="img" src="../../../../assets/images/myJD.png" alt="" />
+        <img class="img-fluid img" src="../../../../assets/images/myJD.png" alt="" />
       </div>
     </div>
     <div id="sharedjd" class="heading">
       <h6><b>JD Shared with me </b></h6>
       <div style="font-size: 15px;">
         You can view the JD’s which are shared to you by others.
-        <img class="img" src="../../../../assets/images/SharedJD.png" alt="" />
+        <img class="img-fluid img" src="../../../../assets/images/SharedJD.png" alt="" />
         <p>
           This can be done by editing the JD, then select the option “Make It As
           Private JD” as Yes then provide the Name or Email address of a person,
           you want to share (as show in below image)<br />
         </p>
-        <img class="img" src="../../../../assets/images/sharedJd1.png" alt="" />
-        <img class="img" src="../../../../assets/images/sharedJD2.png" alt="" />
+        <img class="img-fluid img" src="../../../../assets/images/sharedJd1.png" alt="" />
+        <img class="img-fluid img" src="../../../../assets/images/sharedJD2.png" alt="" />
       </div>
     </div>
-</span>
+  </div>
 <!-- <footer class="row">
   <div class="footer_color_bar col-sm-12">
     <span class="pull-left">© 2020 RAPID DMI. All rights reserved. </span>
