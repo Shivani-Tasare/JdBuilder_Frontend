@@ -776,7 +776,17 @@
         <!-- Modal body -->
      
         <div>
-              <div class="modal-body pt-0"><p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4></div>
+          <div class="modal-body pt-0">
+            <select name="filterBy" style="margin-right:15px;float:right;padding-right: 30px;margin-top: 3px; font-size: 13px;" #countrySelectExternal id="filterByExternal" (change)="changeFilterExternal($event)">
+              <option value="-1" disabled>SELECT REGION</option>
+              <option value="0">ALL REGIONS</option>
+              <option *ngFor="let c of locations;" [value]="c.Id">{{c.LocationName}}</option>
+            </select>
+            <p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4>
+            </div>
+            <span class="regionText" *ngIf="!!selectedRegionExternal">
+              Selected Region : <b> {{selectedRegionExternal}}</b>
+            </span>
               <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
       </div>
     </div>

@@ -27,10 +27,12 @@ import { saveAs } from 'file-saver';
 })
 export class JobDetailComponent implements OnInit {
   @ViewChild('countrySelect') countrySelect: ElementRef; 
+  @ViewChild('countrySelectExternal') countrySelectExternal: ElementRef;
   length = 100;
   candidateRecordsAsPerSectionTemp = [];
   countryList = [];
   selectedRegionInternal = null;
+  selectedRegionExternal = null;
  iCIMSCandidates = {};
  //iCIMSCandidates = [];
   pageSize = 2;
@@ -209,6 +211,7 @@ export class JobDetailComponent implements OnInit {
   }
   
   ngOnInit() {
+
     this.initLoad();
     //for edit mode
     if (window.location.href.includes('edit')) {
@@ -676,13 +679,13 @@ export class JobDetailComponent implements OnInit {
     }
   }
 
-  viewiCIMSCandidates(myModal: any) {
+  viewiCIMSCandidates(myModal: any, region = 0) {
     // this.iCIMSCandidates = [];
     this.iCIMSCandidates = { TotalCount: 0, CandidateList: []};
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res)=>res.TagName);
     if(tags.length > 0){
-      this.smartService.fetchiCIMSCandidatesDetails(this.tagName).subscribe(
+      this.smartService.fetchiCIMSCandidatesDetails(this.tagName, region).subscribe(
         response => {
            this.iCIMSCandidates  = response;
         }, error => {
@@ -1173,4 +1176,30 @@ export class JobDetailComponent implements OnInit {
   }
   this.filterCandidatesByMatchScore(this.candidateRecordsAsPerSectionTemp, true);
   }
+
+
+
+
+  changeFilterExternal(e) {
+    const value = e.target.value;
+    this.selectedRegionExternal = e.target.options[event.target['options'].selectedIndex].text;
+    console.log(value);
+    this.viewiCIMSCandidates(null, value);
+    // if(value === 'ALL REGIONS') {
+    //   this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
+    // } else{ 
+    //   this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r)=> {
+    //     return r.Location === value; 
+    //   });
+    
+    // }
+    // this.filterCandidatesByMatchScore(this.candidateRecordsAsPerSectionTemp, true);
+    }
+
+
+
+
+
+
+
   }
