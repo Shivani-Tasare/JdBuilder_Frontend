@@ -14,8 +14,16 @@ h3 {
     font-weight: bold;
     margin-top: 10px
 }
+.fixed-header{
+    background: white;
+    position: fixed;
+    top:0;
+    z-index:998;
+    width: 100%;
+    border-bottom: solid 1px;
+  }
 :target{
-  scroll-margin-top: 100px;
+  scroll-margin-top: 125px;
 }
 .accordian{
     background-color: #ffffff;

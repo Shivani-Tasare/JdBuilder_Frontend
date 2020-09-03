@@ -29,7 +29,7 @@
   <!-- EDIT MODE -->
   <div *ngIf="isEditJd" class="row bg-white pb-3">
     <div class="col-md-12 no-padding mb-5" style="font-size: 13px;">
-      <div class="row pb-3 pt-2 d-lg-none" id="header">
+      <div class="row pb-3 d-lg-none" [ngStyle]="{'margin-top': isSameUser ? '5px' :'40px'}" id="header">
         <div class="col-8">
           <button style="background: #9E4587;border-radius: 0;" class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -61,7 +61,7 @@
                   <p class="pull-left mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <p class="pull-right mb-0"># Internal Pool with 50% Match Score</p>
+                  <p class="pull-right mb-0">*Internal Pool with 50% Match Score</p>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@
                 <p class="pull-right mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                <p class="pull-left mb-0"># Internal Pool with 50% Match Score</p>
+                <p class="pull-left mb-0">*Internal Pool with 50% Match Score</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                 <h4 class="pull-right font-weight-bold mb-0 theme-color">{{matchingConsultants?.Count}}</h4>
@@ -462,22 +462,23 @@
               <table class="table table-bordered p-3 my-3">
                 <thead>
                   <tr>
-                    <th scope="col">Internal Pool</th>
                     <th scope="col">Match Percentage</th>
+                    <th scope="col">Internal Pool</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let count of candidateCountList" class="noBorder">
-                    <td>{{count?.count ? count.count : '0'}}</td>
                     <td>{{count?.range}}</td>
+                    <td>{{count?.count ? count.count : '0'}}</td>
                   </tr>
                   <tr>
+                    <td>Total</td>
                     <td>{{matchingConsultants?.Count}}</td>
-                    <td>All</td>
                   </tr>
                 </tbody>
 
               </table>
+              <p>*Powered By <b>SMART</b></p>
             </div>
           </div>
         </div>
@@ -488,11 +489,15 @@
 
   </div>
   <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
-    <div class="col-6 p-0">
+    <div class="col-4 p-0">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
-      border: none;">View Candidate</button>
+      border: none;">View Internal Pool</button>
     </div>
-    <div class="col-6 p-0">
+    <div class="col-4 p-0">
+      <button (click)="viewiCIMSCandidates(iCIMSCandidateModal)" data-toggle="modal" data-target="#iCIMSCandidateModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
+      border: none;">View External Pool</button>
+    </div>
+    <div class="col-4 p-0">
       <button *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)" (click)="onSave()"
         type="button" class="w-100 h-100 font-weight-bold theme-secondary-btn">Save</button>
       <button *ngIf="!isSameUser && saveAsCopy" (click)="onSave()" type="button"
@@ -511,7 +516,7 @@
           </button>
           <span style="color:white;position: absolute;top: 20px;" class="pt-2 pl-2">VIEW JDs > JD DETAILS</span>
         </div>
-        <div [routerLink]="['']" class="col-4 pt-2">
+        <div [routerLink]="['/jd-creator/allJd']" class="col-4 pt-2">
           <div class="dropdown dropleft float-right">
             <button type="button" class="btn theme-color-btn">
               Back
@@ -535,7 +540,7 @@
                   <p class="pull-left mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                  <p class="pull-right mb-0"># Internal Pool with 50% Match Score</p>
+                  <p class="pull-right mb-0">*Internal Pool with 50% Match Score</p>
                 </div>
               </div>
             </div>
@@ -549,7 +554,7 @@
                 <p class="pull-right mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                <p class="pull-left mb-0"># Internal Pool with 50% Match Score</p>
+                <p class="pull-left mb-0">*Internal Pool with 50% Match Score</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                 <h4 class="pull-right font-weight-bold mb-0 theme-color">{{matchingConsultants?.Count}}</h4>
@@ -657,21 +662,22 @@
               <table class="table table-bordered p-3 my-3">
                 <thead>
                   <tr>
-                    <th scope="col">Internal Pool</th>
                     <th scope="col">Match Percentage</th>
+                    <th scope="col">Internal Pool</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let count of candidateCountList" class="noBorder">
-                    <td>{{count?.count ? count.count : '0'}}</td>
                     <td>{{count?.range}}</td>
+                    <td>{{count?.count ? count.count : '0'}}</td>
                   </tr>
                   <tr>
+                    <td>Total</td>
                     <td>{{matchingConsultants?.Count}}</td>
-                    <td>All</td>
                   </tr>
                 </tbody>
               </table>
+              <p style="padding-left: 10px;"><span>*</span> Powered By <b>SMART</b></p>
             </div>
           </div>
         </div>
@@ -680,15 +686,25 @@
   </div>
   <div *ngIf="!isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
 
-    <div class="col-6 p-0">
+    <div class="col-4 p-0">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
         class="w-100 h-100 font-weight-bold theme-color-btn" style="
       border: none;">View Internal Pool</button>
       <!-- The Modal -->
     </div>
-    <div class="col-6 p-0">
+    <div class="col-4 p-0">
+      <button  data-toggle="modal" data-target="#iCIMSCandidateModal" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+        class="w-100 h-100 font-weight-bold theme-color-btn" style="
+      border: none;">View External Pool</button>
+      <!-- The Modal -->
+    </div>
+    <div class="col-2 p-0">
       <button (click)="fixHeader();onEdit()" class="w-100 h-100 font-weight-bold theme-secondary-btn">Edit JD</button>
     </div>
+    <div class="col-2 p-0">
+    <button data-toggle="modal" data-target="#deleteConfirmation" *ngIf="isSameUser" type="button"
+                   class="w-100 h-100 font-weight-bold theme-secondary-btn" >Delete</button></div>
+    
   </div>
   <div class="modal" id="myModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
