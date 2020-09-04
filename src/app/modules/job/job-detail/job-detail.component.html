@@ -737,9 +737,9 @@
         <div>
           <div>
             <div class="chart">
-              <span class="regionText" *ngIf="!!selectedRegionInternal">
+              <!-- <span class="regionText" *ngIf="!!selectedRegionInternal">
                 Selected Region : <b> {{selectedRegionInternal}}</b>
-              </span>
+              </span> -->
               <canvas baseChart *ngIf="!!pieChartData.length" [data]="pieChartData" [labels]="pieChartLabels"
                 [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins"
                 [colors]="pieChartColors" [legend]="pieChartLegend" (chartClick)="onChartClick($event)">
@@ -796,7 +796,8 @@
             <select name="filterBy" style="margin-right:15px;float:right;padding-right: 30px;margin-top: 3px; font-size: 13px;" #countrySelectExternal id="filterByExternal" (change)="changeFilterExternal($event)">
               <option value="-1" disabled>SELECT REGION</option>
               <option value="0">ALL REGIONS</option>
-              <option *ngFor="let c of locations;" [value]="c.Id">{{c.LocationName}}</option>
+              <!-- <option *ngFor="let c of locations;" [value]="c.Id">{{c.LocationName}}</option> -->
+              <option [value]="getLocations()">JD Specified Location</option>
             </select>
             <p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4>
             </div>
