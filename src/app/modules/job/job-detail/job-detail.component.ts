@@ -694,6 +694,8 @@ export class JobDetailComponent implements OnInit {
 
   viewiCIMSCandidates(myModal: any, region = 0) {
     // this.iCIMSCandidates = [];
+    this.countrySelectExternal.nativeElement.value = "-1";
+
     this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res) => res.TagName);
@@ -701,7 +703,9 @@ export class JobDetailComponent implements OnInit {
       this.smartService.fetchiCIMSCandidatesDetails(this.tagName, region).subscribe(
         response => {
           this.iCIMSCandidates = response;
-          this.iCIMSCandidatesTemp = response;
+          if(!this.iCIMSCandidatesTemp.hasOwnProperty('TotalCount')) {
+            this.iCIMSCandidatesTemp = response;
+          }
         }, error => {
           this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
           // this.iCIMSCandidates = {
