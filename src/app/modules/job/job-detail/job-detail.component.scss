@@ -242,3 +242,13 @@ tr.noBorder td {
   margin-bottom: 7px;
   display: block;
 }
+.view-floating-1, .view-floating-2 {
+  padding: 6px
+}
+
+.fixed {
+  position: fixed;
+  z-index: 1;
+  top: 94px;
+  right: 52px;
+}

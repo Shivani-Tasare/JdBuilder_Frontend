@@ -26,6 +26,7 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+  @ViewChild('fixedDiv') fixedDiv; 
   length = 100;
  iCIMSCandidates = {};
  //iCIMSCandidates = [];
@@ -1144,4 +1145,16 @@ export class JobDetailComponent implements OnInit {
       }
     });
   }
-  }
+
+  @HostListener('window:scroll', ['$event']) 
+  scrollHandler(event) {
+    if(!!this.fixedDiv) {
+      if(window.scrollY > 454) {
+        this.fixedDiv.nativeElement.classList.add('fixed');
+      }else{
+        this.fixedDiv.nativeElement.classList.remove('fixed');
+      }
+    }
+}
+
+}

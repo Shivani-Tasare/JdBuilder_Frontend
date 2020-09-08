@@ -446,10 +446,10 @@
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
                       class=" btn theme-color-btn mr-2" />
                     
-                    <input id="viewButton" data-toggle="modal" data-target="#myModal" type="button"
-                      (click)="viewCandidates(myModal)" value="View Internal Pool" class=" btn theme-color-btn mr-2" />
+                    <!-- <input id="viewButton"  data-toggle="modal" data-target="#myModal" type="button"
+                      (click)="viewCandidates(myModal)" value="View Internal Pool" class=" btn theme-color-btn mr-2 view-floating-1" />
                       <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-                      value="View External Pool" class=" mr-2 btn theme-color-btn" />
+                      value="View External Pool" class=" mr-2 btn theme-color-btn view-floating-2" /> -->
                       <input *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)"
                       (click)="onSave()" type="button" value="Save" class=" btn theme-color-btn mr-2" />
                     <input *ngIf="!isSameUser && saveAsCopy " (click)="onSave()" type="button" value="Save As Copy"
@@ -479,6 +479,12 @@
 
               </table>
               <p>*Powered By <b>SMART</b></p>
+              <div  #fixedDiv>
+                      <input id="viewButton"  data-toggle="modal" data-target="#myModal" type="button"
+                      (click)="viewCandidates(myModal)" value="View Internal Pool" class=" btn theme-color-btn mr-2 view-floating-1" />
+                      <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+                      value="View External Pool" class=" mr-2 btn theme-color-btn view-floating-2" />
+               </div>
             </div>
           </div>
         </div>
@@ -489,14 +495,6 @@
 
   </div>
   <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
-    <div class="col-4 p-0">
-      <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
-      border: none;">View Internal Pool</button>
-    </div>
-    <div class="col-4 p-0">
-      <button (click)="viewiCIMSCandidates(iCIMSCandidateModal)" data-toggle="modal" data-target="#iCIMSCandidateModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
-      border: none;">View External Pool</button>
-    </div>
     <div class="col-4 p-0">
       <button *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)" (click)="onSave()"
         type="button" class="w-100 h-100 font-weight-bold theme-secondary-btn">Save</button>
@@ -643,11 +641,11 @@
                     <button [hidden]="true" type="button" class="bg-white p-2 w-100">Request to Refill</button>
                   </div>
                   <div class="col-12 d-none pr-0 d-lg-block pt-4">
-                    <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)"
-                      value="View Internal Pool" class=" mr-2 btn theme-color-btn" />
+                    <!-- <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)"
+                      value="View Internal Pool" class=" mr-2 btn theme-color-btn view-floating-1" />
 
                       <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-                      value="View External Pool" class=" mr-2 btn theme-color-btn" />
+                      value="View External Pool" class=" mr-2 btn theme-color-btn view-floating-2" /> -->
 
 
 
@@ -678,6 +676,21 @@
                 </tbody>
               </table>
               <p style="padding-left: 10px;"><span>*</span> Powered By <b>SMART</b></p>
+              <!-- {{isEditJd}} 
+              <div *ngIf="isEditJd" #fixedDiv> {{isEditJd}}
+                      <input id="viewButton"  data-toggle="modal" data-target="#myModal" type="button"
+                      (click)="viewCandidates(myModal)" value="View Internal Pool" class=" btn theme-color-btn mr-2 view-floating-1" />
+                      <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+                      value="View External Pool" class=" mr-2 btn theme-color-btn view-floating-2" />
+               </div> -->
+
+               <div  [hidden]="isEditJd" id="makeFixedOnScroll" #fixedDiv>
+                   <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)"
+                  value="View Internal Pool" class=" mr-2 btn theme-color-btn view-floating-1" />
+
+                  <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+                  value="View External Pool" class=" mr-2 btn theme-color-btn view-floating-2" />
+               </div>
             </div>
           </div>
         </div>
@@ -688,13 +701,13 @@
 
     <div class="col-4 p-0">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
-        class="w-100 h-100 font-weight-bold theme-color-btn" style="
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-1" style="
       border: none;">View Internal Pool</button>
       <!-- The Modal -->
     </div>
     <div class="col-4 p-0">
       <button  data-toggle="modal" data-target="#iCIMSCandidateModal" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-        class="w-100 h-100 font-weight-bold theme-color-btn" style="
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" style="
       border: none;">View External Pool</button>
       <!-- The Modal -->
     </div>
@@ -706,6 +719,42 @@
                    class="w-100 h-100 font-weight-bold theme-secondary-btn" >Delete</button></div>
     
   </div>
+
+  <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
+
+    <div class="col-3 p-0" style="border:1px solid  white;">
+      <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-1" style="
+      border: none;text-align: center !important" >View Internal Pool</button>
+      <!-- The Modal -->
+    </div>
+    <div class="col-3 p-0" style="border:1px solid  white;">
+      <button    data-toggle="modal" data-target="#iCIMSCandidateModal" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" style="
+      border: none;text-align: center !important">View External Pool</button>
+      <!-- The Modal -->
+    </div>
+ 
+    <div class="col-3 p-0" style="border:1px solid  white;">
+ 
+      <input  style="text-align: center !important" (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
+      class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" />
+    </div>
+    <div class="col-3 p-0" *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)">
+ 
+      <input 
+      (click)="onSave()" type="button"  style="text-align: center !important" value="Save" class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" />
+    </div>
+    <div *ngIf="!isSameUser && saveAsCopy " class="col-3 p-0" style="border:1px solid  white;">
+ 
+      <input  style="text-align: center !important"  (click)="onSave()" type="button" value="Save As Copy"
+      class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" />
+
+    </div>
+    
+  </div>
+
+  
   <div class="modal" id="myModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
