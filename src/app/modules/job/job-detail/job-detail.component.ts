@@ -206,6 +206,7 @@ export class JobDetailComponent implements OnInit {
   
   ngOnInit() {
     this.initLoad();
+
     //for edit mode
     if (window.location.href.includes('edit')) {
       this.isEditJd = true;
@@ -269,9 +270,11 @@ export class JobDetailComponent implements OnInit {
   
   removeDesignation(event){
     this.desigOption = event.target.value.length;
+    console.log(this.desigOption);
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
     console.log(length);
-    length == undefined ? this.selectedDesignationName = '' : null; 
+    length == undefined || this.desigOption <= 1
+    ? this.selectedDesignationName = '' : null; 
   }
   onShare() {
     
@@ -1011,7 +1014,12 @@ export class JobDetailComponent implements OnInit {
   isResponsibilityEmpty(controls){
   return controls.Responsibility.value.trim() !="";
   }
+
   checkDuplicateDesignation(event) {
+       console.log(event.target.value);
+       
+  this.jobDescriptionForm.get('selectedDesignationN').valueChanges.subscribe(selectedValue => {
+    console.log(selectedValue);
     if (!isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
       this.isDuplicateDesignation = false
     }
@@ -1019,7 +1027,8 @@ export class JobDetailComponent implements OnInit {
 
       let isChecked = false
       this.designations.forEach((designation: any) => {
-
+        console.log(designation.id);
+        
         if (!isChecked) {
           if (designation.DesignationName.trim().toLowerCase() === event.target.value.trim().toLowerCase()) {
             this.isDuplicateDesignation = true
@@ -1030,6 +1039,7 @@ export class JobDetailComponent implements OnInit {
         }
       });
     }
+  })
   }
   clearDesignationId(evnt) {
     if ((evnt.keyCode >= 48 && evnt.keyCode <= 57) || (evnt.keyCode >= 65 && evnt.keyCode <= 90)) {
@@ -1102,6 +1112,8 @@ export class JobDetailComponent implements OnInit {
     if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1|| this.isDuplicateDesignation ) {
       return;
     }
+    console.log(this.jobDescriptionForm.get('selectedDesignation').value);
+    
     const jdObject = {
       ProfileId: location.pathname.split('/').pop(),
       ProfileName: this.jobDescriptionForm.get('title').value,
