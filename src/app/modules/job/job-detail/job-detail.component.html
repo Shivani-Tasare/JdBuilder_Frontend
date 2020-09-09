@@ -660,6 +660,7 @@
               </form>
             </div>
             <div class="col-md-4 d-none d-lg-block">
+              <p style="padding-left: 10px;"><span>*</span> Powered By <b>SMART</b></p>
               <table class="table table-bordered p-3 my-3">
                 <thead>
                   <tr>
@@ -678,7 +679,6 @@
                   </tr>
                 </tbody>
               </table>
-              <p style="padding-left: 10px;"><span>*</span> Powered By <b>SMART</b></p>
             </div>
           </div>
         </div>
@@ -728,8 +728,8 @@
             </div>
             <div  class="col-6" style="text-align: right;padding-right: 30px;margin-top: 3px; font-size: 13px;">
                   <select name="filterBy" #countrySelect id="filterBy" (change)="changeFilter($event)">
-                    <option value="-1" disabled>SELECT REGION</option>
-                    <option value="ALL REGIONS">ALL REGIONS</option>
+                    <option value="-1" disabled>Select Region</option>
+                    <option value="All Region">All Region</option>
                     <option *ngFor="let c of countryList;" [value]="c">{{c}}</option>
                   </select>
                   </div>
@@ -749,8 +749,8 @@
             </div>
           </div>
           <div class="row">
+            <p style="margin: 0;margin-left:35px;"><span style="font-style:italic;font-size: 14px;padding-right: 5px;">*Powered By</span> <b>SMART</b></p>
             <div class="col-11 candidate-details">
-             
               <table class="table table-bordered p-3 my-3">
                 <thead>
                   <tr>
@@ -774,7 +774,7 @@
           </div>
         </div>
         <!-- Modal footer -->
-        <div class="modal-footer"> <p><span style="font-style:italic;font-size: 14px;padding-right: 5px;">*Powered By</span> <b>SMART</b></p>
+        <div class="modal-footer">
         </div>
 
       </div>
@@ -795,8 +795,8 @@
         <div>
           <div class="modal-body pt-0">
             <select name="filterBy" style="margin-right:15px;float:right;padding-right: 30px;margin-top: 3px; font-size: 13px;" #countrySelectExternal id="filterByExternal" (change)="changeFilterExternal($event)">
-              <option value="-1" disabled>SELECT REGION</option>
-              <option value="0">ALL REGIONS</option>
+              <option value="-1" disabled>Select Region</option>
+              <option value="0">All Region</option>
               <!-- <option *ngFor="let c of locations;" [value]="c.Id">{{c.LocationName}}</option> -->
               <option [value]="getLocations()">JD Specified Location</option>
             </select>
