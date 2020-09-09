@@ -147,23 +147,23 @@ export class CreateJdComponent implements OnInit {
     });
     this.jobService.FetchExperienceList().subscribe((experiences: any) => {
       if (experiences.StatusCode === 200) {
-        this.experiences = experiences.ExperienceMasterList;
+        this.experiences = experiences.ResponseList;
       }
     });
     this.jobService.FetchLocationList().subscribe((locations: any) => {
       if (locations.StatusCode === 200) {
-        this.locations = locations.LocationMasterList;
+        this.locations = locations.ResponseList;
       }
     });
     this.jobService.FetchDesignationList().subscribe((designations: any) => {
       if (designations.StatusCode === 200) {
-        this.designations = designations.DesignationList;
+        this.designations = designations.ResponseList;
       }
     });
     this.jobService.FetchTagsList().subscribe((tags: any) => {
       if (tags.StatusCode === 200) {
-        this.allTags = [...tags.ProfileTagsList];
-        this.allTagsDesired = [...tags.ProfileTagsList];
+        this.allTags = [...tags.ResponseList];
+        this.allTagsDesired = [...tags.ResponseList];
         for (let index = 0; this.allTags.length > index; index++) {
           for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
             if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
@@ -617,7 +617,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
-            this.suggestedMandatorySkill = skillData.Skills;
+            this.suggestedMandatorySkill = skillData.ResponseList;
           }
         })
       }
@@ -630,7 +630,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
-            this.suggestedDesiredSkill = skillData.Skills;
+            this.suggestedDesiredSkill = skillData.ResponseList;
           }
         })
       }
@@ -642,7 +642,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllQualifications(event.target.value).subscribe((Data: any) => {
           if (Data.StatusCode) {
-            this.suggestedQualification = Data.ProfileQualifications;
+            this.suggestedQualification = Data.ResponseList;
           }
         })
       }
@@ -654,7 +654,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllResponsibilities(event.target.value).subscribe((Data: any) => {
           if (Data.StatusCode) {
-            this.suggestedResponsibilities = Data.ProfileResponsibilities;
+            this.suggestedResponsibilities = Data.ResponseList;
           }
         })
       }
