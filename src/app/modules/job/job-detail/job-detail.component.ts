@@ -697,10 +697,11 @@ export class JobDetailComponent implements OnInit {
     }
   }
 
-  viewiCIMSCandidates(myModal: any, region = 0) {
+  viewiCIMSCandidates(myModal: any, region = 0, bySelect=0) {
     // this.iCIMSCandidates = [];
-    this.countrySelectExternal.nativeElement.value = "-1";
-
+    if(bySelect == 0) {
+      this.countrySelectExternal.nativeElement.value = "-1";
+    }
     this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res) => res.TagName);
@@ -1217,7 +1218,7 @@ export class JobDetailComponent implements OnInit {
     const text = e.target.options[event.target['options'].selectedIndex].text;
     this.selectedRegionExternal = text;
     if(text == 'JD Specified Location') {
-      this.viewiCIMSCandidates(null, value);
+      this.viewiCIMSCandidates(null, value, 1);
       this.selectedRegionExternal = this.selectedLocationName.join(', ');
     } else{
       this.iCIMSCandidates = this.iCIMSCandidatesTemp;
