@@ -1,35 +1,9 @@
-<div *ngIf="isEditJd;" class="row mybt">
-  <div class="col-12" style="text-align: right;">
-    <div style="display: none;" class="col-12" id="email">
-      <mat-form-field>
-        <input id="emailID" type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)" placeholder="Enter Name or Email"
-          matInput [formControl]="emailSearch" [matAutocomplete]="auto" [(ngModel)]="value">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of filteredEmails" [value]="option">
-            {{option}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <button style="font-size: 21px;" *ngIf="value" [hidden]="!isSameUser" type="button" class="btn btn-default btn-sm"
-        (click)="onSend(emailSearch.value);value=''">
-        <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-    </div>
-    <div class="col-12" style="padding-top: 7px;">
-      <div id="shareButton" (click)="toggleShare(false,true)" style="pointer-events: none;">
-        <button id="sharebtn" style="margin-top:5px;" [disabled]="!isPrivateChecked" [ngStyle]="{'pointer-events' : disabled ? 'none' : 'auto' }" class="btn theme-color-btn btn-sm"
-          [hidden]="!isSameUser" type="button" (click)="onShare()">
-          <i class="fa fa-share-square-o" style ="color: white;
-          padding-right: 3px; pointer-events: none;" aria-hidden="true"></i>Share
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+
 <div *ngIf="isDataFetched">
   <!-- EDIT MODE -->
   <div *ngIf="isEditJd" class="row bg-white pb-3">
     <div class="col-md-12 no-padding mb-5" style="font-size: 13px;">
-      <div class="row pb-3 d-lg-none" [ngStyle]="{'margin-top': isSameUser ? '5px' :'40px'}" id="header">
+      <div class="row pb-3 d-lg-none" [ngStyle]="{'margin-top': isSameUser ? '47px' :'40px'}" id="header">
         <div class="col-8">
           <button style="background: #9E4587;border-radius: 0;" class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -42,6 +16,33 @@
             <button (click)="isEditJd = false; onCancel()" type="button" class="btn theme-color-btn">
               Cancel
             </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isEditJd;" class="row mybt">
+        <div class="col-12" style="text-align: right;">
+          <div style="display: none;" class="col-12" id="email">
+            <mat-form-field>
+              <input id="emailID" type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)" placeholder="Enter Name or Email"
+                matInput [formControl]="emailSearch" [matAutocomplete]="auto" [(ngModel)]="value">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredEmails" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <button style="font-size: 21px;" *ngIf="value" [hidden]="!isSameUser" type="button" class="btn btn-default btn-sm"
+              (click)="onSend(emailSearch.value);value=''">
+              <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+          </div>
+          <div class="col-12" style="padding-top: 7px;">
+            <div id="shareButton" (click)="toggleShare(false,true)" style="pointer-events: none;">
+              <button id="sharebtn" style="margin-top:5px;" [disabled]="!isPrivateChecked" [ngStyle]="{'pointer-events' : disabled ? 'none' : 'auto' }" class="btn theme-color-btn btn-sm"
+                [hidden]="!isSameUser" type="button" (click)="onShare()">
+                <i class="fa fa-share-square-o" style ="color: white;
+                padding-right: 3px; pointer-events: none;" aria-hidden="true"></i>Share
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -96,11 +97,11 @@
                   </section>
                   <p class="col-4 pt-2 font-weight-bold">DESIGNATION</p>
                   <mat-form-field class="col-8 pl-0">
-                    <input type="text" placeholder="Select Designation"
+                    <input type="text" placeholder="Select Designation" (focusout)="checkDuplicateDesignation($event)"
                       aria-label="Number" (keyup)="clearDesignationId($event);filterDesignationList($event)" matInput
                       [value]="selectedDesignationName" formControlName="selectedDesignationN" (keydown.backspace)="removeDesignation($event)" 
                       [matAutocomplete]="desig">
-                    <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);checkDuplicateDesignation($event)" #desig="matAutocomplete">
+                    <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
                       <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName">
                         {{designation.DesignationName}}
                       </mat-option>
@@ -716,16 +717,30 @@
         </div>
         <!-- Modal body -->
         <div class="modal-body pt-0">
-          <p class="mb-0">
-            Total Candidates
-          </p>
-          <h4>
-            {{matchingConsultants?.Count}}
-          </h4>
+          <div class="row">
+            <div class="col-6">
+              <p class="mb-0">
+                Total Candidates
+              </p>
+              <h4>
+                {{candidateRecordsAsPerSectionTemp?.length}}
+              </h4>
+            </div>
+            <div  class="col-6" style="text-align: right;padding-right: 30px;margin-top: 3px; font-size: 13px;">
+                  <select name="filterBy" #countrySelect id="filterBy" (change)="changeFilter($event)">
+                    <option value="-1" disabled>SELECT REGION</option>
+                    <option value="ALL REGIONS">ALL REGIONS</option>
+                    <option *ngFor="let c of countryList;" [value]="c">{{c}}</option>
+                  </select>
+                  </div>
+              </div>
         </div>
         <div>
           <div>
             <div class="chart">
+              <!-- <span class="regionText" *ngIf="!!selectedRegionInternal">
+                Selected Region : <b> {{selectedRegionInternal}}</b>
+              </span> -->
               <canvas baseChart *ngIf="!!pieChartData.length" [data]="pieChartData" [labels]="pieChartLabels"
                 [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins"
                 [colors]="pieChartColors" [legend]="pieChartLegend" (chartClick)="onChartClick($event)">
@@ -735,7 +750,7 @@
           </div>
           <div class="row">
             <div class="col-11 candidate-details">
-
+             
               <table class="table table-bordered p-3 my-3">
                 <thead>
                   <tr>
@@ -744,7 +759,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="noBorder" *ngFor="let c of candidateRecordsAsPerSection">
+                  <tr class="noBorder" *ngFor="let c of candidateRecordsAsPerSectionTemp">
                     <td><a target="_blank" [href]="c.ProfileURLLink">{{c.EmployeeName}}</a></td>
                     <td>{{c.Location ? c.Location : '-'}}</td>
                   </tr>
@@ -759,7 +774,7 @@
           </div>
         </div>
         <!-- Modal footer -->
-        <div class="modal-footer">
+        <div class="modal-footer"> <p><span style="font-style:italic;font-size: 14px;padding-right: 5px;">*Powered By</span> <b>SMART</b></p>
         </div>
 
       </div>
@@ -778,8 +793,19 @@
         <!-- Modal body -->
      
         <div>
-              <div class="modal-body pt-0"><p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4></div>
-                <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
+          <div class="modal-body pt-0">
+            <select name="filterBy" style="margin-right:15px;float:right;padding-right: 30px;margin-top: 3px; font-size: 13px;" #countrySelectExternal id="filterByExternal" (change)="changeFilterExternal($event)">
+              <option value="-1" disabled>SELECT REGION</option>
+              <option value="0">ALL REGIONS</option>
+              <!-- <option *ngFor="let c of locations;" [value]="c.Id">{{c.LocationName}}</option> -->
+              <option [value]="getLocations()">JD Specified Location</option>
+            </select>
+            <p  class="mb-0"> Total Candidates </p><h4> {{!!iCIMSCandidates?.TotalCount ? iCIMSCandidates?.TotalCount : 0}} </h4>
+            </div>
+            <span class="regionText" *ngIf="!!selectedRegionExternal">
+              Selected Region : <b> {{selectedRegionExternal}}</b>
+            </span>
+              <app-i-cimscandidate-list [data]="iCIMSCandidates" ></app-i-cimscandidate-list>
       </div>
     </div>
 </div>
