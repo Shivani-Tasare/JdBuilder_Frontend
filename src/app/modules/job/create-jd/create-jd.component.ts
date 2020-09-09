@@ -162,8 +162,10 @@ export class CreateJdComponent implements OnInit {
     });
     this.jobService.FetchTagsList().subscribe((tags: any) => {
       if (tags.StatusCode === 200) {
-        this.allTags = [...tags.ResponseList];
-        this.allTagsDesired = [...tags.ResponseList];
+        this.allTags =JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTags.map((x) => x.TagType = 1);
+            this.allTagsDesired = JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTagsDesired.map((x)=> x.TagType = 2);
         for (let index = 0; this.allTags.length > index; index++) {
           for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
             if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {

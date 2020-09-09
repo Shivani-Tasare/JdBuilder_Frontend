@@ -436,10 +436,10 @@ export class JobDetailComponent implements OnInit {
       if (this.isEditJd) {
         this.jobService.FetchTagsList().subscribe((tags: any) => {
           if (tags.StatusCode === 200) {
-            this.allTags = [...tags.ResponseList];
-            //this.allTags.map((x) => x.TagName = 1);
-            this.allTagsDesired = [...tags.ResponseList];
-            //this.allTagsDesired.map((x)=> x.TagName = 2);
+            this.allTags =JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTags.map((x) => x.TagType = 1);
+            this.allTagsDesired = JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTagsDesired.map((x)=> x.TagType = 2);
             for (let index = 0; this.allTags.length > index; index++) {
               for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
                 if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
@@ -900,7 +900,6 @@ export class JobDetailComponent implements OnInit {
   }
   selectedDesiredTag(event: MatAutocompleteSelectedEvent, TagType): void {
     this.desiredTagsList.push(event.option.value);
-    this.desiredTagsList.map(x => x.TagType = 2);
     this.tagInputDesired.nativeElement.value = '';
     this.allTagsDesired.filter((option, index) => {
       if (option.Id.toLowerCase().includes(event.option.value.Id)) {
@@ -915,7 +914,6 @@ export class JobDetailComponent implements OnInit {
 
   selectedMandatoryTag(event: MatAutocompleteSelectedEvent, TagType) {
     this.mandatoryTagsList.push(event.option.value);
-    this.mandatoryTagsList.map(x => x.TagType = 1);
     this.tagInputMandatory.nativeElement.value = '';
     this.allTags.filter((option, index) => {
       if (option.Id.toLowerCase().includes(event.option.value.Id)) {
