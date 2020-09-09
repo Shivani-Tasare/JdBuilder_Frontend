@@ -1203,7 +1203,7 @@ export class JobDetailComponent implements OnInit {
     const value = e.target.value;
     this.selectedRegionInternal = value;
     console.log(value);
-    if (value === 'ALL REGIONS') {
+    if (value === 'All Region') {
       this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
     } else {
       this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r) => {

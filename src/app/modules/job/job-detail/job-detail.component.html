@@ -728,8 +728,8 @@
             </div>
             <div  class="col-6" style="text-align: right;padding-right: 30px;margin-top: 3px; font-size: 13px;">
                   <select name="filterBy" #countrySelect id="filterBy" (change)="changeFilter($event)">
-                    <option value="-1" disabled>SELECT REGION</option>
-                    <option value="ALL REGIONS">ALL REGIONS</option>
+                    <option value="-1" disabled>Select Region</option>
+                    <option value="All Region">All Region</option>
                     <option *ngFor="let c of countryList;" [value]="c">{{c}}</option>
                   </select>
                   </div>
@@ -795,8 +795,8 @@
         <div>
           <div class="modal-body pt-0">
             <select name="filterBy" style="margin-right:15px;float:right;padding-right: 30px;margin-top: 3px; font-size: 13px;" #countrySelectExternal id="filterByExternal" (change)="changeFilterExternal($event)">
-              <option value="-1" disabled>SELECT REGION</option>
-              <option value="0">ALL REGIONS</option>
+              <option value="-1" disabled>Select Region</option>
+              <option value="0">All Region</option>
               <!-- <option *ngFor="let c of locations;" [value]="c.Id">{{c.LocationName}}</option> -->
               <option [value]="getLocations()">JD Specified Location</option>
             </select>
