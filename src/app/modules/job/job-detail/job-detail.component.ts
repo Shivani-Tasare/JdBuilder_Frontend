@@ -27,9 +27,16 @@ import { saveAs } from 'file-saver';
 })
 export class JobDetailComponent implements OnInit {
   @ViewChild('fixedDiv') fixedDiv; 
+  @ViewChild('countrySelect') countrySelect: ElementRef;
+  @ViewChild('countrySelectExternal') countrySelectExternal: ElementRef;
   length = 100;
- iCIMSCandidates = {};
- //iCIMSCandidates = [];
+  candidateRecordsAsPerSectionTemp = [];
+  countryList = [];
+  selectedRegionInternal = null;
+  selectedRegionExternal = null;
+  iCIMSCandidates = {};
+  iCIMSCandidatesTemp = {};
+  //iCIMSCandidates = [];
   pageSize = 2;
   pageSizeOptions: number[] = [2, 5, 10, 25, 100];
   pageSelected = 0;
@@ -43,7 +50,7 @@ export class JobDetailComponent implements OnInit {
   candidateRecordsAsPerSection;
   deletedQualifications: string[] = [];
   deletedResponsiblities: string[] = [];
-  allTagsDesired =[]
+  allTagsDesired = []
   deletedMandatoryTags = [];
   deletedDesiredTags = [];
   designations: string[] = [];
@@ -60,7 +67,7 @@ export class JobDetailComponent implements OnInit {
   tagsCtrl = new FormControl();
   filteredTags: Observable<string[]>;
   filteredTagsDesired: Observable<string[]>;
-  tags = [] ;
+  tags = [];
   allTags = [];
   isEditJd = false;
   selectedDesignationName;
@@ -93,9 +100,9 @@ export class JobDetailComponent implements OnInit {
   associatedDesiredTags = [];
   //[['90-100% '], ['80-90% '], ['70-80 %'], ['<70 %']];
   candidateCountList = [
-    { id: 0, range: '90% to 100%', count: 0 , candidateDetail: [], label: '90-100% '},
-    { id: 1, range: '80% to 90%', count: 0 , candidateDetail: [], label: '80-90% '},
-    { id: 2, range: '70% to 80%', count: 0, candidateDetail: [] , label: '70-80 %'},
+    { id: 0, range: '90% to 100%', count: 0, candidateDetail: [], label: '90-100% ' },
+    { id: 1, range: '80% to 90%', count: 0, candidateDetail: [], label: '80-90% ' },
+    { id: 2, range: '70% to 80%', count: 0, candidateDetail: [], label: '70-80 %' },
     { id: 3, range: 'less than 70%', count: 0, candidateDetail: [], label: '<70 %' }
   ]
   color: ThemePalette = 'primary';
@@ -106,7 +113,7 @@ export class JobDetailComponent implements OnInit {
   @ViewChild('tagInputDesired') tagInputDesired: ElementRef<HTMLInputElement>;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
- @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
+  @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
   @ViewChild('content', {}) content: ElementRef;
   capturedImage;
   candidatesCount: number[];
@@ -114,7 +121,7 @@ export class JobDetailComponent implements OnInit {
   url: string;
   filteredEmails: any;
   isIconChecked: boolean = false;
-  tagName: string[]=[];
+  tagName: string[] = [];
   mandatorySkillData = [];
   desiredSkillData = [];
   selectmandatorytags: any[];
@@ -122,13 +129,13 @@ export class JobDetailComponent implements OnInit {
   isDeletedJD: boolean = false;
   isEmailSent: boolean = false;
   desigOption: any;
-  constructor(private loaderService: LoaderService, private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
+  constructor(private loaderService: LoaderService, private changeDetectorRefs: ChangeDetectorRef, public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
-  
+
   public downloadPDF2() {
     let htmlContent = this.document.getElementById('content-pdf')
-     let fileName = this.selectedDesignationName;
-    this.jobService.GeneratePDF({ htmlContent: htmlContent.outerHTML , fileName:fileName }).subscribe((data: any) => {
+    let fileName = this.selectedDesignationName;
+    this.jobService.GeneratePDF({ htmlContent: htmlContent.outerHTML, fileName: fileName }).subscribe((data: any) => {
       let blob = new Blob([data.body], {
         type: 'application/pdf'
       });
@@ -141,14 +148,14 @@ export class JobDetailComponent implements OnInit {
 
   // }
   onChartClick(event) {
-    if(!!event.active.length) {
+    if (!!event.active.length) {
 
-    const candidateRecords = this.candidateCountList.filter( (r) => {
-      return r.label == event.active[0]._model.label;
-    });
-    if(candidateRecords[0].count > 0) {
-      this.candidateRecordsAsPerSection = candidateRecords[0].candidateDetail;
-    }
+      const candidateRecords = this.candidateCountList.filter((r) => {
+        return r.label == event.active[0]._model.label;
+      });
+      if (candidateRecords[0].count > 0) {
+        this.candidateRecordsAsPerSectionTemp = candidateRecords[0].candidateDetail;
+      }
     }
   }
   public pieChartOptions: ChartOptions = {
@@ -204,9 +211,11 @@ export class JobDetailComponent implements OnInit {
       return option.TagName.toLowerCase().includes(filterValue);
     });
   }
-  
+
   ngOnInit() {
+
     this.initLoad();
+
     //for edit mode
     if (window.location.href.includes('edit')) {
       this.isEditJd = true;
@@ -257,25 +266,27 @@ export class JobDetailComponent implements OnInit {
   toggleShare(isToggleClicked?, isButtonClicked?) {
     var inputBox = this.document.getElementById('email');
     var shareButton = this.document.getElementById('shareButton');
-    if (inputBox.style.display === "none"  && isButtonClicked) {
+    if (inputBox.style.display === "none" && isButtonClicked) {
       inputBox.style.display = "block";
       shareButton.style.display = "none";
     }
-    else if((isToggleClicked && inputBox.style.display == "block") || this.isEmailSent){
+    else if ((isToggleClicked && inputBox.style.display == "block") || this.isEmailSent) {
       inputBox.style.display = "none";
       shareButton.style.display = "block";
       this.isEmailSent = false;
-    } 
+    }
   }
-  
-  removeDesignation(event){
+
+  removeDesignation(event) {
     this.desigOption = event.target.value.length;
+    console.log(this.desigOption);
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
     console.log(length);
-    length == undefined ? this.selectedDesignationName = '' : null; 
+    length == undefined || this.desigOption <= 1
+    ? this.selectedDesignationName = '' : null; 
   }
   onShare() {
-    
+
     this.IsReviewMode = 1;
     if (this.IsReviewMode === 1) {
       let navigationExtras: NavigationExtras = {
@@ -298,10 +309,10 @@ export class JobDetailComponent implements OnInit {
     this.url = this.document.URL;
     this.jobService.shareJdByEmail(emailId, this.url).subscribe(res => {
       this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId])
-      if(res.StatusCode === 200){
-        this.toastr.success(res.Message,'Success');
-      } else{
-        this.toastr.error(res.Message,'Error');
+      if (res.StatusCode === 200) {
+        this.toastr.success(res.Message, 'Success');
+      } else {
+        this.toastr.error(res.Message, 'Error');0
       }
     })
   }
@@ -310,21 +321,21 @@ export class JobDetailComponent implements OnInit {
     return str.trim().replace(/[\s]+/g, ' ')
   }
   initLoad() {
-  
+
     this.selectedLocationName = [];
     this.jobService.fetchProfiles(location.pathname.split('/').pop()).subscribe((jobDetail: any) => {
-      if(jobDetail.StatusCode === 400){
-        this.isDeletedJD =  true;
+      if (jobDetail.StatusCode === 400) {
+        this.isDeletedJD = true;
         this.router.navigate(['**']);
       }
       if (jobDetail.StatusCode === 200) {
         if (this.adalService.userInfo.profile.oid === jobDetail.ProfileDetail.CreatedBy) {
           this.isSameUser = true
         }
-        this.mandatoryTagsList = jobDetail.ProfileDetail.TagsList.filter((x)=>x.TagType === 1);
-        this.selectmandatorytags = this.mandatoryTagsList.map((x)=> x.TagName);
+        this.mandatoryTagsList = jobDetail.ProfileDetail.TagsList.filter((x) => x.TagType === 1);
+        this.selectmandatorytags = this.mandatoryTagsList.map((x) => x.TagName);
         this.desiredTagsList = jobDetail.ProfileDetail.TagsList.filter((x) => x.TagType === 2);
-        this.selectdesiredtags = this.desiredTagsList.map((x)=>x.TagName);
+        this.selectdesiredtags = this.desiredTagsList.map((x) => x.TagName);
         this.isDataFetched = true;
         const defaultMandatorySkill = [];
         const defaultDesiredSkill = [];
@@ -345,15 +356,15 @@ export class JobDetailComponent implements OnInit {
         });
         jobDetail.ProfileDetail.ResponsibilityList.forEach((ele) => {
           ele.isEditing = false
-          ele.Responsibility = [this.removeSpace(ele.Responsibility), [Validators.required,,this.noWhitespaceValidator]]
+          ele.Responsibility = [this.removeSpace(ele.Responsibility), [Validators.required, , this.noWhitespaceValidator]]
           defaultResponsibility.push(this.formBuilder.group(ele));
-        }); 
+        });
         this.isPrivateChecked = jobDetail.ProfileDetail.IsPrivate;
         this.jobDescriptionForm = this.formBuilder.group({
           title: new FormControl(jobDetail.ProfileDetail.ProfileName),
-          about: new FormControl(jobDetail.ProfileDetail.About, [Validators.required,this.noWhitespaceValidator]),
+          about: new FormControl(jobDetail.ProfileDetail.About, [Validators.required, this.noWhitespaceValidator]),
           selectedDesignation: new FormControl(jobDetail.ProfileDetail.DesignationId, Validators.required),
-          selectedDesignationN: new FormControl(jobDetail.ProfileDetail.DesignationName, [Validators.required,Validators.pattern("(?!^ +$)^.+$")]),
+          selectedDesignationN: new FormControl(jobDetail.ProfileDetail.DesignationName, [Validators.required, Validators.pattern("(?!^ +$)^.+$")]),
           selectedLocation: new FormControl(jobDetail.ProfileDetail.LocationId, Validators.required),
           selectedExperience: new FormControl(jobDetail.ProfileDetail.ExperienceId, Validators.required),
           desiredSkills: this.formBuilder.array(defaultDesiredSkill),
@@ -373,16 +384,16 @@ export class JobDetailComponent implements OnInit {
             });
           }
         });
-          const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
-          this.tagName = tags.map((res)=>res.TagName);
-          if(tags.length > 0){
-            this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
-              response => {
-                this.matchingConsultants = response;
-                let consultants = this.matchingConsultants["MatchingConsultants"];
-                this.filterCandidatesByMatchScore(consultants);
-              })
-          }
+        const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+        this.tagName = tags.map((res) => res.TagName);
+        if (tags.length > 0) {
+          this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
+            response => {
+              this.matchingConsultants = response;
+              let consultants = this.matchingConsultants["MatchingConsultants"];
+              this.filterCandidatesByMatchScore(consultants);
+            })
+        }
         this.jobService.FetchLocationList().subscribe((locations: any) => {
           if (locations.StatusCode === 200) {
             this.locations = locations.LocationMasterList;
@@ -423,11 +434,13 @@ export class JobDetailComponent implements OnInit {
           qualifications: this.formBuilder.array([this.formBuilder.group({ Id: 0, Name: 'default qualification' })]),
         });
       }
-      if(this.isEditJd){
+      if (this.isEditJd) {
         this.jobService.FetchTagsList().subscribe((tags: any) => {
           if (tags.StatusCode === 200) {
             this.allTags = [...tags.ProfileTagsList];
+            //this.allTags.map((x) => x.TagName = 1);
             this.allTagsDesired = [...tags.ProfileTagsList];
+            //this.allTagsDesired.map((x)=> x.TagName = 2);
             for (let index = 0; this.allTags.length > index; index++) {
               for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
                 if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
@@ -448,7 +461,7 @@ export class JobDetailComponent implements OnInit {
                   }
                 })
               );
-              
+
             for (let index = 0; this.allTagsDesired.length > index; index++) {
               for (let index2 = 0; this.desiredTagsList.length > index2; index2++) {
                 if (this.allTagsDesired[index].Id === this.desiredTagsList[index2].Id || this.allTagsDesired[index].TagName === this.desiredTagsList[index2].TagName) {
@@ -478,36 +491,38 @@ export class JobDetailComponent implements OnInit {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
     return isValid ? null : { 'whitespace': true };
-}
+  }
   compareWithFunc = (a: any, b: any) => a == b;
   createMandatorySkill(newSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: newSkill.isEditing ? newSkill.isEditing : false,
       SkillId: String(newSkill.SkillId),
-      SkillName: [newSkill.SkillName, [Validators.required,this.noWhitespaceValidator]],
+      SkillName: [newSkill.SkillName, [Validators.required, this.noWhitespaceValidator]],
       SkillTypeId: newSkill.SkillTypeId,
       SkillTypeName: newSkill.SkillTypeName,
     });
   }
   createQualification(qualificationObj): FormGroup {
-    qualificationObj.Name = [qualificationObj.Name, [Validators.required,this.noWhitespaceValidator]]
+    qualificationObj.Name = [qualificationObj.Name, [Validators.required, this.noWhitespaceValidator]]
     return this.formBuilder.group(qualificationObj);
   }
   createDesiredSkill(desiredSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: desiredSkill.isEditing ? desiredSkill.isEditing : false,
       SkillId: String(desiredSkill.SkillId),
-      SkillName: [desiredSkill.SkillName, [Validators.required,,this.noWhitespaceValidator]],
+      SkillName: [desiredSkill.SkillName, [Validators.required, , this.noWhitespaceValidator]],
       SkillTypeId: 2,
       SkillTypeName: 'Desired'
     });
   }
-  addMandatorySkill(index,skills?): void {
+  addMandatorySkill(index, skills?): void {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
-    if(skills){
-      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,SkillId: skills[index].SkillId,
-        SkillName: skills[index].SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'}));
-    } else{
+    if (skills) {
+      this.mandatorySkills.push(this.createMandatorySkill({
+        isEditing: true, SkillId: skills[index].SkillId,
+        SkillName: skills[index].SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'
+      }));
+    } else {
       const newSkill = {
         isEditing: true,
         SkillId: 0,
@@ -518,12 +533,14 @@ export class JobDetailComponent implements OnInit {
       this.mandatorySkills.push(this.createMandatorySkill(newSkill));
     }
   }
-  addDesiredSkill(index,skills?): void {
+  addDesiredSkill(index, skills?): void {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
-    if(skills){
-      this.desiredSkills.push(this.createDesiredSkill({isEditing: true,SkillId: skills[index].SkillId,
-        SkillName: skills[index].SkillName, SkillTypeId: 2, SkillTypeName: 'Desired'}));
-    } else{
+    if (skills) {
+      this.desiredSkills.push(this.createDesiredSkill({
+        isEditing: true, SkillId: skills[index].SkillId,
+        SkillName: skills[index].SkillName, SkillTypeId: 2, SkillTypeName: 'Desired'
+      }));
+    } else {
       const newSkill = {
         isEditing: true,
         SkillId: 0,
@@ -542,54 +559,58 @@ export class JobDetailComponent implements OnInit {
   }
   addResponsibility(): void {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
-    const obj = { Id: '', Responsibility: ['', [Validators.required,this.noWhitespaceValidator]], isEditing: true };
+    const obj = { Id: '', Responsibility: ['', [Validators.required, this.noWhitespaceValidator]], isEditing: true };
     this.rolesAndResponsibility.push(this.formBuilder.group(obj));
   }
-  deleteSkill(deletedSkill,onRemove,index?) {
+  deleteSkill(deletedSkill, onRemove, index?) {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     const removedTags = this.deletedMandatoryTags.map(x => x.TagName);
     const tag = removedTags.pop()
-    if(onRemove){
-      this.mandatorySkills.value.forEach((deletedSkill,i)=>{
-        if(deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase())){
-        this.mandatorySkills.removeAt(i);
-        this.deletedSkills.push(deletedSkill.SkillId);
-      }
+    if (onRemove) {
+      this.mandatorySkills.value.forEach((deletedSkill, i) => {
+        if (deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase())) {
+          this.mandatorySkills.removeAt(i);
+          this.deletedSkills.push(deletedSkill.SkillId);
+        }
       })
     }
-    if(deletedSkill.SkillId !== undefined){
+    if (deletedSkill.SkillId !== undefined) {
       if (deletedSkill.SkillId.value !== '0') {
         this.deletedSkills.push(deletedSkill.SkillId.value);
       }
       this.mandatorySkills.removeAt(index);
-    }    
-    if(this.mandatorySkills.length == 0){
-      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,
-        SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
+    }
+    if (this.mandatorySkills.length == 0) {
+      this.mandatorySkills.push(this.createMandatorySkill({
+        isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'
+      }))
     }
   }
-  deleteDesiredSkill(deletedSkill, onRemove ,index?) {
+  deleteDesiredSkill(deletedSkill, onRemove, index?) {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkillData = [];
     const removedTags = this.deletedDesiredTags.map(x => x.TagName);
     const tag = removedTags.pop()
-    if(onRemove){
-      this.desiredSkills.value.forEach((deletedSkill,i)=>{
-        if(deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase())){
-        this.desiredSkills.removeAt(i);
-        this.deletedSkills.push(deletedSkill.SkillId);
-      }
+    if (onRemove) {
+      this.desiredSkills.value.forEach((deletedSkill, i) => {
+        if (deletedSkill.SkillName.toLowerCase().includes(tag.toLowerCase())) {
+          this.desiredSkills.removeAt(i);
+          this.deletedSkills.push(deletedSkill.SkillId);
+        }
       })
     }
-    if(deletedSkill.SkillId !== undefined){
+    if (deletedSkill.SkillId !== undefined) {
       if (deletedSkill.SkillId.value !== '0') {
         this.deletedSkills.push(deletedSkill.SkillId.value);
       }
       this.desiredSkills.removeAt(index);
     }
-    if(this.desiredSkills.length == 0){
-      this.desiredSkills.push(this.createDesiredSkill({isEditing: true,
-        SkillId: 0, SkillName: '', SkillTypeId: 2, SkillTypeName: 'Desired'}))
+    if (this.desiredSkills.length == 0) {
+      this.desiredSkills.push(this.createDesiredSkill({
+        isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 2, SkillTypeName: 'Desired'
+      }))
     }
   }
   deleteQualification(deletedQualification, index) {
@@ -598,8 +619,8 @@ export class JobDetailComponent implements OnInit {
       this.deletedQualifications.push(deletedQualification.Id.value);
     }
     this.qualifications.removeAt(index);
-    if(this.qualifications.length == 0)
-    this.addQualification();
+    if (this.qualifications.length == 0)
+      this.addQualification();
   }
   deleteResponsiblity(deletedResponsibility, index: number) {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
@@ -607,8 +628,8 @@ export class JobDetailComponent implements OnInit {
       this.deletedResponsiblities.push(deletedResponsibility.Id.value);
     }
     this.rolesAndResponsibility.removeAt(index);
-    if(this.rolesAndResponsibility.length == 0)
-    this.addResponsibility();
+    if (this.rolesAndResponsibility.length == 0)
+      this.addResponsibility();
   }
   moveToDesired(selectedSkill, index) {
     const updatedSkill = {
@@ -617,13 +638,15 @@ export class JobDetailComponent implements OnInit {
     };
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.push(this.createDesiredSkill(updatedSkill));
-    if(this.desiredSkills.value[0].SkillName == '')
-    this.desiredSkills.removeAt(0);
+    if (this.desiredSkills.value[0].SkillName == '')
+      this.desiredSkills.removeAt(0);
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkills.removeAt(index);
-    if(this.mandatorySkills.length == 0){
-      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,
-        SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
+    if (this.mandatorySkills.length == 0) {
+      this.mandatorySkills.push(this.createMandatorySkill({
+        isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'
+      }))
     }
   }
   moveToMandatory(selectedSkill, index) {
@@ -635,57 +658,74 @@ export class JobDetailComponent implements OnInit {
     };
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkills.push(this.createMandatorySkill(updatedSkill));
-    if(this.mandatorySkills.value[0].SkillName == '')
-    this.mandatorySkills.removeAt(0);
+    if (this.mandatorySkills.value[0].SkillName == '')
+      this.mandatorySkills.removeAt(0);
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.removeAt(index);
-    if(this.desiredSkills.length == 0){
-      this.desiredSkills.push(this.createDesiredSkill({isEditing: true,
-        SkillId: 0, SkillName: '', SkillTypeId: 2, SkillTypeName: 'Desired'}))
+    if (this.desiredSkills.length == 0) {
+      this.desiredSkills.push(this.createDesiredSkill({
+        isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 2, SkillTypeName: 'Desired'
+      }))
     }
   }
 
   viewCandidates(myModal?: any) {
+    this.countrySelect.nativeElement.value = "-1";
+    this.selectedRegionInternal = null;
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
-    this.tagName = tags.map((res)=>res.TagName);
-    if(tags.length > 0){
+    this.tagName = tags.map((res) => res.TagName);
+    if (tags.length > 0) {
       this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
         response => {
           this.matchingConsultants = response;
-          this.candidateRecordsAsPerSection = this.matchingConsultants["MatchingConsultants"]
-          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"],true);
-        },error =>{
+          this.candidateRecordsAsPerSection = this.matchingConsultants["MatchingConsultants"];
+          this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
+          let countryListArr = [];
+          this.candidateRecordsAsPerSection.map((r) => {
+            if (r.Location !== null) {
+              countryListArr.push(r.Location);
+            }
+          });
+          this.countryList = Array.from(new Set(countryListArr));
+          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"], true);
+        }, error => {
           this.matchingConsultants['Count'] = 0;
           this.candidateRecordsAsPerSection = null;
           this.matchingConsultants["MatchingConsultants"] = [];
-          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"],false);
+          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"], false);
         })
     }
   }
 
-  viewiCIMSCandidates(myModal: any) {
+  viewiCIMSCandidates(myModal: any, region = 0) {
     // this.iCIMSCandidates = [];
-    this.iCIMSCandidates = { TotalCount: 0, CandidateList: []};
+    this.countrySelectExternal.nativeElement.value = "-1";
+
+    this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
-    this.tagName = tags.map((res)=>res.TagName);
-    if(tags.length > 0){
-      this.smartService.fetchiCIMSCandidatesDetails(this.tagName).subscribe(
+    this.tagName = tags.map((res) => res.TagName);
+    if (tags.length > 0) {
+      this.smartService.fetchiCIMSCandidatesDetails(this.tagName, region).subscribe(
         response => {
-           this.iCIMSCandidates  = response;
+          this.iCIMSCandidates = response;
+          if(!this.iCIMSCandidatesTemp.hasOwnProperty('TotalCount')) {
+            this.iCIMSCandidatesTemp = response;
+          }
         }, error => {
-          this.iCIMSCandidates = { TotalCount: 0, CandidateList: []};
+          this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
           // this.iCIMSCandidates = {
           //   "TotalCount": "1000+",
           //   "PartialMatch": null, 
-            
+
           //   "ExactMatch": null
 
-            
+
           // };
         })
     }
   }
-  
+
   onPaginateChange(evn) {
     const paramObject = {
       test: 1
@@ -695,11 +735,11 @@ export class JobDetailComponent implements OnInit {
     this.fetchProfile(paramObject);
   }
   fetchProfile(paramObject) {
-    for(var i =0; i<100;i++) {
-    //  this.test.push(1);
- }
+    for (var i = 0; i < 100; i++) {
+      //  this.test.push(1);
+    }
     // this.jobService.FetchFilteredProfiles(paramObject).subscribe((FilteredList: any) => {
-    
+
     // });
   }
 
@@ -708,8 +748,8 @@ export class JobDetailComponent implements OnInit {
     // this.onPaginateChange(pageDetails);
   }
 
-  filterCandidatesByMatchScore(matchingConsultants: any[],isViewButton?) {
-     
+  filterCandidatesByMatchScore(matchingConsultants: any[], isViewButton?) {
+
     this.candidateCountList[0].candidateDetail = matchingConsultants.filter((x) => x.RelevancePercentage > 90);
     this.candidateCountList[1].candidateDetail = matchingConsultants.filter((x) => x.RelevancePercentage > 80 && x.RelevancePercentage <= 90);
     this.candidateCountList[2].candidateDetail = matchingConsultants.filter((x) => x.RelevancePercentage >= 70 && x.RelevancePercentage <= 80);
@@ -718,173 +758,173 @@ export class JobDetailComponent implements OnInit {
     this.candidateCountList[1].count = this.candidateCountList[1].candidateDetail.length;
     this.candidateCountList[2].count = this.candidateCountList[2].candidateDetail.length;
     this.candidateCountList[3].count = this.candidateCountList[3].candidateDetail.length;
-    isViewButton ? this.pieChartData = this.candidateCountList.map(x => x.count) :  this.pieChartData = [];
+    isViewButton ? this.pieChartData = this.candidateCountList.map(x => x.count) : this.pieChartData = [];
 
   }
   addMandatoryTag(event: MatChipInputEvent, isAdd, i): void {
     if (isAdd) {
-        const input = event.input;
-        const value = event.value;
-        let index = this.mandatoryTagsList.findIndex((i)=>{
-          return (i.TagName == value);
-        })
-        // Add our tag
-        if ((value || '').trim()) {
-          if(index === -1 || value !== this.mandatoryTagsList[index].TagName)
-          this.mandatoryTagsList.push({ Id: '', TagName: value.trim(), TagType:1});  
-        }
-        // Reset the input value
-        if (input) {
-          input.value = '';
-        }       
-        this.mandatoryTags.setValue(null);
-      }    
-  }
-
-  addDesiredTag(event: MatChipInputEvent, isAdd, TagType){
-    if (isAdd) {
       const input = event.input;
       const value = event.value;
-      let index = this.desiredTagsList.findIndex((i)=>{
+      let index = this.mandatoryTagsList.findIndex((i) => {
         return (i.TagName == value);
       })
       // Add our tag
       if ((value || '').trim()) {
-        if(index === -1 || value !== this.desiredTagsList[index].TagName)
-        this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType:2 });
+        if (index === -1 || value !== this.mandatoryTagsList[index].TagName)
+          this.mandatoryTagsList.push({ Id: '', TagName: value.trim(), TagType: 1 });
       }
       // Reset the input value
       if (input) {
         input.value = '';
-      }       
+      }
+      this.mandatoryTags.setValue(null);
+    }
+  }
+
+  addDesiredTag(event: MatChipInputEvent, isAdd, TagType) {
+    if (isAdd) {
+      const input = event.input;
+      const value = event.value;
+      let index = this.desiredTagsList.findIndex((i) => {
+        return (i.TagName == value);
+      })
+      // Add our tag
+      if ((value || '').trim()) {
+        if (index === -1 || value !== this.desiredTagsList[index].TagName)
+          this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType: 2 });
+      }
+      // Reset the input value
+      if (input) {
+        input.value = '';
+      }
       this.desiredTags.setValue(null);
     }
   }
 
   appendToMandatoryTags(index) {
-    this.mandatoryTagsList.push({Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName, TagType: 1});
-    this.allTags  = this.allTags.filter((r)=>{
-      return r.TagName  != this.associatedTags[index].TagName;
+    this.mandatoryTagsList.push({ Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName, TagType: 1 });
+    this.allTags = this.allTags.filter((r) => {
+      return r.TagName != this.associatedTags[index].TagName;
     });
     this.associatedTags.splice(index, 1);
-    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
-    this.populateMandatorySkills([this.mandatoryTagsList[this.mandatoryTagsList.length-1]])
-    
+    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length - 1].TagName);
+    this.populateMandatorySkills([this.mandatoryTagsList[this.mandatoryTagsList.length - 1]])
+
   }
 
   appendToDesiredTags(index) {
-    this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName, TagType:2});
-    this.allTagsDesired  = this.allTagsDesired.filter((r)=>{
-      return r.TagName  != this.associatedDesiredTags[index].TagName;
+    this.desiredTagsList.push({ Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName, TagType: 2 });
+    this.allTagsDesired = this.allTagsDesired.filter((r) => {
+      return r.TagName != this.associatedDesiredTags[index].TagName;
     });
     this.associatedDesiredTags.splice(index, 1);
-    this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName);
-    this.populateDesiredSkills([this.desiredTagsList[this.desiredTagsList.length-1]]);
+    this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length - 1].TagName);
+    this.populateDesiredSkills([this.desiredTagsList[this.desiredTagsList.length - 1]]);
   }
-  removeDesiredTag(tag,TagType): void {
+  removeDesiredTag(tag, TagType): void {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     const index = this.desiredTagsList.indexOf(tag);
     this.associatedDesiredTags = [];
-    if(tag.Id.startsWith('ID')) {
-          this.allTagsDesired  = this.allTagsDesired.filter((r)=>{
-            return r.Id  != tag.Id;
-          });
-          this.desiredTagsList.splice(index, 1);
-          this.allTagsDesired.push(tag);
-          this.deletedDesiredTags.push({Id:tag.Id,TagName:tag.TagName, TagType:tag.TagType});
-         } else {
-    if (index >= 0) {
+    if (tag.Id.startsWith('ID')) {
+      this.allTagsDesired = this.allTagsDesired.filter((r) => {
+        return r.Id != tag.Id;
+      });
       this.desiredTagsList.splice(index, 1);
       this.allTagsDesired.push(tag);
-      this.deletedDesiredTags.push({Id:tag.Id,TagName:tag.TagName,TagType:tag.TagType});
+      this.deletedDesiredTags.push({ Id: tag.Id, TagName: tag.TagName, TagType: tag.TagType });
+    } else {
+      if (index >= 0) {
+        this.desiredTagsList.splice(index, 1);
+        this.allTagsDesired.push(tag);
+        this.deletedDesiredTags.push({ Id: tag.Id, TagName: tag.TagName, TagType: tag.TagType });
+      }
     }
+    (!!this.desiredTagsList[this.desiredTagsList.length - 1]) ?
+      this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length - 1].TagName)
+      : null;
+    this.deleteDesiredSkill(this.desiredSkills.value, true);
   }
-    (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
-    this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName)
-    : null;
-    this.deleteDesiredSkill(this.desiredSkills.value,true);
-  }
-  removeMandatoryTag(tag){
+  removeMandatoryTag(tag) {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     const index = this.mandatoryTagsList.indexOf(tag);
     this.associatedTags = [];
-    if(tag.Id.startsWith('ID')) {
-          this.allTags  = this.allTags.filter((r)=>{
-            return r.Id  != tag.Id;
-          });
-          this.mandatoryTagsList.splice(index, 1);
-          this.allTags.push(tag);
-          this.deletedMandatoryTags.push({Id:tag.Id,TagName:tag.TagName, TagType:tag.TagType});
-         } else {
-
-    if (index >= 0) {
+    if (tag.Id.startsWith('ID')) {
+      this.allTags = this.allTags.filter((r) => {
+        return r.Id != tag.Id;
+      });
       this.mandatoryTagsList.splice(index, 1);
       this.allTags.push(tag);
-      this.deletedMandatoryTags.push({Id:tag.Id,TagName:tag.TagName, TagType:tag.TagType});
+      this.deletedMandatoryTags.push({ Id: tag.Id, TagName: tag.TagName, TagType: tag.TagType });
+    } else {
+
+      if (index >= 0) {
+        this.mandatoryTagsList.splice(index, 1);
+        this.allTags.push(tag);
+        this.deletedMandatoryTags.push({ Id: tag.Id, TagName: tag.TagName, TagType: tag.TagType });
+      }
     }
+    (!!this.mandatoryTagsList[this.mandatoryTagsList.length - 1]) ?
+      this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length - 1].TagName)
+      : null;
+    this.deleteSkill(this.mandatorySkills.value, true);
   }
-  (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
-  this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
-  : null;
-  this.deleteSkill(this.mandatorySkills.value,true);
-}
   fetchAssociatedTags(value) {
     this.associatedTags = [];
     this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
       const skillDataNamesOnly = [];
-      this.mandatoryTagsList.filter((r)=>{
-                  skillDataNamesOnly.push(r.TagName);
+      this.mandatoryTagsList.filter((r) => {
+        skillDataNamesOnly.push(r.TagName);
       });
-      skillData.forEach((v,i)=> {
-        if(skillDataNamesOnly.indexOf(v) < 0) {
-          this.associatedTags.push({Id: `ID${i}`, TagName: v});
-      }
+      skillData.forEach((v, i) => {
+        if (skillDataNamesOnly.indexOf(v) < 0) {
+          this.associatedTags.push({ Id: `ID${i}`, TagName: v });
+        }
       });
-      this.associatedTags = this.associatedTags.splice(0,3)
+      this.associatedTags = this.associatedTags.splice(0, 3)
     })
   }
   fetchAssociatedDesiredTags(value) {
     this.associatedDesiredTags = [];
     this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
       const skillDataNamesOnly = [];
-      this.desiredTagsList.filter((r)=>{
+      this.desiredTagsList.filter((r) => {
         skillDataNamesOnly.push(r.TagName);
-        });
-        skillData.forEach((v,i)=> {
-        if(skillDataNamesOnly.indexOf(v) < 0) {
-        this.associatedDesiredTags.push({Id: `ID${i}`, TagName: v});
-        }
-        });
-        this.associatedDesiredTags = this.associatedDesiredTags.splice(0,3)
-        })
-  }
-  selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
-    this.desiredTagsList.push(event.option.value);
-    this.desiredTagsList.map(x => x.TagType = 2);
-      this.tagInputDesired.nativeElement.value = '';
-      this.allTagsDesired.filter((option, index) => {
-        if (option.Id.toLowerCase().includes(event.option.value.Id)) {
-          this.allTagsDesired.splice(index,1);
+      });
+      skillData.forEach((v, i) => {
+        if (skillDataNamesOnly.indexOf(v) < 0) {
+          this.associatedDesiredTags.push({ Id: `ID${i}`, TagName: v });
         }
       });
-      this.desiredTags.setValue(null);
-    this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName);
+      this.associatedDesiredTags = this.associatedDesiredTags.splice(0, 3)
+    })
+  }
+  selectedDesiredTag(event: MatAutocompleteSelectedEvent, TagType): void {
+    this.desiredTagsList.push(event.option.value);
+    this.desiredTagsList.map(x => x.TagType = 2);
+    this.tagInputDesired.nativeElement.value = '';
+    this.allTagsDesired.filter((option, index) => {
+      if (option.Id.toLowerCase().includes(event.option.value.Id)) {
+        this.allTagsDesired.splice(index, 1);
+      }
+    });
+    this.desiredTags.setValue(null);
+    this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length - 1].TagName);
     this.populateDesiredSkills([event.option.value]);
 
   }
 
-  selectedMandatoryTag(event: MatAutocompleteSelectedEvent,TagType){
+  selectedMandatoryTag(event: MatAutocompleteSelectedEvent, TagType) {
     this.mandatoryTagsList.push(event.option.value);
-    this.mandatoryTagsList.map(x => x.TagType =1);
+    this.mandatoryTagsList.map(x => x.TagType = 1);
     this.tagInputMandatory.nativeElement.value = '';
     this.allTags.filter((option, index) => {
       if (option.Id.toLowerCase().includes(event.option.value.Id)) {
-        this.allTags.splice(index,1);
+        this.allTags.splice(index, 1);
       }
-    }); 
+    });
     this.mandatoryTags.setValue(null);
     this.populateMandatorySkills([event.option.value]);
-    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
+    this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length - 1].TagName);
   }
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
     if (isMandatory) {
@@ -900,50 +940,50 @@ export class JobDetailComponent implements OnInit {
     this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = this.removeSpace(event.option.value)
   }
 
-  populateMandatorySkills(tag){
+  populateMandatorySkills(tag) {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkillData = [];
     let skills = []
-    const tags = tag.map((res)=>res.TagName);
-     this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
-      res.forEach((v,i)=>{
-        this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
+    const tags = tag.map((res) => res.TagName);
+    this.jobService.FetchAssociatedSkills(tags, 1).subscribe((res) => {
+      res.forEach((v, i) => {
+        this.mandatorySkillData.push({ SkillId: `Id${i}`, SkillName: v });
         for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
-          if(v === this.mandatorySkills.value[index2].SkillName)
-          this.mandatorySkillData.splice(i,1);
-    }
-    if(this.mandatorySkillData.length > 0)
-      this.addMandatorySkill(i,this.mandatorySkillData);
+          if (v === this.mandatorySkills.value[index2].SkillName)
+            this.mandatorySkillData.splice(i, 1);
+        }
+        if (this.mandatorySkillData.length > 0)
+          this.addMandatorySkill(i, this.mandatorySkillData);
+      })
+      if (this.mandatorySkills.value[0].SkillName === '')
+        this.mandatorySkills.removeAt(0);
     })
-    if(this.mandatorySkills.value[0].SkillName==='')
-          this.mandatorySkills.removeAt(0);
-  })  
-} 
+  }
 
-  populateDesiredSkills(tag){
+  populateDesiredSkills(tag) {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkillData = [];
-    const tags = tag.map((res)=>res.TagName);
-    this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
-      res.forEach((v,i)=>{
-          this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
-          for (let index2 = 0; this.desiredSkills.length > index2; index2++) {
-            if(v === this.desiredSkills.value[index2].SkillName)
-            this.desiredSkillData.splice(i,1);
-      }
-      if(this.desiredSkillData.length > 0)
-        this.addDesiredSkill(i,this.desiredSkillData);
+    const tags = tag.map((res) => res.TagName);
+    this.jobService.FetchAssociatedSkills(tags, 2).subscribe((res) => {
+      res.forEach((v, i) => {
+        this.desiredSkillData.push({ SkillId: `Id${i}`, SkillName: v });
+        for (let index2 = 0; this.desiredSkills.length > index2; index2++) {
+          if (v === this.desiredSkills.value[index2].SkillName)
+            this.desiredSkillData.splice(i, 1);
+        }
+        if (this.desiredSkillData.length > 0)
+          this.addDesiredSkill(i, this.desiredSkillData);
       })
-      if(this.desiredSkills.value[0].SkillName==='')
-          this.desiredSkills.removeAt(0);
+      if (this.desiredSkills.value[0].SkillName === '')
+        this.desiredSkills.removeAt(0);
     })
   }
 
   getMandatorySkill(event) {
     if (event.target.value.length > 2) {
-      const tags = this.mandatoryTagsList.map((res)=>res.TagName);
+      const tags = this.mandatoryTagsList.map((res) => res.TagName);
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
-        this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
+        this.jobService.FetchAllSkills(event.target.value, tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
             this.suggestedMandatorySkill = skillData.Skills;
           }
@@ -953,9 +993,9 @@ export class JobDetailComponent implements OnInit {
   }
   getDesiredSkill(event) {
     if (event.target.value.length > 2) {
-      const tags = this.desiredTagsList.map((res)=>res.TagName);
+      const tags = this.desiredTagsList.map((res) => res.TagName);
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
-        this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
+        this.jobService.FetchAllSkills(event.target.value, tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
             this.suggestedDesiredSkill = skillData.Skills;
           }
@@ -999,20 +1039,25 @@ export class JobDetailComponent implements OnInit {
       }
     })
   }
-  
+
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
   }
   isSkillNameNotEmpty(controls) {
-    return controls.SkillName.value.trim() !="" ; 
+    return controls.SkillName.value.trim() != "";
   }
-  isQualificationEmpty(controls){
-    return controls.Name.value.trim() !="";
+  isQualificationEmpty(controls) {
+    return controls.Name.value.trim() != "";
   }
-  isResponsibilityEmpty(controls){
-  return controls.Responsibility.value.trim() !="";
+  isResponsibilityEmpty(controls) {
+    return controls.Responsibility.value.trim() != "";
   }
+
   checkDuplicateDesignation(event) {
+       console.log(event.target.value);
+       
+  this.jobDescriptionForm.get('selectedDesignationN').valueChanges.subscribe(selectedValue => {
+    console.log(selectedValue);
     if (!isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
       this.isDuplicateDesignation = false
     }
@@ -1020,7 +1065,8 @@ export class JobDetailComponent implements OnInit {
 
       let isChecked = false
       this.designations.forEach((designation: any) => {
-
+        console.log(designation.id);
+        
         if (!isChecked) {
           if (designation.DesignationName.trim().toLowerCase() === event.target.value.trim().toLowerCase()) {
             this.isDuplicateDesignation = true
@@ -1031,6 +1077,7 @@ export class JobDetailComponent implements OnInit {
         }
       });
     }
+  })
   }
   clearDesignationId(evnt) {
     if ((evnt.keyCode >= 48 && evnt.keyCode <= 57) || (evnt.keyCode >= 65 && evnt.keyCode <= 90)) {
@@ -1068,41 +1115,47 @@ export class JobDetailComponent implements OnInit {
     })
   }
 
-  getIdsOfMovedToMandatorySkills(){
+  getIdsOfMovedToMandatorySkills() {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
-    for(let i=0; i < this.mandatorySkills.length; i++){
-      if(this.mandatorySkills.value[i].SkillId.startsWith('MID')){
-       const id =  this.mandatorySkills.value[i].SkillId.slice(3);
-       const SkillName = this.mandatorySkills.value[i].SkillName;
-       this.mandatorySkills.removeAt(i);
-       this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,SkillId: id,
-        SkillName: SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'}));
+    for (let i = 0; i < this.mandatorySkills.length; i++) {
+      if (this.mandatorySkills.value[i].SkillId.startsWith('MID')) {
+        const id = this.mandatorySkills.value[i].SkillId.slice(3);
+        const SkillName = this.mandatorySkills.value[i].SkillName;
+        this.mandatorySkills.removeAt(i);
+        this.mandatorySkills.push(this.createMandatorySkill({
+          isEditing: true, SkillId: id,
+          SkillName: SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'
+        }));
         i = -1;
       }
     }
   }
-  getIdsOfMovedToDesiredSkills(){
+  getIdsOfMovedToDesiredSkills() {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
-    for(let i=0; i < this.desiredSkills.length; i++){
-      if(this.desiredSkills.value[i].SkillId.startsWith('MID')){
-       const id =  this.desiredSkills.value[i].SkillId.slice(3);
-       const SkillName = this.desiredSkills.value[i].SkillName;
-       this.desiredSkills.removeAt(i);
-       this.desiredSkills.push(this.createDesiredSkill({isEditing: true,SkillId: id,
-        SkillName: SkillName, SkillTypeId: 2, SkillTypeName: 'Desired'}))
+    for (let i = 0; i < this.desiredSkills.length; i++) {
+      if (this.desiredSkills.value[i].SkillId.startsWith('MID')) {
+        const id = this.desiredSkills.value[i].SkillId.slice(3);
+        const SkillName = this.desiredSkills.value[i].SkillName;
+        this.desiredSkills.removeAt(i);
+        this.desiredSkills.push(this.createDesiredSkill({
+          isEditing: true, SkillId: id,
+          SkillName: SkillName, SkillTypeId: 2, SkillTypeName: 'Desired'
+        }))
         i = -1;
       }
     }
   }
 
   onSave() {
-   this.getIdsOfMovedToMandatorySkills();
-   this.getIdsOfMovedToDesiredSkills();
+    this.getIdsOfMovedToMandatorySkills();
+    this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
-    
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1|| this.isDuplicateDesignation ) {
+
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || this.isDuplicateDesignation) {
       return;
     }
+    console.log(this.jobDescriptionForm.get('selectedDesignation').value);
+    
     const jdObject = {
       ProfileId: location.pathname.split('/').pop(),
       ProfileName: this.jobDescriptionForm.get('title').value,
@@ -1156,5 +1209,33 @@ export class JobDetailComponent implements OnInit {
       }
     }
 }
+  changeFilter(e) {
+    const value = e.target.value;
+    this.selectedRegionInternal = value;
+    console.log(value);
+    if (value === 'ALL REGIONS') {
+      this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
+    } else {
+      this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r) => {
+        return r.Location === value;
+      });
+
+    }
+    this.filterCandidatesByMatchScore(this.candidateRecordsAsPerSectionTemp, true);
+  }
+  changeFilterExternal(e) {
+    const value = e.target.value;
+    const text = e.target.options[event.target['options'].selectedIndex].text;
+    this.selectedRegionExternal = text;
+    if(text == 'JD Specified Location') {
+      this.viewiCIMSCandidates(null, value);
+      this.selectedRegionExternal = this.selectedLocationName.join(', ');
+    } else{
+      this.iCIMSCandidates = this.iCIMSCandidatesTemp;
+    }
+  }
+  getLocations() {
+    return this.jobDetail.ProfileDetail.LocationId.join("|");
+  }
 
 }
