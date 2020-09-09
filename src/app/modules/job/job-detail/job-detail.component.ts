@@ -311,7 +311,7 @@ export class JobDetailComponent implements OnInit {
       if (res.StatusCode === 200) {
         this.toastr.success(res.Message, 'Success');
       } else {
-        this.toastr.error(res.Message, 'Error');
+        this.toastr.error(res.Message, 'Error');0
       }
     })
   }
@@ -437,7 +437,9 @@ export class JobDetailComponent implements OnInit {
         this.jobService.FetchTagsList().subscribe((tags: any) => {
           if (tags.StatusCode === 200) {
             this.allTags = [...tags.ProfileTagsList];
+            //this.allTags.map((x) => x.TagName = 1);
             this.allTagsDesired = [...tags.ProfileTagsList];
+            //this.allTagsDesired.map((x)=> x.TagName = 2);
             for (let index = 0; this.allTags.length > index; index++) {
               for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
                 if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
