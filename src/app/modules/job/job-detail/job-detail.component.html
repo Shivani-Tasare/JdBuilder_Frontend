@@ -59,7 +59,7 @@
                   <h4 class="pull-right font-weight-bold mb-0 theme-color">{{matchingConsultants?.Count}}</h4>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                  <p class="pull-left mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
+                  <p class="pull-left mb-0">{{jobDetail.Response.ProfileId | jobId}}</p>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                   <p class="pull-right mb-0">*Internal Pool with 50% Match Score</p>
@@ -72,7 +72,7 @@
                 <p class="pull-left font-weight-bold mb-0 sub-heading">JD DOCUMENT ID :</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                <p class="pull-right mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
+                <p class="pull-right mb-0">{{jobDetail.Response.ProfileId | jobId}}</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                 <p class="pull-left mb-0">*Internal Pool with 50% Match Score</p>
@@ -439,9 +439,9 @@
 
                   </div>
                   <p class="col-12 pt-2 font-weight-bold mb-0">Last Updated By : <span
-                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName ? jobDetail.ProfileDetail.UpdaterName : jobDetail.ProfileDetail.CreatorName}}</span></p>
+                      class="font-weight-normal">{{jobDetail.Response.UpdaterName ? jobDetail.Response.UpdaterName : jobDetail.Response.CreatorName}}</span></p>
                   <p class="col-12 font-weight-bold mb-0">Last Updated On : <span
-                      class="font-weight-normal">{{(jobDetail.ProfileDetail.UpdatedDate ? jobDetail.ProfileDetail.UpdatedDate : jobDetail.ProfileDetail.CreatedDate) | date: 'dd-MMM-yyyy'}}</span>
+                      class="font-weight-normal">{{(jobDetail.Response.UpdatedDate ? jobDetail.Response.UpdatedDate : jobDetail.Response.CreatedDate) | date: 'dd-MMM-yyyy'}}</span>
                   </p>
                   <div class="col-12 d-none pr-0 d-lg-block">
                     <input (click)="isEditJd = false;onCancel()" type="button" value="Cancel"
@@ -495,12 +495,12 @@
 
 
   </div>
-  <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
+  <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;    font-size: 1.4vh;">
     <div class="col-4 p-0">
       <button *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)" (click)="onSave()"
-        type="button" class="w-100 h-100 font-weight-bold theme-secondary-btn">Save</button>
+        type="button" class="h-100 font-weight-bold theme-secondary-btn" style="width: 100px;">Save</button>
       <button *ngIf="!isSameUser && saveAsCopy" (click)="onSave()" type="button"
-        class="w-100 h-100 font-weight-bold theme-secondary-btn">Save As Copy</button>
+        class="h-100 font-weight-bold theme-secondary-btn" style="width: 100px;">Save As Copy</button>
     </div>
   </div>
 
@@ -536,7 +536,7 @@
                   <h4 class="pull-right font-weight-bold mb-0 theme-color">{{matchingConsultants?.Count}}</h4>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                  <p class="pull-left mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
+                  <p class="pull-left mb-0">{{jobDetail.Response.ProfileId | jobId}}</p>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                   <p class="pull-right mb-0">*Internal Pool with 50% Match Score</p>
@@ -550,7 +550,7 @@
                 <p class="pull-left font-weight-bold mb-0 sub-heading">JD DOCUMENT ID :</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                <p class="pull-right mb-0">{{jobDetail.ProfileDetail.ProfileId | jobId}}</p>
+                <p class="pull-right mb-0">{{jobDetail.Response.ProfileId | jobId}}</p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                 <p class="pull-left mb-0">*Internal Pool with 50% Match Score</p>
@@ -630,10 +630,10 @@
                     <hr>
                   </div>
                   <p class="col-12 pt-2 font-weight-bold mb-0">Last Updated By : <span
-                      class="font-weight-normal">{{jobDetail.ProfileDetail.UpdaterName ? jobDetail.ProfileDetail.UpdaterName : jobDetail.ProfileDetail.CreatorName}}</span></p>
+                      class="font-weight-normal">{{jobDetail.Response.UpdaterName ? jobDetail.Response.UpdaterName : jobDetail.Response.CreatorName}}</span></p>
 
                   <p class="col-12 font-weight-bold mb-0">Last Updated On : <span
-                      class="font-weight-normal">{{ (jobDetail.ProfileDetail.UpdatedDate ? jobDetail.ProfileDetail.UpdatedDate : jobDetail.ProfileDetail.CreatedDate) | date: 'dd-MMM-yyyy'}}</span>
+                      class="font-weight-normal">{{ (jobDetail.Response.UpdatedDate ? jobDetail.Response.UpdatedDate : jobDetail.Response.CreatedDate) | date: 'dd-MMM-yyyy'}}</span>
                   </p>
                   <div class="col-6 col-lg-4">
                     <button (click)="downloadPDF2()" type="button" class="bg-white p-2 w-100">Export as Pdf</button>
@@ -658,6 +658,7 @@
               </form>
             </div>
             <div class="col-md-4 d-none d-lg-block">
+              <p style="padding-left: 10px;"><span>*</span> Powered By <b>SMART</b></p>
               <table class="table table-bordered p-3 my-3">
                 <thead>
                   <tr>
@@ -698,7 +699,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
+  <div *ngIf="!isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;    font-size: 1.4vh;">
 
     <div class="col-4 p-0">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
@@ -712,16 +713,16 @@
       border: none;">View External Pool</button>
       <!-- The Modal -->
     </div>
-    <div class="col-2 p-0">
-      <button (click)="fixHeader();onEdit()" class="w-100 h-100 font-weight-bold theme-secondary-btn">Edit JD</button>
+    <div class="col-2 p-0" style="margin-right:15px">
+      <button (click)="fixHeader();onEdit()" class="h-100 font-weight-bold theme-secondary-btn">Edit JD</button>
     </div>
-    <div class="col-2 p-0">
-    <button data-toggle="modal" data-target="#deleteConfirmation" *ngIf="isSameUser" type="button"
+    <div class="col-2 p-0"  *ngIf="isSameUser" >
+    <button data-toggle="modal" data-target="#deleteConfirmation"type="button"
                    class="w-100 h-100 font-weight-bold theme-secondary-btn" >Delete</button></div>
     
   </div>
 
-  <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
+  <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;    font-size: 1.4vh;">
 
     <div class="col-3 p-0" style="border:1px solid  white;">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
@@ -777,8 +778,8 @@
             </div>
             <div  class="col-6" style="text-align: right;padding-right: 30px;margin-top: 3px; font-size: 13px;">
                   <select name="filterBy" #countrySelect id="filterBy" (change)="changeFilter($event)">
-                    <option value="-1" disabled>SELECT REGION</option>
-                    <option value="ALL REGIONS">ALL REGIONS</option>
+                    <option value="-1" disabled>Select Region</option>
+                    <option value="All Region">All Region</option>
                     <option *ngFor="let c of countryList;" [value]="c">{{c}}</option>
                   </select>
                   </div>
@@ -798,8 +799,8 @@
             </div>
           </div>
           <div class="row">
+            <p style="margin: 0;margin-left:35px;"><span style="font-style:italic;font-size: 14px;padding-right: 5px;">*Powered By</span> <b>SMART</b></p>
             <div class="col-11 candidate-details">
-             
               <table class="table table-bordered p-3 my-3">
                 <thead>
                   <tr>
@@ -823,7 +824,7 @@
           </div>
         </div>
         <!-- Modal footer -->
-        <div class="modal-footer"> <p><span style="font-style:italic;font-size: 14px;padding-right: 5px;">*Powered By</span> <b>SMART</b></p>
+        <div class="modal-footer">
         </div>
 
       </div>
@@ -844,8 +845,8 @@
         <div>
           <div class="modal-body pt-0">
             <select name="filterBy" style="margin-right:15px;float:right;padding-right: 30px;margin-top: 3px; font-size: 13px;" #countrySelectExternal id="filterByExternal" (change)="changeFilterExternal($event)">
-              <option value="-1" disabled>SELECT REGION</option>
-              <option value="0">ALL REGIONS</option>
+              <option value="-1" disabled>Select Region</option>
+              <option value="0">All Region</option>
               <!-- <option *ngFor="let c of locations;" [value]="c.Id">{{c.LocationName}}</option> -->
               <option [value]="getLocations()">JD Specified Location</option>
             </select>
@@ -971,16 +972,16 @@
                     </div>
                     <p class="col-12 pt-2 font-weight-bold mb-0" style="font-size: 21px;color: black;">CREATED BY :
                       <span class="font-weight-normal"
-                        style="text-align: justify;font-size: 19px;color: black;">{{jobDetail.ProfileDetail.CreatorName}}</span>
+                        style="text-align: justify;font-size: 19px;color: black;">{{jobDetail.Response.CreatorName}}</span>
                     </p>
 
                     <p class="col-12 font-weight-bold mb-0" style="font-size: 21px;color: black;">UPDATED ON : <span
                         class="font-weight-normal"
-                        style="text-align: justify;font-size: 19px;color: black;">{{jobDetail.ProfileDetail.UpdatedDate | date: 'dd-MMM-yyyy'}}</span>
+                        style="text-align: justify;font-size: 19px;color: black;">{{jobDetail.Response.UpdatedDate | date: 'dd-MMM-yyyy'}}</span>
                     </p>
                     <p class="col-12 font-weight-bold" style="font-size: 21px;color: black;">CREATED ON : <span
                         class="font-weight-normal"
-                        style="text-align: justify;font-size: 19px;color: black;">{{jobDetail.ProfileDetail.CreatedDate | date: 'dd-MMM-yyyy'}}</span>
+                        style="text-align: justify;font-size: 19px;color: black;">{{jobDetail.Response.CreatedDate | date: 'dd-MMM-yyyy'}}</span>
                     </p>
                   </div>
 

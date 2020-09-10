@@ -51,22 +51,22 @@ export class JobListingComponent implements OnInit {
     this.initLoad();
     this.jobService.FetchExperienceList().subscribe((experiences: any) => {
       if (experiences.StatusCode === 200) {
-        this.experiences = experiences.ExperienceMasterList;
+        this.experiences = experiences.ResponseList;
       }
     });
     this.jobService.FetchLocationList().subscribe((locations: any) => {
       if (locations.StatusCode === 200) {
-        this.locations = locations.LocationMasterList;
+        this.locations = locations.ResponseList;
       }
     });
     this.jobService.FetchDesignationList().subscribe((designations: any) => {
       if (designations.StatusCode === 200) {
-        this.designations = designations.DesignationList;
+        this.designations = designations.ResponseList;
       }
     });
     this.jobService.FetchUserDetails().subscribe((usersData: any) => {
       if (usersData.StatusCode === 200) {
-        this.userList = usersData.UsersList;
+        this.userList = usersData.ResponseList;
       }
     });
   }

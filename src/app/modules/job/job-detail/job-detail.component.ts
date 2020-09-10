@@ -246,20 +246,20 @@ export class JobDetailComponent implements OnInit {
   onEdit() {
     if (this.copiedJd) {
       if (!this.isSameUser) {
-        this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId], { queryParams: { saveCopy: true } })
+        this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId], { queryParams: { saveCopy: true } })
       } else {
-        this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId], { queryParams: { saveCopy: false } })
+        this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId], { queryParams: { saveCopy: false } })
       }
     } else {
-      this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId])
+      this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId])
     }
   }
   onCancel() {
     if (this.isSameUser) {
-      this.router.navigate(['jd-creator/myJd/job-description/view/' + this.jobDetail.ProfileDetail.ProfileId]);
+      this.router.navigate(['jd-creator/myJd/job-description/view/' + this.jobDetail.Response.ProfileId]);
     }
     else {
-      this.router.navigate(['jd-creator/allJd/job-description/view/' + this.jobDetail.ProfileDetail.ProfileId]);
+      this.router.navigate(['jd-creator/allJd/job-description/view/' + this.jobDetail.Response.ProfileId]);
     }
   }
 
@@ -292,7 +292,7 @@ export class JobDetailComponent implements OnInit {
       let navigationExtras: NavigationExtras = {
         queryParams: { reviewMode: 1 }
       };
-      this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId], navigationExtras);
+      this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId], navigationExtras);
     }
   }
   searchEmailOnKeypress(name) {
@@ -308,7 +308,7 @@ export class JobDetailComponent implements OnInit {
     this.toggleShare();
     this.url = this.document.URL;
     this.jobService.shareJdByEmail(emailId, this.url).subscribe(res => {
-      this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.ProfileDetail.ProfileId])
+      this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId])
       if (res.StatusCode === 200) {
         this.toastr.success(res.Message, 'Success');
       } else {
@@ -329,12 +329,12 @@ export class JobDetailComponent implements OnInit {
         this.router.navigate(['**']);
       }
       if (jobDetail.StatusCode === 200) {
-        if (this.adalService.userInfo.profile.oid === jobDetail.ProfileDetail.CreatedBy) {
+        if (this.adalService.userInfo.profile.oid === jobDetail.Response.CreatedBy) {
           this.isSameUser = true
         }
-        this.mandatoryTagsList = jobDetail.ProfileDetail.TagsList.filter((x) => x.TagType === 1);
+        this.mandatoryTagsList = jobDetail.Response.TagsList.filter((x) => x.TagType === 1);
         this.selectmandatorytags = this.mandatoryTagsList.map((x) => x.TagName);
-        this.desiredTagsList = jobDetail.ProfileDetail.TagsList.filter((x) => x.TagType === 2);
+        this.desiredTagsList = jobDetail.Response.TagsList.filter((x) => x.TagType === 2);
         this.selectdesiredtags = this.desiredTagsList.map((x) => x.TagName);
         this.isDataFetched = true;
         const defaultMandatorySkill = [];
@@ -342,7 +342,7 @@ export class JobDetailComponent implements OnInit {
         const defaultQualification = [];
         const defaultResponsibility = [];
         this.jobDetail = jobDetail
-        jobDetail.ProfileDetail.SkillList.forEach((ele) => {
+        jobDetail.Response.SkillList.forEach((ele) => {
           if (ele.SkillTypeId === 1) {
             defaultMandatorySkill.push(this.createMandatorySkill(ele));
           } else {
@@ -350,23 +350,23 @@ export class JobDetailComponent implements OnInit {
           }
         }
         );
-        jobDetail.ProfileDetail.QualificationList.forEach((ele) => {
+        jobDetail.Response.QualificationList.forEach((ele) => {
           ele.isEditing = false
           defaultQualification.push(this.createQualification(ele));
         });
-        jobDetail.ProfileDetail.ResponsibilityList.forEach((ele) => {
+        jobDetail.Response.ResponsibilityList.forEach((ele) => {
           ele.isEditing = false
           ele.Responsibility = [this.removeSpace(ele.Responsibility), [Validators.required, , this.noWhitespaceValidator]]
           defaultResponsibility.push(this.formBuilder.group(ele));
         });
-        this.isPrivateChecked = jobDetail.ProfileDetail.IsPrivate;
+        this.isPrivateChecked = jobDetail.Response.IsPrivate;
         this.jobDescriptionForm = this.formBuilder.group({
-          title: new FormControl(jobDetail.ProfileDetail.ProfileName),
-          about: new FormControl(jobDetail.ProfileDetail.About, [Validators.required, this.noWhitespaceValidator]),
-          selectedDesignation: new FormControl(jobDetail.ProfileDetail.DesignationId, Validators.required),
-          selectedDesignationN: new FormControl(jobDetail.ProfileDetail.DesignationName, [Validators.required, Validators.pattern("(?!^ +$)^.+$")]),
-          selectedLocation: new FormControl(jobDetail.ProfileDetail.LocationId, Validators.required),
-          selectedExperience: new FormControl(jobDetail.ProfileDetail.ExperienceId, Validators.required),
+          title: new FormControl(jobDetail.Response.ProfileName),
+          about: new FormControl(jobDetail.Response.About, [Validators.required, this.noWhitespaceValidator]),
+          selectedDesignation: new FormControl(jobDetail.Response.DesignationId, Validators.required),
+          selectedDesignationN: new FormControl(jobDetail.Response.DesignationName, [Validators.required, Validators.pattern("(?!^ +$)^.+$")]),
+          selectedLocation: new FormControl(jobDetail.Response.LocationId, Validators.required),
+          selectedExperience: new FormControl(jobDetail.Response.ExperienceId, Validators.required),
           desiredSkills: this.formBuilder.array(defaultDesiredSkill),
           mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
           qualifications: this.formBuilder.array(defaultQualification),
@@ -376,8 +376,8 @@ export class JobDetailComponent implements OnInit {
         });
         this.jobService.FetchExperienceList().subscribe((experiences: any) => {
           if (experiences.StatusCode === 200) {
-            this.experiences = experiences.ExperienceMasterList;
-            experiences.ExperienceMasterList.forEach((val) => {
+            this.experiences = experiences.ResponseList;
+            experiences.ResponseList.forEach((val) => {
               if (this.jobDescriptionForm && this.jobDescriptionForm.get('selectedExperience').value === val.Id) {
                 this.selectedExperienceName = val.ExperienceName;
               }
@@ -396,8 +396,8 @@ export class JobDetailComponent implements OnInit {
         }
         this.jobService.FetchLocationList().subscribe((locations: any) => {
           if (locations.StatusCode === 200) {
-            this.locations = locations.LocationMasterList;
-            locations.LocationMasterList.forEach((val) => {
+            this.locations = locations.ResponseList;
+            locations.ResponseList.forEach((val) => {
               if (this.jobDescriptionForm && this.jobDescriptionForm.get('selectedLocation').value.includes(val.Id)) {
                 this.selectedLocationName.push(val.LocationName)
               }
@@ -407,9 +407,9 @@ export class JobDetailComponent implements OnInit {
 
         this.jobService.FetchDesignationList().subscribe((designations: any) => {
           if (designations.StatusCode === 200) {
-            this.designations = designations.DesignationList;
-            this.filteredDesignations = designations.DesignationList;
-            designations.DesignationList.forEach((val) => {
+            this.designations = designations.ResponseList;
+            this.filteredDesignations = designations.ResponseList;
+            designations.ResponseList.forEach((val) => {
               if (this.jobDescriptionForm && this.jobDescriptionForm.get('selectedDesignation').value === val.Id) {
                 this.selectedDesignationName = val.DesignationName;
                 this.jobDescriptionForm.patchValue({ selectedDesignationN: val.DesignationName })
@@ -437,10 +437,10 @@ export class JobDetailComponent implements OnInit {
       if (this.isEditJd) {
         this.jobService.FetchTagsList().subscribe((tags: any) => {
           if (tags.StatusCode === 200) {
-            this.allTags = [...tags.ProfileTagsList];
-            //this.allTags.map((x) => x.TagName = 1);
-            this.allTagsDesired = [...tags.ProfileTagsList];
-            //this.allTagsDesired.map((x)=> x.TagName = 2);
+            this.allTags =JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTags.map((x) => x.TagType = 1);
+            this.allTagsDesired = JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTagsDesired.map((x)=> x.TagType = 2);
             for (let index = 0; this.allTags.length > index; index++) {
               for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
                 if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
@@ -698,10 +698,11 @@ export class JobDetailComponent implements OnInit {
     }
   }
 
-  viewiCIMSCandidates(myModal: any, region = 0) {
+  viewiCIMSCandidates(myModal: any, region = 0, bySelect=0) {
     // this.iCIMSCandidates = [];
-    this.countrySelectExternal.nativeElement.value = "-1";
-
+    if(bySelect == 0) {
+      this.countrySelectExternal.nativeElement.value = "-1";
+    }
     this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
     this.tagName = tags.map((res) => res.TagName);
@@ -900,7 +901,6 @@ export class JobDetailComponent implements OnInit {
   }
   selectedDesiredTag(event: MatAutocompleteSelectedEvent, TagType): void {
     this.desiredTagsList.push(event.option.value);
-    this.desiredTagsList.map(x => x.TagType = 2);
     this.tagInputDesired.nativeElement.value = '';
     this.allTagsDesired.filter((option, index) => {
       if (option.Id.toLowerCase().includes(event.option.value.Id)) {
@@ -915,7 +915,6 @@ export class JobDetailComponent implements OnInit {
 
   selectedMandatoryTag(event: MatAutocompleteSelectedEvent, TagType) {
     this.mandatoryTagsList.push(event.option.value);
-    this.mandatoryTagsList.map(x => x.TagType = 1);
     this.tagInputMandatory.nativeElement.value = '';
     this.allTags.filter((option, index) => {
       if (option.Id.toLowerCase().includes(event.option.value.Id)) {
@@ -985,7 +984,7 @@ export class JobDetailComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllSkills(event.target.value, tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
-            this.suggestedMandatorySkill = skillData.Skills;
+            this.suggestedMandatorySkill = skillData.ResponseList;
           }
         })
       }
@@ -997,7 +996,7 @@ export class JobDetailComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllSkills(event.target.value, tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
-            this.suggestedDesiredSkill = skillData.Skills;
+            this.suggestedDesiredSkill = skillData.ResponseList;
           }
         })
       }
@@ -1009,7 +1008,7 @@ export class JobDetailComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllQualifications(event.target.value).subscribe((Data: any) => {
           if (Data.StatusCode) {
-            this.suggestedQualification = Data.ProfileQualifications;
+            this.suggestedQualification = Data.ResponseList;
           }
         })
       }
@@ -1021,7 +1020,7 @@ export class JobDetailComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllResponsibilities(event.target.value).subscribe((Data: any) => {
           if (Data.StatusCode) {
-            this.suggestedResponsibilities = Data.ProfileResponsibilities;
+            this.suggestedResponsibilities = Data.ResponseList;
           }
         })
       }
@@ -1181,17 +1180,17 @@ export class JobDetailComponent implements OnInit {
         this.toastr.success(updatedData.Message, 'Success');
 
         if (this.isSameUser) {
-          this.jobDetail.ProfileDetail.UpdatedDate = updatedData.ProfileDetail.UpdatedDate
+          this.jobDetail.Response.UpdatedDate = updatedData.Response.UpdatedDate
           this.isEditJd = false
           document.body.scrollTop = 0;
           document.documentElement.scrollTop = 0;
           this.initLoad()
-          this.router.navigate(['jd-creator/myJd/job-description/view/', this.jobDetail.ProfileDetail.ProfileId]);
+          this.router.navigate(['jd-creator/myJd/job-description/view/', this.jobDetail.Response.ProfileId]);
         } else if (this.IsSharedJD) {
           this.router.navigate(['jd-creator/jdsShared']);
         }
         else {
-          this.router.navigate(['jd-creator/allJd/job-description/view/', this.jobDetail.ProfileDetail.ProfileId]);
+          this.router.navigate(['jd-creator/allJd/job-description/view/', this.jobDetail.Response.ProfileId]);
         }
       } else {
         this.toastr.error(updatedData.Message, 'Error');
@@ -1213,7 +1212,7 @@ export class JobDetailComponent implements OnInit {
     const value = e.target.value;
     this.selectedRegionInternal = value;
     console.log(value);
-    if (value === 'ALL REGIONS') {
+    if (value === 'All Region') {
       this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
     } else {
       this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r) => {
@@ -1228,14 +1227,14 @@ export class JobDetailComponent implements OnInit {
     const text = e.target.options[event.target['options'].selectedIndex].text;
     this.selectedRegionExternal = text;
     if(text == 'JD Specified Location') {
-      this.viewiCIMSCandidates(null, value);
+      this.viewiCIMSCandidates(null, value, 1);
       this.selectedRegionExternal = this.selectedLocationName.join(', ');
     } else{
       this.iCIMSCandidates = this.iCIMSCandidatesTemp;
     }
   }
   getLocations() {
-    return this.jobDetail.ProfileDetail.LocationId.join("|");
+    return this.jobDetail.Response.LocationId.join("|");
   }
 
 }
