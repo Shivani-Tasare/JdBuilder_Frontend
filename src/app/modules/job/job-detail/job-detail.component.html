@@ -492,17 +492,17 @@
   <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px;">
     <div class="col-4 p-0">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
-      border: none;">View Internal Pool</button>
+      border: 1px solid;margin-left: 7px;">View Internal Pool</button>
     </div>
     <div class="col-4 p-0">
       <button (click)="viewiCIMSCandidates(iCIMSCandidateModal)" data-toggle="modal" data-target="#iCIMSCandidateModal" class="w-100 h-100 font-weight-bold theme-color-btn " style="
-      border: none;">View External Pool</button>
+      border: 1px solid;">View External Pool</button>
     </div>
     <div class="col-4 p-0">
       <button *ngIf="isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)" (click)="onSave()"
-        type="button" class="w-100 h-100 font-weight-bold theme-secondary-btn">Save</button>
+        type="button" class="h-100 font-weight-bold theme-secondary-btn" style="width: 100px;">Save</button>
       <button *ngIf="!isSameUser && saveAsCopy" (click)="onSave()" type="button"
-        class="w-100 h-100 font-weight-bold theme-secondary-btn">Save As Copy</button>
+        class="h-100 font-weight-bold theme-secondary-btn" style="width: 100px;">Save As Copy</button>
     </div>
   </div>
 
@@ -690,17 +690,17 @@
     <div class="col-4 p-0">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
         class="w-100 h-100 font-weight-bold theme-color-btn" style="
-      border: none;">View Internal Pool</button>
+      border: 1px solid;margin-left: 9px;">View Internal Pool</button>
       <!-- The Modal -->
     </div>
     <div class="col-4 p-0">
       <button  data-toggle="modal" data-target="#iCIMSCandidateModal" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
         class="w-100 h-100 font-weight-bold theme-color-btn" style="
-      border: none;">View External Pool</button>
+      border: 1px solid;">View External Pool</button>
       <!-- The Modal -->
     </div>
-    <div class="col-2 p-0">
-      <button (click)="fixHeader();onEdit()" class="w-100 h-100 font-weight-bold theme-secondary-btn">Edit JD</button>
+    <div class="col-1 p-0" style="margin-right:15px">
+      <button (click)="fixHeader();onEdit()" class="h-100 font-weight-bold theme-secondary-btn" style="width: 48px;">Edit JD</button>
     </div>
     <div class="col-2 p-0">
     <button data-toggle="modal" data-target="#deleteConfirmation" *ngIf="isSameUser" type="button"
