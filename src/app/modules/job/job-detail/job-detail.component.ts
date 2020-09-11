@@ -1226,7 +1226,7 @@ export class JobDetailComponent implements OnInit {
     const value = e.target.value;
     const text = e.target.options[event.target['options'].selectedIndex].text;
     this.selectedRegionExternal = text;
-    if(text == 'JD Specified Location') {
+    if(text == 'JD Specified Region') {
       this.viewiCIMSCandidates(null, value, 1);
       this.selectedRegionExternal = this.selectedLocationName.join(', ');
     } else{
