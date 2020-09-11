@@ -421,8 +421,8 @@
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
                           <i [hidden]="jobDescriptionForm.get('rolesAndResponsibility').length == 1 && !isResponsibilityEmpty(item.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"
-                            data-display="static"></i>
-                          <div class="dropdown-menu dropdown-right">
+                           ></i>
+                          <div class="dropdown-menu">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
                               (click)='item.controls.isEditing.value = true'>Edit</a>
                             <a class="dropdown-item" href="JavaScript:"
