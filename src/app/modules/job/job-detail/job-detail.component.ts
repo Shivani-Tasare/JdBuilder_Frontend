@@ -702,6 +702,7 @@ export class JobDetailComponent implements OnInit {
     // this.iCIMSCandidates = [];
     if(bySelect == 0) {
       this.countrySelectExternal.nativeElement.value = "-1";
+      this.selectedRegionExternal = null;
     }
     this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
