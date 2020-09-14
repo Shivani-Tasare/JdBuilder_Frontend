@@ -19,7 +19,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="isEditJd;" class="row mybt">
+      <div *ngIf="isEditJd;" class="row mybt" style="margin-top: 10px;">
         <div class="col-12" style="text-align: right;">
           <div style="display: none;" class="col-12" id="email">
             <mat-form-field>
@@ -37,7 +37,7 @@
           </div>
           <div class="col-12" style="padding-top: 7px;">
             <div id="shareButton" (click)="toggleShare(false,true)" style="pointer-events: none;">
-              <button id="sharebtn" style="margin-top:5px;" [disabled]="!isPrivateChecked" [ngStyle]="{'pointer-events' : disabled ? 'none' : 'auto' }" class="btn theme-color-btn btn-sm"
+              <button id="sharebtn" [disabled]="!isPrivateChecked" [ngStyle]="{'pointer-events' : disabled ? 'none' : 'auto' }" class="btn theme-color-btn btn-sm"
                 [hidden]="!isSameUser" type="button" (click)="onShare()">
                 <i class="fa fa-share-square-o" style ="color: white;
                 padding-right: 3px; pointer-events: none;" aria-hidden="true"></i>Share
