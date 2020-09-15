@@ -26,6 +26,7 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+  @ViewChild('fixedDiv') fixedDiv; 
   @ViewChild('countrySelect') countrySelect: ElementRef;
   @ViewChild('countrySelectExternal') countrySelectExternal: ElementRef;
   length = 100;
@@ -701,6 +702,7 @@ export class JobDetailComponent implements OnInit {
     // this.iCIMSCandidates = [];
     if(bySelect == 0) {
       this.countrySelectExternal.nativeElement.value = "-1";
+      this.selectedRegionExternal = null;
     }
     this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
@@ -1197,6 +1199,16 @@ export class JobDetailComponent implements OnInit {
     });
   }
 
+  @HostListener('window:scroll', ['$event']) 
+  scrollHandler(event) {
+    if(!!this.fixedDiv) {
+      if(window.scrollY > 454) {
+        this.fixedDiv.nativeElement.classList.add('fixed');
+      }else{
+        this.fixedDiv.nativeElement.classList.remove('fixed');
+      }
+    }
+}
   changeFilter(e) {
     const value = e.target.value;
     this.selectedRegionInternal = value;
@@ -1215,7 +1227,7 @@ export class JobDetailComponent implements OnInit {
     const value = e.target.value;
     const text = e.target.options[event.target['options'].selectedIndex].text;
     this.selectedRegionExternal = text;
-    if(text == 'JD Specified Location') {
+    if(text == 'JD Specified Region') {
       this.viewiCIMSCandidates(null, value, 1);
       this.selectedRegionExternal = this.selectedLocationName.join(', ');
     } else{
