@@ -8,9 +8,7 @@ const url = Config.url;
 export class Job1ServiceService {
   
   constructor(private httpClient: HttpClient) { }
-  getAllJobs(pageParams) {
-    return this.httpClient.get(`${url}/FetchProfiles?pageSize=${pageParams.pageSize}&pageIndex=${pageParams.pageIndex}&myJD=${pageParams.myJd}&sortDir=${pageParams.sortByDate}&sharedJd=${pageParams.sharedJD}`);
-  }
+  
   fetchProfiles(jdId) {
     return this.httpClient.get(`${url}/FetchProfileDetails?profileId=${jdId}`);
   }
@@ -36,7 +34,14 @@ export class Job1ServiceService {
     var tagName = encodeURIComponent(tags.join('|'));
     return this.httpClient.get(`${url}/FetchAllSkills?searchString=${searchString}&tags=${tagName}`);
   }
+
+  FetchAssociatedSkills(tags,tagType){
+    var tagName = encodeURIComponent(tags.join('|'));
+    return this.httpClient.get<string[]>(`${url}/getassociatedskills?tags=${tagName}&tagType=${tagType}`);
+  }
+
   FetchAssociatedTags(searchString) {
+    
     return this.httpClient.get(`${url}/AssociatedTags?searchText=${encodeURIComponent(searchString)}
     `);
   }

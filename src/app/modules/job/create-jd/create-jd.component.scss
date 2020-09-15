@@ -1,6 +1,15 @@
 .example-chip-list{
     width: 100%;
 }
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+ .para{
+     padding-top: 20px;
+ }
 .suggested-tags {
    label {
     margin: 0;

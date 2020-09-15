@@ -1,7 +1,7 @@
 <!-- Create MODE -->
 <div class="row bg-white pb-3">
   <div class="col-md-12 no-padding mb-5" style="font-size: 13px;">
-    <div class="row pb-3 pt-2 d-lg-none" id="header">
+    <div class="row pb-3 pt-2 d-lg-none" id="header" style="margin-top: 35px;">
       <div class="col-8">
         <button style="background: #9E4587;border-radius: 0;" class="navbar-toggler" type="button"
           data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -32,18 +32,20 @@
             <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
               (ngSubmit)="onSave()">
               <div class="row">
-                <p class="col-4">Make It As Private JD</p>
-                <mat-slide-toggle class="col-8 pl-0" [color]="color" [checked]="isPrivateChecked"
+                <p style="padding-top: 8px;" class="col-4">Make It As Private JD</p>
+                <section class="example-section col-8 pl-0" style="height: 35px;">
+                  <mat-slide-toggle  [color]="color" [checked]="isPrivateChecked"
                   [(ngModel)]="isPrivateChecked" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
                 </mat-slide-toggle>
+                </section>
                 <p class="col-4 m-auto font-weight-bold">DESIGNATION</p>
                 <mat-form-field class="col-8 pl-0">
-                  <input (focusout)="checkDuplicateDesignation($event)"
+                  <input (focusout)="checkDuplicateDesignation($event)" 
                     (keyup.enter)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
                     aria-label="Number" matInput formControlName="selectedDesignation" [value]="selectedDesignationName"
-                    (keyup)="filterDesignationList($event)" [matAutocomplete]="desig">
+                    (keyup)="filterDesignationList($event)" [matAutocomplete]="desig" (keydown.backspace)="removeDesignation($event.target.value)">
                   <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
-                    <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id">
+                    <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName">
                       {{designation.DesignationName}}
                     </mat-option>
                   </mat-autocomplete>
@@ -51,7 +53,6 @@
                 <mat-error class="col-8 offset-4 px-0">
                   <div *ngIf="(submitted || jobDescriptionForm.get('selectedDesignation').touched)">
                     <div *ngIf="jobDescriptionForm.get('selectedDesignation').invalid">Please select designation.</div>
-                    <div *ngIf="isDuplicateDesignation">Entered designation is already exists.</div>
                   </div>
                 </mat-error>
                 <p class="col-4 m-auto pt-2 font-weight-bold">EXPERIENCE</p>
@@ -81,7 +82,7 @@
                 <mat-error class="col-8 offset-4 px-0">
                   <div
                     *ngIf="(submitted || jobDescriptionForm.get('selectedLocation').touched) && jobDescriptionForm.get('selectedLocation').invalid">
-                    <div *ngIf="jobDescriptionForm.get('selectedLocation').invalid">Please select experience.</div>
+                    <div *ngIf="jobDescriptionForm.get('selectedLocation').invalid">Please select location.</div>
                   </div>
                 </mat-error>
                 <div class="col-12">
@@ -112,16 +113,16 @@
                     </div>
 
                     <!-- Left and right controls -->
-                    <a class="carousel-control-prev" href="#demo" (click)="clearSummary()" data-slide="prev">
+                    <a class="carousel-control-prev" href="#demo"  data-slide="prev">
                       <span class="carousel-control-prev-icon"></span>
                     </a>
-                    <a class="carousel-control-next" href="#demo" (click)="clearSummary()" data-slide="next">
+                    <a class="carousel-control-next" href="#demo"  data-slide="next">
                       <span class="carousel-control-next-icon"></span>
                     </a>
 
                   </div>
                   <mat-form-field class="col-12 px-0">
-                    <textarea style="overflow:hidden" type="text" cdkTextareaAutosize placeholder="" aria-label="Number"
+                    <textarea style="overflow:hidden;padding: 1px;" type="text" cdkTextareaAutosize placeholder="" aria-label="Number"
                       matInput formControlName="about"></textarea>
                   </mat-form-field>
                   <mat-error class="col-8 px-0">
@@ -137,7 +138,7 @@
                   <mat-chip-list #chipList>
                     <mat-chip *ngFor="let tag of mandatoryTagsList" [selectable]="selectable" [removable]="removable"
                       (removed)="removeMandatoryTag(tag)">
-                      {{tag.TagName}}
+                      {{tag?.TagName}}
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
                     <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
@@ -146,7 +147,7 @@
                   </mat-chip-list>
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event,1)">
                     <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                      {{tag.TagName}}
+                      {{tag?.TagName}}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
@@ -162,7 +163,7 @@
                     <mat-chip-list #chipListDesired>
                       <mat-chip *ngFor="let tag of desiredTagsList" [selectable]="selectable" [removable]="removable"
                         (removed)="removeDesiredTag(tag)">
-                        {{tag.TagName}}
+                        {{tag?.TagName}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                       </mat-chip>
                       <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
@@ -171,7 +172,7 @@
                     </mat-chip-list>
                     <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event,2)">
                       <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
-                        {{tag.TagName}}
+                        {{tag?.TagName}}
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
@@ -185,12 +186,12 @@
                   references.</small>
                 <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
                 <div class="col-12" formArrayName="mandatorySkills"
-                  *ngFor="let skill of jobDescriptionForm.get('mandatorySkills')['controls']; let i = index;">
+                  *ngFor="let skill of jobDescriptionForm?.get('mandatorySkills')['controls']; let i = index;">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
                       <div class="col-11 col-md-11 col-lg-11">
-                        <div class="input-group">
-                          <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
+                        <div id="inputboxMand" class="input-group">
+                          <mat-form-field  [class.visibility-hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                             <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                               (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
                               formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
@@ -212,14 +213,14 @@
                         <p [hidden]='skill.controls.isEditing.value' class="my-auto" style="color:gray">
                           {{skill.controls.SkillName.value}}</p>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                        <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                      <div id="dotIcon" class="col-1 my-auto p-0 btn dropdown dropright">
+                        <i [hidden]="jobDescriptionForm.get('mandatorySkills').length == 1 && !isSkillNameNotEmpty(skill.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                         <div class="dropdown-menu">
-                          <a class="dropdown-item" href="JavaScript:"
+                          <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                             (click)='skill.controls.isEditing.value = true'>Edit</a>
-                          <a class="dropdown-item" href="JavaScript:" (click)="moveToDesired(skill.controls,i)">Move To
+                          <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)" (click)="moveToDesired(skill.controls,i)">Move To
                             Desired</a>
-                          <a class="dropdown-item" href="JavaScript:" (click)='deleteSkill(skill.controls,i)'>Delete</a>
+                          <a class="dropdown-item" href="JavaScript:" (click)='deleteSkill(skill.controls,false,i)'>Delete</a>
                         </div>
                       </div>
                     </div>
@@ -236,8 +237,8 @@
                   <div [formGroupName]="i">
                     <div class="row pb-2">
                       <div class="col-11 col-md-11 col-lg-11">
-                        <div class="input-group">
-                          <mat-form-field [hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
+                        <div id="inputboxDesi" class="input-group">
+                          <mat-form-field [class.visibility-hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                             <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                               #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)" placeholder="Desired Skill"
                               aria-label="Number" matInput formControlName="SkillName"
@@ -260,22 +261,22 @@
                         <p [hidden]='skill.controls.isEditing.value' style="color:gray">
                           {{skill.controls.SkillName.value}}</p>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                        <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                      <div id="dotIconDesi" class="col-1 my-auto p-0 btn dropdown dropright">
+                        <i [hidden]="jobDescriptionForm.get('desiredSkills').length == 1 && !isSkillNameNotEmpty(skill.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                         <div class="dropdown-menu">
-                          <a class="dropdown-item" href="JavaScript:"
+                          <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                             (click)='skill.controls.isEditing.value = true'>Edit</a>
-                          <a class="dropdown-item" href="JavaScript:" (click)="moveToMandatory(skill.controls,i)">Move
+                          <a class="dropdown-item" href="JavaScript:"  *ngIf="isSkillNameNotEmpty(skill.controls)" (click)="moveToMandatory(skill.controls,i)">Move
                             To Mandatory</a>
                           <a class="dropdown-item" href="JavaScript:"
-                            (click)='deleteDesiredSkill(skill.controls,i)'>Delete</a>
+                            (click)='deleteDesiredSkill(skill.controls,false,i)'>Delete</a>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-12 pr-0">
-                  <button type="button" class="btn theme-color-btn btn-sm" (click)="addDesiredSkill()"> + Add</button>
+                  <button type="button" class="btn theme-color-btn btn-sm" (click)="addDesiredSkill($event)"> + Add</button>
                   <hr>
                 </div>
                 <p class="col-12 pt-2 font-weight-bold">QUALIFICATION</p>
@@ -285,14 +286,14 @@
                     <div class="row pb-2">
                       <div class="col-11 col-md-11 col-lg-11">
                         <div class="input-group">
-                          <mat-form-field [hidden]='!item.controls.isEditing.value' class="col-12 px-0">
+                          <mat-form-field [class.visibility-hidden]='!item.controls.isEditing.value' class="col-12 px-0">
                             <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                               #autosize="cdkTextareaAutosize" (keyup)="getQualifications($event)"
                               placeholder="Qualification" aria-label="Number" matInput formControlName="Name"
                               [matAutocomplete]="auto"></textarea>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectQualification($event,i)">
                               <mat-option *ngFor="let qualification of suggestedQualification; let i = index;"
-                                [value]="qualification.Name">
+                                [value]="qualification.Name" multipleLineOption>
                                 {{qualification.Name}}
                               </mat-option>
                             </mat-autocomplete>
@@ -307,10 +308,10 @@
                         </div>
                         <p [hidden]='item.controls.isEditing.value' style="color:gray">{{item.controls.Name.value}}</p>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropleft">
+                      <div [hidden]="jobDescriptionForm.get('qualifications').length==1 && !isQualificationEmpty(item.controls)" class="col-1 my-auto p-0 btn dropdown dropright">
                         <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                         <div class="dropdown-menu">
-                          <a class="dropdown-item" href="JavaScript:"
+                          <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
                             (click)='item.controls.isEditing.value = true'>Edit</a>
                           <a class="dropdown-item" href="JavaScript:"
                             (click)='deleteQualification(item.controls,i)'>Delete</a>
@@ -330,14 +331,14 @@
                     <div class="row pb-2">
                       <div class="col-11 col-md-11 col-lg-11">
                         <div class="form-group">
-                          <mat-form-field [hidden]='!item.controls.isEditing.value' class="col-12 px-0">
+                          <mat-form-field [class.visibility-hidden]='!item.controls.isEditing.value' class="col-12 px-0">
                             <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                               #autosize="cdkTextareaAutosize" (keyup)="getResponsibilities($event)"
                               placeholder="Role And Responsibility" aria-label="Number" matInput
                               formControlName="Responsibility" [matAutocomplete]="auto"></textarea>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectResponsibility($event,i)">
                               <mat-option *ngFor="let responsibility of suggestedResponsibilities; let i = index;"
-                                [value]="responsibility.Responsibility">
+                                [value]="removeSpace(responsibility.Responsibility)" multipleLineOption>
                                 {{responsibility.Responsibility}}
                               </mat-option>
                             </mat-autocomplete>
@@ -353,11 +354,11 @@
                         <p [hidden]='item.controls.isEditing.value' style="color:gray">
                           {{item.controls.Responsibility.value}}</p>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropleft">
-                        <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"
+                      <div class="col-1 my-auto p-0 btn dropdown dropright">
+                        <i [hidden]="jobDescriptionForm.get('rolesAndResponsibility').length == 1 && !isResponsibilityEmpty(item.controls)" class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"
                           data-display="static"></i>
-                        <div class="dropdown-menu dropdown-width">
-                          <a class="dropdown-item" href="JavaScript:"
+                        <div class="dropdown-menu dropdown-dropright">
+                          <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
                             (click)='item.controls.isEditing.value = true'>Edit</a>
                           <a class="dropdown-item" href="JavaScript:"
                             (click)='deleteResponsiblity(item.controls,i)'>Delete</a>
@@ -371,7 +372,7 @@
                   <hr>
                 </div>
                 <div class="col-12 d-none pr-0 d-lg-block">
-                  <input [routerLink]="['/myJd']" type="button" value="Cancel" class=" btn theme-color-btn mr-2" />
+                  <input [routerLink]="['/jd-creator/myJd']" type="button" value="Cancel" class=" btn theme-color-btn mr-2" />
                   <input *ngIf="isSameUser" (click)="onSave()" type="button" value="Create"
                     class=" btn theme-secondary-btn" />
                   <input *ngIf="!isSameUser" (click)="onSave()" type="button" value="Create"
@@ -384,35 +385,35 @@
             <table class="table table-bordered p-3 my-3">
               <thead>
                 <tr>
-                  <th scope="col">Candidate Count</th>
-                  <th scope="col">Match Score</th>
+                  <th scope="col">Match Percentage</th>
+                  <th scope="col">Internal Pool</th>
                 </tr>
               </thead>
               <tbody>
                 <tr class="noBorder">
+                  <td>90%-100%</td>
                   <td>0</td>
-                  <td>90-100%</td>
                 </tr>
                 <tr class="noBorder">
+                  <td>80%-90%</td>
                   <td>0</td>
-                  <td>80-90%</td>
                 </tr>
                 <tr class="noBorder">
+                  <td>70%-80%</td>
                   <td>0</td>
-                  <td>70-80%</td>
                 </tr>
                 <tr class="noBorder">
+                  <td>less than 70%</td>
                   <td>0</td>
-                  <td> &lt; 70% </td>
                 </tr>
                 <tr>
+                  <td>Total</td>
                   <td>0</td>
-                  <td>All</td>
                 </tr>
               </tbody>
 
             </table>
-            <small class="form-text text-muted">&lt; Illustrative &gt; chart.</small>
+            <p style="padding-left: 10px;"><span>*</span> Powered By <b>SMART</b></p>
           </div>
         </div>
       </div>
@@ -421,7 +422,7 @@
 </div>
 <div class="row d-md-none fixed-bottom" style="height: 55px;">
   <div class="col-6 p-0">
-    <button [routerLink]="['/myJd']" class="w-100 h-100 font-weight-bold theme-color-btn " style="
+    <button [routerLink]="['/jd-creator/myJd']" class="w-100 h-100 font-weight-bold theme-color-btn " style="
       border: none;">Cancel</button>
   </div>
   <div class="col-6 p-0">

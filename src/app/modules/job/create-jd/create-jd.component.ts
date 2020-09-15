@@ -1,12 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, ViewChild, HostListener, Inject } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, ViewChild, HostListener, Inject, SimpleChanges } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Job1ServiceService } from '../job-service.service';
 import { MatChipInputEvent } from '@angular/material';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { ThemePalette } from '@angular/material/core';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, distinctUntilChanged, pairwise } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { JobServiceService } from '../../../shared/services/job-service.service';
@@ -17,6 +17,7 @@ import { AdalService } from 'src/app/shared/services/adal.service';
   styleUrls: ['../job-detail/job-detail.component.scss']
 })
 export class CreateJdComponent implements OnInit {
+  selectedDesignationId: number;
   jobDescriptionForm: FormGroup;
   mandatorySkills: FormArray;
   desiredSkills: FormArray;
@@ -73,6 +74,9 @@ export class CreateJdComponent implements OnInit {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
+  desiredSkillData = [];
+  mandatorySkillData = [];
+  desigOption: number;
   constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService) { }
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -101,6 +105,7 @@ export class CreateJdComponent implements OnInit {
       return option.TagName.toLowerCase().includes(filterValue);
     });
   }
+  
   ngOnInit() {
 
     const defaultMandatorySkill = [];
@@ -125,12 +130,12 @@ export class CreateJdComponent implements OnInit {
 
     
     defaultQualification.push(this.createQualification({ Id: 0, Name: '', isEditing: true }));
-    defaultResponsibility.push(this.formBuilder.group({ Id: '', Responsibility: ['', Validators.required], isEditing: true }));
+    defaultResponsibility.push(this.formBuilder.group({ Id: '', Responsibility: ['',[Validators.required,this.noWhitespaceValidator]], isEditing: true }));
 
     this.jobDescriptionForm = this.formBuilder.group({
       title: new FormControl(''),
-      about: new FormControl('', Validators.required),
-      selectedDesignation: new FormControl('', Validators.required),
+      about: new FormControl('', [Validators.required,this.noWhitespaceValidator]),
+      selectedDesignation: new FormControl('', [Validators.required,Validators.pattern("(?!^ +$)^.+$")]),
       selectedLocation: new FormControl('', Validators.required),
       selectedExperience: new FormControl('', Validators.required),
       mandatoryTags: new FormControl(''),
@@ -142,23 +147,25 @@ export class CreateJdComponent implements OnInit {
     });
     this.jobService.FetchExperienceList().subscribe((experiences: any) => {
       if (experiences.StatusCode === 200) {
-        this.experiences = experiences.ExperienceMasterList;
+        this.experiences = experiences.ResponseList;
       }
     });
     this.jobService.FetchLocationList().subscribe((locations: any) => {
       if (locations.StatusCode === 200) {
-        this.locations = locations.LocationMasterList;
+        this.locations = locations.ResponseList;
       }
     });
     this.jobService.FetchDesignationList().subscribe((designations: any) => {
       if (designations.StatusCode === 200) {
-        this.designations = designations.DesignationList;
+        this.designations = designations.ResponseList;
       }
     });
     this.jobService.FetchTagsList().subscribe((tags: any) => {
       if (tags.StatusCode === 200) {
-        this.allTags = [...tags.ProfileTagsList];
-        this.allTagsDesired = [...tags.ProfileTagsList];
+        this.allTags =JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTags.map((x) => x.TagType = 1);
+            this.allTagsDesired = JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTagsDesired.map((x)=> x.TagType = 2);
         for (let index = 0; this.allTags.length > index; index++) {
           for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
             if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
@@ -202,50 +209,70 @@ export class CreateJdComponent implements OnInit {
       }
     });
   }
+  noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+}
   compareWithFunc = (a: any, b: any) => a == b;
   createMandatorySkill(newSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: newSkill.isEditing ? newSkill.isEditing : false,
-      SkillId: newSkill.SkillId,
-      SkillName: [newSkill.SkillName, Validators.required],
+      SkillId: String(newSkill.SkillId),
+      SkillName: [newSkill.SkillName, [Validators.required,this.noWhitespaceValidator]],
       SkillTypeId: newSkill.SkillTypeId,
       SkillTypeName: newSkill.SkillTypeName,
     });
   }
   createQualification(qualificationObj): FormGroup {
-    qualificationObj.Name = [qualificationObj.Name, Validators.required]
+    qualificationObj.Name = [qualificationObj.Name, [Validators.required,this.noWhitespaceValidator]]
     return this.formBuilder.group(qualificationObj);
   }
   createDesiredSkill(desiredSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: desiredSkill.isEditing ? desiredSkill.isEditing : false,
-      SkillId: desiredSkill.SkillId,
-      SkillName: [desiredSkill.SkillName, Validators.required],
+      SkillId: String(desiredSkill.SkillId),
+      SkillName: [desiredSkill.SkillName, [Validators.required,this.noWhitespaceValidator]],
       SkillTypeId: 2,
       SkillTypeName: 'Desired'
     });
   }
-  addMandatorySkill(): void {
-    this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
-    const newSkill = {
-      isEditing: true,
-      SkillId: 0,
-      SkillName: '',
-      SkillTypeId: 1,
-      SkillTypeName: 'Mandatory'
-    };
-    this.mandatorySkills.push(this.createMandatorySkill(newSkill));
+
+  removeSpace(str) {
+    return str.trim().replace(/[\s]+/g, ' ')
   }
-  addDesiredSkill(): void {
-    this.mandatorySkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
-    const newSkill = {
-      isEditing: true,
-      SkillId: 0,
-      SkillName: '',
-      SkillTypeId: 1,
-      SkillTypeName: 'Desired'
-    };
-    this.mandatorySkills.push(this.createDesiredSkill(newSkill));
+
+  addMandatorySkill(index?,skills?): void {
+    this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    if(skills){
+      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,SkillId: skills[index].SkillId,
+        SkillName: skills[index].SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'}));
+    } else{
+      const newSkill = {
+        isEditing: true,
+        SkillId: 0,
+        SkillName: '',
+        SkillTypeId: 1,
+        SkillTypeName: 'Mandatory'
+      };
+      this.mandatorySkills.push(this.createMandatorySkill(newSkill));
+    }
+  }
+  addDesiredSkill(index,skills?): void {
+    this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    if(skills){
+      this.desiredSkills.push(this.createDesiredSkill({isEditing: true,SkillId: skills[index].SkillId,
+        SkillName: skills[index].SkillName, SkillTypeId: 2, SkillTypeName: 'Desired'}));
+    } else{
+      const newSkill = {
+        isEditing: true,
+        SkillId: 0,
+        SkillName: '',
+        SkillTypeId: 2,
+        SkillTypeName: 'Desired'
+      };
+      this.desiredSkills.push(this.createDesiredSkill(newSkill));
+    }
   }
   addQualification(): void {
     this.qualifications = this.jobDescriptionForm.get('qualifications') as FormArray;
@@ -254,22 +281,60 @@ export class CreateJdComponent implements OnInit {
   }
   addResponsibility(): void {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
-    const obj = { Id: '', Responsibility: ['', Validators.required], isEditing: true };
+    const obj = { Id: '', Responsibility: ['', [Validators.required,this.noWhitespaceValidator]], isEditing: true };
     this.rolesAndResponsibility.push(this.formBuilder.group(obj));
   }
-  deleteSkill(deletedSkill, index) {
+  deleteSkill(deletedSkill,onRemove,index?) {
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
-    if (deletedSkill.SkillId.value !== 0) {
-      this.deletedSkills.push(deletedSkill.SkillId.value);
+    const skills = deletedSkill;
+    this.mandatorySkillData = [];
+    if(onRemove){
+      this.mandatorySkills.value.forEach((deletedSkill,i)=>{
+        let index = skills.findIndex((i)=>{
+          return (i.SkillId.startsWith('Id'));
+        })
+        if(deletedSkill.SkillId.startsWith('Id')) {
+              this.mandatorySkills.removeAt(index);  
+         }
+      })
+       this.populateMandatorySkills(this.mandatoryTagsList);
     }
-    this.mandatorySkills.removeAt(index);
+    if(deletedSkill.SkillId !== undefined){
+      if (deletedSkill.SkillId.value !== '0') {
+        this.deletedSkills.push(deletedSkill.SkillId.value);
+      }
+      this.mandatorySkills.removeAt(index);
+    }    
+    if(this.mandatorySkills.length == 0){
+      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
+    }
   }
-  deleteDesiredSkill(deletedSkill, index) {
+  deleteDesiredSkill(deletedSkill, onRemove ,index?) {
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
-    if (deletedSkill.SkillId.value !== 0) {
-      this.deletedSkills.push(deletedSkill.SkillId.value);
+    this.desiredSkillData = [];
+    const skills = deletedSkill;
+    if(onRemove){
+      this.desiredSkills.value.forEach((deletedSkill,i)=>{
+        let index = skills.findIndex((i)=>{
+          return (i.SkillId.startsWith('Id'));
+        })
+        if(deletedSkill.SkillId.startsWith('Id')) {
+              this.desiredSkills.removeAt(index);
+         }
+      })
+      this.populateDesiredSkills(this.desiredTagsList);
     }
-    this.desiredSkills.removeAt(index);
+    if(deletedSkill.SkillId !== undefined){
+      if (deletedSkill.SkillId.value !== '0') {
+        this.deletedSkills.push(deletedSkill.SkillId.value);
+      }
+      this.desiredSkills.removeAt(index);
+    }
+    if(this.desiredSkills.length == 0){
+      this.desiredSkills.push(this.createDesiredSkill({isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 2, SkillTypeName: 'Desired'}))
+    }
   }
   deleteQualification(deletedQualification, index) {
     this.qualifications = this.jobDescriptionForm.get('qualifications') as FormArray;
@@ -277,6 +342,7 @@ export class CreateJdComponent implements OnInit {
       this.deletedQualifications.push(deletedQualification.Id.value);
     }
     this.qualifications.removeAt(index);
+    this.qualifications.length == 0 ? this.addQualification() : null;
   }
   deleteResponsiblity(deletedResponsibility, index: number) {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
@@ -284,36 +350,63 @@ export class CreateJdComponent implements OnInit {
       this.deletedResponsiblities.push(deletedResponsibility.Id.value);
     }
     this.rolesAndResponsibility.removeAt(index);
+    this.rolesAndResponsibility.length == 0 ? this.addResponsibility() : null;
+  }
+
+  isSkillNameNotEmpty(controls) {
+    return controls.SkillName.value.trim() !=""; 
+  }
+  isQualificationEmpty(controls){
+    return controls.Name.value.trim() !="";
+  }
+  isResponsibilityEmpty(controls){
+  return controls.Responsibility.value.trim() !="";
   }
   moveToDesired(selectedSkill, index) {
     const updatedSkill = {
-      SkillId: selectedSkill.SkillId.value,
+      SkillId: (`MID${selectedSkill.SkillId.value}`),
       SkillName: selectedSkill.SkillName.value
     };
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    if(this.desiredSkills.value[0].SkillName == '')
+    this.desiredSkills.removeAt(0);
     this.desiredSkills.push(this.createDesiredSkill(updatedSkill));
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     this.mandatorySkills.removeAt(index);
+    if(this.mandatorySkills.length == 0){
+      this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
+    }
   }
   moveToMandatory(selectedSkill, index) {
     const updatedSkill = {
-      SkillId: selectedSkill.SkillId.value,
+      SkillId: (`MID${selectedSkill.SkillId.value}`),
       SkillName: selectedSkill.SkillName.value,
       SkillTypeId: 1,
       SkillTypeName: 'Mandatory'
     };
     this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    if(this.mandatorySkills.value[0].SkillName == '')
+    this.mandatorySkills.removeAt(0);
     this.mandatorySkills.push(this.createMandatorySkill(updatedSkill));
     this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     this.desiredSkills.removeAt(index);
+    if(this.desiredSkills.length == 0){
+      this.desiredSkills.push(this.createDesiredSkill({isEditing: true,
+        SkillId: 0, SkillName: '', SkillTypeId: 2, SkillTypeName: 'Desired'}))
+    }
   }
 
   addMandatoryTag(event: MatChipInputEvent, isAdd, TagType): void {
     if (isAdd) {
         const input = event.input;
         const value = event.value;
+        let index = this.mandatoryTagsList.findIndex((i)=>{
+          return (i.TagName == value);
+        })
         // Add our tag
         if ((value || '').trim()) {
+          if(index === -1 || value !== this.mandatoryTagsList[index].TagName)
           this.mandatoryTagsList.push({ Id: '', TagName: value.trim(), TagType });
         }
         // Reset the input value
@@ -328,8 +421,12 @@ export class CreateJdComponent implements OnInit {
     if (isAdd) {
       const input = event.input;
       const value = event.value;
+      let index = this.desiredTagsList.findIndex((i)=>{
+        return (i.TagName == value);
+      })
       // Add our tag
       if ((value || '').trim()) {
+        if(index === -1 || value !== this.desiredTagsList[index].TagName)
         this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType });
       }
       // Reset the input value
@@ -346,6 +443,7 @@ export class CreateJdComponent implements OnInit {
     });
     this.associatedTags.splice(index, 1);
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName);
+    this.populateMandatorySkills([this.mandatoryTagsList[this.mandatoryTagsList.length-1]])
   }
   appendToDesiredTags(index) {
     this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName, TagType:2});
@@ -354,8 +452,10 @@ export class CreateJdComponent implements OnInit {
     });
     this.associatedDesiredTags.splice(index, 1);
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName);
+    this.populateDesiredSkills([this.desiredTagsList[this.desiredTagsList.length-1]])
   }
   removeDesiredTag(tag,TagType): void {
+    this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
     const index = this.desiredTagsList.indexOf(tag);
     this.associatedDesiredTags = [];
     if(tag.Id.startsWith('ID')) {
@@ -363,6 +463,7 @@ export class CreateJdComponent implements OnInit {
             return r.Id  != tag.Id;
           });
           this.desiredTagsList.splice(index, 1);
+          this.allTagsDesired.push(tag);
          } else {
     if (index >= 0) {
       this.desiredTagsList.splice(index, 1);
@@ -373,8 +474,10 @@ export class CreateJdComponent implements OnInit {
     (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName)
     : null;
+    this.deleteDesiredSkill(this.desiredSkills.value,true);
   }
   removeMandatoryTag(tag){
+    this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
     const index = this.mandatoryTagsList.indexOf(tag);
     this.associatedTags = [];
     if(tag.Id.startsWith('ID')) {
@@ -382,10 +485,12 @@ export class CreateJdComponent implements OnInit {
             return r.Id  != tag.Id;
           });
           this.mandatoryTagsList.splice(index, 1);
+          this.allTags.push(tag);
          } else {
 
     if (index >= 0) {
       this.mandatoryTagsList.splice(index, 1);
+      this.allTags.push(tag);
       this.deletedMandatoryTags.push({Id:tag.Id,TagType:tag.TagType});
       }
       
@@ -393,6 +498,7 @@ export class CreateJdComponent implements OnInit {
     (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
     : null;
+    this.deleteSkill(this.mandatorySkills.value,true);
   }
 
   fetchAssociatedTags(value) {
@@ -402,8 +508,6 @@ export class CreateJdComponent implements OnInit {
       this.mandatoryTagsList.filter((r)=>{
                   skillDataNamesOnly.push(r.TagName);
       });
-     
-
       skillData.forEach((v,i)=> {
         if(skillDataNamesOnly.indexOf(v) < 0) {
           this.associatedTags.push({Id: `ID${i}`, TagName: v});
@@ -415,11 +519,17 @@ export class CreateJdComponent implements OnInit {
   fetchAssociatedDesiredTags(value) {
     this.associatedDesiredTags = [];
     this.jobService.FetchAssociatedTags(value).subscribe((skillData: any) => {
-      skillData = skillData.splice(0,3)
-      skillData.forEach((v,i)=> {
+      const skillDataNamesOnly = [];
+      this.desiredTagsList.filter((r)=>{
+        skillDataNamesOnly.push(r.TagName);
+        });
+        skillData.forEach((v,i)=> {
+        if(skillDataNamesOnly.indexOf(v) < 0) {
         this.associatedDesiredTags.push({Id: `ID${i}`, TagName: v});
-      });
-    })
+        }
+        });
+        this.associatedDesiredTags = this.associatedDesiredTags.splice(0,3)
+        })
   }
 
   selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
@@ -432,8 +542,8 @@ export class CreateJdComponent implements OnInit {
         }
       });
       this.desiredTags.setValue(null);
+      this.populateDesiredSkills([event.option.value]);
       this.fetchAssociatedDesiredTags(event.option.value.TagName);
-      this.desiredTags.setValue(null);
   }
 
   selectedMandatoryTag(event: MatAutocompleteSelectedEvent,TagType){
@@ -445,9 +555,47 @@ export class CreateJdComponent implements OnInit {
         this.allTags.splice(index, 1);
       }
     });
-    this.desiredTags.setValue(null);
-    this.fetchAssociatedTags(event.option.value.TagName);
     this.mandatoryTags.setValue(null);
+    this.populateMandatorySkills([event.option.value]);
+    this.fetchAssociatedTags(event.option.value.TagName);
+  }
+
+  populateMandatorySkills(tag){
+    this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    this.mandatorySkillData = [];
+    const tags = tag.map((res)=>res.TagName);
+    this.jobService.FetchAssociatedSkills(tags,1).subscribe((res) => {
+      res.forEach((v,i)=>{
+          this.mandatorySkillData.push({SkillId:`Id${i}` , SkillName: v});
+        for (let index2 = 0; this.mandatorySkills.length > index2; index2++) {
+        if(v === this.mandatorySkills.value[index2].SkillName)
+        this.mandatorySkillData.splice(i,1);
+        }
+        if(this.mandatorySkillData.length > 0)
+         this.addMandatorySkill(i,this.mandatorySkillData) ;
+         if(this.mandatorySkills.value[0].SkillName==='')
+          this.mandatorySkills.removeAt(0);
+     })
+  })
+}
+
+ populateDesiredSkills(tag){
+    this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    this.desiredSkillData = [];
+    const tags = tag.map((res)=>res.TagName);
+    this.jobService.FetchAssociatedSkills(tags,2).subscribe((res) => {
+      res.forEach((v,i)=>{
+          this.desiredSkillData.push({SkillId:`Id${i}` , SkillName: v});
+          for (let index2 = 0; this.desiredSkills.length > index2; index2++) {
+            if(v === this.desiredSkills.value[index2].SkillName)
+            this.desiredSkillData.splice(i,1);
+      }
+      if(this.desiredSkillData.length > 0)
+        this.addDesiredSkill(i,this.desiredSkillData);
+        if(this.desiredSkills.value[0].SkillName==='')
+          this.desiredSkills.removeAt(0);
+      })
+    })
   }
 
   selectedSkill(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
@@ -461,7 +609,7 @@ export class CreateJdComponent implements OnInit {
     this.jobDescriptionForm.controls['qualifications'].value[index].Name = event.option.value
   }
   selectResponsibility(event: MatAutocompleteSelectedEvent, index, isMandatory): void {
-    this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = event.option.value
+    this.jobDescriptionForm.controls['rolesAndResponsibility'].value[index].Responsibility = this.removeSpace(event.option.value)
   }
 
   getMandatorySkill(event) {
@@ -471,7 +619,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
-            this.suggestedMandatorySkill = skillData.Skills;
+            this.suggestedMandatorySkill = skillData.ResponseList;
           }
         })
       }
@@ -484,7 +632,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
-            this.suggestedDesiredSkill = skillData.Skills;
+            this.suggestedDesiredSkill = skillData.ResponseList;
           }
         })
       }
@@ -496,7 +644,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllQualifications(event.target.value).subscribe((Data: any) => {
           if (Data.StatusCode) {
-            this.suggestedQualification = Data.ProfileQualifications;
+            this.suggestedQualification = Data.ResponseList;
           }
         })
       }
@@ -508,14 +656,18 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllResponsibilities(event.target.value).subscribe((Data: any) => {
           if (Data.StatusCode) {
-            this.suggestedResponsibilities = Data.ProfileResponsibilities;
+            this.suggestedResponsibilities = Data.ResponseList;
           }
         })
       }
     }
   }
+  getDesignationNameFromID(designationEvent:  string) {
+    return this.designations.find((r: any) => r.Id == designationEvent)['DesignationName'];
+  }
   FetchProfileSummary(designationEvent) {
-    this.selectedDesignationName = designationEvent.viewValue;
+    this.desigOption = 3;
+    this.selectedDesignationName = this.getDesignationNameFromID(designationEvent.value);
     let designationObject = { designationId: designationEvent.value, name: designationEvent.viewValue }
     this.jobService.FetchProfileSummary(designationObject).subscribe((Data: any) => {
       if (Data.StatusCode) {
@@ -523,28 +675,29 @@ export class CreateJdComponent implements OnInit {
       }
     })
   }
+  removeDesignation(event){
+    this.desigOption = event.length;
+    let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
+    length == undefined ? this.selectedDesignationName = '' : null; 
+  }
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
   }
-  clearSummary() {
-    this.jobDescriptionForm.patchValue({ about: "" })
-  }
-  checkDuplicateDesignation(event) {
 
-    if (isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
-      this.FetchProfileSummary({ value: 0, viewValue: event.target.value })
+  checkDuplicateDesignation(event) {
+    //this.FetchProfileSummary({ value: 0, viewValue: event.target.value })
       let isChecked = false
       this.designations.forEach((designation: any) => {
         if (!isChecked) {
           if (designation.DesignationName.trim().toLowerCase() === event.target.value.trim().toLowerCase()) {
             this.isDuplicateDesignation = true
+            this.selectedDesignationId = designation.Id;
             isChecked = true
           } else {
             this.isDuplicateDesignation = false
           }
         }
       });
-    }
   }
   filterDesignationList(evnt) {
     if ((evnt.keyCode >= 48 && evnt.keyCode <= 57) || (evnt.keyCode >= 65 && evnt.keyCode <= 90) || evnt.keyCode === 8) {
@@ -561,15 +714,46 @@ export class CreateJdComponent implements OnInit {
     }
   }
 
+  getIdsOfMovedToMandatorySkills(){
+    this.mandatorySkills = this.jobDescriptionForm.get('mandatorySkills') as FormArray;
+    for(let i=0; i < this.mandatorySkills.length; i++){
+      if(this.mandatorySkills.value[i].SkillId.startsWith('MID')){
+       const id =  this.mandatorySkills.value[i].SkillId.slice(3);
+       const SkillName = this.mandatorySkills.value[i].SkillName;
+       this.mandatorySkills.removeAt(i);
+       this.mandatorySkills.push(this.createMandatorySkill({isEditing: true,SkillId: id,
+        SkillName: SkillName, SkillTypeId: 1, SkillTypeName: 'Mandatory'}))
+        i = -1;
+      }
+    }
+  }
+  getIdsOfMovedToDesiredSkills(){
+    this.desiredSkills = this.jobDescriptionForm.get('desiredSkills') as FormArray;
+    for(let i=0; i < this.desiredSkills.length; i++){
+      if(this.desiredSkills.value[i].SkillId.startsWith('MID')){
+       const id =  this.desiredSkills.value[i].SkillId.slice(3);
+       const SkillName = this.desiredSkills.value[i].SkillName;
+       this.desiredSkills.removeAt(i);
+       this.desiredSkills.push(this.createDesiredSkill({isEditing: true,SkillId: id,
+        SkillName: SkillName, SkillTypeId: 2, SkillTypeName: 'Desired'}))
+        i = -1;
+      }
+    }
+  }
+
   onSave() {
+    this.getIdsOfMovedToMandatorySkills();
+    this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || this.isDuplicateDesignation) {
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1) {
       return;
     }
+
+    
     const jdObject = {
       ProfileName: this.jobDescriptionForm.get('title').value,
       About: this.jobDescriptionForm.get('about').value,
-      DesignationId: isNaN(this.jobDescriptionForm.get('selectedDesignation').value) ? 0 : this.jobDescriptionForm.get('selectedDesignation').value,
+      DesignationId: !this.isDuplicateDesignation ? 0 :  this.selectedDesignationId,
       LocationId: this.jobDescriptionForm.get('selectedLocation').value,
       ExperienceId: this.jobDescriptionForm.get('selectedExperience').value,
       SkillList: [...this.jobDescriptionForm.get('mandatorySkills').value, ...this.jobDescriptionForm.get('desiredSkills').value],
@@ -580,7 +764,7 @@ export class CreateJdComponent implements OnInit {
       DeletedSkills: this.deletedSkills,
       DeletedResponsibilities: this.deletedResponsiblities,
       DeletedTags: (this.deletedMandatoryTags.concat(this.deletedDesiredTags)),
-      NewDesignation: isNaN(this.jobDescriptionForm.get('selectedDesignation').value) ? this.jobDescriptionForm.get('selectedDesignation').value : undefined,
+      NewDesignation: !this.isDuplicateDesignation ? this.jobDescriptionForm.get('selectedDesignation').value : undefined,
       isPrivate: this.isPrivateChecked
     };
     this.jobService.CreateProfile(jdObject).subscribe((updatedData: any) => {
@@ -592,7 +776,7 @@ export class CreateJdComponent implements OnInit {
           document.body.scrollTop = 0; // For Safari
           document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         } else {
-          this.router.navigate(['myJd']);
+          this.router.navigate(['jd-creator/myJd']);
         }
 
       } else {

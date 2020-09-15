@@ -1,10 +1,114 @@
-<div class="bg-light d-none d-lg-block" id="sidebar-wrapper">
-      <div class="list-group list-group-flush">
-        <a [routerLinkActive]="['active']" [routerLink]="['/allJd']"  href="javascript:" class="list-group-item list-group-item-action side-tabs">All JDs</a>
-        <a [routerLinkActive]="['active']" [routerLink]="['/myJd']"   href="javascript:" class="list-group-item list-group-item-action side-tabs">My JDs</a>
-        <a [routerLinkActive]="['active']" [routerLink]="['/jdsShared']"  href="javascript:"  class="list-group-item list-group-item-action side-tabs">JD shared with me</a>
-        <a href="javascript:" class="list-group-item list-group-item-action side-tabs">FAQs/Help</a>
+<div class="bg-light d-none d-lg-block" id="sidebar-wrapper" >
+  <div class="list-group list-group-flush">
+    <a
+      [routerLinkActive]="['active']"
+      [routerLink]="['/jd-creator/allJd']"
+      href="javascript:"
+      class="list-group-item list-group-item-action side-tabs"
+      >All JDs</a
+    >
+    <a
+      [routerLinkActive]="['active']"
+      [routerLink]="['/jd-creator/myJd']"
+      href="javascript:"
+      class="list-group-item list-group-item-action side-tabs"
+      >My JDs</a
+    >
+    <a
+      [routerLinkActive]="['active']"
+      [routerLink]="['/jd-creator/jdsShared']"
+      href="javascript:"
+      class="list-group-item list-group-item-action side-tabs"
+      >JD shared with me</a
+    >
+    <span style="background: #333333;color: white;">
+      <a
+      [routerLinkActive]="['active']"
+        href="javascript:"
+        [routerLink]="['/jd-creator/help']" 
+        class="list-group-item list-group-item-action side-tabs" [ngStyle]="{'border' : location ? 'none' : '1px solid rgba(0,0,0,.125)'}" style="padding-bottom: 10px;"
+        >FAQs/Help</a
+      >
+      <div *ngIf="!!location" class="col-3 aa">
+        <ul style="padding-left: 20px;font-size: 0.9rem;">
+          <li>
+            <a href="/jd-creator/help#videos" style="cursor: pointer;"
+              >How To Videos</a
+            >
+          </li>
+          <li>
+            <a href="/jd-creator/help#faq" style="cursor: pointer;">FAQs</a>
+          </li>
+          <li>
+            <a href="/jd-creator/help#login_A" style="cursor: pointer;"
+              >Login</a
+            >
+          </li>
+          <li>
+            <a href="/jd-creator/help#dashboard" style="cursor: pointer;"
+              >Dashboard</a
+            >
+          </li>
+          <ul style="padding-left:26px; font-size: 0.8rem;">
+            <li>
+              <a href="/jd-creator/help#search" style="cursor: pointer;"
+                >Search By Keyword</a
+              >
+            </li>
+            <li>
+              <a href="/jd-creator/help#designation" style="cursor: pointer;"
+                >Designation</a
+              >
+            </li>
+            <li>
+              <a href="/jd-creator/help#experience" style="cursor: pointer;"
+                >Experience</a
+              >
+            </li>
+            <li>
+              <a href="/jd-creator/help#createdby" style="cursor: pointer;"
+                >Created By</a
+              >
+            </li>
+            <li>
+              <a href="/jd-creator/help#location" style="cursor: pointer;"
+                >Location</a
+              >
+            </li>
+            <li>
+              <a href="/jd-creator/help#newJd" style="cursor: pointer;"
+                >Create New JD</a
+              >
+            </li>
+            <li>
+              <a href="/jd-creator/help#editJD" style="cursor: pointer;"
+                >Edit JD</a
+              >
+            </li>
+            <li>
+              <a href="/jd-creator/help#Ipool" style="cursor: pointer;"
+                >View Internal Pool</a
+              >
+            </li>
+            <li>
+              <a href="/jd-creator/help#Epool" style="cursor: pointer;"
+                >View External Pool</a
+              >
+            </li>
+          </ul>
+          <li>
+            <a href="/jd-creator/help#myJD" style="cursor: pointer;">My JD's</a>
+          </li>
+          <li>
+            <a href="/jd-creator/help#sharedjd" style="cursor: pointer;"
+              >JD Shared with me</a
+            >
+          </li>
+        </ul>
       </div>
-    </div>
-
-
+    </span>
+    
+    
+    
+  </div>
+</div>

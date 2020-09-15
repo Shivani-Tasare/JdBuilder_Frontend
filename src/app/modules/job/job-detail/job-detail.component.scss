@@ -16,7 +16,16 @@ background-color: white;
   text-align: right;
   cursor: pointer;
 }
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
 
+.example-margin {
+  margin-bottom: 38px;
+}
 tr.noBorder td {
   border: 0;
 }
@@ -221,4 +230,26 @@ tr.noBorder td {
   height: 30vh;
   margin: auto;
   line-height: 30vh;
+}
+.search-results {
+  height: 10rem;
+  overflow: scroll;
+}
+
+
+.spacing{
+  margin-bottom: 7px;
+  display: block;
+}
+.regionText {
+  position: relative;
+  float: right;
+  font-size: 12px;
+  right: 19px;
+  top: -9px;
+  border: 1px solid #f2f2f2;
+  background: #f8f8f8;
+  color: black;
+  font-style: italic;
+  padding: 4px;
 }

@@ -13,6 +13,7 @@ import { JobServiceService } from './shared/services/job-service.service';
 })
 export class AppComponent implements OnInit {
   title = 'jobProject';
+  isHome = false;
   isAuthenticated = false;
   subscription: Subscription;
   isCollapseOn = false;
@@ -35,6 +36,9 @@ export class AppComponent implements OnInit {
   }
   constructor(private jobService:JobServiceService, private eRef: ElementRef, private adalService: AdalService, @Inject(APP_CONFIG) private config: AppConfig, private router: Router) {
     router.events.subscribe(val => {
+      if (location.pathname.indexOf("home") > 0) {
+        this.isHome = true;
+      }
       if (location.pathname.indexOf("myJd") > 0) {
         this.selectedIndex = 2;
       }
@@ -43,7 +47,10 @@ export class AppComponent implements OnInit {
       }
     });
    }
-  ngOnInit() {;
+  get isHomeCheck() {
+    return  this.isHome;
+  } 
+  ngOnInit() {
     this.adalService.handleCallback();
    
     this.subscription = this.adalService.getUserAuthenticationStatus().subscribe(value => {
@@ -57,7 +64,8 @@ export class AppComponent implements OnInit {
     this.adalService.acquireTokenResilient(this.config.resource).subscribe((token) => {
       
     });
-    
+    var title = document.querySelector('title')
+    location.pathname.includes('jd-creator') ? title.text = 'JD Creator' : title.text = 'RAPID'; 
   }
   
 }
