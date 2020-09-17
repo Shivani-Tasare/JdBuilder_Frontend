@@ -164,12 +164,12 @@ export class JobListingComponent implements OnInit {
   goToDetails(jobId) {
     this.loaderService.show();
     if (location.pathname.indexOf('myJd') > 0) {
-      this.router.navigate(['jd-creator/myJd/job-description/view/' + jobId]);
+      this.router.navigate(['jd-creator/jd/job-description/view/' + jobId]);
     } else if (location.pathname.indexOf('jdsShared') > 0) {
       this.router.navigate(['jd-creator/jd/job-description/edit/' + jobId],{queryParams:{IsSharedJd:'true'}});
     }
     else {
-      this.router.navigate(['jd-creator/allJd/job-description/view/' + jobId]);
+      this.router.navigate(['jd-creator/jd/job-description/view/' + jobId]);
     }
   }
 

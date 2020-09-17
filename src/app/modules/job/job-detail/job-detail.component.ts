@@ -235,32 +235,23 @@ export class JobDetailComponent implements OnInit {
     if (window.location.href.includes('IsSharedJd=true')) {
       this.IsSharedJD = true;
     }
-    if (window.location.href.includes('allJd/job-description/view')) {
-      this.copiedJd = true;
-    }
-    if (window.location.href.includes('saveCopy=true')) {
-      this.saveAsCopy = true;
-    }
+    // if (window.location.href.includes('allJd/job-description/view')) {
+    //   this.copiedJd = true;
+    // }
+    // if (window.location.href.includes('saveCopy=true')) {
+    //   this.saveAsCopy = true;
+    // }
   }
 
   onEdit() {
-    if (this.copiedJd) {
-      if (!this.isSameUser) {
+      if (this.saveAsCopy) {
         this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId], { queryParams: { saveCopy: true } })
-      } else {
-        this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId], { queryParams: { saveCopy: false } })
-      }
     } else {
       this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId])
     }
-  }
+}
   onCancel() {
-    if (this.isSameUser) {
-      this.router.navigate(['jd-creator/myJd/job-description/view/' + this.jobDetail.Response.ProfileId]);
-    }
-    else {
-      this.router.navigate(['jd-creator/allJd/job-description/view/' + this.jobDetail.Response.ProfileId]);
-    }
+      this.router.navigate(['jd-creator/jd/job-description/view/' + this.jobDetail.Response.ProfileId]);
   }
 
   toggleShare(isToggleClicked?, isButtonClicked?) {
@@ -332,6 +323,7 @@ export class JobDetailComponent implements OnInit {
         if (this.adalService.userInfo.profile.oid === jobDetail.Response.CreatedBy) {
           this.isSameUser = true
         }
+        !this.isSameUser ? this.saveAsCopy = true : this.saveAsCopy = false;
         this.mandatoryTagsList = jobDetail.Response.TagsList.filter((x) => x.TagType === 1);
         this.selectmandatorytags = this.mandatoryTagsList.map((x) => x.TagName);
         this.desiredTagsList = jobDetail.Response.TagsList.filter((x) => x.TagType === 2);
@@ -1174,6 +1166,7 @@ export class JobDetailComponent implements OnInit {
       NewDesignation: isNaN(this.jobDescriptionForm.get('selectedDesignation').value) ? this.jobDescriptionForm.get('selectedDesignation').value : undefined,
       isPrivate: this.isPrivateChecked,
       copyJd: (this.saveAsCopy ? true : false)
+    
     };
     this.jobService.saveJd(jdObject).subscribe((updatedData: any) => {
       if (updatedData.StatusCode === 200) {
@@ -1186,12 +1179,12 @@ export class JobDetailComponent implements OnInit {
           document.body.scrollTop = 0;
           document.documentElement.scrollTop = 0;
           this.initLoad()
-          this.router.navigate(['jd-creator/myJd/job-description/view/', this.jobDetail.Response.ProfileId]);
+          this.router.navigate(['jd-creator/jd/job-description/view/', this.jobDetail.Response.ProfileId]);
         } else if (this.IsSharedJD) {
           this.router.navigate(['jd-creator/jdsShared']);
         }
         else {
-          this.router.navigate(['jd-creator/allJd/job-description/view/', this.jobDetail.Response.ProfileId]);
+          this.router.navigate(['jd-creator/jd/job-description/view/', this.jobDetail.Response.ProfileId]);
         }
       } else {
         this.toastr.error(updatedData.Message, 'Error');
