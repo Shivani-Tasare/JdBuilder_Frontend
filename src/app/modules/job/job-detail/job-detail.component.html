@@ -704,21 +704,25 @@
     <div class="col-4 p-0">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
         class="w-100 h-100 font-weight-bold theme-color-btn view-floating-1" style="
-      border: none;">View Internal Pool</button>
+      font-size: 2vw;
+      border: none;
+      ">View Internal Pool</button>
       <!-- The Modal -->
     </div>
     <div class="col-4 p-0">
       <button  data-toggle="modal" data-target="#iCIMSCandidateModal" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" style="
-      border: none;">View External Pool</button>
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" style=" 
+      font-size: 2vw;
+      border: none;
+      ">View External Pool</button>
       <!-- The Modal -->
     </div>
     <div class="col-2 p-0">
-      <button (click)="fixHeader();onEdit()" class="h-100 font-weight-bold theme-secondary-btn" style="padding-right: 5px;width: 60px;">Edit JD</button>
+      <button (click)="fixHeader();onEdit()" class="w-100 h-100 font-weight-bold" style="font-size: 2vw;background: white;/* font-size: 5px; */color: #9E4587;/* border-color: #9E4587; */margin-left: -15px;border: 1px solid #9E4587;">Edit JD</button>
     </div>
     <div class="col-2 p-0"  *ngIf="isSameUser" >
     <button data-toggle="modal" data-target="#deleteConfirmation"type="button"
-                   class="w-100 h-100 font-weight-bold theme-secondary-btn" style="margin-left: -15px;" >Delete</button></div>
+                   class="w-100 h-100 font-weight-bold" style="font-size: 2vw;background: white;/* font-size: 5px; */color: #9E4587;/* border-color: #9E4587; */margin-left: -15px;border: 1px solid #9E4587;" >Delete</button></div>
     
   </div>
 
