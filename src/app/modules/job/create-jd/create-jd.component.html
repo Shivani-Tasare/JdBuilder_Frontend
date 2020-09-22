@@ -42,8 +42,8 @@
                 <mat-form-field class="col-8 pl-0">
                   <input (focusout)="checkDuplicateDesignation($event)" 
                     (keyup.enter)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
-                    aria-label="Number" matInput formControlName="selectedDesignation" [value]="selectedDesignationName"
-                    (keyup)="filterDesignationList($event)" [matAutocomplete]="desig" (keydown.backspace)="removeDesignation($event.target.value)">
+                    aria-label="Number" [maxLength]="202" matInput formControlName="selectedDesignation" [value]="selectedDesignationName"
+                    (keyup)="filterDesignationList($event)"  [matAutocomplete]="desig" (keydown.backspace)="removeDesignation($event.target.value)">
                   <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
                     <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName">
                       {{designation.DesignationName}}
@@ -52,9 +52,14 @@
                 </mat-form-field>
                 <mat-error class="col-8 offset-4 px-0">
                   <div *ngIf="(submitted || jobDescriptionForm.get('selectedDesignation').touched)">
-                    <div *ngIf="jobDescriptionForm.get('selectedDesignation').invalid">Please select designation.</div>
+                  <div *ngIf="jobDescriptionForm.get('selectedDesignation').errors?.maxlength">
+                    Input text must not exceed 200  characters
                   </div>
-                </mat-error>
+                  <div *ngIf="jobDescriptionForm.get('selectedDesignation').invalid && jobDescriptionForm.get('selectedDesignation').value.length < 1">Please select designation.
+                  </div>
+                  <div *ngIf="isDuplicateDesignation">Entered designation is already exists.</div>
+                  </div>
+                  </mat-error>
                 <p class="col-4 m-auto pt-2 font-weight-bold">EXPERIENCE</p>
                 <mat-form-field class="col-8 pl-0 mat-focused">
                   <mat-label>Select Experience</mat-label>
@@ -194,7 +199,7 @@
                           <mat-form-field  [class.visibility-hidden]='!skill.controls.isEditing.value' class="col-12 px-0">
                             <textarea style="overflow:hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                               (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number" matInput
-                              formControlName="SkillName" [value]="SkillName" [matAutocomplete]="auto"></textarea>
+                              formControlName="SkillName" [maxLength]="700" [value]="SkillName" [matAutocomplete]="auto"></textarea>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                               <mat-option *ngFor="let suggestion of suggestedMandatorySkill; let i = index;"
                                 [value]="suggestion.SkillName">
@@ -209,6 +214,11 @@
                                 skill !!!</div>
                             </div>
                           </mat-error>
+                          <mat-error>
+                            <div *ngIf="jobDescriptionForm.controls['mandatorySkills'].value[i].SkillName.length == 700" >
+                              Input text must not exceed 700  characters
+                            </div>
+                            </mat-error>
                         </div>
                         <p [hidden]='skill.controls.isEditing.value' class="my-auto" style="color:gray">
                           {{skill.controls.SkillName.value}}</p>
@@ -242,7 +252,7 @@
                             <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                               #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)" placeholder="Desired Skill"
                               aria-label="Number" matInput formControlName="SkillName"
-                              [matAutocomplete]="auto"></textarea>
+                              [matAutocomplete]="auto" [maxLength]="700"></textarea>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event,i)">
                               <mat-option *ngFor="let suggestion of suggestedDesiredSkill; let i = index;"
                                 [value]="suggestion.SkillName">
@@ -257,6 +267,11 @@
                                 skill !!!</div>
                             </div>
                           </mat-error>
+                          <mat-error>
+                            <div *ngIf="jobDescriptionForm.controls['desiredSkills'].value[i].SkillName.length == 700" >
+                              Input text must not exceed 700  characters
+                            </div>
+                            </mat-error>
                         </div>
                         <p [hidden]='skill.controls.isEditing.value' style="color:gray">
                           {{skill.controls.SkillName.value}}</p>
@@ -290,7 +305,7 @@
                             <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                               #autosize="cdkTextareaAutosize" (keyup)="getQualifications($event)"
                               placeholder="Qualification" aria-label="Number" matInput formControlName="Name"
-                              [matAutocomplete]="auto"></textarea>
+                              [matAutocomplete]="auto" [maxLength]="200"></textarea>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectQualification($event,i)">
                               <mat-option *ngFor="let qualification of suggestedQualification; let i = index;"
                                 [value]="qualification.Name" multipleLineOption>
@@ -305,6 +320,11 @@
                                 qualification !!!</div>
                             </div>
                           </mat-error>
+                          <mat-error>
+                            <div *ngIf="jobDescriptionForm.controls['qualifications'].value[i].Name.length == 200" >
+                              Input text must not exceed 200  characters
+                            </div>
+                            </mat-error>
                         </div>
                         <p [hidden]='item.controls.isEditing.value' style="color:gray">{{item.controls.Name.value}}</p>
                       </div>
@@ -335,7 +355,7 @@
                             <textarea style="overflow:hidden" type="text" cdkTextareaAutosize
                               #autosize="cdkTextareaAutosize" (keyup)="getResponsibilities($event)"
                               placeholder="Role And Responsibility" aria-label="Number" matInput
-                              formControlName="Responsibility" [matAutocomplete]="auto"></textarea>
+                              formControlName="Responsibility" [matAutocomplete]="auto" [maxLength]="500"></textarea>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectResponsibility($event,i)">
                               <mat-option *ngFor="let responsibility of suggestedResponsibilities; let i = index;"
                                 [value]="removeSpace(responsibility.Responsibility)" multipleLineOption>
@@ -350,6 +370,11 @@
                                 Please enter role and responsibilty !!!</div>
                             </div>
                           </mat-error>
+                          <mat-error>
+                            <div *ngIf="jobDescriptionForm.controls['rolesAndResponsibility'].value[i].Responsibility.length == 500" >
+                              Input text must not exceed 500  characters
+                            </div>
+                            </mat-error>
                         </div>
                         <p [hidden]='item.controls.isEditing.value' style="color:gray">
                           {{item.controls.Responsibility.value}}</p>
