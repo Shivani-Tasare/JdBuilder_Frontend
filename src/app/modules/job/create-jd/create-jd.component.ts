@@ -135,7 +135,7 @@ export class CreateJdComponent implements OnInit {
     this.jobDescriptionForm = this.formBuilder.group({
       title: new FormControl(''),
       about: new FormControl('', [Validators.required,this.noWhitespaceValidator]),
-      selectedDesignation: new FormControl('', [Validators.required,Validators.pattern("(?!^ +$)^.+$")]),
+      selectedDesignation: new FormControl('', [Validators.required,Validators.maxLength(200),Validators.pattern("(?!^ +$)^.+$")]),
       selectedLocation: new FormControl('', Validators.required),
       selectedExperience: new FormControl('', Validators.required),
       mandatoryTags: new FormControl(''),
@@ -742,13 +742,37 @@ export class CreateJdComponent implements OnInit {
   }
 
   onSave() {
+    let invalidLength=false;
     this.getIdsOfMovedToMandatorySkills();
     this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1) {
+
+    this.jobDescriptionForm.get('mandatorySkills').value.forEach(element => {
+      if(element.SkillName.length>699)
+      {invalidLength=true;}
+    });
+   
+    this.jobDescriptionForm.get('desiredSkills').value.forEach(element => {
+      if(element.SkillName.length>699)
+      {invalidLength=true;}
+    });
+
+    this.jobDescriptionForm.get('qualifications').value.forEach(element => {
+      if(element.Name.length>199)
+      {invalidLength=true;}
+    });
+
+    this.jobDescriptionForm.get('rolesAndResponsibility').value.forEach(element => {
+      if(element.Responsibility.length>499)
+      {invalidLength=true;}
+    });
+    
+
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || invalidLength) {
       return;
     }
 
+    
     
     const jdObject = {
       ProfileName: this.jobDescriptionForm.get('title').value,

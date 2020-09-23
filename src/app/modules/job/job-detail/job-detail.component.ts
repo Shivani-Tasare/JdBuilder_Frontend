@@ -355,8 +355,8 @@ export class JobDetailComponent implements OnInit {
         this.jobDescriptionForm = this.formBuilder.group({
           title: new FormControl(jobDetail.Response.ProfileName),
           about: new FormControl(jobDetail.Response.About, [Validators.required, this.noWhitespaceValidator]),
-          selectedDesignation: new FormControl(jobDetail.Response.DesignationId, Validators.required),
-          selectedDesignationN: new FormControl(jobDetail.Response.DesignationName, [Validators.required, Validators.pattern("(?!^ +$)^.+$")]),
+          selectedDesignation: new FormControl(jobDetail.Response.DesignationId,Validators.required),
+          selectedDesignationN: new FormControl(jobDetail.Response.DesignationName, [Validators.required,Validators.maxLength(200), Validators.pattern("(?!^ +$)^.+$")]),
           selectedLocation: new FormControl(jobDetail.Response.LocationId, Validators.required),
           selectedExperience: new FormControl(jobDetail.Response.ExperienceId, Validators.required),
           desiredSkills: this.formBuilder.array(defaultDesiredSkill),
@@ -1139,11 +1139,33 @@ export class JobDetailComponent implements OnInit {
   }
 
   onSave() {
+    let invalidLength=false;
     this.getIdsOfMovedToMandatorySkills();
     this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
 
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || this.isDuplicateDesignation) {
+    this.jobDescriptionForm.get('mandatorySkills').value.forEach(element => {
+      if(element.SkillName.length>699)
+      {invalidLength=true;}
+    });
+   
+    this.jobDescriptionForm.get('desiredSkills').value.forEach(element => {
+      if(element.SkillName.length>699)
+      {invalidLength=true;}
+    });
+
+    this.jobDescriptionForm.get('qualifications').value.forEach(element => {
+      if(element.Name.length>199)
+      {invalidLength=true;}
+    });
+
+    this.jobDescriptionForm.get('rolesAndResponsibility').value.forEach(element => {
+      if(element.Responsibility.length>499)
+      {invalidLength=true;}
+    });
+
+
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || this.isDuplicateDesignation || invalidLength) {
       return;
     }
     console.log(this.jobDescriptionForm.get('selectedDesignation').value);
