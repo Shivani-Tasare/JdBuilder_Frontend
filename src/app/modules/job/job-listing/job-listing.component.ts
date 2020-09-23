@@ -17,9 +17,9 @@ export class JobListingComponent implements OnInit {
   experiences = [];
   locations = [];
   designations = [];
-  selectedDesignation;
-  selectedLocation;
-  selectedExperience;
+  selectedDesignation ='';
+  selectedLocation = '';
+  selectedExperience = '';
   searchString;
   // MatPaginator Inputs
   length = 100;

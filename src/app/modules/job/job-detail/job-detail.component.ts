@@ -1226,17 +1226,17 @@ export class JobDetailComponent implements OnInit {
 }
   changeFilter(e) {
     const value = e.target.value;
-    this.selectedRegionInternal = value;
-    console.log(value);
-    if (value === 'All Region') {
-      this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
-    } else {
-      this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r) => {
-        return r.Location === value;
-      });
-
-    }
-    this.filterCandidatesByMatchScore(this.candidateRecordsAsPerSectionTemp, true);
+      this.selectedRegionInternal = value;
+      
+      if (value === 'All Region') {
+        this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
+      } else {
+        this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r) => {
+          return r.Location === value;
+        });
+  
+      }
+      this.filterCandidatesByMatchScore(this.candidateRecordsAsPerSectionTemp, true);
   }
   changeFilterExternal(e) {
     const value = e.target.value;
