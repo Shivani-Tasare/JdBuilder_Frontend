@@ -363,8 +363,8 @@ export class JobDetailComponent implements OnInit {
           mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
           qualifications: this.formBuilder.array(defaultQualification),
           rolesAndResponsibility: this.formBuilder.array(defaultResponsibility),
-          mandatoryTags: new FormControl(''),
-          desiredTags: new FormControl('')
+          mandatoryTags: new FormControl('',Validators.maxLength(200)),
+          desiredTags: new FormControl('',Validators.maxLength(200))
         });
         this.jobService.FetchExperienceList().subscribe((experiences: any) => {
           if (experiences.StatusCode === 200) {
@@ -1143,6 +1143,7 @@ export class JobDetailComponent implements OnInit {
     this.getIdsOfMovedToMandatorySkills();
     this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
+    
 
     this.jobDescriptionForm.get('mandatorySkills').value.forEach(element => {
       if(element.SkillName.length>699)
