@@ -148,7 +148,7 @@
                     </mat-chip>
                     <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
-                      [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event,true,1)">
+                      [matAutocomplete]="auto" [maxLength]="202" (matChipInputTokenEnd)="addMandatoryTag($event,true,1)">
                   </mat-chip-list>
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event,1)">
                     <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
@@ -157,11 +157,15 @@
                   </mat-autocomplete>
                 </mat-form-field>
                 
-                <mat-error style="margin-bottom: 15px;" class="col-8" *ngIf="(submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
-                  <div >
-                    Please enter tags.
+                <mat-error style="margin-bottom: 15px;" class="col-8">
+                  
+                  <div *ngIf="jobDescriptionForm.get('mandatoryTags').errors?.maxlength">
+                    Input text must not exceed 200  characters
                   </div>
-                </mat-error>
+                    <div *ngIf="(submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
+                      Please enter tags.
+                    </div>
+                  </mat-error>
                 <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToMandatoryTags($event)" [associatedTags]="associatedTags"></app-suggested-tag-view>
 
                   <mat-form-field class="col-12 pt-10 example-chip-list">
@@ -173,7 +177,7 @@
                       </mat-chip>
                       <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="desiredTags"
-                        [matAutocomplete]="autoDesired" (matChipInputTokenEnd)="addDesiredTag($event,true,2)">
+                        [matAutocomplete]="autoDesired" [maxLength]="202" (matChipInputTokenEnd)="addDesiredTag($event,true,2)">
                     </mat-chip-list>
                     <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event,2)">
                       <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
@@ -181,11 +185,16 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
-                  <mat-error style="margin-bottom: 15px;" class="col-8"  *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length<1">
-                    <div>
-                      Please enter tags.
+
+                  <mat-error style="margin-bottom: 15px;" class="col-8">
+                  
+                    <div *ngIf="jobDescriptionForm.get('desiredTags').errors?.maxlength">
+                      Input text must not exceed 200  characters
                     </div>
-                  </mat-error>
+                      <div *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length<1">
+                        Please enter tags.
+                      </div>
+                    </mat-error>
                   <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToDesiredTags($event)" [associatedTags]="associatedDesiredTags"></app-suggested-tag-view>
                                  <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
                   references.</small>
