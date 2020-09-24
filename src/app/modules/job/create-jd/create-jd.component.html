@@ -42,8 +42,8 @@
                 <mat-form-field class="col-8 pl-0">
                   <input (focusout)="checkDuplicateDesignation($event)" 
                     (keyup.enter)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"
-                    aria-label="Number" [maxLength]="202" matInput formControlName="selectedDesignation" [value]="selectedDesignationName"
-                    (keyup)="filterDesignationList($event)"  [matAutocomplete]="desig" (keydown.backspace)="removeDesignation($event.target.value)">
+                    aria-label="Number" [maxLength]="202" [(ngModel)]="desigName" matInput formControlName="selectedDesignation" [value]="selectedDesignationName"
+                    (keyup)="filterDesignationList($event)" [matAutocomplete]="desig" (keydown.backspace)="removeDesignation($event.target.value)">
                   <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option);" #desig="matAutocomplete">
                     <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="designation.DesignationName == selectedDesignationName">
                       {{designation.DesignationName}}
@@ -57,7 +57,7 @@
                   </div>
                   <div *ngIf="jobDescriptionForm.get('selectedDesignation').invalid && jobDescriptionForm.get('selectedDesignation').value.length < 1">Please select designation.
                   </div>
-                  <div *ngIf="isDuplicateDesignation">Entered designation is already exists.</div>
+                 
                   </div>
                   </mat-error>
                 <p class="col-4 m-auto pt-2 font-weight-bold">EXPERIENCE</p>
