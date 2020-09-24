@@ -65,61 +65,62 @@
     </div>
     
   </div>
+
   <div class="col-md-2 col-6 input-padding mo-trb-padding">
     <div class="input-group">
-      <label class="input-label">DESIGNATION</label>
-      <select
-        class="form-control input-design"
+      
+        <label class="input-label">DESIGNATION</label>
+        <mat-select class="form-control input-design"
         (change)="selectedDesignation = $event.target.value"
-        [(ngModel)]="selectedDesignation"
-      >
-        <option value="undefined">All</option>
-        <option *ngFor="let item of designations" [value]="item.Id">{{
-          item.DesignationName
-        }}</option>
-      </select>
+        [(ngModel)]="selectedDesignation" style="padding: 14px;">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let item of designations" [value]="item.Id">{{
+            item.DesignationName
+          }}</mat-option>
+        </mat-select>
     </div>
   </div>
   <div class="col-md-2 col-6 input-padding mo-tlb-padding">
     <div class="input-group">
-      <label class="input-label">EXPERIENCE</label>
-      <select
-        class="form-control input-design"
+      
+        <mat-label class="input-label">EXPERIENCE</mat-label>
+        <mat-select class="form-control input-design" style="padding: 14px;"
         (change)="selectedExperience = $event.target.value"
-        [(ngModel)]="selectedExperience"
-      >
-        <option value="undefined">All</option>
-        <option *ngFor="let item of experiences" [value]="item.Id">{{
+        [(ngModel)]="selectedExperience">
+        <mat-option value="">All</mat-option>
+        <mat-option *ngFor="let item of experiences" [value]="item.Id">{{
           item.ExperienceName
-        }}</option>
-      </select>
+        }}</mat-option>
+        </mat-select>
+      
+    
     </div>
   </div>
   <div class="col-md-2 col-6 input-padding mo-trb-padding">
     <div class="input-group">
-      <label class="input-label">CREATED BY</label>
-      <select class="form-control input-design" (change)="selectedUserId = $event.target.value;onUserChange($event)"
-      [(ngModel)]="selectedUserId">
-        <option value="" >All</option>
+      
+        <mat-label class="input-label">CREATED BY</mat-label>
+        <mat-select class="form-control input-design" (change)="selectedUserId = $event.target.value;onUserChange($event)"
+        [(ngModel)]="selectedUserId" style="padding: 14px;">
+        <mat-option value="">All</mat-option>
         <ng-container *ngIf="sidebarIndex !== 2">
-          <option  *ngFor="let item of userList" [value]="item.UserId">{{item.UserName}}</option>
+          <mat-option  *ngFor="let item of userList" [value]="item.UserId">{{item.UserName}}</mat-option>
         </ng-container>
-      </select>
+        </mat-select>
     </div>
   </div>
   <div class="col-md-2 col-6 input-padding mo-tlb-padding">
     <div class="input-group">
-      <label class="input-label">LOCATION</label>
-      <select
-        class="form-control input-design"
+      
+        <mat-label class="input-label">LOCATION</mat-label>
+        <mat-select class="form-control input-design"
         (change)="selectedLocation = $event.target.value"
-        [(ngModel)]="selectedLocation"
-      >
-        <option value="undefined">All</option>
-        <option *ngFor="let item of locations" [value]="item.Id">{{
+        [(ngModel)]="selectedLocation" style="padding: 14px;">
+        <mat-option value="">All</mat-option>
+        <mat-option *ngFor="let item of locations" [value]="item.Id">{{
           item.LocationName
-        }}</option>
-      </select>
+        }}</mat-option>
+        </mat-select>
     </div>
   </div>
   <div class="col-md-2 col-12 no-padding d-none d-lg-block">

@@ -123,6 +123,7 @@ export class JobDetailComponent implements OnInit {
   isIconChecked: boolean = false;
   tagName: string[] = [];
   mandatorySkillData = [];
+  desigName = '';
   desiredSkillData = [];
   selectmandatorytags: any[];
   selectdesiredtags: any[];
@@ -272,9 +273,10 @@ export class JobDetailComponent implements OnInit {
     this.desigOption = event.target.value.length;
     console.log(this.desigOption);
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
-    console.log(length);
-    length == undefined || this.desigOption <= 1
-    ? this.selectedDesignationName = '' : null; 
+    if(length == undefined ){
+      this.desigName= '' ;
+      this.selectedDesignationName = '';
+      }
   }
   onShare() {
 
@@ -1046,10 +1048,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   checkDuplicateDesignation(event) {
-       console.log(event.target.value);
        
-  this.jobDescriptionForm.get('selectedDesignationN').valueChanges.subscribe(selectedValue => {
-    console.log(selectedValue);
     if (!isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
       this.isDuplicateDesignation = false
     }
@@ -1069,8 +1068,8 @@ export class JobDetailComponent implements OnInit {
         }
       });
     }
-  })
-  }
+  console.log(this.isDuplicateDesignation);
+}
   clearDesignationId(evnt) {
     if ((evnt.keyCode >= 48 && evnt.keyCode <= 57) || (evnt.keyCode >= 65 && evnt.keyCode <= 90)) {
       this.jobDescriptionForm.patchValue({ selectedDesignation: evnt.target.value })
@@ -1227,17 +1226,17 @@ export class JobDetailComponent implements OnInit {
 }
   changeFilter(e) {
     const value = e.target.value;
-    this.selectedRegionInternal = value;
-    console.log(value);
-    if (value === 'All Region') {
-      this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
-    } else {
-      this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r) => {
-        return r.Location === value;
-      });
-
-    }
-    this.filterCandidatesByMatchScore(this.candidateRecordsAsPerSectionTemp, true);
+      this.selectedRegionInternal = value;
+      
+      if (value === 'All Region') {
+        this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection;
+      } else {
+        this.candidateRecordsAsPerSectionTemp = this.candidateRecordsAsPerSection.filter((r) => {
+          return r.Location === value;
+        });
+  
+      }
+      this.filterCandidatesByMatchScore(this.candidateRecordsAsPerSectionTemp, true);
   }
   changeFilterExternal(e) {
     const value = e.target.value;

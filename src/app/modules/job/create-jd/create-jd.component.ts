@@ -76,6 +76,7 @@ export class CreateJdComponent implements OnInit {
   @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
   desiredSkillData = [];
   mandatorySkillData = [];
+  desigName = '';
   desigOption: number;
   constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService) { }
   @HostListener('window:scroll', [])
@@ -678,7 +679,10 @@ export class CreateJdComponent implements OnInit {
   removeDesignation(event){
     this.desigOption = event.length;
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
-    length == undefined ? this.selectedDesignationName = '' : null; 
+    if(length == undefined ){
+      this.desigName= '' ;
+      this.selectedDesignationName = '';
+      }
   }
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
