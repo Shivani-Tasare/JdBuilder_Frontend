@@ -116,7 +116,7 @@
                       Input text must not exceed 200 characters
                     </div>
                     <div
-                      *ngIf="jobDescriptionForm.get('selectedDesignationN').invalid && jobDescriptionForm.get('selectedDesignationN').value.length < 1">
+                      *ngIf="disableError && jobDescriptionForm.get('selectedDesignationN').invalid && jobDescriptionForm.get('selectedDesignationN').value.length < 1">
                       Please select designation.
                     </div>
                   </mat-error>
