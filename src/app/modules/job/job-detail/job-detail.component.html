@@ -207,7 +207,7 @@
                       </mat-chip>
                       <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
-                        [matAutocomplete]="auto" [maxLength]="202"
+                        [matAutocomplete]="auto" 
                         (matChipInputTokenEnd)="addMandatoryTag($event,true)">
                     </mat-chip-list>
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event)">
@@ -241,7 +241,7 @@
                       </mat-chip>
                       <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="desiredTags"
-                        [matAutocomplete]="autoDesired" [maxLength]="202"
+                        [matAutocomplete]="autoDesired" 
                         (matChipInputTokenEnd)="addDesiredTag($event,true,2)">
                     </mat-chip-list>
                     <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event)">

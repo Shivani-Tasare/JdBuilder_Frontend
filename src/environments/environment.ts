@@ -6,7 +6,7 @@ export const environment = {
   production: false,
 
    url : 'https://jdbuilderuat.azurewebsites.net/api',
-   //url : 'https://localhost:44355/api',
+  // url : 'https://localhost:44355/api',
 
   AppConfig: {
     // clientID :'a7be96cc-f8a3-41c5-9d6a-abb1394eed2c',
