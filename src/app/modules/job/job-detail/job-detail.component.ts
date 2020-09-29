@@ -689,6 +689,7 @@ export class JobDetailComponent implements OnInit {
         }, error => {
           this.matchingConsultants['Count'] = 0;
           this.candidateRecordsAsPerSection = null;
+          this.candidateRecordsAsPerSectionTemp.length = 0;
           this.matchingConsultants["MatchingConsultants"] = [];
           this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"], false);
         })

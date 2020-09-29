@@ -429,11 +429,9 @@
                   <mat-error
                     style="margin-bottom: 15px"
                     class="col-8"
-                    *ngIf="
-                      submitted ||
-                      jobDescriptionForm.get('mandatoryTags').touched
-                    "
-                  >
+                    ><div *ngIf=" (submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
+                    Please enter tags.
+                  </div>
                     <div
                       *ngIf="
                         jobDescriptionForm.get('mandatoryTags').errors
@@ -442,15 +440,16 @@
                     >
                       Input text must not exceed 200 characters
                     </div>
-                    <div *ngIf="mandatoryTagsList.length < 1">
-                      Please enter tags.
-                    </div>
+                    
                   </mat-error>
-                  <app-suggested-tag-view
+                  <div class="col-12">
+                    <app-suggested-tag-view
                     [label]="'Suggested Tags'"
                     (onTagEmitt)="appendToMandatoryTags($event)"
                     [associatedTags]="associatedTags"
                   ></app-suggested-tag-view>
+                  </div>
+                  
 
                   <mat-form-field class="col-12 pt-10 example-chip-list">
                     <mat-chip-list #chipListDesired>
@@ -490,10 +489,9 @@
                   <mat-error
                     style="margin-bottom: 15px"
                     class="col-8"
-                    *ngIf="
-                      submitted || jobDescriptionForm.get('desiredTags').touched
-                    "
-                  >
+                  > <div *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length<1">
+                    Please enter tags.
+                  </div>
                     <div
                       *ngIf="
                         jobDescriptionForm.get('desiredTags').errors?.maxlength
@@ -501,15 +499,14 @@
                     >
                       Input text must not exceed 200 characters
                     </div>
-                    <div *ngIf="desiredTagsList.length < 1">
-                      Please enter tags.
-                    </div>
+                   
                   </mat-error>
-                  <app-suggested-tag-view
+                  <div class="col-12"><app-suggested-tag-view
                     [label]="'Suggested Tags'"
                     (onTagEmitt)="appendToDesiredTags($event)"
                     [associatedTags]="associatedDesiredTags"
-                  ></app-suggested-tag-view>
+                  ></app-suggested-tag-view></div>
+                  
                   <small class="col-12 form-text text-muted"
                     >*Add User name, Project, Skill, Client and future
                     references.</small
