@@ -108,7 +108,7 @@ export class JobDetailComponent implements OnInit {
   color: ThemePalette = 'primary';
   isPrivateChecked = false;
   disabled = false;
-  disableError=false;
+  disableError=false;	
   maxLengthAllowed = 200;
 
   @ViewChild('tagInputMandatory') tagInputMandatory: ElementRef<HTMLInputElement>;
@@ -216,6 +216,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.initLoad();
 
     //for edit mode
@@ -247,9 +248,7 @@ export class JobDetailComponent implements OnInit {
 
   onEdit() {
     this.disableError=true;
-    
-      if (this.saveAsCopy) {
-        
+    if (this.saveAsCopy) {
         this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId], { queryParams: { saveCopy: true } })
     } else {
       this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId])
@@ -276,7 +275,6 @@ export class JobDetailComponent implements OnInit {
   removeDesignation(event) {
     this.disableError=true;
     this.desigOption = event.target.value.length;
-    console.log(this.desigOption);
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
     if(length == undefined ){
       this.desigName= '' ;
@@ -319,6 +317,7 @@ export class JobDetailComponent implements OnInit {
     return str.trim().replace(/[\s]+/g, ' ')
   }
   initLoad() {
+
     this.selectedLocationName = [];
     this.jobService.fetchProfiles(location.pathname.split('/').pop()).subscribe((jobDetail: any) => {
       if (jobDetail.StatusCode === 400) {
@@ -369,7 +368,7 @@ export class JobDetailComponent implements OnInit {
           mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
           qualifications: this.formBuilder.array(defaultQualification),
           rolesAndResponsibility: this.formBuilder.array(defaultResponsibility),
-          mandatoryTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),
+          mandatoryTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),	
           desiredTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed))
         });
         this.jobService.FetchExperienceList().subscribe((experiences: any) => {
@@ -762,8 +761,8 @@ export class JobDetailComponent implements OnInit {
 
   }
   addMandatoryTag(event: MatChipInputEvent, isAdd, i): void {
-    if(event.value.length > this.maxLengthAllowed){
-      return;
+    if(event.value.length > this.maxLengthAllowed){	
+      return;	
       }
     if (isAdd) {
       const input = event.input;
@@ -785,8 +784,8 @@ export class JobDetailComponent implements OnInit {
   }
 
   addDesiredTag(event: MatChipInputEvent, isAdd, TagType) {
-    if(event.value.length > this.maxLengthAllowed){
-      return;
+    if(event.value.length > this.maxLengthAllowed){	
+      return;	
       }
     if (isAdd) {
       const input = event.input;
@@ -1066,8 +1065,6 @@ export class JobDetailComponent implements OnInit {
 
       let isChecked = false
       this.designations.forEach((designation: any) => {
-        console.log(designation.id);
-        
         if (!isChecked) {
           if (designation.DesignationName.trim().toLowerCase() === event.target.value.trim().toLowerCase()) {
             this.isDuplicateDesignation = true
@@ -1078,7 +1075,6 @@ export class JobDetailComponent implements OnInit {
         }
       });
     }
-  console.log(this.isDuplicateDesignation);
 }
   clearDesignationId(evnt) {
     this.disableError=true;
@@ -1087,7 +1083,6 @@ export class JobDetailComponent implements OnInit {
     }
   }
   filterDesignationList(evnt) {
-    this.disableError=true;
     if ((evnt.keyCode >= 48 && evnt.keyCode <= 57) || (evnt.keyCode >= 65 && evnt.keyCode <= 90) || evnt.keyCode === 8) {
       if (evnt.target.value === '') {
         this.filteredDesignations = this.designations;
@@ -1155,7 +1150,6 @@ export class JobDetailComponent implements OnInit {
     this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
     
-
     this.jobDescriptionForm.get('mandatorySkills').value.forEach(element => {
       if(element.SkillName.length>699)
       {invalidLength=true;}
@@ -1180,8 +1174,6 @@ export class JobDetailComponent implements OnInit {
     if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || this.isDuplicateDesignation || invalidLength) {
       return;
     }
-    console.log(this.jobDescriptionForm.get('selectedDesignation').value);
-    
     const jdObject = {
       ProfileId: location.pathname.split('/').pop(),
       ProfileName: this.jobDescriptionForm.get('title').value,
@@ -1197,7 +1189,7 @@ export class JobDetailComponent implements OnInit {
       DeletedSkills: this.deletedSkills,
       DeletedResponsibilities: this.deletedResponsiblities,
       DeletedTags: (this.deletedMandatoryTags.concat(this.deletedDesiredTags)),
-      NewDesignation: isNaN(this.jobDescriptionForm.get('selectedDesignation').value) ? this.jobDescriptionForm.get('selectedDesignation').value : undefined,
+      NewDesignation: isNaN(this.jobDescriptionForm.get('selectedDesignation').value) ? this.jobDescriptionForm.get('selectedDesignationN').value : undefined,
       isPrivate: this.isPrivateChecked,
       copyJd: (this.saveAsCopy ? true : false)
     
