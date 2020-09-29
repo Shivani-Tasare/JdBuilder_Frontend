@@ -2,38 +2,17 @@
   <!-- EDIT MODE -->
   <div *ngIf="isEditJd" class="row bg-white pb-3">
     <div class="col-md-12 no-padding mb-5" style="font-size: 13px">
-      <div
-        class="row pb-3 d-lg-none"
-        [ngStyle]="{ 'margin-top': isSameUser ? '47px' : '40px' }"
-        id="header"
-      >
+      <div class="row pb-3 d-lg-none" [ngStyle]="{ 'margin-top': isSameUser ? '47px' : '40px' }" id="header">
         <div class="col-8">
-          <button
-            style="background: #9e4587; border-radius: 0"
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#collapsibleNavbar"
-          >
-            <i
-              class="fa fa-bars fa-2x"
-              style="color: white"
-              aria-hidden="true"
-            ></i>
+          <button style="background: #9e4587; border-radius: 0" class="navbar-toggler" type="button"
+            data-toggle="collapse" data-target="#collapsibleNavbar">
+            <i class="fa fa-bars fa-2x" style="color: white" aria-hidden="true"></i>
           </button>
-          <span
-            style="color: white; position: absolute; top: 20px"
-            class="pt-2 pl-2"
-            >Edit JDs</span
-          >
+          <span style="color: white; position: absolute; top: 20px" class="pt-2 pl-2">Edit JDs</span>
         </div>
         <div class="col-4 pt-2">
           <div class="dropdown dropleft float-right">
-            <button
-              (click)="isEditJd = false; onCancel()"
-              type="button"
-              class="btn theme-color-btn"
-            >
+            <button (click)="isEditJd = false; onCancel()" type="button" class="btn theme-color-btn">
               Cancel
             </button>
           </div>
@@ -43,57 +22,27 @@
         <div class="col-12" style="text-align: right">
           <div style="display: none" class="col-12" id="email">
             <mat-form-field>
-              <input
-                id="emailID"
-                type="text"
-                (keypress)="searchEmailOnKeypress(emailSearch.value)"
-                placeholder="Enter Name or Email"
-                matInput
-                [formControl]="emailSearch"
-                [matAutocomplete]="auto"
-                [(ngModel)]="value"
-              />
+              <input id="emailID" type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)"
+                placeholder="Enter Name or Email" matInput [formControl]="emailSearch" [matAutocomplete]="auto"
+                [(ngModel)]="value" />
               <mat-autocomplete #auto="matAutocomplete">
-                <mat-option
-                  *ngFor="let option of filteredEmails"
-                  [value]="option"
-                >
+                <mat-option *ngFor="let option of filteredEmails" [value]="option">
                   {{ option }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <button
-              style="font-size: 21px"
-              *ngIf="value"
-              [hidden]="!isSameUser"
-              type="button"
-              class="btn btn-default btn-sm"
-              (click)="onSend(emailSearch.value); value = ''"
-            >
+            <button style="font-size: 21px" *ngIf="value" [hidden]="!isSameUser" type="button"
+              class="btn btn-default btn-sm" (click)="onSend(emailSearch.value); value = ''">
               <i class="fa fa-paper-plane" aria-hidden="true"></i>
             </button>
           </div>
           <div class="col-12" style="padding-top: 7px">
-            <div
-              id="shareButton"
-              (click)="toggleShare(false, true)"
-              style="pointer-events: none"
-            >
-              <button
-                id="sharebtn"
-                [disabled]="!isPrivateChecked"
-                [ngStyle]="{ 'pointer-events': disabled ? 'none' : 'auto' }"
-                class="btn theme-color-btn btn-sm"
-                [hidden]="!isSameUser"
-                type="button"
-                (click)="onShare()"
-              >
-                <i
-                  class="fa fa-share-square-o"
-                  style="color: white; padding-right: 3px; pointer-events: none"
-                  aria-hidden="true"
-                ></i
-                >Share
+            <div id="shareButton" (click)="toggleShare(false, true)" style="pointer-events: none">
+              <button id="sharebtn" [disabled]="!isPrivateChecked"
+                [ngStyle]="{ 'pointer-events': disabled ? 'none' : 'auto' }" class="btn theme-color-btn btn-sm"
+                [hidden]="!isSameUser" type="button" (click)="onShare()">
+                <i class="fa fa-share-square-o" style="color: white; padding-right: 3px; pointer-events: none"
+                  aria-hidden="true"></i>Share
               </button>
             </div>
           </div>
@@ -155,86 +104,49 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-8">
-              <form
-                [formGroup]="jobDescriptionForm"
-                class="container p-0 my-3 text-muted col-md-12"
-                (ngSubmit)="onSave()"
-              >
+              <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
+                (ngSubmit)="onSave()">
                 <div class="row">
                   <p *ngIf="isSameUser" class="col-4">Make It As Private JD</p>
-                  <section
-                    class="example-section col-8 pl-0"
-                    *ngIf="isSameUser"
-                    style="height: 35px"
-                  >
-                    <mat-slide-toggle
-                      class="pb-5"
-                      [color]="color"
-                      [checked]="isPrivateChecked"
-                      [(ngModel)]="isPrivateChecked"
-                      [ngModelOptions]="{ standalone: true }"
-                      [disabled]="disabled"
-                      (click)="toggleShare(true, false)"
-                    >
+                  <section class="example-section col-8 pl-0" *ngIf="isSameUser" style="height: 35px">
+                    <mat-slide-toggle class="pb-5" [color]="color" [checked]="isPrivateChecked"
+                      [(ngModel)]="isPrivateChecked" [ngModelOptions]="{ standalone: true }" [disabled]="disabled"
+                      (click)="toggleShare(true, false)">
                     </mat-slide-toggle>
                   </section>
-                  <p
-                    class="col-4 pt-2 font-weight-bold"
-                    style="padding-left: 13px"
-                  >
+                  <p class="col-4 pt-2 font-weight-bold" style="padding-left: 13px">
                     DESIGNATION
                   </p>
                   <mat-form-field class="col-8 pl-0">
-                    <input
-                      type="text"
-                      placeholder="Select Designation"
-                      (focusout)="checkDuplicateDesignation($event)"
-                      aria-label="Number"
-                      (keyup)="
+                    <input type="text" placeholder="Select Designation" (focusout)="checkDuplicateDesignation($event)"
+                      aria-label="Number" (keyup)="
                         clearDesignationId($event);
                         filterDesignationList($event)
-                      "
-                      matInput
-                      [value]="selectedDesignationName"
-                      [maxLength]="202"
-                      [(ngModel)]="desigName"
-                      formControlName="selectedDesignationN"
-                      (keydown.backspace)="removeDesignation($event)"
-                      [matAutocomplete]="desig"
-                    />
-                    <mat-autocomplete
-                      (optionSelected)="FetchProfileSummary($event.option)"
-                      #desig="matAutocomplete"
-                    >
-                      <mat-option
-                        *ngFor="let designation of filteredDesignations"
-                        [value]="designation.Id"
-                        [disabled]="
+                      " matInput [value]="selectedDesignationName" [maxLength]="202" [(ngModel)]="desigName"
+                      formControlName="selectedDesignationN" (keydown.backspace)="removeDesignation($event)"
+                      [matAutocomplete]="desig" />
+                    <mat-autocomplete (optionSelected)="FetchProfileSummary($event.option)" #desig="matAutocomplete">
+                      <mat-option *ngFor="let designation of filteredDesignations" [value]="designation.Id" [disabled]="
                           designation.DesignationName == selectedDesignationName
-                        "
-                      >
+                        ">
                         {{ designation.DesignationName }}
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
                   <mat-error class="col-8 offset-4 px-0">
-                    <div
-                      *ngIf="
+                    <div *ngIf="
                         jobDescriptionForm.get('selectedDesignationN').errors
                           ?.maxlength
-                      "
-                    >
+                      ">
                       Input text must not exceed 200 characters
                     </div>
-                    <div
-                      *ngIf="
+                    <div *ngIf="
                         disableError &&
                         jobDescriptionForm.get('selectedDesignationN')
                           .invalid &&
                         jobDescriptionForm.get('selectedDesignationN').value
                           .length < 1
-                      "
-                    >
+                      ">
                       Please select designation.
                     </div>
                   </mat-error>
@@ -242,28 +154,21 @@
                   <mat-form-field class="col-8 pl-0">
                     <mat-label>Select Experience</mat-label>
                     <mat-select formControlName="selectedExperience">
-                      <mat-option
-                        *ngFor="let experience of experiences"
-                        [value]="experience.Id"
-                      >
+                      <mat-option *ngFor="let experience of experiences" [value]="experience.Id">
                         {{ experience.ExperienceName }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-error class="col-8 offset-4 px-0">
-                    <div
-                      *ngIf="
+                    <div *ngIf="
                         (submitted ||
                           jobDescriptionForm.get('selectedExperience')
                             .touched) &&
                         jobDescriptionForm.get('selectedExperience').invalid
-                      "
-                    >
-                      <div
-                        *ngIf="
+                      ">
+                      <div *ngIf="
                           jobDescriptionForm.get('selectedExperience').invalid
-                        "
-                      >
+                        ">
                         Please select experience.
                       </div>
                     </div>
@@ -271,32 +176,21 @@
                   <p class="col-4 pt-2 font-weight-bold">LOCATION</p>
                   <mat-form-field class="col-8 pl-0">
                     <mat-label>Select Location</mat-label>
-                    <mat-select
-                      formControlName="selectedLocation"
-                      multiple
-                      [compareWith]="compareWithFunc"
-                    >
-                      <mat-option
-                        *ngFor="let location of locations"
-                        [value]="location.Id"
-                      >
+                    <mat-select formControlName="selectedLocation" multiple [compareWith]="compareWithFunc">
+                      <mat-option *ngFor="let location of locations" [value]="location.Id">
                         {{ location.LocationName }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-error class="col-8 offset-4 px-0">
-                    <div
-                      *ngIf="
+                    <div *ngIf="
                         (submitted ||
                           jobDescriptionForm.get('selectedLocation').touched) &&
                         jobDescriptionForm.get('selectedLocation').invalid
-                      "
-                    >
-                      <div
-                        *ngIf="
+                      ">
+                      <div *ngIf="
                           jobDescriptionForm.get('selectedLocation').invalid
-                        "
-                      >
+                        ">
                         Please select location.
                       </div>
                     </div>
@@ -309,119 +203,63 @@
                   </div>
 
                   <div class="col-12">
-                    <div
-                      *ngIf="suggestedSummary.length > 0"
-                      id="demo"
-                      class="carousel slide suggestion-card"
-                      data-interval="false"
-                    >
+                    <div *ngIf="suggestedSummary.length > 0" id="demo" class="carousel slide suggestion-card"
+                      data-interval="false">
                       <!-- Indicators -->
                       <ul class="carousel-indicators mb-4">
-                        <li
-                          *ngFor="
+                        <li *ngFor="
                             let summary of suggestedSummary;
                             let i = index
-                          "
-                          data-target="#demo"
-                          [attr.data-slide-to]="i"
-                          ngClass="i == 0 ? 'active' : ''"
-                        ></li>
+                          " data-target="#demo" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
                       </ul>
 
                       <!-- The slideshow -->
                       <div class="carousel-inner">
-                        <div
-                          *ngFor="
+                        <div *ngFor="
                             let summary of suggestedSummary;
                             let k = index
-                          "
-                          class="carousel-item text-center"
-                          [ngClass]="k == 0 ? 'active' : ''"
-                        >
+                          " class="carousel-item text-center" [ngClass]="k == 0 ? 'active' : ''">
                           <h3>Suggestion {{ k + 1 }}</h3>
                           <p class="mb-3">{{ summary }}</p>
-                          <button
-                            type="button"
-                            class="btn theme-color-btn btn-sm"
-                            (click)="selectSuggestion(summary)"
-                          >
+                          <button type="button" class="btn theme-color-btn btn-sm" (click)="selectSuggestion(summary)">
                             Select
                           </button>
                         </div>
                       </div>
 
                       <!-- Left and right controls -->
-                      <a
-                        class="carousel-control-prev"
-                        href="#demo"
-                        data-slide="prev"
-                      >
+                      <a class="carousel-control-prev" href="#demo" data-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
                       </a>
-                      <a
-                        class="carousel-control-next"
-                        href="#demo"
-                        data-slide="next"
-                      >
-                        <span
-                          class="carousel-control-next-icon"
-                          style="color: grey"
-                        ></span>
+                      <a class="carousel-control-next" href="#demo" data-slide="next">
+                        <span class="carousel-control-next-icon" style="color: grey"></span>
                       </a>
                     </div>
                     <mat-form-field class="col-12 px-0">
-                      <textarea
-                        style="padding: 1px"
-                        type="text"
-                        cdkTextareaAutosize
-                        placeholder=""
-                        aria-label="Number"
-                        matInput
-                        formControlName="about"
-                      ></textarea>
+                      <textarea style="padding: 1px" type="text" cdkTextareaAutosize placeholder="" aria-label="Number"
+                        matInput formControlName="about"></textarea>
                     </mat-form-field>
                     <mat-error>
-                      <span
-                        *ngIf="
+                      <span *ngIf="
                           !jobDescriptionForm.get('about').valid &&
                           jobDescriptionForm.get('about').touched
-                        "
-                        >Please enter summary !!!</span
-                      >
+                        ">Please enter summary !!!</span>
                     </mat-error>
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">TAGS</p>
                   <mat-form-field class="col-12 example-chip-list">
                     <mat-chip-list #chipList>
-                      <mat-chip
-                        *ngFor="let tag of mandatoryTagsList"
-                        [selectable]="selectable"
-                        [removable]="removable"
-                        (removed)="removeMandatoryTag(tag)"
-                      >
+                      <mat-chip *ngFor="let tag of mandatoryTagsList" [selectable]="selectable" [removable]="removable"
+                        (removed)="removeMandatoryTag(tag)">
                         {{ tag?.TagName }}
-                        <mat-icon matChipRemove *ngIf="removable"
-                          >cancel</mat-icon
-                        >
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                       </mat-chip>
-                      <input
-                        placeholder="Mandatory Tags"
-                        #tagInputMandatory
-                        [matChipInputFor]="chipList"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        formControlName="mandatoryTags"
-                        [matAutocomplete]="auto"
-                        (matChipInputTokenEnd)="addMandatoryTag($event, true)"
-                      />
+                      <input placeholder="Mandatory Tags" #tagInputMandatory [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="mandatoryTags"
+                        [matAutocomplete]="auto" (matChipInputTokenEnd)="addMandatoryTag($event, true)" />
                     </mat-chip-list>
-                    <mat-autocomplete
-                      #auto="matAutocomplete"
-                      (optionSelected)="selectedMandatoryTag($event)"
-                    >
-                      <mat-option
-                        *ngFor="let tag of filteredTags | async"
-                        [value]="tag"
-                      >
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMandatoryTag($event)">
+                      <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
                         {{ tag?.TagName }}
                       </mat-option>
                     </mat-autocomplete>
@@ -453,35 +291,17 @@
 
                   <mat-form-field class="col-12 pt-10 example-chip-list">
                     <mat-chip-list #chipListDesired>
-                      <mat-chip
-                        *ngFor="let tag of desiredTagsList"
-                        [selectable]="selectable"
-                        [removable]="removable"
-                        (removed)="removeDesiredTag(tag)"
-                      >
+                      <mat-chip *ngFor="let tag of desiredTagsList" [selectable]="selectable" [removable]="removable"
+                        (removed)="removeDesiredTag(tag)">
                         {{ tag?.TagName }}
-                        <mat-icon matChipRemove *ngIf="removable"
-                          >cancel</mat-icon
-                        >
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                       </mat-chip>
-                      <input
-                        placeholder="Desired Tags"
-                        #tagInputDesired
-                        [matChipInputFor]="chipListDesired"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        formControlName="desiredTags"
-                        [matAutocomplete]="autoDesired"
-                        (matChipInputTokenEnd)="addDesiredTag($event, true, 2)"
-                      />
+                      <input placeholder="Desired Tags" #tagInputDesired [matChipInputFor]="chipListDesired"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" formControlName="desiredTags"
+                        [matAutocomplete]="autoDesired" (matChipInputTokenEnd)="addDesiredTag($event, true, 2)" />
                     </mat-chip-list>
-                    <mat-autocomplete
-                      #autoDesired="matAutocomplete"
-                      (optionSelected)="selectedDesiredTag($event)"
-                    >
-                      <mat-option
-                        *ngFor="let tag of filteredTagsDesired | async"
-                        [value]="tag"
-                      >
+                    <mat-autocomplete #autoDesired="matAutocomplete" (optionSelected)="selectedDesiredTag($event)">
+                      <mat-option *ngFor="let tag of filteredTagsDesired | async" [value]="tag">
                         {{ tag?.TagName }}
                       </mat-option>
                     </mat-autocomplete>
@@ -512,57 +332,34 @@
                     references.</small
                   >
                   <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
-                  <div
-                    class="col-12"
-                    formArrayName="mandatorySkills"
-                    *ngFor="
+                  <div class="col-12" formArrayName="mandatorySkills" *ngFor="
                       let skill of jobDescriptionForm.get('mandatorySkills')[
                         'controls'
                       ];
                       let i = index
-                    "
-                  >
+                    ">
                     <div [formGroupName]="i">
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
                           <div class="input-group">
-                            <mat-form-field
-                              [class.visibility-hidden]="
+                            <mat-form-field [class.visibility-hidden]="
                                 !skill.controls.isEditing.value
-                              "
-                              class="col-12 px-0"
-                            >
-                              <textarea
-                                style="overflow: hidden"
-                                cdkTextareaAutosize
-                                #autosize="cdkTextareaAutosize"
-                                (keyup)="getMandatorySkill($event)"
-                                placeholder="Mandatory Skill"
-                                aria-label="Number"
-                                matInput
-                                formControlName="SkillName"
-                                [maxLength]="700"
-                                [value]="SkillName"
-                                [matAutocomplete]="auto"
-                              ></textarea>
-                              <mat-autocomplete
-                                #auto="matAutocomplete"
-                                (optionSelected)="selectedSkill($event, i)"
-                              >
-                                <mat-option
-                                  *ngFor="
+                              " class="col-12 px-0">
+                              <textarea style="overflow: hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                                (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number"
+                                matInput formControlName="SkillName" [maxLength]="700" [value]="SkillName"
+                                [matAutocomplete]="auto"></textarea>
+                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event, i)">
+                                <mat-option *ngFor="
                                     let suggestion of suggestedMandatorySkill;
                                     let i = index
-                                  "
-                                  [value]="suggestion.SkillName"
-                                >
+                                  " [value]="suggestion.SkillName">
                                   {{ suggestion.SkillName }}
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
                             <mat-error>
-                              <div
-                                *ngIf="
+                              <div *ngIf="
                                   (submitted ||
                                     jobDescriptionForm.get('mandatorySkills')[
                                       'controls'
@@ -570,24 +367,19 @@
                                   jobDescriptionForm.get('mandatorySkills')[
                                     'controls'
                                   ][i].invalid
-                                "
-                              >
-                                <div
-                                  *ngIf="
+                                ">
+                                <div *ngIf="
                                     jobDescriptionForm.get('mandatorySkills')[
                                       'controls'
                                     ][i].invalid
-                                  "
-                                >
+                                  ">
                                   Please enter skill !!!
                                 </div>
                               </div>
-                              <div
-                                *ngIf="
+                              <div *ngIf="
                                   jobDescriptionForm.controls['mandatorySkills']
                                     .value[i].SkillName.length == 700
-                                "
-                              >
+                                ">
                                 Input text must not exceed 700 characters
                               </div>
                             </mat-error>
@@ -597,117 +389,64 @@
                               </div> -->
                             </mat-error>
                           </div>
-                          <p
-                            [hidden]="skill.controls.isEditing.value"
-                            class="my-auto"
-                            style="color: gray"
-                          >
+                          <p [hidden]="skill.controls.isEditing.value" class="my-auto" style="color: gray">
                             {{ skill.controls.SkillName.value }}
                           </p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
-                          <i
-                            [hidden]="
+                          <i [hidden]="
                               jobDescriptionForm.get('mandatorySkills')
                                 .length == 1 &&
                               !isSkillNameNotEmpty(skill.controls)
-                            "
-                            class="fa pl-2 fa-ellipsis-v float-right"
-                            aria-hidden="true"
-                            data-toggle="dropdown"
-                          ></i>
-                          <div
-                            class="dropdown-menu"
-                            style="left: 25px !important"
-                          >
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              *ngIf="!skill.controls.isEditing.value"
-                              (click)="skill.controls.isEditing.value = true"
-                              >Edit</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              *ngIf="isSkillNameNotEmpty(skill.controls)"
-                              (click)="moveToDesired(skill.controls, i)"
-                              >Move To Desired</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              (click)="deleteSkill(skill.controls, false, i)"
-                              >Delete</a
-                            >
+                            " class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
+                          <div class="dropdown-menu" style="left: 25px !important">
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
+                              (click)="skill.controls.isEditing.value = true">Edit</a>
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"
+                              (click)="moveToDesired(skill.controls, i)">Move To Desired</a>
+                            <a class="dropdown-item" href="JavaScript:"
+                              (click)="deleteSkill(skill.controls, false, i)">Delete</a>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 pr-0">
-                    <button
-                      type="button"
-                      class="btn theme-color-btn btn-sm"
-                      (click)="addMandatorySkill()"
-                    >
+                    <button type="button" class="btn theme-color-btn btn-sm" (click)="addMandatorySkill()">
                       + Add
                     </button>
                     <hr />
                   </div>
 
                   <p class="col-12 pt-2 font-weight-bold">DESIRED SKILLS</p>
-                  <div
-                    class="col-12"
-                    formArrayName="desiredSkills"
-                    *ngFor="
+                  <div class="col-12" formArrayName="desiredSkills" *ngFor="
                       let skill of jobDescriptionForm.get('desiredSkills')[
                         'controls'
                       ];
                       let i = index
-                    "
-                  >
+                    ">
                     <div [formGroupName]="i">
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
                           <div class="input-group">
-                            <mat-form-field
-                              [class.visibility-hidden]="
+                            <mat-form-field [class.visibility-hidden]="
                                 !skill.controls.isEditing.value
-                              "
-                              class="col-12 px-0"
-                            >
-                              <textarea
-                                style="overflow: hidden"
-                                type="text"
-                                cdkTextareaAutosize
-                                #autosize="cdkTextareaAutosize"
-                                (keyup)="getDesiredSkill($event)"
-                                placeholder="Desired Skill"
-                                aria-label="Number"
-                                matInput
-                                formControlName="SkillName"
-                                [matAutocomplete]="auto"
-                                [maxLength]="700"
-                              ></textarea>
-                              <mat-autocomplete
-                                #auto="matAutocomplete"
-                                (optionSelected)="selectedSkill($event, i)"
-                              >
-                                <mat-option
-                                  *ngFor="
+                              " class="col-12 px-0">
+                              <textarea style="overflow: hidden" type="text" cdkTextareaAutosize
+                                #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)"
+                                placeholder="Desired Skill" aria-label="Number" matInput formControlName="SkillName"
+                                [matAutocomplete]="auto" [maxLength]="700"></textarea>
+                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event, i)">
+                                <mat-option *ngFor="
                                     let suggestion of suggestedDesiredSkill;
                                     let i = index
-                                  "
-                                  [value]="suggestion.SkillName"
-                                >
+                                  " [value]="suggestion.SkillName">
                                   {{ suggestion.SkillName }}
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
                             <mat-error>
-                              <div
-                                *ngIf="
+                              <div *ngIf="
                                   (submitted ||
                                     jobDescriptionForm.get('desiredSkills')[
                                       'controls'
@@ -715,141 +454,84 @@
                                   jobDescriptionForm.get('desiredSkills')[
                                     'controls'
                                   ][i].invalid
-                                "
-                              >
-                                <div
-                                  *ngIf="
+                                ">
+                                <div *ngIf="
                                     jobDescriptionForm.get('desiredSkills')[
                                       'controls'
                                     ][i].invalid
-                                  "
-                                >
+                                  ">
                                   Please enter skill !!!
                                 </div>
                               </div>
                             </mat-error>
                             <mat-error>
-                              <div
-                                *ngIf="
+                              <div *ngIf="
                                   jobDescriptionForm.controls['desiredSkills']
                                     .value[i].SkillName.length == 700
-                                "
-                              >
+                                ">
                                 Input text must not exceed 700 characters
                               </div>
                             </mat-error>
                           </div>
-                          <p
-                            class="my-auto"
-                            [hidden]="skill.controls.isEditing.value"
-                            style="color: gray"
-                          >
+                          <p class="my-auto" [hidden]="skill.controls.isEditing.value" style="color: gray">
                             {{ skill.controls.SkillName.value }}
                           </p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
-                          <i
-                            [hidden]="
+                          <i [hidden]="
                               jobDescriptionForm.get('desiredSkills').length ==
                                 1 && !isSkillNameNotEmpty(skill.controls)
-                            "
-                            class="fa pl-2 fa-ellipsis-v float-right"
-                            aria-hidden="true"
-                            data-toggle="dropdown"
-                          ></i>
+                            " class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              *ngIf="!skill.controls.isEditing.value"
-                              (click)="skill.controls.isEditing.value = true"
-                              >Edit</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              *ngIf="isSkillNameNotEmpty(skill.controls)"
-                              (click)="moveToMandatory(skill.controls, i)"
-                              >Move To Mandatory</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              (click)="
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
+                              (click)="skill.controls.isEditing.value = true">Edit</a>
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"
+                              (click)="moveToMandatory(skill.controls, i)">Move To Mandatory</a>
+                            <a class="dropdown-item" href="JavaScript:" (click)="
                                 deleteDesiredSkill(skill.controls, false, i)
-                              "
-                              >Delete</a
-                            >
+                              ">Delete</a>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 pr-0">
-                    <button
-                      type="button"
-                      class="btn theme-color-btn btn-sm"
-                      (click)="addDesiredSkill($event)"
-                    >
+                    <button type="button" class="btn theme-color-btn btn-sm" (click)="addDesiredSkill($event)">
                       + Add
                     </button>
                     <hr />
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">QUALIFICATION</p>
-                  <div
-                    class="col-12"
-                    formArrayName="qualifications"
-                    *ngFor="
+                  <div class="col-12" formArrayName="qualifications" *ngFor="
                       let item of jobDescriptionForm.get('qualifications')[
                         'controls'
                       ];
                       let i = index
-                    "
-                  >
+                    ">
                     <div [formGroupName]="i">
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
                           <div class="input-group">
-                            <mat-form-field
-                              [class.visibility-hidden]="
+                            <mat-form-field [class.visibility-hidden]="
                                 !item.controls.isEditing.value
-                              "
-                              class="col-12 px-0"
-                            >
-                              <textarea
-                                style="overflow: hidden"
-                                type="text"
-                                cdkTextareaAutosize
-                                #autosize="cdkTextareaAutosize"
-                                (keyup)="getQualifications($event)"
-                                placeholder="Qualification"
-                                aria-label="Number"
-                                matInput
-                                formControlName="Name"
-                                [matAutocomplete]="auto"
-                                [maxLength]="200"
-                              ></textarea>
-                              <mat-autocomplete
-                                #auto="matAutocomplete"
-                                (optionSelected)="
+                              " class="col-12 px-0">
+                              <textarea style="overflow: hidden" type="text" cdkTextareaAutosize
+                                #autosize="cdkTextareaAutosize" (keyup)="getQualifications($event)"
+                                placeholder="Qualification" aria-label="Number" matInput formControlName="Name"
+                                [matAutocomplete]="auto" [maxLength]="200"></textarea>
+                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="
                                   selectQualification($event, i)
-                                "
-                              >
-                                <mat-option
-                                  *ngFor="
+                                ">
+                                <mat-option *ngFor="
                                     let qualification of suggestedQualification;
                                     let i = index
-                                  "
-                                  [value]="qualification.Name"
-                                  multipleLineOption
-                                >
+                                  " [value]="qualification.Name" multipleLineOption>
                                   {{ qualification.Name }}
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
                             <mat-error>
-                              <div
-                                *ngIf="
+                              <div *ngIf="
                                   (submitted ||
                                     jobDescriptionForm.get('qualifications')[
                                       'controls'
@@ -857,72 +539,46 @@
                                   jobDescriptionForm.get('qualifications')[
                                     'controls'
                                   ][i].invalid
-                                "
-                              >
-                                <div
-                                  *ngIf="
+                                ">
+                                <div *ngIf="
                                     jobDescriptionForm.get('qualifications')[
                                       'controls'
                                     ][i].invalid
-                                  "
-                                >
+                                  ">
                                   Please enter qualification !!!
                                 </div>
                               </div>
                             </mat-error>
                             <mat-error>
-                              <div
-                                *ngIf="
+                              <div *ngIf="
                                   jobDescriptionForm.controls['qualifications']
                                     .value[i].Name.length == 200
-                                "
-                              >
+                                ">
                                 Input text must not exceed 200 characters
                               </div>
                             </mat-error>
                           </div>
-                          <p
-                            [hidden]="item.controls.isEditing.value"
-                            style="color: gray"
-                          >
+                          <p [hidden]="item.controls.isEditing.value" style="color: gray">
                             {{ item.controls.Name.value }}
                           </p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
-                          <i
-                            [hidden]="
+                          <i [hidden]="
                               jobDescriptionForm.get('qualifications').length ==
                                 1 && !isQualificationEmpty(item.controls)
-                            "
-                            class="fa pl-2 fa-ellipsis-v float-right"
-                            aria-hidden="true"
-                            data-toggle="dropdown"
-                          ></i>
+                            " class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              *ngIf="!item.controls.isEditing.value"
-                              (click)="item.controls.isEditing.value = true"
-                              >Edit</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              (click)="deleteQualification(item.controls, i)"
-                              >Delete</a
-                            >
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
+                              (click)="item.controls.isEditing.value = true">Edit</a>
+                            <a class="dropdown-item" href="JavaScript:"
+                              (click)="deleteQualification(item.controls, i)">Delete</a>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 pr-0">
-                    <button
-                      type="button"
-                      class="btn theme-color-btn btn-sm"
-                      (click)="addQualification()"
-                    >
+                    <button type="button" class="btn theme-color-btn btn-sm" (click)="addQualification()">
                       + Add
                     </button>
                     <hr />
@@ -930,62 +586,38 @@
                   <p class="col-12 pt-2 font-weight-bold">
                     ROLE AND RESPONSIBILITIES
                   </p>
-                  <div
-                    class="col-12"
-                    formArrayName="rolesAndResponsibility"
-                    *ngFor="
+                  <div class="col-12" formArrayName="rolesAndResponsibility" *ngFor="
                       let item of jobDescriptionForm.get(
                         'rolesAndResponsibility'
                       )['controls'];
                       let i = index
-                    "
-                  >
+                    ">
                     <div [formGroupName]="i">
                       <div class="row pb-2">
                         <div class="col-11 col-md-11 col-lg-11">
                           <div class="input-group">
-                            <mat-form-field
-                              [class.visibility-hidden]="
+                            <mat-form-field [class.visibility-hidden]="
                                 !item.controls.isEditing.value
-                              "
-                              class="col-12 px-0"
-                            >
-                              <textarea
-                                style="overflow: hidden"
-                                type="text"
-                                cdkTextareaAutosize
-                                #autosize="cdkTextareaAutosize"
-                                (keyup)="getResponsibilities($event)"
-                                placeholder="Role And Responsibility"
-                                aria-label="Number"
-                                matInput
-                                formControlName="Responsibility"
-                                [matAutocomplete]="auto"
-                                [maxLength]="500"
-                              ></textarea>
-                              <mat-autocomplete
-                                #auto="matAutocomplete"
-                                (optionSelected)="
+                              " class="col-12 px-0">
+                              <textarea style="overflow: hidden" type="text" cdkTextareaAutosize
+                                #autosize="cdkTextareaAutosize" (keyup)="getResponsibilities($event)"
+                                placeholder="Role And Responsibility" aria-label="Number" matInput
+                                formControlName="Responsibility" [matAutocomplete]="auto" [maxLength]="500"></textarea>
+                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="
                                   selectResponsibility($event, i)
-                                "
-                              >
-                                <mat-option
-                                  *ngFor="
+                                ">
+                                <mat-option *ngFor="
                                     let responsibility of suggestedResponsibilities;
                                     let i = index
-                                  "
-                                  [value]="
+                                  " [value]="
                                     removeSpace(responsibility.Responsibility)
-                                  "
-                                  multipleLineOption
-                                >
+                                  " multipleLineOption>
                                   {{ responsibility.Responsibility }}
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
                             <mat-error>
-                              <div
-                                *ngIf="
+                              <div *ngIf="
                                   (submitted ||
                                     jobDescriptionForm.get(
                                       'rolesAndResponsibility'
@@ -993,75 +625,48 @@
                                   jobDescriptionForm.get(
                                     'rolesAndResponsibility'
                                   )['controls'][i].invalid
-                                "
-                              >
-                                <div
-                                  *ngIf="
+                                ">
+                                <div *ngIf="
                                     jobDescriptionForm.get(
                                       'rolesAndResponsibility'
                                     )['controls'][i].invalid
-                                  "
-                                >
+                                  ">
                                   Please enter role and responsibilty !!!
                                 </div>
                               </div>
                             </mat-error>
                             <mat-error>
-                              <div
-                                *ngIf="
+                              <div *ngIf="
                                   jobDescriptionForm.controls[
                                     'rolesAndResponsibility'
                                   ].value[i].Responsibility.length == 500
-                                "
-                              >
+                                ">
                                 Input text must not exceed 500 characters
                               </div>
                             </mat-error>
                           </div>
-                          <p
-                            [hidden]="item.controls.isEditing.value"
-                            class="my-auto"
-                            style="color: gray"
-                          >
+                          <p [hidden]="item.controls.isEditing.value" class="my-auto" style="color: gray">
                             {{ item.controls.Responsibility.value }}
                           </p>
                         </div>
                         <div class="col-1 my-auto p-0 btn dropdown dropright">
-                          <i
-                            [hidden]="
+                          <i [hidden]="
                               jobDescriptionForm.get('rolesAndResponsibility')
                                 .length == 1 &&
                               !isResponsibilityEmpty(item.controls)
-                            "
-                            class="fa pl-2 fa-ellipsis-v float-right"
-                            aria-hidden="true"
-                            data-toggle="dropdown"
-                          ></i>
+                            " class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                           <div class="dropdown-menu">
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              *ngIf="!item.controls.isEditing.value"
-                              (click)="item.controls.isEditing.value = true"
-                              >Edit</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              href="JavaScript:"
-                              (click)="deleteResponsiblity(item.controls, i)"
-                              >Delete</a
-                            >
+                            <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
+                              (click)="item.controls.isEditing.value = true">Edit</a>
+                            <a class="dropdown-item" href="JavaScript:"
+                              (click)="deleteResponsiblity(item.controls, i)">Delete</a>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 pr-0">
-                    <button
-                      type="button"
-                      class="btn theme-color-btn btn-sm"
-                      (click)="addResponsibility()"
-                    >
+                    <button type="button" class="btn theme-color-btn btn-sm" (click)="addResponsibility()">
                       + Add
                     </button>
                     <hr />
@@ -1084,35 +689,20 @@
                     }}</span>
                   </p>
                   <div class="col-12 d-none pr-0 d-lg-block">
-                    <input
-                      (click)="isEditJd = false; onCancel()"
-                      type="button"
-                      value="Cancel"
-                      class="btn theme-color-btn mr-2"
-                    />
+                    <input (click)="isEditJd = false; onCancel()" type="button" value="Cancel"
+                      class="btn theme-color-btn mr-2" />
 
                     <!-- <input id="viewButton"  data-toggle="modal" data-target="#myModal" type="button"
                       (click)="viewCandidates(myModal)" value="View Internal Pool" class=" btn theme-color-btn mr-2 view-floating-1" />
                       <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
                       value="View External Pool" class=" mr-2 btn theme-color-btn view-floating-2" /> -->
-                    <input
-                      *ngIf="
+                    <input *ngIf="
                         isSameUser ||
                         (!isSameUser && IsReviewJd) ||
                         (!isSameUser && IsSharedJD)
-                      "
-                      (click)="onSave()"
-                      type="button"
-                      value="Save"
-                      class="btn theme-color-btn mr-2"
-                    />
-                    <input
-                      *ngIf="!isSameUser && saveAsCopy"
-                      (click)="onSave()"
-                      type="button"
-                      value="Save As Copy"
-                      class="btn theme-color-btn mr-2"
-                    />
+                      " (click)="onSave()" type="button" value="Save" class="btn theme-color-btn mr-2" />
+                    <input *ngIf="!isSameUser && saveAsCopy" (click)="onSave()" type="button" value="Save As Copy"
+                      class="btn theme-color-btn mr-2" />
                   </div>
                 </div>
               </form>
@@ -1138,23 +728,12 @@
               </table>
               <p>*Powered By <b>SMART</b></p>
               <div #fixedDiv>
-                <input
-                  id="viewButton"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  type="button"
-                  (click)="viewCandidates(myModal)"
-                  value="View Internal Pool"
-                  class="btn theme-color-btn mr-2 view-floating-1"
-                />
-                <input
-                  data-toggle="modal"
-                  data-target="#iCIMSCandidateModal"
-                  type="button"
-                  (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-                  value="View External Pool"
-                  class="mr-2 btn theme-color-btn view-floating-2"
-                />
+                <input id="viewButton" data-toggle="modal" data-target="#myModal" type="button"
+                  (click)="viewCandidates(myModal)" value="View Internal Pool"
+                  class="btn theme-color-btn mr-2 view-floating-1" />
+                <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button"
+                  (click)="viewiCIMSCandidates(iCIMSCandidateModal)" value="View External Pool"
+                  class="mr-2 btn theme-color-btn view-floating-2" />
               </div>
             </div>
           </div>
@@ -1162,32 +741,17 @@
       </div>
     </div>
   </div>
-  <div
-    *ngIf="isEditJd"
-    class="row d-md-none fixed-bottom"
-    style="height: 55px; font-size: 1.4vh"
-  >
+  <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px; font-size: 1.4vh">
     <div class="col-4 p-0">
-      <button
-        *ngIf="
+      <button *ngIf="
           isSameUser ||
           (!isSameUser && IsReviewJd) ||
           (!isSameUser && IsSharedJD)
-        "
-        (click)="onSave()"
-        type="button"
-        class="h-100 font-weight-bold theme-secondary-btn"
-        style="width: 100px"
-      >
+        " (click)="onSave()" type="button" class="h-100 font-weight-bold theme-secondary-btn" style="width: 100px">
         Save
       </button>
-      <button
-        *ngIf="!isSameUser && saveAsCopy"
-        (click)="onSave()"
-        type="button"
-        class="h-100 font-weight-bold theme-secondary-btn"
-        style="width: 100px"
-      >
+      <button *ngIf="!isSameUser && saveAsCopy" (click)="onSave()" type="button"
+        class="h-100 font-weight-bold theme-secondary-btn" style="width: 100px">
         Save As Copy
       </button>
     </div>
@@ -1198,24 +762,11 @@
     <div class="col-md-12 no-padding mb-5" style="font-size: 13px">
       <div class="row pt-2 pb-3 d-lg-none" id="header" style="margin-top: 47px">
         <div class="col-8">
-          <button
-            style="background: #9e4587; border-radius: 0"
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#collapsibleNavbar"
-          >
-            <i
-              class="fa fa-bars fa-2x"
-              style="color: white"
-              aria-hidden="true"
-            ></i>
+          <button style="background: #9e4587; border-radius: 0" class="navbar-toggler" type="button"
+            data-toggle="collapse" data-target="#collapsibleNavbar">
+            <i class="fa fa-bars fa-2x" style="color: white" aria-hidden="true"></i>
           </button>
-          <span
-            style="color: white; position: absolute; top: 20px"
-            class="pt-2 pl-2"
-            >VIEW JDs > JD DETAILS</span
-          >
+          <span style="color: white; position: absolute; top: 20px" class="pt-2 pl-2">VIEW JDs > JD DETAILS</span>
         </div>
         <div [routerLink]="['/jd-creator/allJd']" class="col-4 pt-2">
           <div class="dropdown dropleft float-right">
@@ -1280,16 +831,10 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-8">
-              <form
-                [formGroup]="jobDescriptionForm"
-                class="container p-0 my-3 text-muted col-md-12"
-                (ngSubmit)="onSave()"
-              >
+              <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
+                (ngSubmit)="onSave()">
                 <div class="row">
-                  <p
-                    class="col-4 pt-2 font-weight-bold"
-                    style="padding-left: 14px"
-                  >
+                  <p class="col-4 pt-2 font-weight-bold" style="padding-left: 14px">
                     DESIGNATION
                   </p>
                   <p class="col-8 pt-2">{{ selectedDesignationName }}</p>
@@ -1326,15 +871,12 @@
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
                   <p class="col-12">
-                    <span
-                      class="spacing"
-                      *ngFor="
+                    <span class="spacing" *ngFor="
                         let skill of jobDescriptionForm.get('mandatorySkills')[
                           'controls'
                         ];
                         let i = index
-                      "
-                    >
+                      ">
                       {{ skill.controls.SkillName.value }}<span>.<br /></span>
                     </span>
                   </p>
@@ -1343,15 +885,12 @@
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">DESIRED SKILLS</p>
                   <p class="col-12">
-                    <span
-                      class="spacing"
-                      *ngFor="
+                    <span class="spacing" *ngFor="
                         let skill of jobDescriptionForm.get('desiredSkills')[
                           'controls'
                         ];
                         let i = index
-                      "
-                    >
+                      ">
                       {{ skill.controls.SkillName.value }}<span>.<br /></span>
                     </span>
                   </p>
@@ -1360,15 +899,12 @@
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">QUALIFICATION</p>
                   <p class="col-12">
-                    <span
-                      class="spacing"
-                      *ngFor="
+                    <span class="spacing" *ngFor="
                         let item of jobDescriptionForm.get('qualifications')[
                           'controls'
                         ];
                         let i = index
-                      "
-                    >
+                      ">
                       {{ item.controls.Name.value
                       }}<span *ngIf="i !== tags.length - 1">.<br /></span>
                     </span>
@@ -1380,15 +916,12 @@
                     ROLE AND RESPONSIBILITIES
                   </p>
                   <p class="col-12">
-                    <span
-                      class="spacing"
-                      *ngFor="
+                    <span class="spacing" *ngFor="
                         let item of jobDescriptionForm.get(
                           'rolesAndResponsibility'
                         )['controls'];
                         let i = index
-                      "
-                    >
+                      ">
                       {{ item.controls.Responsibility.value
                       }}<span *ngIf="i !== tags.length - 1">.<br /></span>
                     </span>
@@ -1415,20 +948,12 @@
                     }}</span>
                   </p>
                   <div class="col-6 col-lg-4">
-                    <button
-                      (click)="downloadPDF2()"
-                      type="button"
-                      class="bg-white p-2 w-100"
-                    >
+                    <button (click)="downloadPDF2()" type="button" class="bg-white p-2 w-100">
                       Export as Pdf
                     </button>
                   </div>
                   <div class="col-6 col-lg-4">
-                    <button
-                      [hidden]="true"
-                      type="button"
-                      class="bg-white p-2 w-100"
-                    >
+                    <button [hidden]="true" type="button" class="bg-white p-2 w-100">
                       Request to Refill
                     </button>
                   </div>
@@ -1439,20 +964,10 @@
                       <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
                       value="View External Pool" class=" mr-2 btn theme-color-btn view-floating-2" /> -->
 
-                    <input
-                      (click)="fixHeader(); onEdit()"
-                      type="button"
-                      value="Edit"
-                      class="btn theme-color-btn mr-2"
-                    />
-                    <input
-                      data-toggle="modal"
-                      data-target="#deleteConfirmation"
-                      *ngIf="isSameUser"
-                      type="button"
-                      value="Delete"
-                      class="btn theme-color-btn"
-                    />
+                    <input (click)="fixHeader(); onEdit()" type="button" value="Edit"
+                      class="btn theme-color-btn mr-2" />
+                    <input data-toggle="modal" data-target="#deleteConfirmation" *ngIf="isSameUser" type="button"
+                      value="Delete" class="btn theme-color-btn" />
                   </div>
                 </div>
               </form>
@@ -1488,23 +1003,12 @@
                </div> -->
 
               <div [hidden]="isEditJd" id="makeFixedOnScroll" #fixedDiv>
-                <input
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  type="button"
-                  (click)="viewCandidates(myModal)"
-                  value="View Internal Pool"
-                  class="mr-2 btn theme-color-btn view-floating-1"
-                />
+                <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)"
+                  value="View Internal Pool" class="mr-2 btn theme-color-btn view-floating-1" />
 
-                <input
-                  data-toggle="modal"
-                  data-target="#iCIMSCandidateModal"
-                  type="button"
-                  (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-                  value="View External Pool"
-                  class="mr-2 btn theme-color-btn view-floating-2"
-                />
+                <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button"
+                  (click)="viewiCIMSCandidates(iCIMSCandidateModal)" value="View External Pool"
+                  class="mr-2 btn theme-color-btn view-floating-2" />
               </div>
             </div>
           </div>
@@ -1512,134 +1016,77 @@
       </div>
     </div>
   </div>
-  <div
-    *ngIf="!isEditJd"
-    class="row d-md-none fixed-bottom"
-    style="height: 55px; font-size: 1.4vh"
-  >
+  <div *ngIf="!isEditJd" class="row d-md-none fixed-bottom" style="height: 55px; font-size: 1.4vh">
     <div class="col-4 p-0">
-      <button
-        (click)="viewCandidates(myModal)"
-        data-toggle="modal"
-        data-target="#myModal"
-        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-1"
-        style="font-size: 2vw; border: none"
-      >
+      <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-1" style="font-size: 2vw; border: none">
         View Internal Pool
       </button>
       <!-- The Modal -->
     </div>
     <div class="col-4 p-0">
-      <button
-        data-toggle="modal"
-        data-target="#iCIMSCandidateModal"
-        (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2"
-        style="font-size: 2vw; border: none"
-      >
+      <button data-toggle="modal" data-target="#iCIMSCandidateModal" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" style="font-size: 2vw; border: none">
         View External Pool
       </button>
       <!-- The Modal -->
     </div>
     <div class="col-2 p-0">
-      <button
-        (click)="fixHeader(); onEdit()"
-        class="w-100 h-100 font-weight-bold"
-        style="
+      <button (click)="fixHeader(); onEdit()" class="w-100 h-100 font-weight-bold" style="
           font-size: 2vw;
           background: white; /* font-size: 5px; */
           color: #9e4587; /* border-color: #9E4587; */
           margin-left: -15px;
           border: 1px solid #9e4587;
-        "
-      >
+        ">
         Edit JD
       </button>
     </div>
     <div class="col-2 p-0" *ngIf="isSameUser">
-      <button
-        data-toggle="modal"
-        data-target="#deleteConfirmation"
-        type="button"
-        class="w-100 h-100 font-weight-bold"
+      <button data-toggle="modal" data-target="#deleteConfirmation" type="button" class="w-100 h-100 font-weight-bold"
         style="
           font-size: 2vw;
           background: white; /* font-size: 5px; */
           color: #9e4587; /* border-color: #9E4587; */
           margin-left: -15px;
           border: 1px solid #9e4587;
-        "
-      >
+        ">
         Delete
       </button>
     </div>
   </div>
 
-  <div
-    *ngIf="isEditJd"
-    class="row d-md-none fixed-bottom"
-    style="height: 55px; font-size: 1.4vh"
-  >
+  <div *ngIf="isEditJd" class="row d-md-none fixed-bottom" style="height: 55px; font-size: 1.4vh">
     <div class="col-3 p-0" style="border: 1px solid white">
-      <button
-        (click)="viewCandidates(myModal)"
-        data-toggle="modal"
-        data-target="#myModal"
+      <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
         class="w-100 h-100 font-weight-bold theme-color-btn view-floating-1"
-        style="border: none; text-align: center !important"
-      >
+        style="border: none; text-align: center !important">
         View Internal Pool
       </button>
       <!-- The Modal -->
     </div>
     <div class="col-3 p-0" style="border: 1px solid white">
-      <button
-        data-toggle="modal"
-        data-target="#iCIMSCandidateModal"
-        (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
+      <button data-toggle="modal" data-target="#iCIMSCandidateModal" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
         class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2"
-        style="border: none; text-align: center !important"
-      >
+        style="border: none; text-align: center !important">
         View External Pool
       </button>
       <!-- The Modal -->
     </div>
 
     <div class="col-3 p-0" style="border: 1px solid white">
-      <input
-        style="text-align: center !important"
-        (click)="isEditJd = false; onCancel()"
-        type="button"
-        value="Cancel"
-        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2"
-      />
+      <input style="text-align: center !important" (click)="isEditJd = false; onCancel()" type="button" value="Cancel"
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" />
     </div>
-    <div
-      class="col-3 p-0"
-      *ngIf="
+    <div class="col-3 p-0" *ngIf="
         isSameUser || (!isSameUser && IsReviewJd) || (!isSameUser && IsSharedJD)
-      "
-    >
-      <input
-        (click)="onSave()"
-        type="button"
-        style="text-align: center !important"
-        value="Save"
-        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2"
-      />
+      ">
+      <input (click)="onSave()" type="button" style="text-align: center !important" value="Save"
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" />
     </div>
-    <div
-      *ngIf="!isSameUser && saveAsCopy"
-      class="col-3 p-0"
-      style="border: 1px solid white"
-    >
-      <input
-        style="text-align: center !important"
-        (click)="onSave()"
-        type="button"
-        value="Save As Copy"
-        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2"
-      />
+    <div *ngIf="!isSameUser && saveAsCopy" class="col-3 p-0" style="border: 1px solid white">
+      <input style="text-align: center !important" (click)="onSave()" type="button" value="Save As Copy"
+        class="w-100 h-100 font-weight-bold theme-color-btn view-floating-2" />
     </div>
   </div>
 
@@ -1662,22 +1109,14 @@
                 {{ candidateRecordsAsPerSectionTemp?.length }}
               </h4>
             </div>
-            <div
-              class="col-6 dropleft"
-              style="
+            <div class="col-6 dropleft" style="
                 text-align: right;
                 padding-right: 30px;
                 margin-top: 3px;
                 font-size: 13px;
-              "
-            >
-              <select
-                name="filterBy"
-                #countrySelect
-                id="filterBy"
-                (change)="changeFilter($event)"
-                style="padding-right: 5px"
-              >
+              ">
+              <select name="filterBy" #countrySelect id="filterBy" (change)="changeFilter($event)"
+                style="padding-right: 5px">
                 <option value="-1" disabled>Select Region</option>
                 <option value="All Region">All Region</option>
                 <option *ngFor="let c of countryList" [value]="c">
@@ -1693,28 +1132,16 @@
               <!-- <span class="regionText" *ngIf="!!selectedRegionInternal">
                 Selected Region : <b> {{selectedRegionInternal}}</b>
               </span> -->
-              <canvas
-                baseChart
-                *ngIf="!!pieChartData.length"
-                [data]="pieChartData"
-                [labels]="pieChartLabels"
-                [chartType]="pieChartType"
-                [options]="pieChartOptions"
-                [plugins]="pieChartPlugins"
-                [colors]="pieChartColors"
-                [legend]="pieChartLegend"
-                (chartClick)="onChartClick($event)"
-              >
+              <canvas baseChart *ngIf="!!pieChartData.length" [data]="pieChartData" [labels]="pieChartLabels"
+                [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins"
+                [colors]="pieChartColors" [legend]="pieChartLegend" (chartClick)="onChartClick($event)">
               </canvas>
               <span class="no-chart" *ngIf="!pieChartData.length">No data</span>
             </div>
           </div>
           <div class="row">
             <p style="margin: 0; margin-left: 35px">
-              <span
-                style="font-style: italic; font-size: 14px; padding-right: 5px"
-                >*Powered By</span
-              >
+              <span style="font-style: italic; font-size: 14px; padding-right: 5px">*Powered By</span>
               <b>SMART</b>
             </p>
             <div class="col-11 candidate-details">
@@ -1726,10 +1153,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    class="noBorder"
-                    *ngFor="let c of candidateRecordsAsPerSectionTemp"
-                  >
+                  <tr class="noBorder" *ngFor="let c of candidateRecordsAsPerSectionTemp">
                     <td>
                       <a target="_blank" [href]="c.ProfileURLLink">{{
                         c.EmployeeName
@@ -1739,10 +1163,7 @@
                   </tr>
                 </tbody>
                 <tfoot>
-                  <tr
-                    class="text-center"
-                    *ngIf="!candidateRecordsAsPerSection?.length"
-                  >
+                  <tr class="text-center" *ngIf="!candidateRecordsAsPerSection?.length">
                     <td colspan="2">No Record Found!</td>
                   </tr>
                 </tfoot>
@@ -1756,23 +1177,13 @@
     </div>
   </div>
 
-  <div
-    class="modal"
-    id="iCIMSCandidateModal"
-    data-backdrop="static"
-    data-keyboard="false"
-  >
+  <div class="modal" id="iCIMSCandidateModal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- Modal Header -->
         <div class="modal-header pb-0 pr-1 pt-1 border-0">
           <h4 class="modal-title"></h4>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-hidden="true"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
             &times;
           </button>
         </div>
@@ -1780,19 +1191,13 @@
 
         <div>
           <div class="modal-body pt-0">
-            <select
-              name="filterBy"
-              style="
+            <select name="filterBy" style="
                 margin-right: 15px;
                 float: right;
                 padding-right: 5px;
                 margin-top: 3px;
                 font-size: 13px;
-              "
-              #countrySelectExternal
-              id="filterByExternal"
-              (change)="changeFilterExternal($event)"
-            >
+              " #countrySelectExternal id="filterByExternal" (change)="changeFilterExternal($event)">
               <option value="-1" disabled>Select Region</option>
               <option value="0">All Region</option>
               <!-- <option *ngFor="let c of locations;" [value]="c.Id">{{c.LocationName}}</option> -->
@@ -1808,9 +1213,7 @@
           <span class="regionText" *ngIf="!!selectedRegionExternal">
             Selected Region : <b> {{ selectedRegionExternal }}</b>
           </span>
-          <app-i-cimscandidate-list
-            [data]="iCIMSCandidates"
-          ></app-i-cimscandidate-list>
+          <app-i-cimscandidate-list [data]="iCIMSCandidates"></app-i-cimscandidate-list>
         </div>
       </div>
     </div>
@@ -1833,19 +1236,10 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn theme-color-btn"
-            data-dismiss="modal"
-          >
+          <button type="button" class="btn theme-color-btn" data-dismiss="modal">
             NO
           </button>
-          <button
-            (click)="deleteProfile()"
-            type="button"
-            class="btn theme-color-btn"
-            data-dismiss="modal"
-          >
+          <button (click)="deleteProfile()" type="button" class="btn theme-color-btn" data-dismiss="modal">
             YES
           </button>
         </div>
@@ -1861,117 +1255,73 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <form
-                  [formGroup]="jobDescriptionForm"
-                  class="container p-0 my-3 text-muted col-md-12"
-                  (ngSubmit)="onSave()"
-                >
+                <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
+                  (ngSubmit)="onSave()">
                   <div class="row">
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       DESIGNATION
                     </p>
-                    <p
-                      class="col-12 pt-2"
-                      style="text-align: justify; font-size: 19px; color: black"
-                    >
+                    <p class="col-12 pt-2" style="text-align: justify; font-size: 19px; color: black">
                       {{ selectedDesignationName }}
                     </p>
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       EXPERIENCE
                     </p>
-                    <p
-                      class="col-12 pt-2"
-                      style="text-align: justify; font-size: 19px; color: black"
-                    >
+                    <p class="col-12 pt-2" style="text-align: justify; font-size: 19px; color: black">
                       {{ selectedExperienceName }}
                     </p>
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       LOCATION
                     </p>
-                    <p
-                      class="col-12 pt-2"
-                      style="text-align: justify; font-size: 19px; color: black"
-                    >
+                    <p class="col-12 pt-2" style="text-align: justify; font-size: 19px; color: black">
                       {{ selectedLocationName.join(", ") }}
                     </p>
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       SUMMARY
                     </p>
 
                     <div class="col-12">
-                      <p
-                        style="
+                      <p style="
                           text-align: justify;
                           font-size: 19px;
                           color: black;
-                        "
-                      >
+                        ">
                         {{ jobDescriptionForm.controls.about.value }}
                       </p>
                       <hr />
                     </div>
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       MANDATORY TAGS
                     </p>
-                    <p
-                      class="col-12 pt-2"
-                      style="text-align: justify; font-size: 19px; color: black"
-                    >
+                    <p class="col-12 pt-2" style="text-align: justify; font-size: 19px; color: black">
                       {{ selectmandatorytags.join(", ") }}
                     </p>
                     <div class="col-12">
                       <hr />
                     </div>
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       DESIRED TAGS
                     </p>
-                    <p
-                      class="col-12 pt-2"
-                      style="text-align: justify; font-size: 19px; color: black"
-                    >
+                    <p class="col-12 pt-2" style="text-align: justify; font-size: 19px; color: black">
                       {{ selectdesiredtags.join(", ") }}
                     </p>
                     <div class="col-12">
                       <hr />
                     </div>
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       MANDATORY SKILLS
                     </p>
                     <p class="col-12">
-                      <span
-                        style="
+                      <span style="
                           text-align: justify;
                           font-size: 19px;
                           color: black;
-                        "
-                        *ngFor="
+                        " *ngFor="
                           let skill of jobDescriptionForm.get(
                             'mandatorySkills'
                           )['controls'];
                           let i = index
-                        "
-                      >
+                        ">
                         {{ skill.controls.SkillName.value
                         }}<span *ngIf="i !== tags.length - 1">.<br /></span>
                       </span>
@@ -1979,26 +1329,20 @@
                     <div class="col-12">
                       <hr />
                     </div>
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       DESIRED SKILLS
                     </p>
                     <p class="col-12">
-                      <span
-                        style="
+                      <span style="
                           text-align: justify;
                           font-size: 19px;
                           color: black;
-                        "
-                        *ngFor="
+                        " *ngFor="
                           let skill of jobDescriptionForm.get('desiredSkills')[
                             'controls'
                           ];
                           let i = index
-                        "
-                      >
+                        ">
                         {{ skill.controls.SkillName.value
                         }}<span *ngIf="i !== tags.length - 1">.<br /></span>
                       </span>
@@ -2006,26 +1350,20 @@
                     <div class="col-12">
                       <hr />
                     </div>
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       QUALIFICATION
                     </p>
                     <p class="col-12">
-                      <span
-                        style="
+                      <span style="
                           text-align: justify;
                           font-size: 19px;
                           color: black;
-                        "
-                        *ngFor="
+                        " *ngFor="
                           let item of jobDescriptionForm.get('qualifications')[
                             'controls'
                           ];
                           let i = index
-                        "
-                      >
+                        ">
                         {{ item.controls.Name.value
                         }}<span *ngIf="i !== tags.length - 1">.<br /></span>
                       </span>
@@ -2033,26 +1371,20 @@
                     <div class="col-12">
                       <hr />
                     </div>
-                    <p
-                      class="col-12 pt-2 font-weight-bold"
-                      style="font-size: 25px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
                       ROLE AND RESPONSIBILITIES
                     </p>
                     <p class="col-12">
-                      <span
-                        style="
+                      <span style="
                           text-align: justify;
                           font-size: 19px;
                           color: black;
-                        "
-                        *ngFor="
+                        " *ngFor="
                           let item of jobDescriptionForm.get(
                             'rolesAndResponsibility'
                           )['controls'];
                           let i = index
-                        "
-                      >
+                        ">
                         {{ item.controls.Responsibility.value
                         }}<span *ngIf="i !== tags.length - 1">.<br /></span>
                       </span>
@@ -2060,55 +1392,34 @@
                     <div class="col-12">
                       <hr />
                     </div>
-                    <p
-                      class="col-12 pt-2 font-weight-bold mb-0"
-                      style="font-size: 21px; color: black"
-                    >
+                    <p class="col-12 pt-2 font-weight-bold mb-0" style="font-size: 21px; color: black">
                       CREATED BY :
-                      <span
-                        class="font-weight-normal"
-                        style="
+                      <span class="font-weight-normal" style="
                           text-align: justify;
                           font-size: 19px;
                           color: black;
-                        "
-                        >{{ jobDetail.Response.CreatorName }}</span
-                      >
+                        ">{{ jobDetail.Response.CreatorName }}</span>
                     </p>
 
-                    <p
-                      class="col-12 font-weight-bold mb-0"
-                      style="font-size: 21px; color: black"
-                    >
+                    <p class="col-12 font-weight-bold mb-0" style="font-size: 21px; color: black">
                       UPDATED ON :
-                      <span
-                        class="font-weight-normal"
-                        style="
+                      <span class="font-weight-normal" style="
                           text-align: justify;
                           font-size: 19px;
                           color: black;
-                        "
-                        >{{
+                        ">{{
                           jobDetail.Response.UpdatedDate | date: "dd-MMM-yyyy"
-                        }}</span
-                      >
+                        }}</span>
                     </p>
-                    <p
-                      class="col-12 font-weight-bold"
-                      style="font-size: 21px; color: black"
-                    >
+                    <p class="col-12 font-weight-bold" style="font-size: 21px; color: black">
                       CREATED ON :
-                      <span
-                        class="font-weight-normal"
-                        style="
+                      <span class="font-weight-normal" style="
                           text-align: justify;
                           font-size: 19px;
                           color: black;
-                        "
-                        >{{
+                        ">{{
                           jobDetail.Response.CreatedDate | date: "dd-MMM-yyyy"
-                        }}</span
-                      >
+                        }}</span>
                     </p>
                   </div>
                 </form>
