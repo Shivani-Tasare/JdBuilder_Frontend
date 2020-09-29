@@ -245,7 +245,8 @@ export class JobDetailComponent implements OnInit {
   }
 
   onEdit() {
-      if (this.saveAsCopy) {
+
+    if (this.saveAsCopy) {
         this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId], { queryParams: { saveCopy: true } })
     } else {
       this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId])
