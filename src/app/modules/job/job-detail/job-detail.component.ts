@@ -109,6 +109,7 @@ export class JobDetailComponent implements OnInit {
   isPrivateChecked = false;
   disabled = false;
   disableError=false;
+  maxLengthAllowed = 200;
 
   @ViewChild('tagInputMandatory') tagInputMandatory: ElementRef<HTMLInputElement>;
   @ViewChild('tagInputDesired') tagInputDesired: ElementRef<HTMLInputElement>;
@@ -368,8 +369,8 @@ export class JobDetailComponent implements OnInit {
           mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
           qualifications: this.formBuilder.array(defaultQualification),
           rolesAndResponsibility: this.formBuilder.array(defaultResponsibility),
-          mandatoryTags: new FormControl('',Validators.maxLength(200)),
-          desiredTags: new FormControl('',Validators.maxLength(200))
+          mandatoryTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),
+          desiredTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed))
         });
         this.jobService.FetchExperienceList().subscribe((experiences: any) => {
           if (experiences.StatusCode === 200) {
@@ -761,6 +762,9 @@ export class JobDetailComponent implements OnInit {
 
   }
   addMandatoryTag(event: MatChipInputEvent, isAdd, i): void {
+    if(event.value.length > this.maxLengthAllowed){
+      return;
+      }
     if (isAdd) {
       const input = event.input;
       const value = event.value;
@@ -781,6 +785,9 @@ export class JobDetailComponent implements OnInit {
   }
 
   addDesiredTag(event: MatChipInputEvent, isAdd, TagType) {
+    if(event.value.length > this.maxLengthAllowed){
+      return;
+      }
     if (isAdd) {
       const input = event.input;
       const value = event.value;

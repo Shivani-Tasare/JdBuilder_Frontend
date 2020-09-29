@@ -68,6 +68,7 @@ export class CreateJdComponent implements OnInit {
   disabled = false;
   associatedTags = [];
   associatedDesiredTags =[];
+  maxLengthAllowed = 200;
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagInputMandatory') tagInputMandatory: ElementRef<HTMLInputElement>;
   @ViewChild('tagInputDesired') tagInputDesired: ElementRef<HTMLInputElement>;
@@ -139,8 +140,8 @@ export class CreateJdComponent implements OnInit {
       selectedDesignation: new FormControl('', [Validators.required,Validators.maxLength(200),Validators.pattern("(?!^ +$)^.+$")]),
       selectedLocation: new FormControl('', Validators.required),
       selectedExperience: new FormControl('', Validators.required),
-      mandatoryTags: new FormControl('',Validators.maxLength(200)),
-      desiredTags: new FormControl('',Validators.maxLength(200)),
+      mandatoryTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),
+      desiredTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),
       desiredSkills: this.formBuilder.array(defaultDesiredSkill),
       mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
       qualifications: this.formBuilder.array(defaultQualification),
@@ -399,6 +400,9 @@ export class CreateJdComponent implements OnInit {
   }
 
   addMandatoryTag(event: MatChipInputEvent, isAdd, TagType): void {
+    if(event.value.length > this.maxLengthAllowed){
+      return;
+      }
     if (isAdd) {
         const input = event.input;
         const value = event.value;
@@ -419,6 +423,9 @@ export class CreateJdComponent implements OnInit {
   }
 
   addDesiredTag(event: MatChipInputEvent, isAdd, TagType){
+    if(event.value.length > this.maxLengthAllowed){
+      return;
+      }
     if (isAdd) {
       const input = event.input;
       const value = event.value;
