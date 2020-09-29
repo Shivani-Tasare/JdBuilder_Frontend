@@ -108,6 +108,8 @@ export class JobDetailComponent implements OnInit {
   color: ThemePalette = 'primary';
   isPrivateChecked = false;
   disabled = false;
+  disableError=false;	
+  maxLengthAllowed = 200;
 
   @ViewChild('tagInputMandatory') tagInputMandatory: ElementRef<HTMLInputElement>;
   @ViewChild('tagInputDesired') tagInputDesired: ElementRef<HTMLInputElement>;
@@ -245,7 +247,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   onEdit() {
-
+    this.disableError=true;
     if (this.saveAsCopy) {
         this.router.navigate(['jd-creator/jd/job-description/edit/' + this.jobDetail.Response.ProfileId], { queryParams: { saveCopy: true } })
     } else {
@@ -271,8 +273,8 @@ export class JobDetailComponent implements OnInit {
   }
 
   removeDesignation(event) {
+    this.disableError=true;
     this.desigOption = event.target.value.length;
-    console.log(this.desigOption);
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
     if(length == undefined ){
       this.desigName= '' ;
@@ -366,8 +368,8 @@ export class JobDetailComponent implements OnInit {
           mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
           qualifications: this.formBuilder.array(defaultQualification),
           rolesAndResponsibility: this.formBuilder.array(defaultResponsibility),
-          mandatoryTags: new FormControl('',Validators.maxLength(200)),
-          desiredTags: new FormControl('',Validators.maxLength(200))
+          mandatoryTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),	
+          desiredTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed))
         });
         this.jobService.FetchExperienceList().subscribe((experiences: any) => {
           if (experiences.StatusCode === 200) {
@@ -759,6 +761,9 @@ export class JobDetailComponent implements OnInit {
 
   }
   addMandatoryTag(event: MatChipInputEvent, isAdd, i): void {
+    if(event.value.length > this.maxLengthAllowed){	
+      return;	
+      }
     if (isAdd) {
       const input = event.input;
       const value = event.value;
@@ -779,6 +784,9 @@ export class JobDetailComponent implements OnInit {
   }
 
   addDesiredTag(event: MatChipInputEvent, isAdd, TagType) {
+    if(event.value.length > this.maxLengthAllowed){	
+      return;	
+      }
     if (isAdd) {
       const input = event.input;
       const value = event.value;
@@ -1049,7 +1057,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   checkDuplicateDesignation(event) {
-       
+    this.disableError=true;
     if (!isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
       this.isDuplicateDesignation = false
     }
@@ -1057,8 +1065,6 @@ export class JobDetailComponent implements OnInit {
 
       let isChecked = false
       this.designations.forEach((designation: any) => {
-        console.log(designation.id);
-        
         if (!isChecked) {
           if (designation.DesignationName.trim().toLowerCase() === event.target.value.trim().toLowerCase()) {
             this.isDuplicateDesignation = true
@@ -1069,9 +1075,9 @@ export class JobDetailComponent implements OnInit {
         }
       });
     }
-  console.log(this.isDuplicateDesignation);
 }
   clearDesignationId(evnt) {
+    this.disableError=true;
     if ((evnt.keyCode >= 48 && evnt.keyCode <= 57) || (evnt.keyCode >= 65 && evnt.keyCode <= 90)) {
       this.jobDescriptionForm.patchValue({ selectedDesignation: evnt.target.value })
     }
@@ -1144,7 +1150,6 @@ export class JobDetailComponent implements OnInit {
     this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
     
-    console.log(this.jobDescriptionForm.get('selectedDesignationN').value);
     this.jobDescriptionForm.get('mandatorySkills').value.forEach(element => {
       if(element.SkillName.length>699)
       {invalidLength=true;}
@@ -1169,8 +1174,6 @@ export class JobDetailComponent implements OnInit {
     if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || this.isDuplicateDesignation || invalidLength) {
       return;
     }
-    console.log(this.jobDescriptionForm.get('selectedDesignation').value);
-    
     const jdObject = {
       ProfileId: location.pathname.split('/').pop(),
       ProfileName: this.jobDescriptionForm.get('title').value,
