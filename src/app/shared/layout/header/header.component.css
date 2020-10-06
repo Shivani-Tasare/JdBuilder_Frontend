@@ -11,3 +11,9 @@ background-color: white;
     /* padding-top: 20px; */
     background-color: white;
 }
+p:focus{
+    outline: none;
+}
+img:focus{
+    outline: none;
+}
