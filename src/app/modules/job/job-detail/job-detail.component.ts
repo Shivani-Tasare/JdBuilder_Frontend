@@ -671,6 +671,13 @@ export class JobDetailComponent implements OnInit {
     this.countrySelect.nativeElement.value = "-1";
     this.selectedRegionInternal = null;
     const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+    if(tags.length == 0){
+        this.matchingConsultants['Count'] = 0;
+          this.candidateRecordsAsPerSection = null;
+          this.candidateRecordsAsPerSectionTemp.length = 0;
+          this.matchingConsultants["MatchingConsultants"] = [];
+          this.filterCandidatesByMatchScore(this.matchingConsultants["MatchingConsultants"], false);
+    }
     this.tagName = tags.map((res) => res.TagName);
     if (tags.length > 0) {
       this.smartService.fetchCandidatesDetails(this.tagName).subscribe(
@@ -1244,12 +1251,19 @@ export class JobDetailComponent implements OnInit {
       this.filterCandidatesByMatchScore(this.candidateRecordsAsPerSectionTemp, true);
   }
   changeFilterExternal(e) {
-    const value = e.target.value;
+    var value = e.target.value;
+    const newLocation = [];
     const text = e.target.options[event.target['options'].selectedIndex].text;
     this.selectedRegionExternal = text;
     if(text == 'JD Specified Region') {
+      value = this.jobDescriptionForm.get('selectedLocation').value.join('|');
       this.viewiCIMSCandidates(null, value, 1);
-      this.selectedRegionExternal = this.selectedLocationName.join(', ');
+      this.locations.forEach((value) => {
+        if(this.jobDescriptionForm.get('selectedLocation').value.includes(value['Id'])){
+           newLocation.push(value['LocationName']);
+        }
+      })
+      this.selectedRegionExternal = newLocation.join(', ');
     } else{
       this.iCIMSCandidates = this.iCIMSCandidatesTemp;
     }
@@ -1257,5 +1271,5 @@ export class JobDetailComponent implements OnInit {
   getLocations() {
     return this.jobDetail.Response.LocationId.join("|");
   }
-
+ 
 }
