@@ -393,13 +393,13 @@
                             {{ skill.controls.SkillName.value }}
                           </p>
                         </div>
-                        <div class="col-1 my-auto p-0 btn dropdown dropright">
+                        <div class="col-1 my-auto p-0 btn dropdown">
                           <i [hidden]="
                               jobDescriptionForm.get('mandatorySkills')
                                 .length == 1 &&
                               !isSkillNameNotEmpty(skill.controls)
                             " class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
-                          <div class="dropdown-menu" style="left: 25px !important">
+                          <div class="dropdown-menu" style="left: 25px !important;">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                               (click)="skill.controls.isEditing.value = true">Edit</a>
                             <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"
@@ -477,12 +477,12 @@
                             {{ skill.controls.SkillName.value }}
                           </p>
                         </div>
-                        <div class="col-1 my-auto p-0 btn dropdown dropright">
+                        <div class="col-1 my-auto p-0 btn dropdown ">
                           <i [hidden]="
                               jobDescriptionForm.get('desiredSkills').length ==
                                 1 && !isSkillNameNotEmpty(skill.controls)
                             " class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
-                          <div class="dropdown-menu">
+                          <div class="dropdown-menu" style="width: 182px;">
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                               (click)="skill.controls.isEditing.value = true">Edit</a>
                             <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"
@@ -562,7 +562,7 @@
                             {{ item.controls.Name.value }}
                           </p>
                         </div>
-                        <div class="col-1 my-auto p-0 btn dropdown dropright">
+                        <div class="col-1 my-auto p-0 btn dropdown">
                           <i [hidden]="
                               jobDescriptionForm.get('qualifications').length ==
                                 1 && !isQualificationEmpty(item.controls)
@@ -649,13 +649,13 @@
                             {{ item.controls.Responsibility.value }}
                           </p>
                         </div>
-                        <div class="col-1 my-auto p-0 btn dropdown dropright">
+                        <div class="col-1 my-auto p-0 btn dropdown">
                           <i [hidden]="
                               jobDescriptionForm.get('rolesAndResponsibility')
                                 .length == 1 &&
                               !isResponsibilityEmpty(item.controls)
                             " class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
-                          <div class="dropdown-menu">
+                          <div class="dropdown-menu" >
                             <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
                               (click)="item.controls.isEditing.value = true">Edit</a>
                             <a class="dropdown-item" href="JavaScript:"
@@ -1213,7 +1213,7 @@
           <span class="regionText" *ngIf="!!selectedRegionExternal">
             Selected Region : <b> {{ selectedRegionExternal }}</b>
           </span>
-          <app-i-cimscandidate-list [data]="iCIMSCandidates"></app-i-cimscandidate-list>
+          <div><app-i-cimscandidate-list [data]="iCIMSCandidates" [selectedRegionExternal]="selectedRegionExternal"></app-i-cimscandidate-list></div>
         </div>
       </div>
     </div>

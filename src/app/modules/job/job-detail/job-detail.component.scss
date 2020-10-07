@@ -248,7 +248,15 @@ tr.noBorder td {
 .view-floating-1, .view-floating-2 {
   padding: 6px
 }
-
+.dropdown-menu.show {
+  display: block;
+  right: 0px;
+  left: auto;
+  position: relative;
+}
+.dropdown .dropdown-menu {
+  z-index: 9 !important;
+}
 .fixed {
   position: fixed;
   z-index: 1;
@@ -260,7 +268,7 @@ tr.noBorder td {
   float: right;
   font-size: 12px;
   right: 19px;
-  top: -9px;
+  top: -32px;
   border: 1px solid #f2f2f2;
   background: #f8f8f8;
   color: black;

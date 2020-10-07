@@ -705,32 +705,38 @@ export class JobDetailComponent implements OnInit {
 
   viewiCIMSCandidates(myModal: any, region = 0, bySelect=0) {
     // this.iCIMSCandidates = [];
-    if(bySelect == 0) {
-      this.countrySelectExternal.nativeElement.value = "-1";
-      this.selectedRegionExternal = null;
+    if(this.jobDescriptionForm.get('selectedLocation').value.length == 0){
+      this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
+      this.selectedRegionExternal =  "No Location Selected";
+    }else{
+      if(bySelect == 0) {
+        this.countrySelectExternal.nativeElement.value = "-1";
+        this.selectedRegionExternal = null;
+      }
+      this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
+      const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
+      this.tagName = tags.map((res) => res.TagName);
+      if (tags.length > 0) {
+        this.smartService.fetchiCIMSCandidatesDetails(this.tagName, region).subscribe(
+          response => {
+            this.iCIMSCandidates = response;
+            if(!this.iCIMSCandidatesTemp.hasOwnProperty('TotalCount')) {
+              this.iCIMSCandidatesTemp = response;
+            }
+          }, error => {
+            this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
+            // this.iCIMSCandidates = {
+            //   "TotalCount": "1000+",
+            //   "PartialMatch": null, 
+  
+            //   "ExactMatch": null
+  
+  
+            // };
+          })
+      }
     }
-    this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
-    const tags = this.mandatoryTagsList.concat(this.desiredTagsList);
-    this.tagName = tags.map((res) => res.TagName);
-    if (tags.length > 0) {
-      this.smartService.fetchiCIMSCandidatesDetails(this.tagName, region).subscribe(
-        response => {
-          this.iCIMSCandidates = response;
-          if(!this.iCIMSCandidatesTemp.hasOwnProperty('TotalCount')) {
-            this.iCIMSCandidatesTemp = response;
-          }
-        }, error => {
-          this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
-          // this.iCIMSCandidates = {
-          //   "TotalCount": "1000+",
-          //   "PartialMatch": null, 
-
-          //   "ExactMatch": null
-
-
-          // };
-        })
-    }
+     
   }
 
   onPaginateChange(evn) {
@@ -1253,19 +1259,26 @@ export class JobDetailComponent implements OnInit {
   changeFilterExternal(e) {
     var value = e.target.value;
     const newLocation = [];
-    const text = e.target.options[event.target['options'].selectedIndex].text;
-    this.selectedRegionExternal = text;
-    if(text == 'JD Specified Region') {
-      value = this.jobDescriptionForm.get('selectedLocation').value.join('|');
-      this.viewiCIMSCandidates(null, value, 1);
-      this.locations.forEach((value) => {
-        if(this.jobDescriptionForm.get('selectedLocation').value.includes(value['Id'])){
-           newLocation.push(value['LocationName']);
-        }
-      })
-      this.selectedRegionExternal = newLocation.join(', ');
-    } else{
-      this.iCIMSCandidates = this.iCIMSCandidatesTemp;
+    var text = e.target.options[event.target['options'].selectedIndex].text;
+    if(this.jobDescriptionForm.get('selectedLocation').value.length == 0){
+      text = "No Location Selected"
+      this.selectedRegionExternal = text;
+    }else{
+      this.selectedRegionExternal = text;
+      if(text == 'JD Specified Region') {
+        value = this.jobDescriptionForm.get('selectedLocation').value.join('|');
+        this.viewiCIMSCandidates(null, value, 1);
+        this.locations.forEach((value) => {
+          if(this.jobDescriptionForm.get('selectedLocation').value.includes(value['Id'])){
+             newLocation.push(value['LocationName']);
+          }
+        })
+        this.selectedRegionExternal = newLocation.join(', ');
+      } else{
+        console.log(this.iCIMSCandidatesTemp);
+        
+        this.iCIMSCandidates = this.iCIMSCandidatesTemp;
+      }
     }
   }
   getLocations() {

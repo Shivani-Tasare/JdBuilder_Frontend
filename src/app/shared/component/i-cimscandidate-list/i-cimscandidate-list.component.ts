@@ -10,6 +10,8 @@ import { ChartOptions } from 'chart.js';
 export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   //@Input() data = [];
   @Input() data = {TotalCount: "0", CandidateList: [], ExactMatch:null, PartialMatch: null};
+  @Input() selectedRegionExternal;
+  isLocationSelected: any;
   constructor(private router: Router) { }
 
   public pieChartLabels:string[] = ['Exact Match', 'Partial Match'];
@@ -35,6 +37,7 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
   ngOnChanges() {
+    this.selectedRegionExternal == 'No Location Selected' ? this.isLocationSelected = true : this.isLocationSelected = false
     if(!!this.data) {
       this.data.CandidateList = 
       !!(!!this.data['ExactMatch'] && !!this.data['ExactMatch'].Total)? 
@@ -65,20 +68,6 @@ export class ICIMSCandidateListComponent implements OnInit, OnChanges {
   };
   getAddress(address) {
     if(!!address) {
-      // return  address[0].map((r)=> {
-      //   let location = '';
-      //   if(!!r.AddressCountry) {
-      //     location += r.AddressCountry.Value;
-      //   }
-      //   if(!!r.AddressCity) {
-      //     location +=', '+ r.AddressCity;
-      //   }
-      //   if(!!r.AddressState) {
-      //     location += ', ' + r.AddressState.Value;
-      //   }
-      //   return location;        
-      //   });
-      //return `${address[0].AddressCountry.Value} - ${address[0].AddressCity}, ${address[0].AddressState.Value}`;
         let location = '';
         if(!!address[0].AddressCountry) {
           location += address[0].AddressCountry.Value;
