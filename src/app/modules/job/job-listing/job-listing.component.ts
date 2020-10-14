@@ -104,9 +104,9 @@ export class JobListingComponent implements OnInit {
   }
 
   refresh() {
-    this.selectedLocation = undefined;
-    this.selectedExperience = undefined;
-    this.selectedDesignation = undefined;
+    this.selectedLocation = '';
+    this.selectedExperience = '';
+    this.selectedDesignation = '';
     this.selectedUserId = ''
     this.searchString = ''
     const pageParams = {pageSize: 5, pageIndex: 0, myJd: this.myJd, sortByDate: this.sortByDate,sharedJD: this.sharedJD ,locationId: 0,
