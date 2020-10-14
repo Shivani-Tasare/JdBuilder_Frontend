@@ -187,6 +187,9 @@ tr.noBorder td {
   .theme-color{
     color: #CE353D;
   }
+  .modal-dialog{
+    padding-top:65px;
+    }
 }
 
 
@@ -204,7 +207,7 @@ tr.noBorder td {
 
 .candidate-details{
   margin: auto; 
-  max-height: 33vh;
+  max-height: 27vh;
   overflow-y: scroll;
   .table td, .table th{
     padding: .1rem;
