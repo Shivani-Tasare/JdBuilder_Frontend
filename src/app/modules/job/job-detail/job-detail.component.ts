@@ -1235,7 +1235,7 @@ export class JobDetailComponent implements OnInit {
   @HostListener('window:scroll', ['$event']) 
   scrollHandler(event) {
     if(!!this.fixedDiv) {
-      if(window.scrollY > 454) {
+      if(window.scrollY > 429) {
         this.fixedDiv.nativeElement.classList.add('fixed');
       }else{
         this.fixedDiv.nativeElement.classList.remove('fixed');
