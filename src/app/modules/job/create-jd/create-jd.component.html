@@ -388,7 +388,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                             jobDescriptionForm.get('desiredSkills').length ==
                               1 && !isSkillNameNotEmpty(skill.controls)
                           " class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" style="width: 190px;">
                           <a class="dropdown-item" href="JavaScript:" *ngIf="!skill.controls.isEditing.value"
                             (click)="skill.controls.isEditing.value = true">Edit</a>
                           <a class="dropdown-item" href="JavaScript:" *ngIf="isSkillNameNotEmpty(skill.controls)"
