@@ -10,6 +10,11 @@
  .para{
      padding-top: 20px;
  }
+ @media only screen and (max-width: 357px){
+    p{
+      padding-left: 0px;
+    }
+    }
 .suggested-tags {
    label {
     margin: 0;

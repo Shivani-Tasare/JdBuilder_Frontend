@@ -703,7 +703,7 @@ export class JobDetailComponent implements OnInit {
     }
   }
 
-  viewiCIMSCandidates(myModal: any, region = 0, bySelect=0) {
+  viewiCIMSCandidates(myModal: any, region = 0, bySelect=0,isJdSpecified?) {
     // this.iCIMSCandidates = [];
     if(this.jobDescriptionForm.get('selectedLocation').value.length == 0){
       this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
@@ -725,6 +725,7 @@ export class JobDetailComponent implements OnInit {
             }
           }, error => {
             this.iCIMSCandidates = { TotalCount: 0, CandidateList: [] };
+            !isJdSpecified ? this.iCIMSCandidatesTemp ={ TotalCount: 0, CandidateList: [] } : null;
             // this.iCIMSCandidates = {
             //   "TotalCount": "1000+",
             //   "PartialMatch": null, 
@@ -1267,7 +1268,7 @@ export class JobDetailComponent implements OnInit {
       this.selectedRegionExternal = text;
       if(text == 'JD Specified Region') {
         value = this.jobDescriptionForm.get('selectedLocation').value.join('|');
-        this.viewiCIMSCandidates(null, value, 1);
+        this.viewiCIMSCandidates(null, value, 1,true);
         this.locations.forEach((value) => {
           if(this.jobDescriptionForm.get('selectedLocation').value.includes(value['Id'])){
              newLocation.push(value['LocationName']);

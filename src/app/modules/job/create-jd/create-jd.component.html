@@ -36,7 +36,7 @@
                     [ngModelOptions]="{ standalone: true }" [disabled]="disabled">
                   </mat-slide-toggle>
                 </section>
-                <p class="col-4 m-auto font-weight-bold">DESIGNATION</p>
+                <p class="col-4 m-auto font-weight-bold" style="width: max-content;">DESIGNATION</p>
                 <mat-form-field class="col-8 pl-0">
                   <input (focusout)="checkDuplicateDesignation($event)"
                     (keyup.enter)="checkDuplicateDesignation($event)" type="text" placeholder="Select Designation"

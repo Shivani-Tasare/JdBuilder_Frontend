@@ -114,7 +114,7 @@
                       (click)="toggleShare(true, false)">
                     </mat-slide-toggle>
                   </section>
-                  <p class="col-4 pt-2 font-weight-bold" style="padding-left: 13px">
+                  <p class="col-4 pt-2 font-weight-bold" style="width: max-content;">
                     DESIGNATION
                   </p>
                   <mat-form-field class="col-8 pl-0">
@@ -834,7 +834,7 @@
               <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
                 (ngSubmit)="onSave()">
                 <div class="row">
-                  <p class="col-4 pt-2 font-weight-bold" style="padding-left: 14px">
+                  <p class="col-4 pt-2 font-weight-bold" style="width: max-content;">
                     DESIGNATION
                   </p>
                   <p class="col-8 pt-2">{{ selectedDesignationName }}</p>
@@ -1258,7 +1258,7 @@
                 <form [formGroup]="jobDescriptionForm" class="container p-0 my-3 text-muted col-md-12"
                   (ngSubmit)="onSave()">
                   <div class="row">
-                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black">
+                    <p class="col-12 pt-2 font-weight-bold" style="font-size: 25px; color: black;width: max-content;">
                       DESIGNATION
                     </p>
                     <p class="col-12 pt-2" style="text-align: justify; font-size: 19px; color: black">
