@@ -1185,7 +1185,7 @@ export class JobDetailComponent implements OnInit {
     });
 
 
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || this.isDuplicateDesignation || invalidLength) {
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1  || this.isDuplicateDesignation || invalidLength) {
       return;
     }
     const jdObject = {
