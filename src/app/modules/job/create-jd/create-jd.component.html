@@ -224,9 +224,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                   </mat-autocomplete>
                 </mat-form-field>
                 <mat-error style="margin-bottom: 15px" class="col-8">
-                  <div *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length < 1">
-                    Please enter tags.
-                  </div>
+                  
                   <div *ngIf="
                 jobDescriptionForm.get('desiredTags').errors?.maxlength
                 ">
