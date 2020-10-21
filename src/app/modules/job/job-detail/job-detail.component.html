@@ -138,7 +138,7 @@
                         jobDescriptionForm.get('selectedDesignationN').errors
                           ?.maxlength
                       ">
-                      Input text must not exceed 200 characters
+                      Input text must not exceed 200 characters !
                     </div>
                     <div *ngIf="
                         disableError &&
@@ -147,7 +147,7 @@
                         jobDescriptionForm.get('selectedDesignationN').value
                           .length < 1
                       ">
-                      Please select designation.
+                      Please select designation !
                     </div>
                   </mat-error>
                   <p class="col-4 pt-2 font-weight-bold">EXPERIENCE</p>
@@ -169,7 +169,7 @@
                       <div *ngIf="
                           jobDescriptionForm.get('selectedExperience').invalid
                         ">
-                        Please select experience.
+                        Please select experience !
                       </div>
                     </div>
                   </mat-error>
@@ -191,7 +191,7 @@
                       <div *ngIf="
                           jobDescriptionForm.get('selectedLocation').invalid
                         ">
-                        Please select location.
+                        Please select location !
                       </div>
                     </div>
                   </mat-error>
@@ -268,7 +268,7 @@
                     style="margin-bottom: 15px"
                     class="col-8"
                     ><div *ngIf=" (submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
-                    Please enter tags.
+                    Please enter tags !
                   </div>
                     <div
                       *ngIf="
@@ -276,7 +276,7 @@
                           ?.maxlength
                       "
                     >
-                      Input text must not exceed 200 characters
+                      Input text must not exceed 200 characters !
                     </div>
                     
                   </mat-error>
@@ -309,13 +309,15 @@
                   <mat-error
                     style="margin-bottom: 15px"
                     class="col-8"
-                  > 
+                  > <div *ngIf="(submitted || jobDescriptionForm.get('desiredTags').touched) && desiredTagsList.length<1">
+                    Please enter tags !
+                  </div>
                     <div
                       *ngIf="
                         jobDescriptionForm.get('desiredTags').errors?.maxlength
                       "
                     >
-                      Input text must not exceed 200 characters
+                      Input text must not exceed 200 characters !
                     </div>
                    
                   </mat-error>
@@ -378,7 +380,7 @@
                                   jobDescriptionForm.controls['mandatorySkills']
                                     .value[i].SkillName.length == 700
                                 ">
-                                Input text must not exceed 700 characters
+                                Input text must not exceed 700 characters !
                               </div>
                             </mat-error>
                             <mat-error>
@@ -467,7 +469,7 @@
                                   jobDescriptionForm.controls['desiredSkills']
                                     .value[i].SkillName.length == 700
                                 ">
-                                Input text must not exceed 700 characters
+                                Input text must not exceed 700 characters !
                               </div>
                             </mat-error>
                           </div>
@@ -552,7 +554,7 @@
                                   jobDescriptionForm.controls['qualifications']
                                     .value[i].Name.length == 200
                                 ">
-                                Input text must not exceed 200 characters
+                                Input text must not exceed 200 characters !
                               </div>
                             </mat-error>
                           </div>
@@ -639,7 +641,7 @@
                                     'rolesAndResponsibility'
                                   ].value[i].Responsibility.length == 500
                                 ">
-                                Input text must not exceed 500 characters
+                                Input text must not exceed 500 characters !
                               </div>
                             </mat-error>
                           </div>

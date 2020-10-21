@@ -1,19 +1,19 @@
 .h1class{
-position: fixed;
-width: 100%;
-z-index: 10;
-/* padding-top: 20px; */
-background-color: white;
-}
- 
-.h2class{
-    position: relative;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
     /* padding-top: 20px; */
     background-color: white;
-}
-p:focus{
-    outline: none;
-}
-img:focus{
-    outline: none;
-}
+    }
+     
+    .h2class{
+        position: relative;
+        /* padding-top: 20px; */
+        background-color: white;
+    }
+    p:focus{
+        outline: none;
+    }
+    img:focus{
+        outline: none;
+    }

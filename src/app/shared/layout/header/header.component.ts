@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AdalService } from '../../services/adal.service';
 @Component({
   selector: 'layout-header',
@@ -6,12 +6,13 @@ import { AdalService } from '../../services/adal.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+ @Input() location;
   constructor(private adalService: AdalService) { }
   logout() {
     this.adalService.logout();
   }
   ngOnInit() {
+   
   }
 
 }
