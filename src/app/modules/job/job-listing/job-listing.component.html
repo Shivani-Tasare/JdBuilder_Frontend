@@ -6,7 +6,7 @@
   <div class="col-md-12 pb-4 px-0" style="font-size: 13px;">
     <div
       class=" row d-md-none navbar navbar-expand-md navbar-dark "
-      style="margin-left: -15px;margin-right: -15px;"
+      style="margin-left: -15px;margin-right: -15px; margin-top: 50px;"
     >
       <div class="col-8">
         <button
@@ -38,7 +38,7 @@
           ></i>
           <div class="dropdown-menu">
             <a [routerLink]="['/jd-creator/createJD']" class="dropdown-item" href="javascript:">Create New JD</a>
-            <a class="dropdown-item" href="#">Sort By Score</a>
+            <a [hidden]="true" class="dropdown-item" href="#">Sort By Score</a>
             <a *ngIf="sortByDate === 'desc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'asc';search(true)" class="dropdown-item" href="javascript:">Sort By Oldest Date</a>
             <a *ngIf="sortByDate === 'asc'" class="sort-btn ml-3 px-3  " (click)="sortByDate = 'desc';search(true)" class="dropdown-item" href="javascript:">Sort By Newest Date</a>
           </div>
@@ -65,61 +65,62 @@
     </div>
     
   </div>
+
   <div class="col-md-2 col-6 input-padding mo-trb-padding">
     <div class="input-group">
-      <label class="input-label">DESIGNATION</label>
-      <select
-        class="form-control input-design"
+      
+        <label class="input-label">DESIGNATION</label>
+        <mat-select class="form-control input-design"
         (change)="selectedDesignation = $event.target.value"
-        [(ngModel)]="selectedDesignation"
-      >
-        <option value="undefined">All</option>
-        <option *ngFor="let item of designations" [value]="item.Id">{{
-          item.DesignationName
-        }}</option>
-      </select>
+        [(ngModel)]="selectedDesignation" style="padding: 14px;">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let item of designations" [value]="item.Id">{{
+            item.DesignationName
+          }}</mat-option>
+        </mat-select>
     </div>
   </div>
   <div class="col-md-2 col-6 input-padding mo-tlb-padding">
     <div class="input-group">
-      <label class="input-label">EXPERIENCE</label>
-      <select
-        class="form-control input-design"
+      
+        <mat-label class="input-label">EXPERIENCE</mat-label>
+        <mat-select class="form-control input-design" style="padding: 14px;"
         (change)="selectedExperience = $event.target.value"
-        [(ngModel)]="selectedExperience"
-      >
-        <option value="undefined">All</option>
-        <option *ngFor="let item of experiences" [value]="item.Id">{{
+        [(ngModel)]="selectedExperience">
+        <mat-option value="">All</mat-option>
+        <mat-option *ngFor="let item of experiences" [value]="item.Id">{{
           item.ExperienceName
-        }}</option>
-      </select>
+        }}</mat-option>
+        </mat-select>
+      
+    
     </div>
   </div>
   <div class="col-md-2 col-6 input-padding mo-trb-padding">
     <div class="input-group">
-      <label class="input-label">CREATED BY</label>
-      <select class="form-control input-design" (change)="selectedUserId = $event.target.value;onUserChange($event)"
-      [(ngModel)]="selectedUserId">
-        <option value="" >All</option>
+      
+        <mat-label class="input-label">CREATED BY</mat-label>
+        <mat-select class="form-control input-design" (change)="selectedUserId = $event.target.value;onUserChange($event)"
+        [(ngModel)]="selectedUserId" style="padding: 14px;">
+        <mat-option value="">All</mat-option>
         <ng-container *ngIf="sidebarIndex !== 2">
-          <option  *ngFor="let item of userList" [value]="item.UserId">{{item.UserName}}</option>
+          <mat-option  *ngFor="let item of userList" [value]="item.UserId">{{item.UserName}}</mat-option>
         </ng-container>
-      </select>
+        </mat-select>
     </div>
   </div>
   <div class="col-md-2 col-6 input-padding mo-tlb-padding">
     <div class="input-group">
-      <label class="input-label">LOCATION</label>
-      <select
-        class="form-control input-design"
+      
+        <mat-label class="input-label">LOCATION</mat-label>
+        <mat-select class="form-control input-design"
         (change)="selectedLocation = $event.target.value"
-        [(ngModel)]="selectedLocation"
-      >
-        <option value="undefined">All</option>
-        <option *ngFor="let item of locations" [value]="item.Id">{{
+        [(ngModel)]="selectedLocation" style="padding: 14px;">
+        <mat-option value="">All</mat-option>
+        <mat-option *ngFor="let item of locations" [value]="item.Id">{{
           item.LocationName
-        }}</option>
-      </select>
+        }}</mat-option>
+        </mat-select>
     </div>
   </div>
   <div class="col-md-2 col-12 no-padding d-none d-lg-block">
@@ -128,7 +129,7 @@
         Search
       </button>
       <i
-        class="fa fa-refresh fa-2x my-auto ml-1 pointer"
+        class="fa fa-refresh fa-2x ml-1 pointer" style="margin-top: 7px;"
         title="Reset Filter"
         (click)="refresh()"
         aria-hidden="true"
@@ -150,7 +151,7 @@
     <button [routerLink]="['/jd-creator/createJD']"
       style="background: #9E4587;border: none;color: white;height: 100%;font-size: 13px;"
     >
-      <i class="fa fa-plus" style="color: white;" aria-hidden="true"></i>Create New JD
+      <i class="fa fa-plus" style="color: white;padding-right:5px" aria-hidden="true"></i>Create New JD
     </button>
   </div>
   <div class="col-md-5 d-none d-lg-block"></div>
@@ -202,7 +203,7 @@
               </div>
             </div>
             <div class="row pt-1">
-              <p class="col-lg-12 pull-left font-weight-bold mb-0 sub-heading">Last Upadated By : <span class="font-weight-normal">{{ job.UpdaterName ? job.UpdaterName : job.CreatorName }}</span></p>
+              <p class="col-lg-12 pull-left font-weight-bold mb-0 sub-heading">Last Updated By : <span class="font-weight-normal">{{ job.UpdaterName ? job.UpdaterName : job.CreatorName }}</span></p>
               <p class="col-12 font-weight-bold mb-0 sub-heading">Last Updated On : <span class="font-weight-normal">{{ (job.UpdatedDate ? job.UpdatedDate : job.CreatedDate) | date: 'dd-MMM-yyyy'}}</span></p>
               <div class="col-lg-12">
                 <a

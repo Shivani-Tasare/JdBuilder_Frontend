@@ -1,6 +1,9 @@
 p, textarea,input {
   text-align: justify!important;
 }
+p{
+  padding-right: 5px;
+}
 
 .mybt{
 background-color: white;
@@ -125,6 +128,7 @@ tr.noBorder td {
     line-height: 1.8em;
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
   };
+  
   .carousel-indicators{
     margin-bottom: 0px !important;
   }
@@ -182,6 +186,9 @@ tr.noBorder td {
   .theme-color{
     color: #CE353D;
   }
+  .modal-dialog{
+    padding-top:65px;
+    }
 }
 
 
@@ -199,7 +206,7 @@ tr.noBorder td {
 
 .candidate-details{
   margin: auto; 
-  max-height: 33vh;
+  max-height: 27vh;
   overflow-y: scroll;
   .table td, .table th{
     padding: .1rem;
@@ -239,4 +246,34 @@ tr.noBorder td {
 .spacing{
   margin-bottom: 7px;
   display: block;
+}
+.view-floating-1, .view-floating-2 {
+  padding: 6px
+}
+.dropdown-menu.show {
+  display: block;
+  right: 0px;
+  left: auto;
+  position: relative;
+}
+.dropdown .dropdown-menu {
+  z-index: 9 !important;
+}
+.fixed {
+  position: fixed;
+  z-index: 1;
+  top: 94px;
+  right: 52px;
+}
+.regionText {
+  position: relative;
+  float: right;
+  font-size: 12px;
+  right: 19px;
+  top: -32px;
+  border: 1px solid #f2f2f2;
+  background: #f8f8f8;
+  color: black;
+  font-style: italic;
+  padding: 4px;
 }

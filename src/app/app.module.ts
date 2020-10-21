@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, } from '@angular/core';
+import { NgModule, ErrorHandler, } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
@@ -34,6 +34,7 @@ import { SharedModule } from './shared';
 import { FAQIndexComponent } from './shared/component/faq-index/faq-index.component';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +67,7 @@ import { MainComponent } from './main/main.component';
   providers: [JobServiceService, LoaderService, AdalService, AdalConfigService,
     { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
-
+    
     { provide: APP_CONFIG, useValue: {
       apiEndpoint: Config.url,
       clientId: Config.clientID,

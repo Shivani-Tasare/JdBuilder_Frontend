@@ -3,6 +3,13 @@
   color: white;
   border-color: gray;
 }
+a{
+  color: white;
+}
+li{
+  min-width: 12rem;
+  padding: 1px;
+}
 .active{
   background: #9E4587 !important;
 }
@@ -25,4 +32,9 @@
 }
 .navbar-collapse.show {
   right: 0;
+}
+@media only screen and (min-width: 280px) and (max-width: 767px) {
+  .aa{
+    max-width: 60%;
+  }
 }

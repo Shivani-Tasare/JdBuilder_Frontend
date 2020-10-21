@@ -13,13 +13,17 @@
   
 </head>
 <body>
-  <p id="msgWarning" style="color: white;
-  background-color: red; position: fixed;
-  padding: 5px; z-index: 10000;width: 100%;
-  font-weight: bold;
-  font-size: 13px;margin:0;">
-  This app is best viewed through  latest versions of Chrome, Mozilla Firefox® or an equivalent browser software. Please switch to another browser for better experience
+  <div id="msgWarning" style="padding-bottom: 20px;">
+    <p style="color: white;
+    background-color: red;width: 100%;
+    padding: 5px;position: fixed;
+    font-weight: bold;z-index: 99999;
+    font-size: 13px;margin:0;">
+    This app is best viewed through  latest versions of Chrome, Mozilla Firefox® or an equivalent browser software. Please switch to another browser for better experience
+    <span id='close' style="float: right;font-size:15px;cursor: pointer;" onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;'>x</span>  
   </p>
+  </div>
+  
   <app-root></app-root>
   <script>
       navigator.browserType= (function(){

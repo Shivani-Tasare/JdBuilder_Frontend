@@ -68,6 +68,7 @@ export class CreateJdComponent implements OnInit {
   disabled = false;
   associatedTags = [];
   associatedDesiredTags =[];
+  maxLengthAllowed = 200;
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagInputMandatory') tagInputMandatory: ElementRef<HTMLInputElement>;
   @ViewChild('tagInputDesired') tagInputDesired: ElementRef<HTMLInputElement>;
@@ -76,6 +77,7 @@ export class CreateJdComponent implements OnInit {
   @ViewChild('autoDesired') matAutocompleteDes: MatAutocomplete;
   desiredSkillData = [];
   mandatorySkillData = [];
+  desigName = '';
   desigOption: number;
   constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService) { }
   @HostListener('window:scroll', [])
@@ -135,11 +137,11 @@ export class CreateJdComponent implements OnInit {
     this.jobDescriptionForm = this.formBuilder.group({
       title: new FormControl(''),
       about: new FormControl('', [Validators.required,this.noWhitespaceValidator]),
-      selectedDesignation: new FormControl('', [Validators.required,Validators.pattern("(?!^ +$)^.+$")]),
+      selectedDesignation: new FormControl('', [Validators.required,Validators.maxLength(200),Validators.pattern("(?!^ +$)^.+$")]),
       selectedLocation: new FormControl('', Validators.required),
       selectedExperience: new FormControl('', Validators.required),
-      mandatoryTags: new FormControl(''),
-      desiredTags: new FormControl(''),
+      mandatoryTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),
+      desiredTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),
       desiredSkills: this.formBuilder.array(defaultDesiredSkill),
       mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
       qualifications: this.formBuilder.array(defaultQualification),
@@ -147,23 +149,25 @@ export class CreateJdComponent implements OnInit {
     });
     this.jobService.FetchExperienceList().subscribe((experiences: any) => {
       if (experiences.StatusCode === 200) {
-        this.experiences = experiences.ExperienceMasterList;
+        this.experiences = experiences.ResponseList;
       }
     });
     this.jobService.FetchLocationList().subscribe((locations: any) => {
       if (locations.StatusCode === 200) {
-        this.locations = locations.LocationMasterList;
+        this.locations = locations.ResponseList;
       }
     });
     this.jobService.FetchDesignationList().subscribe((designations: any) => {
       if (designations.StatusCode === 200) {
-        this.designations = designations.DesignationList;
+        this.designations = designations.ResponseList;
       }
     });
     this.jobService.FetchTagsList().subscribe((tags: any) => {
       if (tags.StatusCode === 200) {
-        this.allTags = [...tags.ProfileTagsList];
-        this.allTagsDesired = [...tags.ProfileTagsList];
+        this.allTags =JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTags.map((x) => x.TagType = 1);
+            this.allTagsDesired = JSON.parse(JSON.stringify([...tags.ResponseList]));
+            this.allTagsDesired.map((x)=> x.TagType = 2);
         for (let index = 0; this.allTags.length > index; index++) {
           for (let index2 = 0; this.mandatoryTagsList.length > index2; index2++) {
             if (this.allTags[index].Id === this.mandatoryTagsList[index2].Id || this.allTags[index].TagName === this.mandatoryTagsList[index2].TagName) {
@@ -396,6 +400,9 @@ export class CreateJdComponent implements OnInit {
   }
 
   addMandatoryTag(event: MatChipInputEvent, isAdd, TagType): void {
+    if(event.value.length > this.maxLengthAllowed){
+      return;
+      }
     if (isAdd) {
         const input = event.input;
         const value = event.value;
@@ -416,6 +423,9 @@ export class CreateJdComponent implements OnInit {
   }
 
   addDesiredTag(event: MatChipInputEvent, isAdd, TagType){
+    if(event.value.length > this.maxLengthAllowed){
+      return;
+      }
     if (isAdd) {
       const input = event.input;
       const value = event.value;
@@ -617,7 +627,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
-            this.suggestedMandatorySkill = skillData.Skills;
+            this.suggestedMandatorySkill = skillData.ResponseList;
           }
         })
       }
@@ -630,7 +640,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllSkills(event.target.value,tags).subscribe((skillData: any) => {
           if (skillData.StatusCode) {
-            this.suggestedDesiredSkill = skillData.Skills;
+            this.suggestedDesiredSkill = skillData.ResponseList;
           }
         })
       }
@@ -642,7 +652,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllQualifications(event.target.value).subscribe((Data: any) => {
           if (Data.StatusCode) {
-            this.suggestedQualification = Data.ProfileQualifications;
+            this.suggestedQualification = Data.ResponseList;
           }
         })
       }
@@ -654,7 +664,7 @@ export class CreateJdComponent implements OnInit {
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 65 && event.keyCode <= 90)) {
         this.jobService.FetchAllResponsibilities(event.target.value).subscribe((Data: any) => {
           if (Data.StatusCode) {
-            this.suggestedResponsibilities = Data.ProfileResponsibilities;
+            this.suggestedResponsibilities = Data.ResponseList;
           }
         })
       }
@@ -676,7 +686,10 @@ export class CreateJdComponent implements OnInit {
   removeDesignation(event){
     this.desigOption = event.length;
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
-    length == undefined ? this.selectedDesignationName = '' : null; 
+    if(length == undefined ){
+      this.desigName= '' ;
+      this.selectedDesignationName = '';
+      }
   }
   selectSuggestion(selectedSuggestion) {
     this.jobDescriptionForm.patchValue({ about: selectedSuggestion })
@@ -740,13 +753,37 @@ export class CreateJdComponent implements OnInit {
   }
 
   onSave() {
+    let invalidLength=false;
     this.getIdsOfMovedToMandatorySkills();
     this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1) {
+
+    this.jobDescriptionForm.get('mandatorySkills').value.forEach(element => {
+      if(element.SkillName.length>699)
+      {invalidLength=true;}
+    });
+   
+    this.jobDescriptionForm.get('desiredSkills').value.forEach(element => {
+      if(element.SkillName.length>699)
+      {invalidLength=true;}
+    });
+
+    this.jobDescriptionForm.get('qualifications').value.forEach(element => {
+      if(element.Name.length>199)
+      {invalidLength=true;}
+    });
+
+    this.jobDescriptionForm.get('rolesAndResponsibility').value.forEach(element => {
+      if(element.Responsibility.length>499)
+      {invalidLength=true;}
+    });
+    
+
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || invalidLength) {
       return;
     }
 
+    
     
     const jdObject = {
       ProfileName: this.jobDescriptionForm.get('title').value,

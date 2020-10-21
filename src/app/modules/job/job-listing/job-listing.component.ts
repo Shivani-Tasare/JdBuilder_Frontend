@@ -17,9 +17,9 @@ export class JobListingComponent implements OnInit {
   experiences = [];
   locations = [];
   designations = [];
-  selectedDesignation;
-  selectedLocation;
-  selectedExperience;
+  selectedDesignation ='';
+  selectedLocation = '';
+  selectedExperience = '';
   searchString;
   // MatPaginator Inputs
   length = 100;
@@ -51,22 +51,22 @@ export class JobListingComponent implements OnInit {
     this.initLoad();
     this.jobService.FetchExperienceList().subscribe((experiences: any) => {
       if (experiences.StatusCode === 200) {
-        this.experiences = experiences.ExperienceMasterList;
+        this.experiences = experiences.ResponseList;
       }
     });
     this.jobService.FetchLocationList().subscribe((locations: any) => {
       if (locations.StatusCode === 200) {
-        this.locations = locations.LocationMasterList;
+        this.locations = locations.ResponseList;
       }
     });
     this.jobService.FetchDesignationList().subscribe((designations: any) => {
       if (designations.StatusCode === 200) {
-        this.designations = designations.DesignationList;
+        this.designations = designations.ResponseList;
       }
     });
     this.jobService.FetchUserDetails().subscribe((usersData: any) => {
       if (usersData.StatusCode === 200) {
-        this.userList = usersData.UsersList;
+        this.userList = usersData.ResponseList;
       }
     });
   }
@@ -104,9 +104,9 @@ export class JobListingComponent implements OnInit {
   }
 
   refresh() {
-    this.selectedLocation = undefined;
-    this.selectedExperience = undefined;
-    this.selectedDesignation = undefined;
+    this.selectedLocation = '';
+    this.selectedExperience = '';
+    this.selectedDesignation = '';
     this.selectedUserId = ''
     this.searchString = ''
     const pageParams = {pageSize: 5, pageIndex: 0, myJd: this.myJd, sortByDate: this.sortByDate,sharedJD: this.sharedJD ,locationId: 0,
@@ -164,12 +164,12 @@ export class JobListingComponent implements OnInit {
   goToDetails(jobId) {
     this.loaderService.show();
     if (location.pathname.indexOf('myJd') > 0) {
-      this.router.navigate(['jd-creator/myJd/job-description/view/' + jobId]);
+      this.router.navigate(['jd-creator/jd/job-description/view/' + jobId]);
     } else if (location.pathname.indexOf('jdsShared') > 0) {
       this.router.navigate(['jd-creator/jd/job-description/edit/' + jobId],{queryParams:{IsSharedJd:'true'}});
     }
     else {
-      this.router.navigate(['jd-creator/allJd/job-description/view/' + jobId]);
+      this.router.navigate(['jd-creator/jd/job-description/view/' + jobId]);
     }
   }
 
