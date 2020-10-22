@@ -779,7 +779,7 @@ export class CreateJdComponent implements OnInit {
     });
     
 
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || this.desiredTagsList.length < 1 || invalidLength) {
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1  || invalidLength) {
       return;
     }
 
