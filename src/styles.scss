@@ -23,7 +23,7 @@ body { margin: 0; font-family: Raleway, "Helvetica Neue", sans-serif; overflow-x
 }
 .dropdown {
   .dropdown-menu{
-    z-index: 999999 !important;
+    z-index: 9 !important;
   }
 }
 
@@ -47,3 +47,7 @@ body:after{
   url("assets/images/mdpi/H2.png") 
   url("assets/images/mdpi/H3.png") url("assets/images/mdpi/H4.png");
   } 
+
+  .cdk-overlay-container{
+    z-index: 10;
+  }

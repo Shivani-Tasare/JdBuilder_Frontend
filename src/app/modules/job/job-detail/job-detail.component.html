@@ -2,9 +2,9 @@
   <!-- EDIT MODE -->
   <div *ngIf="isEditJd" class="row bg-white pb-3">
     <div class="col-md-12 no-padding mb-5" style="font-size: 13px">
-      <div class="row pb-3 d-lg-none" [ngStyle]="{ 'margin-top': isSameUser ? '47px' : '40px' }" id="header">
+      <div class="row pb-3 d-lg-none" style="margin-top: 47px;" id="header">
         <div class="col-8">
-          <button style="background: #9e4587; border-radius: 0" class="navbar-toggler" type="button"
+          <button style="background: #9e4587; border-radius: 0;margin-top: 7px;" class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#collapsibleNavbar">
             <i class="fa fa-bars fa-2x" style="color: white" aria-hidden="true"></i>
           </button>
@@ -1208,7 +1208,7 @@
               }}
             </h4>
           </div>
-          <span class="regionText" *ngIf="!!selectedRegionExternal">
+          <span class="regionText" *ngIf="!!selectedRegionExternal" style="max-width: 68%;">
             Selected Region : <b> {{ selectedRegionExternal }}</b>
           </span>
           <div><app-i-cimscandidate-list [data]="iCIMSCandidates" [selectedRegionExternal]="selectedRegionExternal"></app-i-cimscandidate-list></div>
