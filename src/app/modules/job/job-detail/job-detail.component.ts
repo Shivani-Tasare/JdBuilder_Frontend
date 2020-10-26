@@ -328,7 +328,7 @@ export class JobDetailComponent implements OnInit {
         if (this.adalService.userInfo.profile.oid === jobDetail.Response.CreatedBy) {
           this.isSameUser = true
         }
-        !this.isSameUser ? this.saveAsCopy = true : this.saveAsCopy = false;
+        (!this.isSameUser && !this.IsReviewJd && !this.IsSharedJD) ? this.saveAsCopy = true : this.saveAsCopy = false;
         this.mandatoryTagsList = jobDetail.Response.TagsList.filter((x) => x.TagType === 1);
         this.selectmandatorytags = this.mandatoryTagsList.map((x) => x.TagName);
         this.desiredTagsList = jobDetail.Response.TagsList.filter((x) => x.TagType === 2);
