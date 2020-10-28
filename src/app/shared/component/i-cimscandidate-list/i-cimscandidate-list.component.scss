@@ -17,10 +17,11 @@ tr.noBorder td {
     color: gray;
     text-align: center;
     background: #f0f0f0;
-    display: block;
+    display: inline-block;
     border-radius: 50%;
     width: 30vh;
     height: 30vh;
     margin: auto;
     line-height: 30vh;
+    margin-left:30%;
   }
