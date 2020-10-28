@@ -276,7 +276,7 @@ export class JobDetailComponent implements OnInit {
     this.disableError=true;
     this.desigOption = event.target.value.length;
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
-    if(length == undefined ){
+    if(length == 0 ){
       this.desigName= '' ;
       this.selectedDesignationName = '';
       }

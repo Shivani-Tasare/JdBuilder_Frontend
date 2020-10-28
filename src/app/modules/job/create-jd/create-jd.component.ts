@@ -686,7 +686,7 @@ export class CreateJdComponent implements OnInit {
   removeDesignation(event){
     this.desigOption = event.length;
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
-    if(length == undefined ){
+    if(length == 0 ){
       this.desigName= '' ;
       this.selectedDesignationName = '';
       }
