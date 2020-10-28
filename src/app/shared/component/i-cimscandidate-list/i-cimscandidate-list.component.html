@@ -9,7 +9,7 @@
             [options]="pieChartOptions"
             (chartHover)="chartHovered($event)"
             (chartClick)="chartClicked($event)"></canvas>
-  <span class="no-chart" *ngIf="!showChart"  [ngStyle]="{ 'text-align': isLocationSelected ? 'end' : 'center' }">No data</span>
+  <span class="no-chart" *ngIf="!showChart" style="margin-top: 21px;" [ngStyle]="{ 'text-align': isLocationSelected ? 'end' : 'center' }">No data</span>
   </div>
   </div>
   <div class="row">

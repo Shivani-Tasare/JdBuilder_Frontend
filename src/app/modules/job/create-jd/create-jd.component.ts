@@ -80,16 +80,16 @@ export class CreateJdComponent implements OnInit {
   desigName = '';
   desigOption: number;
   constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService) { }
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    if ((document.body.scrollTop > 140 ||
-      document.documentElement.scrollTop > 140) && document.getElementById('header')) {
-      document.getElementById('header').classList.add('fixed-header');
-    }
-    if (document.documentElement.scrollTop < 1 && document.getElementById('header')) {
-      document.getElementById('header').classList.remove('fixed-header');
-    }
-  }
+  // @HostListener('window:scroll', [])
+  // onWindowScroll() {
+  //   if ((document.body.scrollTop > 140 ||
+  //     document.documentElement.scrollTop > 140) && document.getElementById('header')) {
+  //     document.getElementById('header').classList.add('fixed-header');
+  //   }
+  //   if (document.documentElement.scrollTop < 1 && document.getElementById('header')) {
+  //     document.getElementById('header').classList.remove('fixed-header');
+  //   }
+  // }
   fixHeader() {
     document.getElementById('header').classList.add('fixed-header');
     document.body.scrollTop = 0; // For Safari
@@ -686,7 +686,7 @@ export class CreateJdComponent implements OnInit {
   removeDesignation(event){
     this.desigOption = event.length;
     let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
-    if(length == undefined ){
+    if(length == 0 ){
       this.desigName= '' ;
       this.selectedDesignationName = '';
       }
