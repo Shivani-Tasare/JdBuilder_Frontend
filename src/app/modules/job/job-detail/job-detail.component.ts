@@ -274,9 +274,7 @@ export class JobDetailComponent implements OnInit {
 
   removeDesignation(event) {
     this.disableError=true;
-    this.desigOption = event.target.value.length;
-    let length = this.jobDescriptionForm.get('selectedDesignation').value.length;
-    if(length == 0 ){
+    if(event.target.value.length <= 1 ){
       this.desigName= '' ;
       this.selectedDesignationName = '';
       }
@@ -1072,6 +1070,7 @@ export class JobDetailComponent implements OnInit {
 
   checkDuplicateDesignation(event) {
     this.disableError=true;
+    this.jobDescriptionForm.get('selectedDesignation').setValue(event.target.value)
     if (!isNaN(this.jobDescriptionForm.get('selectedDesignation').value)) {
       this.isDuplicateDesignation = false
     }
@@ -1081,10 +1080,8 @@ export class JobDetailComponent implements OnInit {
       this.designations.forEach((designation: any) => {
         if (!isChecked) {
           if (designation.DesignationName.trim().toLowerCase() === event.target.value.trim().toLowerCase()) {
-            this.isDuplicateDesignation = true
+            this.jobDescriptionForm.get('selectedDesignation').setValue(designation.Id);
             isChecked = true
-          } else {
-            this.isDuplicateDesignation = false
           }
         }
       });
@@ -1185,7 +1182,7 @@ export class JobDetailComponent implements OnInit {
     });
 
 
-    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1  || this.isDuplicateDesignation || invalidLength) {
+    if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1 || invalidLength) {
       return;
     }
     const jdObject = {
@@ -1274,9 +1271,7 @@ export class JobDetailComponent implements OnInit {
           }
         })
         this.selectedRegionExternal = newLocation.join(', ');
-      } else{
-        console.log(this.iCIMSCandidatesTemp);
-        
+      } else{        
         this.iCIMSCandidates = this.iCIMSCandidatesTemp;
       }
     }
