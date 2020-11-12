@@ -315,7 +315,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                   <button type="button" class="btn theme-color-btn btn-sm" (click)="addMandatorySkill()">
                     + Add
                   </button>
-                  <hr />
+                  <hr style="max-width: 96%;"/>
                 </div>
 
                 <p class="col-12 pt-2 font-weight-bold">DESIRED SKILLS</p>
@@ -399,7 +399,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                   <button type="button" class="btn theme-color-btn btn-sm" (click)="addDesiredSkill($event)">
                     + Add
                   </button>
-                  <hr />
+                  <hr style="max-width: 96%;" />
                 </div>
                 <p class="col-12 pt-2 font-weight-bold">QUALIFICATION</p>
                 <div class="col-12" formArrayName="qualifications" *ngFor="
@@ -479,7 +479,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                   <button type="button" class="btn theme-color-btn btn-sm" (click)="addQualification()">
                     + Add
                   </button>
-                  <hr />
+                  <hr style="max-width: 96%;" />
                 </div>
                 <p class="col-12 pt-2 font-weight-bold">
                   ROLE AND RESPONSIBILITIES
@@ -566,7 +566,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                   <button type="button" class="btn theme-color-btn btn-sm" (click)="addResponsibility()">
                     + Add
                   </button>
-                  <hr />
+                  <hr style="max-width: 96%;" />
                 </div>
                 <div class="col-12 d-none pr-0 d-lg-block">
                   <input [routerLink]="['/jd-creator/myJd']" type="button" value="Cancel"
