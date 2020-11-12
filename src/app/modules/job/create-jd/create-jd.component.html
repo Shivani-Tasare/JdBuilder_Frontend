@@ -244,9 +244,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                   ">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
-                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : jobDescriptionForm.get('mandatorySkills').length >=
-                        1 && isSkillNameNotEmpty(skill.controls) , 'col-12 col-md-12 col-lg-12' : jobDescriptionForm.get('mandatorySkills').length ==
-                        1 && !isSkillNameNotEmpty(skill.controls)} " style="flex: 99; max-width: 100%;">
+                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : isSkillNameNotEmpty(skill.controls) , 'col-12 col-md-12 col-lg-12' : !isSkillNameNotEmpty(skill.controls)} " style="flex: 99; max-width: 100%;">
                         <div id="inputboxMand" class="input-group">
                           <mat-form-field [class.visibility-hidden]="
                               !skill.controls.isEditing.value
@@ -329,9 +327,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                   ">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
-                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : jobDescriptionForm.get('desiredSkills').length >=
-                      1 && isSkillNameNotEmpty(skill.controls) , 'col-12 col-md-12 col-lg-12' : jobDescriptionForm.get('desiredSkills').length ==
-                      1 && !isSkillNameNotEmpty(skill.controls)} " style="flex: 99; max-width: 100%;">
+                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : isSkillNameNotEmpty(skill.controls) , 'col-12 col-md-12 col-lg-12' : !isSkillNameNotEmpty(skill.controls)} " style="flex: 99; max-width: 100%;">
                         <div id="inputboxDesi" class="input-group">
                           <mat-form-field [class.visibility-hidden]="
                               !skill.controls.isEditing.value
@@ -414,9 +410,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                   ">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
-                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : jobDescriptionForm.get('qualifications').length >=
-                      1 && isQualificationEmpty(item.controls) , 'col-12 col-md-12 col-lg-12' : jobDescriptionForm.get('qualifications').length ==
-                        1 && !isQualificationEmpty(item.controls)}" style="flex: 99; max-width: 100%;">
+                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : isQualificationEmpty(item.controls) , 'col-12 col-md-12 col-lg-12' : !isQualificationEmpty(item.controls)}" style="flex: 99; max-width: 100%;">
                         <div class="input-group">
                           <mat-form-field [class.visibility-hidden]="
                               !item.controls.isEditing.value
@@ -498,9 +492,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                   ">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
-                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : jobDescriptionForm.get('rolesAndResponsibility')
-                      .length >= 1 && isResponsibilityEmpty(item.controls) , 'col-12 col-md-12 col-lg-12' : jobDescriptionForm.get('rolesAndResponsibility')
-                        .length == 1 && !isResponsibilityEmpty(item.controls)} " style="flex: 99; max-width: 100%;">
+                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : isResponsibilityEmpty(item.controls) , 'col-12 col-md-12 col-lg-12' : !isResponsibilityEmpty(item.controls)} " style="flex: 99; max-width: 100%;">
                         <div class="form-group">
                           <mat-form-field [class.visibility-hidden]="
                               !item.controls.isEditing.value
