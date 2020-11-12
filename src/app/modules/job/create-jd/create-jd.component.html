@@ -235,9 +235,6 @@ jobDescriptionForm.get('mandatoryTags').errors
                   <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToDesiredTags($event)"
                     [associatedTags]="associatedDesiredTags"></app-suggested-tag-view>
                 </div>
-                
-                <small class="col-12 form-text text-muted">*Add User name, Project, Skill, Client and future
-                  references.</small>
                 <p class="col-12 pt-2 font-weight-bold">MANDATORY SKILLS</p>
                 <div class="col-12" formArrayName="mandatorySkills" *ngFor="
                     let skill of jobDescriptionForm?.get('mandatorySkills')[
@@ -247,7 +244,9 @@ jobDescriptionForm.get('mandatoryTags').errors
                   ">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
-                      <div class="col-11 col-md-11 col-lg-11">
+                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : jobDescriptionForm.get('mandatorySkills').length >=
+                        1 && isSkillNameNotEmpty(skill.controls) , 'col-12 col-md-12 col-lg-12' : jobDescriptionForm.get('mandatorySkills').length ==
+                        1 && !isSkillNameNotEmpty(skill.controls)} " style="flex: 99; max-width: 100%;">
                         <div id="inputboxMand" class="input-group">
                           <mat-form-field [class.visibility-hidden]="
                               !skill.controls.isEditing.value
@@ -297,7 +296,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                           {{ skill.controls.SkillName.value }}
                         </p>
                       </div>
-                      <div id="dotIcon" class="col-1 my-auto p-0 btn dropdown dropright">
+                      <div id="dotIcon" class="my-auto p-0 btn dropdown dropright">
                         <i [hidden]="
                             jobDescriptionForm.get('mandatorySkills').length ==
                               1 && !isSkillNameNotEmpty(skill.controls)
@@ -330,7 +329,9 @@ jobDescriptionForm.get('mandatoryTags').errors
                   ">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
-                      <div class="col-11 col-md-11 col-lg-11">
+                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : jobDescriptionForm.get('desiredSkills').length >=
+                      1 && isSkillNameNotEmpty(skill.controls) , 'col-12 col-md-12 col-lg-12' : jobDescriptionForm.get('desiredSkills').length ==
+                      1 && !isSkillNameNotEmpty(skill.controls)} " style="flex: 99; max-width: 100%;">
                         <div id="inputboxDesi" class="input-group">
                           <mat-form-field [class.visibility-hidden]="
                               !skill.controls.isEditing.value
@@ -380,7 +381,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                           {{ skill.controls.SkillName.value }}
                         </p>
                       </div>
-                      <div id="dotIconDesi" class="col-1 my-auto p-0 btn dropdown dropright">
+                      <div id="dotIconDesi" class="my-auto p-0 btn dropdown dropright">
                         <i [hidden]="
                             jobDescriptionForm.get('desiredSkills').length ==
                               1 && !isSkillNameNotEmpty(skill.controls)
@@ -413,7 +414,9 @@ jobDescriptionForm.get('mandatoryTags').errors
                   ">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
-                      <div class="col-11 col-md-11 col-lg-11">
+                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : jobDescriptionForm.get('qualifications').length >=
+                      1 && isQualificationEmpty(item.controls) , 'col-12 col-md-12 col-lg-12' : jobDescriptionForm.get('qualifications').length ==
+                        1 && !isQualificationEmpty(item.controls)}" style="flex: 99; max-width: 100%;">
                         <div class="input-group">
                           <mat-form-field [class.visibility-hidden]="
                               !item.controls.isEditing.value
@@ -466,7 +469,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                       <div [hidden]="
                           jobDescriptionForm.get('qualifications').length ==
                             1 && !isQualificationEmpty(item.controls)
-                        " class="col-1 my-auto p-0 btn dropdown dropright">
+                        " class=" my-auto p-0 btn dropdown dropright">
                         <i class="fa pl-2 fa-ellipsis-v float-right" aria-hidden="true" data-toggle="dropdown"></i>
                         <div class="dropdown-menu">
                           <a class="dropdown-item" href="JavaScript:" *ngIf="!item.controls.isEditing.value"
@@ -495,7 +498,9 @@ jobDescriptionForm.get('mandatoryTags').errors
                   ">
                   <div [formGroupName]="i">
                     <div class="row pb-2">
-                      <div class="col-11 col-md-11 col-lg-11">
+                      <div [ngClass]="{'col-11 col-md-11 col-lg-11' : jobDescriptionForm.get('rolesAndResponsibility')
+                      .length >= 1 && isResponsibilityEmpty(item.controls) , 'col-12 col-md-12 col-lg-12' : jobDescriptionForm.get('rolesAndResponsibility')
+                        .length == 1 && !isResponsibilityEmpty(item.controls)} " style="flex: 99; max-width: 100%;">
                         <div class="form-group">
                           <mat-form-field [class.visibility-hidden]="
                               !item.controls.isEditing.value
@@ -549,7 +554,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                           {{ item.controls.Responsibility.value }}
                         </p>
                       </div>
-                      <div class="col-1 my-auto p-0 btn dropdown dropright">
+                      <div class="my-auto p-0 btn dropdown dropright">
                         <i [hidden]="
                             jobDescriptionForm.get('rolesAndResponsibility')
                               .length == 1 &&
