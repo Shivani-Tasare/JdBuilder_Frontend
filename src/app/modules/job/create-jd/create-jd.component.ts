@@ -79,6 +79,8 @@ export class CreateJdComponent implements OnInit {
   mandatorySkillData = [];
   desigName = '';
   desigOption: number;
+  invalidTagM: boolean;
+  invalidTagD: boolean;
   constructor(private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService) { }
   // @HostListener('window:scroll', [])
   // onWindowScroll() {
@@ -132,16 +134,16 @@ export class CreateJdComponent implements OnInit {
 
     
     defaultQualification.push(this.createQualification({ Id: 0, Name: '', isEditing: true }));
-    defaultResponsibility.push(this.formBuilder.group({ Id: '', Responsibility: ['',[Validators.required,this.noWhitespaceValidator]], isEditing: true }));
+    defaultResponsibility.push(this.formBuilder.group({ Id: '', Responsibility: ['',[Validators.required,this.noWhitespaceValidator,this.specialCharacterValidators]], isEditing: true }));
 
     this.jobDescriptionForm = this.formBuilder.group({
       title: new FormControl(''),
-      about: new FormControl('', [Validators.required,this.noWhitespaceValidator]),
-      selectedDesignation: new FormControl('', [Validators.required,Validators.maxLength(200),Validators.pattern("(?!^ +$)^.+$")]),
-      selectedLocation: new FormControl('', Validators.required),
+      about: new FormControl('', [Validators.required,this.noWhitespaceValidator,this.specialCharacterValidators]),
+      selectedDesignation: new FormControl('', [Validators.required,Validators.maxLength(200),Validators.pattern("(?!^ +$)^.+$"),this.specialCharacterValidators]),
+      selectedLocation: new FormControl('', [Validators.required]),
       selectedExperience: new FormControl('', Validators.required),
-      mandatoryTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),
-      desiredTags: new FormControl('',Validators.maxLength(this.maxLengthAllowed)),
+      mandatoryTags: new FormControl('',[Validators.maxLength(this.maxLengthAllowed)]),
+      desiredTags: new FormControl('',[Validators.maxLength(this.maxLengthAllowed)]),
       desiredSkills: this.formBuilder.array(defaultDesiredSkill),
       mandatorySkills: this.formBuilder.array(defaultMandatorySkill),
       qualifications: this.formBuilder.array(defaultQualification),
@@ -216,25 +218,31 @@ export class CreateJdComponent implements OnInit {
     const isValid = !isWhitespace;
     return isValid ? null : { 'whitespace': true };
 }
+  specialCharacterValidators(control: FormControl){
+  if ( !/^(?!.*[\%\/\\\&\?\,\'\;\:\!\@\#\$\^\*\_\-]{2}).*$/.test(control.value)) {
+    return { symbols: true };
+  }
+  return null;
+}
   compareWithFunc = (a: any, b: any) => a == b;
   createMandatorySkill(newSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: newSkill.isEditing ? newSkill.isEditing : false,
       SkillId: String(newSkill.SkillId),
-      SkillName: [newSkill.SkillName, [Validators.required,this.noWhitespaceValidator]],
+      SkillName: [newSkill.SkillName, [Validators.required,this.noWhitespaceValidator,this.specialCharacterValidators]],
       SkillTypeId: newSkill.SkillTypeId,
       SkillTypeName: newSkill.SkillTypeName,
     });
   }
   createQualification(qualificationObj): FormGroup {
-    qualificationObj.Name = [qualificationObj.Name, [Validators.required,this.noWhitespaceValidator]]
+    qualificationObj.Name = [qualificationObj.Name, [Validators.required,this.noWhitespaceValidator,this.specialCharacterValidators]]
     return this.formBuilder.group(qualificationObj);
   }
   createDesiredSkill(desiredSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: desiredSkill.isEditing ? desiredSkill.isEditing : false,
       SkillId: String(desiredSkill.SkillId),
-      SkillName: [desiredSkill.SkillName, [Validators.required,this.noWhitespaceValidator]],
+      SkillName: [desiredSkill.SkillName, [Validators.required,this.noWhitespaceValidator,this.specialCharacterValidators]],
       SkillTypeId: 2,
       SkillTypeName: 'Desired'
     });
@@ -283,7 +291,7 @@ export class CreateJdComponent implements OnInit {
   }
   addResponsibility(): void {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
-    const obj = { Id: '', Responsibility: ['', [Validators.required,this.noWhitespaceValidator]], isEditing: true };
+    const obj = { Id: '', Responsibility: ['', [Validators.required,this.noWhitespaceValidator,this.specialCharacterValidators]], isEditing: true };
     this.rolesAndResponsibility.push(this.formBuilder.group(obj));
   }
   deleteSkill(deletedSkill,onRemove,index?) {
@@ -411,8 +419,14 @@ export class CreateJdComponent implements OnInit {
         })
         // Add our tag
         if ((value || '').trim()) {
-          if(index === -1 || value !== this.mandatoryTagsList[index].TagName)
-          this.mandatoryTagsList.push({ Id: '', TagName: value.trim(), TagType });
+          if(event.value.match("^.*[._\'!#$%&@*+\\\\/=?{|}~`\\^-]{2}.*$") == null){
+            this.invalidTagM = false;
+            if(index === -1 || value !== this.mandatoryTagsList[index].TagName)
+            this.mandatoryTagsList.push({ Id: '', TagName: value.trim(), TagType });
+          }
+          else{
+            this.invalidTagM = true;
+          }
         }
         // Reset the input value
         if (input) {
@@ -434,9 +448,15 @@ export class CreateJdComponent implements OnInit {
       })
       // Add our tag
       if ((value || '').trim()) {
+        if(event.value.match("^.*[._\'!#$@%&*+\\\\/=?{|}~`\\^-]{2}.*$") == null){
+          this.invalidTagD = false;
         if(index === -1 || value !== this.desiredTagsList[index].TagName)
         this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType });
       }
+      else{
+        this.invalidTagD = true;
+      }
+    }
       // Reset the input value
       if (input) {
         input.value = '';
@@ -751,7 +771,7 @@ export class CreateJdComponent implements OnInit {
   }
 
   onSave() {
-    let invalidLength=false;
+   let invalidLength=false;
     this.getIdsOfMovedToMandatorySkills();
     this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;
@@ -775,14 +795,10 @@ export class CreateJdComponent implements OnInit {
       if(element.Responsibility.length>499)
       {invalidLength=true;}
     });
-    
-
     if (this.jobDescriptionForm.invalid || this.mandatoryTagsList.length < 1  || invalidLength) {
       return;
     }
 
-    
-    
     const jdObject = {
       ProfileName: this.jobDescriptionForm.get('title').value,
       About: this.jobDescriptionForm.get('about').value,

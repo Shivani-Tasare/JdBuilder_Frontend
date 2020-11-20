@@ -132,6 +132,8 @@ export class JobDetailComponent implements OnInit {
   isDeletedJD: boolean = false;
   isEmailSent: boolean = false;
   desigOption: any;
+  invalidTagD: boolean;
+  invalidTagM: boolean;
   constructor(private loaderService: LoaderService, private changeDetectorRefs: ChangeDetectorRef, public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
 
@@ -310,7 +312,12 @@ export class JobDetailComponent implements OnInit {
       }
     })
   }
-
+  specialCharacterValidators(control: FormControl){
+    if ( !/^(?!.*[\%\/\\\&\?\,\'\;\:\!\@\#\$\^\*\_\-]{2}).*$/.test(control.value)) {
+      return { symbols: true };
+    }
+    return null;
+  }
   removeSpace(str) {
     return str.trim().replace(/[\s]+/g, ' ')
   }
@@ -357,9 +364,9 @@ export class JobDetailComponent implements OnInit {
         this.isPrivateChecked = jobDetail.Response.IsPrivate;
         this.jobDescriptionForm = this.formBuilder.group({
           title: new FormControl(jobDetail.Response.ProfileName),
-          about: new FormControl(jobDetail.Response.About, [Validators.required, this.noWhitespaceValidator]),
-          selectedDesignation: new FormControl(jobDetail.Response.DesignationId,Validators.required),
-          selectedDesignationN: new FormControl(jobDetail.Response.DesignationName, [Validators.required,Validators.maxLength(200), Validators.pattern("(?!^ +$)^.+$")]),
+          about: new FormControl(jobDetail.Response.About, [Validators.required, this.noWhitespaceValidator,this.specialCharacterValidators]),
+          selectedDesignation: new FormControl(jobDetail.Response.DesignationId,[Validators.required]),
+          selectedDesignationN: new FormControl(jobDetail.Response.DesignationName, [Validators.required,Validators.maxLength(200), Validators.pattern("(?!^ +$)^.+$"),this.specialCharacterValidators]),
           selectedLocation: new FormControl(jobDetail.Response.LocationId, Validators.required),
           selectedExperience: new FormControl(jobDetail.Response.ExperienceId, Validators.required),
           desiredSkills: this.formBuilder.array(defaultDesiredSkill),
@@ -492,20 +499,20 @@ export class JobDetailComponent implements OnInit {
     return this.formBuilder.group({
       isEditing: newSkill.isEditing ? newSkill.isEditing : false,
       SkillId: String(newSkill.SkillId),
-      SkillName: [newSkill.SkillName, [Validators.required, this.noWhitespaceValidator]],
+      SkillName: [newSkill.SkillName, [Validators.required, this.noWhitespaceValidator,this.specialCharacterValidators]],
       SkillTypeId: newSkill.SkillTypeId,
       SkillTypeName: newSkill.SkillTypeName,
     });
   }
   createQualification(qualificationObj): FormGroup {
-    qualificationObj.Name = [qualificationObj.Name, [Validators.required, this.noWhitespaceValidator]]
+    qualificationObj.Name = [qualificationObj.Name, [Validators.required, this.noWhitespaceValidator,this.specialCharacterValidators]]
     return this.formBuilder.group(qualificationObj);
   }
   createDesiredSkill(desiredSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: desiredSkill.isEditing ? desiredSkill.isEditing : false,
       SkillId: String(desiredSkill.SkillId),
-      SkillName: [desiredSkill.SkillName, [Validators.required, , this.noWhitespaceValidator]],
+      SkillName: [desiredSkill.SkillName, [Validators.required, , this.noWhitespaceValidator,this.specialCharacterValidators]],
       SkillTypeId: 2,
       SkillTypeName: 'Desired'
     });
@@ -554,7 +561,7 @@ export class JobDetailComponent implements OnInit {
   }
   addResponsibility(): void {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
-    const obj = { Id: '', Responsibility: ['', [Validators.required, this.noWhitespaceValidator]], isEditing: true };
+    const obj = { Id: '', Responsibility: ['', [Validators.required, this.noWhitespaceValidator,this.specialCharacterValidators]], isEditing: true };
     this.rolesAndResponsibility.push(this.formBuilder.group(obj));
   }
   deleteSkill(deletedSkill, onRemove, index?) {
@@ -784,8 +791,14 @@ export class JobDetailComponent implements OnInit {
       })
       // Add our tag
       if ((value || '').trim()) {
-        if (index === -1 || value !== this.mandatoryTagsList[index].TagName)
-          this.mandatoryTagsList.push({ Id: '', TagName: value.trim(), TagType: 1 });
+        if(event.value.match("^.*[._\'!#$@%&*+\\\\/=?{|}~`\\^-]{2}.*$") == null){
+          this.invalidTagM = false;
+          if(index === -1 || value !== this.mandatoryTagsList[index].TagName)
+          this.mandatoryTagsList.push({ Id: '', TagName: value.trim(), TagType:1 });
+        }
+        else{
+          this.invalidTagM = true;
+        }
       }
       // Reset the input value
       if (input) {
@@ -796,6 +809,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   addDesiredTag(event: MatChipInputEvent, isAdd, TagType) {
+    let invalidTag;
     if(event.value.length > this.maxLengthAllowed){	
       return;	
       }
@@ -807,8 +821,14 @@ export class JobDetailComponent implements OnInit {
       })
       // Add our tag
       if ((value || '').trim()) {
+        if(event.value.match("^.*[._\'!#@$%&*+\\\\/=?{|}~`\\^-]{2}.*$") == null){
+          this.invalidTagD = false;
         if (index === -1 || value !== this.desiredTagsList[index].TagName)
           this.desiredTagsList.push({ Id: '', TagName: value.trim(), TagType: 2 });
+        }
+          else{
+            this.invalidTagD = true;
+          }
       }
       // Reset the input value
       if (input) {
@@ -1156,7 +1176,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   onSave() {
-    let invalidLength=false;
+     let invalidLength=false;
     this.getIdsOfMovedToMandatorySkills();
     this.getIdsOfMovedToDesiredSkills();
     this.submitted = true;

@@ -63,12 +63,12 @@
                       ">
                       Input text must not exceed 200 characters !
                     </div>
-                    <div *ngIf="
-                        jobDescriptionForm.get('selectedDesignation').invalid &&
+                    <div *ngIf="jobDescriptionForm.get('selectedDesignation').invalid ||
+                        (jobDescriptionForm.get('selectedDesignation').invalid &&
                         jobDescriptionForm.get('selectedDesignation').value
-                          .length < 1
+                          .length < 1)
                       ">
-                      Please select designation !
+                      Please select valid designation !
                     </div>
                   </div>
                 </mat-error>
@@ -189,8 +189,8 @@
              <mat-error style="margin-bottom: 15px" class="col-8">
                   <div *ngIf="(submitted ||
 jobDescriptionForm.get('mandatoryTags').touched)
-&& mandatoryTagsList.length < 1">
-                    Please enter tags !
+&& mandatoryTagsList.length < 1 || !!invalidTagM">
+                    Please enter valid tags !
                   </div>
                   <div *ngIf="
 jobDescriptionForm.get('mandatoryTags').errors
@@ -198,7 +198,7 @@ jobDescriptionForm.get('mandatoryTags').errors
 ">
                     Input text must not exceed 200 characters !
                   </div>
-
+                  
                 </mat-error>
                 <div class="col-12">
                   <app-suggested-tag-view [label]="'Suggested Tags'" (onTagEmitt)="appendToMandatoryTags($event)"
@@ -228,6 +228,9 @@ jobDescriptionForm.get('mandatoryTags').errors
                 jobDescriptionForm.get('desiredTags').errors?.maxlength
                 ">
                     Input text must not exceed 200 characters !
+                  </div>
+                  <div *ngIf="!!invalidTagD">
+                    Please enter valid tags !
                   </div>
 
                 </mat-error>
@@ -277,7 +280,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                                     'controls'
                                   ][i].invalid
                                 ">
-                                Please enter skill !
+                                Please enter valid skill !
                               </div>
                             </div>
                           </mat-error>
@@ -360,7 +363,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                                     'controls'
                                   ][i].invalid
                                 ">
-                                Please enter skill !
+                                Please enter valid skill !
                               </div>
                             </div>
                           </mat-error>
@@ -443,7 +446,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                                     'controls'
                                   ][i].invalid
                                 ">
-                                Please enter qualification !
+                                Please enter valid qualification !
                               </div>
                             </div>
                           </mat-error>
@@ -528,7 +531,7 @@ jobDescriptionForm.get('mandatoryTags').errors
                                     'rolesAndResponsibility'
                                   )['controls'][i].invalid
                                 ">
-                                Please enter role and responsibilty !
+                                Please enter valid role and responsibilty !
                               </div>
                             </div>
                           </mat-error>
