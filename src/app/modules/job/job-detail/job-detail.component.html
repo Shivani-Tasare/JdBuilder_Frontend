@@ -140,14 +140,15 @@
                       ">
                       Input text must not exceed 200 characters !
                     </div>
-                    <div *ngIf="
-                        disableError &&
+                    <div *ngIf="(disableError && jobDescriptionForm.get('selectedDesignationN')
+                    .invalid) ||
+                       ( disableError &&
                         jobDescriptionForm.get('selectedDesignationN')
                           .invalid &&
                         jobDescriptionForm.get('selectedDesignationN').value
-                          .length < 1
+                          .length < 1)
                       ">
-                      Please select designation !
+                      Please select valid designation !
                     </div>
                   </mat-error>
                   <p class="col-4 pt-2 font-weight-bold">EXPERIENCE</p>
@@ -243,7 +244,7 @@
                       <span *ngIf="
                           !jobDescriptionForm.get('about').valid &&
                           jobDescriptionForm.get('about').touched
-                        ">Please enter summary !</span>
+                        ">Please enter valid summary !</span>
                     </mat-error>
                   </div>
                   <p class="col-12 pt-2 font-weight-bold">TAGS</p>
@@ -267,8 +268,9 @@
                   <mat-error
                     style="margin-bottom: 15px"
                     class="col-8"
-                    ><div *ngIf=" (submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1">
-                    Please enter tags !
+                    ><div *ngIf=" (submitted || jobDescriptionForm.get('mandatoryTags').touched) && mandatoryTagsList.length<1 || !!invalidTagM;
+                    ">
+                    Please enter valid tags !
                   </div>
                     <div
                       *ngIf="
@@ -278,7 +280,9 @@
                     >
                       Input text must not exceed 200 characters !
                     </div>
-                    
+                    <!-- <div *ngIf="!!invalidLength">
+                      Please enter valid tag !
+                    </div> -->
                   </mat-error>
                   <div class="col-12">
                     <app-suggested-tag-view
@@ -317,7 +321,9 @@
                     >
                       Input text must not exceed 200 characters !
                     </div>
-                   
+                    <div *ngIf="!!invalidTagD">
+                      Please enter valid tag !
+                    </div>
                   </mat-error>
                   <div class="col-12"><app-suggested-tag-view
                     [label]="'Suggested Tags'"
@@ -367,7 +373,7 @@
                                       'controls'
                                     ][i].invalid
                                   ">
-                                  Please enter skill !
+                                  Please enter valid skill !
                                 </div>
                               </div>
                               <div *ngIf="
@@ -454,7 +460,7 @@
                                       'controls'
                                     ][i].invalid
                                   ">
-                                  Please enter skill !
+                                  Please enter valid skill !
                                 </div>
                               </div>
                             </mat-error>
@@ -539,7 +545,7 @@
                                       'controls'
                                     ][i].invalid
                                   ">
-                                  Please enter qualification !
+                                  Please enter valid qualification !
                                 </div>
                               </div>
                             </mat-error>
@@ -625,7 +631,7 @@
                                       'rolesAndResponsibility'
                                     )['controls'][i].invalid
                                   ">
-                                  Please enter role and responsibilty !
+                                  Please enter valid role and responsibilty !
                                 </div>
                               </div>
                             </mat-error>
