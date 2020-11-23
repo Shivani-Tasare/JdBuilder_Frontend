@@ -786,6 +786,7 @@ export class JobDetailComponent implements OnInit {
     if (isAdd) {
       const input = event.input;
       const value = event.value;
+      this.invalidTagM = false;
       let index = this.mandatoryTagsList.findIndex((i) => {
         return (i.TagName == value);
       })
@@ -816,6 +817,7 @@ export class JobDetailComponent implements OnInit {
     if (isAdd) {
       const input = event.input;
       const value = event.value;
+      this.invalidTagD = false;
       let index = this.desiredTagsList.findIndex((i) => {
         return (i.TagName == value);
       })
