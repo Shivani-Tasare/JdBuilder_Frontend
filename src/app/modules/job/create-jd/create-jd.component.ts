@@ -467,6 +467,7 @@ export class CreateJdComponent implements OnInit {
     }
   }
   appendToMandatoryTags(index) {
+    this.invalidTagM = false;
     this.mandatoryTagsList.push({Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName, TagType: 1});
     this.allTags  = this.allTags.filter((r)=>{
       return r.TagName  != this.associatedTags[index].TagName;
@@ -476,6 +477,7 @@ export class CreateJdComponent implements OnInit {
     this.populateMandatorySkills([this.mandatoryTagsList[this.mandatoryTagsList.length-1]])
   }
   appendToDesiredTags(index) {
+    this.invalidTagD = false;
     this.desiredTagsList.push({Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName, TagType:2});
     this.allTagsDesired  = this.allTagsDesired.filter((r)=>{
       return r.TagName  != this.associatedDesiredTags[index].TagName;
@@ -501,6 +503,7 @@ export class CreateJdComponent implements OnInit {
       this.deletedDesiredTags.push({Id:tag.Id,TagType:tag.TagType});
     }
   }
+  this.invalidTagD = false;
     (!!this.desiredTagsList[this.desiredTagsList.length-1]) ? 
     this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length-1].TagName)
     : null;
@@ -525,6 +528,7 @@ export class CreateJdComponent implements OnInit {
       }
       
     }
+    this.invalidTagM = false;
     (!!this.mandatoryTagsList[this.mandatoryTagsList.length-1]) ? 
     this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length-1].TagName)
     : null;
@@ -563,6 +567,7 @@ export class CreateJdComponent implements OnInit {
   }
 
   selectedDesiredTag(event: MatAutocompleteSelectedEvent,TagType): void {
+    this.invalidTagD = false;
     this.desiredTagsList.push(event.option.value);
     this.desiredTagsList.map(x => x.TagType = 2)
       this.tagInputDesired.nativeElement.value = '';
@@ -577,6 +582,7 @@ export class CreateJdComponent implements OnInit {
   }
 
   selectedMandatoryTag(event: MatAutocompleteSelectedEvent,TagType){
+    this.invalidTagM = false;
     this.mandatoryTagsList.push(event.option.value);
     this.mandatoryTagsList.map(x => x.TagType = 1);
     this.tagInputMandatory.nativeElement.value = '';

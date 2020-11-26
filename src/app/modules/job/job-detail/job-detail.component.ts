@@ -841,6 +841,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   appendToMandatoryTags(index) {
+    this.invalidTagM = false;
     this.mandatoryTagsList.push({ Id: this.associatedTags[index].Id, TagName: this.associatedTags[index].TagName, TagType: 1 });
     this.allTags = this.allTags.filter((r) => {
       return r.TagName != this.associatedTags[index].TagName;
@@ -852,6 +853,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   appendToDesiredTags(index) {
+    this.invalidTagD = false;
     this.desiredTagsList.push({ Id: this.associatedDesiredTags[index].Id, TagName: this.associatedDesiredTags[index].TagName, TagType: 2 });
     this.allTagsDesired = this.allTagsDesired.filter((r) => {
       return r.TagName != this.associatedDesiredTags[index].TagName;
@@ -878,6 +880,7 @@ export class JobDetailComponent implements OnInit {
         this.deletedDesiredTags.push({ Id: tag.Id, TagName: tag.TagName, TagType: tag.TagType });
       }
     }
+    this.invalidTagD = false;
     (!!this.desiredTagsList[this.desiredTagsList.length - 1]) ?
       this.fetchAssociatedDesiredTags(this.desiredTagsList[this.desiredTagsList.length - 1].TagName)
       : null;
@@ -902,6 +905,7 @@ export class JobDetailComponent implements OnInit {
         this.deletedMandatoryTags.push({ Id: tag.Id, TagName: tag.TagName, TagType: tag.TagType });
       }
     }
+    this.invalidTagM = false;
     (!!this.mandatoryTagsList[this.mandatoryTagsList.length - 1]) ?
       this.fetchAssociatedTags(this.mandatoryTagsList[this.mandatoryTagsList.length - 1].TagName)
       : null;
@@ -938,6 +942,7 @@ export class JobDetailComponent implements OnInit {
     })
   }
   selectedDesiredTag(event: MatAutocompleteSelectedEvent, TagType): void {
+    this.invalidTagD = false;
     this.desiredTagsList.push(event.option.value);
     this.tagInputDesired.nativeElement.value = '';
     this.allTagsDesired.filter((option, index) => {
@@ -952,6 +957,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   selectedMandatoryTag(event: MatAutocompleteSelectedEvent, TagType) {
+    this.invalidTagM = false;
     this.mandatoryTagsList.push(event.option.value);
     this.tagInputMandatory.nativeElement.value = '';
     this.allTags.filter((option, index) => {
