@@ -688,7 +688,7 @@
                       ) | date: "dd-MMM-yyyy"
                     }}</span>
                   </p>
-                  <div class="col-12 d-none pr-0 d-lg-block">
+                  <div class="col-12 d-none pr-0 d-lg-block" style="margin-top: 1rem;">
                     <input (click)="isEditJd = false; onCancel()" type="button" value="Cancel"
                       class="btn theme-color-btn mr-2" />
 
@@ -947,27 +947,24 @@
                       ) | date: "dd-MMM-yyyy"
                     }}</span>
                   </p>
-                  <div class="col-6 col-lg-4">
-                    <button (click)="downloadPDF2()" type="button" class="bg-white p-2 w-100">
-                      Export as Pdf
+                 <div class="row d-md-none">
+                    <button (click)="downloadPDF2()" type="button" class="theme-color-btn p-2 w-100" style="margin-top: 1rem;margin-left: 1.8rem;">
+                      Save as Pdf
                     </button>
-                  </div>
-                  <div class="col-6 col-lg-4">
+                  </div> 
+                  <!-- <div class="col-6 col-lg-4">
                     <button [hidden]="true" type="button" class="bg-white p-2 w-100">
                       Request to Refill
                     </button>
-                  </div>
+                  </div> -->
                   <div class="col-12 d-none pr-0 d-lg-block pt-4">
-                    <!-- <input data-toggle="modal" data-target="#myModal" type="button" (click)="viewCandidates(myModal)"
-                      value="View Internal Pool" class=" mr-2 btn theme-color-btn view-floating-1" />
-
-                      <input data-toggle="modal" data-target="#iCIMSCandidateModal" type="button" (click)="viewiCIMSCandidates(iCIMSCandidateModal)"
-                      value="View External Pool" class=" mr-2 btn theme-color-btn view-floating-2" /> -->
-
                     <input (click)="fixHeader(); onEdit()" type="button" value="Edit"
                       class="btn theme-color-btn mr-2" />
                     <input data-toggle="modal" data-target="#deleteConfirmation" *ngIf="isSameUser" type="button"
-                      value="Delete" class="btn theme-color-btn" />
+                      value="Delete" class="btn theme-color-btn mr-2" />
+                      <input (click)="downloadPDF2()" type="button" class="btn theme-color-btn" value="Save as Pdf"
+                        
+                      />
                   </div>
                 </div>
               </form>
@@ -1016,6 +1013,7 @@
       </div>
     </div>
   </div>
+  
   <div *ngIf="!isEditJd" class="row d-md-none fixed-bottom" style="height: 55px; font-size: 1.4vh">
     <div class="col-4 p-0">
       <button (click)="viewCandidates(myModal)" data-toggle="modal" data-target="#myModal"
