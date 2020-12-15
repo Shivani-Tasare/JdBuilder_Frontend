@@ -21,6 +21,13 @@
       class="list-group-item list-group-item-action side-tabs"
       >JD shared with me</a
     >
+    <a *ngIf = "!!isAdmin"
+      [routerLinkActive]="['active']"
+      [routerLink]="['/jd-creator/backoffice']"
+      href="javascript:"
+      class="list-group-item list-group-item-action side-tabs"
+      >BackOffice</a
+    >
     <span style="background: #333333;color: white;">
       <a
       [routerLinkActive]="['active']"

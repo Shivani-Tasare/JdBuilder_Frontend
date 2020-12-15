@@ -20,6 +20,8 @@ export class MainComponent implements OnInit {
   isCollapseOn = false;
   selectedIndex = 2
   mobileView: boolean;
+  isAdmin: boolean;
+  backoffice: boolean;
   @HostListener('document:click', ['$event'])
   clickout(event) {
        setTimeout(()=>{
@@ -40,22 +42,31 @@ export class MainComponent implements OnInit {
     router.events.subscribe(val => {
       if (location.pathname.indexOf("home") > 0) {
         this.isHome = true;
+        this.backoffice = false;
         this.location = false;
       }
       if (location.pathname.indexOf("myJd") > 0) {
         this.selectedIndex = 2;
         this.location = false;
+        this.backoffice = false;
       }
       if (location.pathname.indexOf("allJd") > 0) {
         this.selectedIndex = 1;
         this.location = false;
+        this.backoffice = false;
       }
       if(location.pathname.indexOf("jdsShared") > 0){
         this.location = false;
+        this.backoffice = false;
       }
       if(location.pathname.indexOf("help") > 0){
         this.location = true;
+        this.backoffice = false;
       }  
+      if(location.pathname.indexOf("backoffice") > 0){
+        this.backoffice  = true;
+        this.location = false;
+      }
     });
    }
   get isHomeCheck() {
@@ -63,7 +74,7 @@ export class MainComponent implements OnInit {
   } 
   ngOnInit() {;
     this.adalService.handleCallback();
-   
+   this.adalService.userInfo.userName == 'rapidadmin@dminc.com' ? this.isAdmin = true : this.isAdmin = false;
     this.subscription = this.adalService.getUserAuthenticationStatus().subscribe(value => {
       if (value) {
         this.isAuthenticated = value;

@@ -1,0 +1,16 @@
+<h1 mat-dialog-title><strong>{{action}} :: </strong></h1>
+<p>Dependent Entities:</p>
+<p>* JDs Associated with:{{local_data.associatedjdNo}}</p>
+<div mat-dialog-content>
+  
+  <mat-form-field *ngIf="action != 'Delete'; else elseTemplate">
+    <input placeholder="{{action}}" matInput [(ngModel)]="local_data.DesignationName">
+  </mat-form-field>
+  <ng-template #elseTemplate>
+    Sure to delete <b>{{local_data.DesignationName}}</b>?
+  </ng-template>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="doAction()">{{action}}</button>
+  <button mat-raised-button color="warn" (click)="closeDialog()">Cancel</button>
+</div>

@@ -24,8 +24,8 @@
             <mat-form-field>
               <input id="emailID" type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)"
                 placeholder="Enter Name or Email" matInput [formControl]="emailSearch" [matAutocomplete]="auto"
-                [(ngModel)]="value" />
-              <mat-autocomplete #auto="matAutocomplete">
+                [(ngModel)]="email" />
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="xyz($event.option)">
                 <mat-option *ngFor="let option of filteredEmails" [value]="option">
                   {{ option }}
                 </mat-option>
@@ -359,15 +359,7 @@
                               </mat-autocomplete>
                             </mat-form-field>
                             <mat-error>
-                              <div *ngIf="
-                                  (submitted ||
-                                    jobDescriptionForm.get('mandatorySkills')[
-                                      'controls'
-                                    ][i].touched) &&
-                                  jobDescriptionForm.get('mandatorySkills')[
-                                    'controls'
-                                  ][i].invalid
-                                ">
+                              
                                 <div *ngIf="
                                     jobDescriptionForm.get('mandatorySkills')[
                                       'controls'
@@ -375,7 +367,7 @@
                                   ">
                                   Please enter valid skill !
                                 </div>
-                              </div>
+                              
                               <div *ngIf="
                                   jobDescriptionForm.controls['mandatorySkills']
                                     .value[i].SkillName.length == 700
@@ -949,7 +941,7 @@
                   </p>
                  <div class="row d-md-none">
                     <button (click)="downloadPDF2()" type="button" class="theme-color-btn p-2 w-100" style="margin-top: 1rem;margin-left: 1.8rem;">
-                      Save as Pdf
+                      Save as PDF
                     </button>
                   </div> 
                   <!-- <div class="col-6 col-lg-4">
@@ -962,7 +954,7 @@
                       class="btn theme-color-btn mr-2" />
                     <input data-toggle="modal" data-target="#deleteConfirmation" *ngIf="isSameUser" type="button"
                       value="Delete" class="btn theme-color-btn mr-2" />
-                      <input (click)="downloadPDF2()" type="button" class="btn theme-color-btn" value="Save as Pdf"
+                      <input (click)="downloadPDF2()" type="button" class="btn theme-color-btn" value="Save as PDF"
                         
                       />
                   </div>

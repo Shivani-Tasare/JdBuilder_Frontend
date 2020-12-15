@@ -14,7 +14,11 @@ import {
   MAT_DIALOG_DATA,
   MatDialogModule,
   MatSlideToggleModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatTableDataSource,
+  MatSort,
+  MatTableModule,
+  MatSortModule
 } from '@angular/material';
 const modules = [
   MatChipsModule,
@@ -27,7 +31,7 @@ const modules = [
   MatProgressSpinnerModule,
   MatDialogModule,
   MatSlideToggleModule,
-  MatExpansionModule
+  MatExpansionModule,MatTableModule,MatSortModule 
 ];
 @NgModule({
   declarations: [],

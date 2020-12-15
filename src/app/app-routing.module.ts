@@ -8,11 +8,11 @@ import { ViewresumeDetailsComponent } from './shared/component/viewresume-detail
 import { FAQIndexComponent } from './shared/component/faq-index/faq-index.component';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
+import { AdalAccessGuard } from './shared/guards/adal-access.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  
   {path :'jd-creator',component: MainComponent, children:[
     { path: '', redirectTo: 'allJd', pathMatch: 'full' },
     {  path: 'allJd', component: JobListingComponent,
@@ -20,6 +20,7 @@ const routes: Routes = [
     {path: 'jd/job-description/view/:jobId', loadChildren: './modules/job/job.module#JobModule'},
     //{path: 'myJd/job-description/view/:jobId', loadChildren: './modules/job/job.module#JobModule'},
     {path: 'jd/job-description/edit/:jobId', loadChildren: './modules/job/job.module#JobModule'},
+    {path: 'backoffice' , loadChildren: './modules/backoffice/backoffice.module#BackofficeModule', canActivate : [AdalAccessGuard]},
     {path: 'home', component: HomeComponent},
     {path: 'createJD', component: CreateJdComponent},
     {path: 'jdsShared', component: JdsSharedComponent},

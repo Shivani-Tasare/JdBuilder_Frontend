@@ -134,6 +134,7 @@ export class JobDetailComponent implements OnInit {
   desigOption: any;
   invalidTagD: boolean;
   invalidTagM: boolean;
+  email: any;
   constructor(private loaderService: LoaderService, private changeDetectorRefs: ChangeDetectorRef, public dialog: MatDialog, @Inject(DOCUMENT) private document: Document, private formBuilder: FormBuilder, private jobService: Job1ServiceService, private toastr: ToastrService, private router: Router, private commonJobService: JobServiceService, private adalService: AdalService, private route: ActivatedRoute, private smartService: SmartServiceService) {
   }
 
@@ -198,6 +199,13 @@ export class JobDetailComponent implements OnInit {
     if (document.documentElement.scrollTop < 1 && document.getElementById('header')) {
       document.getElementById('header').classList.remove('fixed-header');
     }
+  }
+
+  xyz(option){
+    console.log(option.value);
+    
+    this.email = option.value.split(" ").join("\n");
+    return this.email;
   }
   fixHeader() {
     document.getElementById('header').classList.add('fixed-header');
@@ -295,7 +303,6 @@ export class JobDetailComponent implements OnInit {
     if (name != undefined) {
       this.jobService.fetchEmailsByName(name).subscribe(res => {
         this.filteredEmails = res;
-
       })
     }
   }
@@ -313,7 +320,7 @@ export class JobDetailComponent implements OnInit {
     })
   }
   specialCharacterValidators(control: FormControl){
-    if ( !/^(?!.*[\%\/\\\&\?\,\'\;\:\!\@\#\$\^\*\_\-]{2}).*$/.test(control.value)) {
+    if ( !/^(?!.*[\%\/\\\&\?\'\;\:\!\@\#\$\^\*\_\-]{2}).*$/.test(control.value)) {
       return { symbols: true };
     }
     return null;
@@ -512,7 +519,7 @@ export class JobDetailComponent implements OnInit {
     return this.formBuilder.group({
       isEditing: desiredSkill.isEditing ? desiredSkill.isEditing : false,
       SkillId: String(desiredSkill.SkillId),
-      SkillName: [desiredSkill.SkillName, [Validators.required, , this.noWhitespaceValidator,this.specialCharacterValidators]],
+      SkillName: [desiredSkill.SkillName, [this.noWhitespaceValidator,this.specialCharacterValidators]],
       SkillTypeId: 2,
       SkillTypeName: 'Desired'
     });

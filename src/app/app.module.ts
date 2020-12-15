@@ -34,7 +34,8 @@ import { SharedModule } from './shared';
 import { FAQIndexComponent } from './shared/component/faq-index/faq-index.component';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
-
+import { BackofficeModule } from './modules/backoffice/backoffice.module';
+import { AdalAccessGuard } from './shared/guards/adal-access.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,8 @@ import { MainComponent } from './main/main.component';
     FAQIndexComponent,
     HomeComponent,
     MainComponent,
+    
+    
   ],
   imports: [
     BrowserModule,
@@ -62,9 +65,10 @@ import { MainComponent } from './main/main.component';
     ReactiveFormsModule,
     MaterialUiModule,
     InfiniteScrollModule,
-    SharedModule
+    SharedModule,
+    BackofficeModule
   ],
-  providers: [JobServiceService, LoaderService, AdalService, AdalConfigService,
+  providers: [JobServiceService, LoaderService, AdalService, AdalConfigService,AdalAccessGuard,
     { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     

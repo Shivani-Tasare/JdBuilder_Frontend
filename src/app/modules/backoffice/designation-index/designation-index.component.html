@@ -1,0 +1,41 @@
+<div class="col-12" style="padding-top: 2rem;">
+    <mat-form-field class="col-6">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search designation name" [matAutocomplete]="auto"
+      >
+      <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of searchResults" [value]="option">
+        {{ option.DesignationName }}
+      </mat-option></mat-autocomplete>
+    </mat-form-field>
+</div>
+<div class="mat-elevation-z8" >
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+      <td mat-cell *matCellDef="let row"> {{row.Id}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let row"> {{row.DesignationName}} </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+      <td mat-cell *matCellDef="let row"> 
+        <a style="cursor: pointer;" (click)="openDialog('Update',row)">Edit</a> ||  
+        <a style="cursor: pointer;" (click)="openDialog('Delete',row)">Delete</a> 
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
