@@ -3,12 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { BackofficeIndexComponent } from './backoffice-index/backoffice-index.component';
 import { DesignationIndexComponent } from './designation-index/designation-index.component';
 import { ExperienceIndexComponent } from './experience-index/experience-index.component';
+import { TagsIndexComponent } from '../../tags-index/tags-index.component';
 
 const routes: Routes = [
   {path: '', component: BackofficeIndexComponent, pathMatch: 'full'},
   {path:'designations', component:DesignationIndexComponent, pathMatch:'full'},
-  {path:'experience', component:ExperienceIndexComponent, pathMatch:'full'}
-
+  {path:'experience', component:ExperienceIndexComponent, pathMatch:'full'},
+  {path:'tags', component:TagsIndexComponent, pathMatch:'full'}
 ];
 
 @NgModule({

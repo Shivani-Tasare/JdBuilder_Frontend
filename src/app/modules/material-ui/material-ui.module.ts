@@ -18,7 +18,9 @@ import {
   MatTableDataSource,
   MatSort,
   MatTableModule,
-  MatSortModule
+  MatSortModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 const modules = [
   MatChipsModule,
@@ -31,7 +33,8 @@ const modules = [
   MatProgressSpinnerModule,
   MatDialogModule,
   MatSlideToggleModule,
-  MatExpansionModule,MatTableModule,MatSortModule 
+  MatExpansionModule,MatTableModule,MatSortModule,
+  MatDatepickerModule,MatNativeDateModule
 ];
 @NgModule({
   declarations: [],

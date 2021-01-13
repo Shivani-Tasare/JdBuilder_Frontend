@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatAutocomplete, MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatAutocomplete, MatDialog, MatPaginator, MatSort, MatTable, MatTableDataSource } from '@angular/material';
 import { AdminService } from 'src/app/services/admin.service';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 
@@ -15,17 +15,18 @@ export interface Data {
 })
 
 export class DesignationIndexComponent implements OnInit {
-
+  value : any;
   displayedColumns: string[] = ['id', 'name', 'action'];
   dataSource: MatTableDataSource<Data>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatTable) table: MatTable<any>;
   @ViewChild(MatSort) sort: MatSort;
   designationList: string[];
   searchResults: string[];
   associatedjdNo: any;
+  data: any;
 
-  constructor(private adminService: AdminService,public dialog: MatDialog) {
+  constructor(private adminService: AdminService,public dialog: MatDialog,private ref: ChangeDetectorRef) {
     
   }
 
@@ -33,28 +34,27 @@ export class DesignationIndexComponent implements OnInit {
    
     this.adminService.fetchDesignationList().subscribe(response=>{
       this.designationList = response['ResponseList']
-      console.log(this.designationList)
-      this.dataSource = response['ResponseList'];
-
-      this.dataSource.paginator = this.paginator;
+      this.dataSource = response['ResponseList']
+      this.data = response['ResponseList'];
     this.dataSource.sort = this.sort;
     })
   }  
 
   applyFilter(filterValue: string) {
-    console.log(filterValue)
     this.adminService.searchDesignations(filterValue).subscribe(result=>{
-      console.log(result);
       this.searchResults = result["ResponseList"];
     })
   }
 
   openDialog(action,obj) {
+    this.adminService.getAssociatedDesignationsList(obj.Id).subscribe(res=>{
+      this.associatedjdNo = res;
+   
     obj.action = action;
+    obj.count = this.associatedjdNo;
     const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
       width: '250px',
       data:obj
-
     });
     dialogRef.afterClosed().subscribe(result => {
        if(result.event == 'Update'){
@@ -63,27 +63,45 @@ export class DesignationIndexComponent implements OnInit {
         this.deleteData(result.data);
       }
     });
+  })
+  }
+
+  xyz(option){
+    let value = [];
+    this.data.forEach(element => {
+      if(option.value == element.DesignationName){
+        value.push(element)
+        this.data = value
+        this.dataSource = this.data;
+      this.table.renderRows();
+    }
+    });
+    this.data = this.designationList
   }
 
   updateData(data){
     this.adminService.updateDesignations(data).subscribe(response => {
-      console.log(response);
-      window.location.reload();
-      this.associatedEntities(data.Id)
+        // this.data.forEach(element => {
+        //   if(element.Id == response['Response'].Id){
+        //     this.data.DesignationName = response['Response'].DesignationName;
+        //     this.dataSource = this.data
+        //     this.table.renderRows();
+        //     this.ref.detectChanges();
+        //   }  
+        // });
+        window.location.reload()
     })
   }
 
   deleteData(data){
     this.adminService.deleteDesignations(data).subscribe(res => {
-      console.log(res);
-      window.location.reload();
-      this.associatedEntities(data.Id)
-    })
-  }
-  associatedEntities(id){
-    this.adminService.getAssociatedDesignationsList(id).subscribe(res=>{
-      this.associatedjdNo = res;
-    })
+      if(res['StatusCode'] == 200){
+        let index = this.data.findIndex((i) =>{
+          return (i.Id == data.Id)
+        })
+        this.data.splice(index,1);
+        this.table.renderRows();
+      }
+     })
   }
 }
-

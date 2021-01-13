@@ -1,4 +1,4 @@
-p, textarea,input {
+p, input {
   text-align: justify!important;
 }
 p{
@@ -62,7 +62,6 @@ tr.noBorder td {
   border-color: gray;
 }
 
-
 #header{
   background: #333333;
 }
@@ -103,7 +102,7 @@ tr.noBorder td {
   height: auto;
   page-break-inside: avoid !important;
   overflow: hidden !important;
-  line-height: 16px;
+  line-height: unset;
 }
  /deep/ .mat-form-field-underline {
   height: 1px;

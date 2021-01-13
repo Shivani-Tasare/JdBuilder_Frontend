@@ -1,9 +1,9 @@
 <div class="col-12" style="padding-top: 2rem;">
     <mat-form-field class="col-6">
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search designation name" [matAutocomplete]="auto"
-      >
-      <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of searchResults" [value]="option">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Designation Name" [matAutocomplete]="auto"
+      [(ngModel)]="value">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="xyz($event.option)">
+      <mat-option *ngFor="let option of searchResults" [value]="option.DesignationName">
         {{ option.DesignationName }}
       </mat-option></mat-autocomplete>
     </mat-form-field>
@@ -36,6 +36,4 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;">
     </tr>
   </table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>

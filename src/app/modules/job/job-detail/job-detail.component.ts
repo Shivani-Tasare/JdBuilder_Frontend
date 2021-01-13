@@ -23,7 +23,8 @@ import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-job-detail',
   templateUrl: './job-detail.component.html',
-  styleUrls: ['./job-detail.component.scss']
+  styleUrls: ['./job-detail.component.scss'],
+  
 })
 export class JobDetailComponent implements OnInit {
   @ViewChild('fixedDiv') fixedDiv; 
@@ -202,10 +203,7 @@ export class JobDetailComponent implements OnInit {
   }
 
   xyz(option){
-    console.log(option.value);
-    
-    this.email = option.value.split(" ").join("\n");
-    return this.email;
+    this.email = option.value.replace(/(^\s+|\s+$)/g, "")
   }
   fixHeader() {
     document.getElementById('header').classList.add('fixed-header');
@@ -319,12 +317,12 @@ export class JobDetailComponent implements OnInit {
       }
     })
   }
-  specialCharacterValidators(control: FormControl){
-    if ( !/^(?!.*[\%\/\\\&\?\'\;\:\!\@\#\$\^\*\_\-]{2}).*$/.test(control.value)) {
-      return { symbols: true };
-    }
-    return null;
-  }
+  // specialCharacterValidators(control: FormControl){
+  //   if ( !/^(?!.*[\%\/\\\&\?\'\;\:\!\@\#\$\^\*\_\-]{2}).*$/.test(control.value)) {
+  //     return { symbols: true };
+  //   }
+  //   return null;
+  // }
   removeSpace(str) {
     return str.trim().replace(/[\s]+/g, ' ')
   }
@@ -371,9 +369,9 @@ export class JobDetailComponent implements OnInit {
         this.isPrivateChecked = jobDetail.Response.IsPrivate;
         this.jobDescriptionForm = this.formBuilder.group({
           title: new FormControl(jobDetail.Response.ProfileName),
-          about: new FormControl(jobDetail.Response.About, [Validators.required, this.noWhitespaceValidator,this.specialCharacterValidators]),
+          about: new FormControl(jobDetail.Response.About, [Validators.required, this.noWhitespaceValidator]),
           selectedDesignation: new FormControl(jobDetail.Response.DesignationId,[Validators.required]),
-          selectedDesignationN: new FormControl(jobDetail.Response.DesignationName, [Validators.required,Validators.maxLength(200), Validators.pattern("(?!^ +$)^.+$"),this.specialCharacterValidators]),
+          selectedDesignationN: new FormControl(jobDetail.Response.DesignationName, [Validators.required,Validators.maxLength(200), Validators.pattern("(?!^ +$)^.+$")]),
           selectedLocation: new FormControl(jobDetail.Response.LocationId, Validators.required),
           selectedExperience: new FormControl(jobDetail.Response.ExperienceId, Validators.required),
           desiredSkills: this.formBuilder.array(defaultDesiredSkill),
@@ -506,20 +504,20 @@ export class JobDetailComponent implements OnInit {
     return this.formBuilder.group({
       isEditing: newSkill.isEditing ? newSkill.isEditing : false,
       SkillId: String(newSkill.SkillId),
-      SkillName: [newSkill.SkillName, [Validators.required, this.noWhitespaceValidator,this.specialCharacterValidators]],
+      SkillName: [newSkill.SkillName, [Validators.required, this.noWhitespaceValidator]],
       SkillTypeId: newSkill.SkillTypeId,
       SkillTypeName: newSkill.SkillTypeName,
     });
   }
   createQualification(qualificationObj): FormGroup {
-    qualificationObj.Name = [qualificationObj.Name, [Validators.required, this.noWhitespaceValidator,this.specialCharacterValidators]]
+    qualificationObj.Name = [qualificationObj.Name, [Validators.required, this.noWhitespaceValidator]]
     return this.formBuilder.group(qualificationObj);
   }
   createDesiredSkill(desiredSkill): FormGroup {
     return this.formBuilder.group({
       isEditing: desiredSkill.isEditing ? desiredSkill.isEditing : false,
       SkillId: String(desiredSkill.SkillId),
-      SkillName: [desiredSkill.SkillName, [this.noWhitespaceValidator,this.specialCharacterValidators]],
+      SkillName: [desiredSkill.SkillName, [this.noWhitespaceValidator]],
       SkillTypeId: 2,
       SkillTypeName: 'Desired'
     });
@@ -568,7 +566,7 @@ export class JobDetailComponent implements OnInit {
   }
   addResponsibility(): void {
     this.rolesAndResponsibility = this.jobDescriptionForm.get('rolesAndResponsibility') as FormArray;
-    const obj = { Id: '', Responsibility: ['', [Validators.required, this.noWhitespaceValidator,this.specialCharacterValidators]], isEditing: true };
+    const obj = { Id: '', Responsibility: ['', [Validators.required, this.noWhitespaceValidator]], isEditing: true };
     this.rolesAndResponsibility.push(this.formBuilder.group(obj));
   }
   deleteSkill(deletedSkill, onRemove, index?) {

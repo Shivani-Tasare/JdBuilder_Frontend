@@ -1,16 +1,20 @@
 <h1 mat-dialog-title><strong>{{action}} :: </strong></h1>
-<p>Dependent Entities:</p>
-<p>* JDs Associated with:{{local_data.associatedjdNo}}</p>
-<div mat-dialog-content>
-  
+<p *ngIf="action !== 'Add'">Dependent Entities:</p>
+<p *ngIf="action !== 'Add'">*JDs Associated with: <strong>{{local_data.count}}</strong></p>
+<div *ngIf="action !== 'Add'" mat-dialog-content>
   <mat-form-field *ngIf="action != 'Delete'; else elseTemplate">
-    <input placeholder="{{action}}" matInput [(ngModel)]="local_data.DesignationName">
+    <input placeholder="{{action}}" matInput [(ngModel)]="entity" (change)="updateData($event.target.value)">
   </mat-form-field>
   <ng-template #elseTemplate>
-    Sure to delete <b>{{local_data.DesignationName}}</b>?
+    Sure to delete <b>{{entity}}</b>?
   </ng-template>
 </div>
+<div *ngIf="action == 'Add'">
+  <mat-form-field>
+    <input placeholder="{{action}}" matInput [(ngModel)]="entity" (focusout)="addData($event.target.value)">
+  </mat-form-field>
+</div>
 <div mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="doAction()">{{action}}</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="local_data.DesignationName" (click)="doAction()">{{action}}</button>
   <button mat-raised-button color="warn" (click)="closeDialog()">Cancel</button>
 </div>

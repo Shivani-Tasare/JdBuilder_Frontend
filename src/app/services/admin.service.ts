@@ -27,7 +27,7 @@ export class AdminService {
   }
 
   getAssociatedDesignationsList(id){
-    return this.httpClient.get(`${url}/backoffice/associated/designation?Id=id`)
+    return this.httpClient.get(`${url}/backoffice/associated/designation?Id=${id}`)
   }
 
   fetchExperienceList() : Observable<string[]>{
@@ -36,5 +36,17 @@ export class AdminService {
 
   updateExperiences(value){
     return this.httpClient.put(`${url}/backoffice/update/experience`,value)
+  }
+
+  getAssociatedExperienceCount(id){
+    return this.httpClient.get(`${url}/backoffice/associated/experience?Id=${id}`)
+  }
+
+  addExperience(data){
+    return this.httpClient.post(`${url}/backoffice/add/experience`,data);
+  }
+
+  fetchTagsList(startDate,endDate) : Observable<string[]>{
+    return this.httpClient.get<string[]>(`${url}/backoffice/fetchTags/list?startDate=${startDate}&endDate=${endDate}`)
   }
 }

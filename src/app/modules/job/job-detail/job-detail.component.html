@@ -22,16 +22,16 @@
         <div class="col-12" style="text-align: right">
           <div style="display: none" class="col-12" id="email">
             <mat-form-field>
-              <input id="emailID" type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)"
+              <textarea id="emailID" type="text" (keypress)="searchEmailOnKeypress(emailSearch.value)"
                 placeholder="Enter Name or Email" matInput [formControl]="emailSearch" [matAutocomplete]="auto"
-                [(ngModel)]="email" />
+                [(ngModel)]="email"></textarea> 
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="xyz($event.option)">
                 <mat-option *ngFor="let option of filteredEmails" [value]="option">
                   {{ option }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <button style="font-size: 21px" *ngIf="value" [hidden]="!isSameUser" type="button"
+            <button style="font-size: 21px" *ngIf="email" [hidden]="!isSameUser" type="button"
               class="btn btn-default btn-sm" (click)="onSend(emailSearch.value); value = ''">
               <i class="fa fa-paper-plane" aria-hidden="true"></i>
             </button>
@@ -237,7 +237,7 @@
                       </a>
                     </div>
                     <mat-form-field class="col-12 px-0">
-                      <textarea style="padding: 1px" type="text" cdkTextareaAutosize placeholder="" aria-label="Number"
+                      <textarea style="padding: 1px;text-align: justify!important;" type="text" cdkTextareaAutosize placeholder="" aria-label="Number"
                         matInput formControlName="about"></textarea>
                     </mat-form-field>
                     <mat-error>
@@ -345,7 +345,7 @@
                             <mat-form-field [class.visibility-hidden]="
                                 !skill.controls.isEditing.value
                               " class="col-12 px-0">
-                              <textarea style="overflow: hidden" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                              <textarea style="overflow: hidden;text-align: justify!important;" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                                 (keyup)="getMandatorySkill($event)" placeholder="Mandatory Skill" aria-label="Number"
                                 matInput formControlName="SkillName" [maxLength]="700" [value]="SkillName"
                                 [matAutocomplete]="auto"></textarea>
@@ -424,7 +424,7 @@
                             <mat-form-field [class.visibility-hidden]="
                                 !skill.controls.isEditing.value
                               " class="col-12 px-0">
-                              <textarea style="overflow: hidden" type="text" cdkTextareaAutosize
+                              <textarea style="overflow: hidden;text-align: justify!important;" type="text" cdkTextareaAutosize
                                 #autosize="cdkTextareaAutosize" (keyup)="getDesiredSkill($event)"
                                 placeholder="Desired Skill" aria-label="Number" matInput formControlName="SkillName"
                                 [matAutocomplete]="auto" [maxLength]="700"></textarea>
@@ -507,7 +507,7 @@
                             <mat-form-field [class.visibility-hidden]="
                                 !item.controls.isEditing.value
                               " class="col-12 px-0">
-                              <textarea style="overflow: hidden" type="text" cdkTextareaAutosize
+                              <textarea style="overflow: hidden;text-align: justify!important;" type="text" cdkTextareaAutosize
                                 #autosize="cdkTextareaAutosize" (keyup)="getQualifications($event)"
                                 placeholder="Qualification" aria-label="Number" matInput formControlName="Name"
                                 [matAutocomplete]="auto" [maxLength]="200"></textarea>
@@ -591,7 +591,7 @@
                             <mat-form-field [class.visibility-hidden]="
                                 !item.controls.isEditing.value
                               " class="col-12 px-0">
-                              <textarea style="overflow: hidden" type="text" cdkTextareaAutosize
+                              <textarea style="overflow: hidden;text-align: justify!important;" type="text" cdkTextareaAutosize
                                 #autosize="cdkTextareaAutosize" (keyup)="getResponsibilities($event)"
                                 placeholder="Role And Responsibility" aria-label="Number" matInput
                                 formControlName="Responsibility" [matAutocomplete]="auto" [maxLength]="500"></textarea>

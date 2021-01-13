@@ -1,0 +1,35 @@
+<div>
+  <h3 style="padding: 2rem; font-weight: bold;">Sync Tags</h3>
+</div>
+<div>
+  <label style="font-weight: bold;">Extract Tags:</label>
+  <mat-form-field style="padding: 1rem; width: 12rem;" appearance="fill">
+    <mat-label>From</mat-label>
+    <input matInput [matDatepicker]="picker1" [(ngModel)]="startDate">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1 color="primary"></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field style="width: 12rem; padding: 1rem;" appearance="fill">
+    <mat-label>To</mat-label>
+    <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2 color="primary"></mat-datepicker>
+  </mat-form-field>
+  <button class="theme-color-btn" (click)="exportTagsList()">Download</button>
+</div>
+<div *ngIf="tagList">
+  {{tagList.Id}} {{tagList.TagName}}
+  <h5>Tags List</h5>
+   <table>
+      <thead>
+         <tr>
+            <th>Name</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr *ngFor="let item of tagList">
+            <td>{{ item.TagName }}</td>
+         </tr>
+      </tbody>
+   </table>
+</div>
