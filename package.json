@@ -26,7 +26,7 @@
     "adal-angular": "^1.0.17",
     "angular-chart.js": "^1.1.1",
     "bootstrap": "^4.4.1",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "file-saver": "^2.0.2",
