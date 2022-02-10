@@ -38,7 +38,7 @@
     "ngx-infinite-scroll": "^8.0.1",
     "ngx-pagination": "^5.0.0",
     "ngx-toastr": "^10.1.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "popper.js": "^1.16.0",
     "raleway-webfont": "^3.0.1",
     "rxjs": "~6.3.3",
